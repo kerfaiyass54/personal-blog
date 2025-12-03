@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
+
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
