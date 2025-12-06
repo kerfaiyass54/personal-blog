@@ -1,39 +1,43 @@
 package com.blogproject.blogproject.util;
 
-import com.blogproject.blogproject.entities.User;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.security.Keys;
+import java.security.Key;
 import java.util.Date;
 
 public class JwtUtil {
-    private static final String SECRET_KEY = "my-secret-key";
+    private final String jwtSecret = "mySuperSecretKeyForJwtMySuperSecretKeyForJwt"; // 256-bit
+    private final int jwtExpirationMs = 86400000; // 1 day
+    private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
-    public String generateToken(User user) {
+    public String generateToken(String username, String role) {
         return Jwts.builder()
-                .setSubject(user.getEmail())
-                .claim("roles", user.getRole())
+                .setSubject(username)
+                .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public static Claims validateToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        } catch (JwtException e) {
+            return false;
+        }
     }
 
-    public Claims extractClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
+    public String getUsername(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String extractEmail(String token) {
-        return extractClaims(token).getSubject();
+    public String getRole(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build()
+                .parseClaimsJws(token).getBody().get("role", String.class);
     }
 }

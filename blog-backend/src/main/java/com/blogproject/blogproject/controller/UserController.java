@@ -2,8 +2,10 @@ package com.blogproject.blogproject.controller;
 
 
 import com.blogproject.blogproject.dtos.UserDTO;
+import com.blogproject.blogproject.dtos.UserLogin;
 import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.service.UserService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,16 +25,16 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<User> registerUser(@RequestBody UserDTO userDTO) {
-        User user = userService.registerUser(userDTO);
-        return ResponseEntity.ok(user);
+    @PostMapping("/register")
+    public ResponseEntity<User> register(@RequestBody UserDTO userDTO) {
+        User user = userService.register(userDTO);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody UserDTO userDTO) {
-        Map<String, String> map = userService.login(userDTO);
-        return ResponseEntity.ok(map);
+    public ResponseEntity<String> login(@RequestBody UserLogin  userLogin) {
+        String message = userService.login(userLogin);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 

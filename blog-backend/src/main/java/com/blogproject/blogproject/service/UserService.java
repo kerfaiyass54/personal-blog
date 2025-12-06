@@ -1,55 +1,43 @@
 package com.blogproject.blogproject.service;
 
 import com.blogproject.blogproject.dtos.UserDTO;
+import com.blogproject.blogproject.dtos.UserLogin;
 import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.repository.UserRepository;
 import com.blogproject.blogproject.util.JwtUtil;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    private final JwtUtil jwtUtil;
+    @Autowired
+    private UserRepository userRepository;
 
-    public UserService(UserRepository userRepository,JwtUtil jwtUtil) {
-        this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
-    }
+    @Autowired
+    private JwtUtil jwtUtil;
 
-    public User registerUser(UserDTO userDTO) {
-        User user = new User();
-        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
-        }
-        user.setEmail(userDTO.getEmail());
-        user.setName(userDTO.getName());
-        user.setRole(userDTO.getRole());
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public User register(UserDTO user) {
+        User userEntity = new User();
+        userEntity.setEmail(user.getEmail());
+        userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        userEntity.setRole(user.getRole());
+        userEntity.setName(user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if(user.getRole() == null) user.setRole("USER");
-        return userRepository.save(user);
+        if(user.getRole() == null) user.setRole("USER"); // default role
+        return userRepository.save(userEntity);
     }
 
-    public boolean checkPassword(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
-    }
-
-    public Map<String, String> login(UserDTO userDTO){
-        String email = userDTO.getEmail();
-        String password = userDTO.getPassword();
-        User user = userRepository.findByEmail(email).orElse(null);
-        if(user == null || !checkPassword(password, user.getPassword())) {
-            throw new RuntimeException("Incorrect password");
+    public String login(UserLogin user) {
+        Optional<User> dbUser = userRepository.findByEmail(user.getEmail());
+        if(dbUser.isPresent() && passwordEncoder.matches(user.getPassword(), dbUser.get().getPassword())) {
+            return jwtUtil.generateToken(dbUser.get().getName(), dbUser.get().getRole());
         }
-        String token = jwtUtil.generateToken(user);
-        return Map.of("token", token);
+        return "Invalid username or password";
     }
 
 
