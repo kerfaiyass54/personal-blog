@@ -163,48 +163,7 @@ docker-compose up --build
 
 ---
 
-## 🎯 **Usage**
 
-### **Frontend Routing**
-| Route | Description |
-|-------|-------------|
-| `/login` | Login page |
-| `/register` | Registration page |
-| `/home` | Homepage (public) |
-| `/writer` | Writer dashboard (protected) |
-| `/reader` | Reader dashboard (protected) |
-
----
-
-## 📁 **Project Structure**
-
-```
-personal-blog/
-├── blog-backend/          # Spring Boot backend
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/      # Java source code
-│   │   │   └── resources/ # Configuration files
-│   ├── pom.xml            # Maven dependencies
-│   └── .gitignore
-│
-├── blog-frontend/         # Angular frontend
-│   ├── src/
-│   │   ├── app/           # Angular components
-│   │   ├── assets/        # Static assets
-│   │   ├── styles/        # Global styles
-│   │   └── index.html     # Main HTML file
-│   ├── angular.json       # Angular configuration
-│   ├── package.json       # Node dependencies
-│   └── .gitignore
-│
-├── .idea/                 # IDE settings
-├── .editorconfig          # Editor configuration
-├── README.md              # This file
-└── LICENSE                # License file
-```
-
----
 
 ## 🔧 **Configuration**
 
@@ -256,24 +215,6 @@ We welcome contributions! Here’s how you can help:
 
 ---
 
-## 📝 **License**
-
-This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
-
----
-
-
-## 🐛 **Issues & Support**
-
-### **Reporting Issues**
-Found a bug or have a feature request? Open an issue on GitHub with:
-- A clear description of the problem.
-- Steps to reproduce (if applicable).
-- Screenshots or logs (if relevant).
-
-### **Getting Help**
-- Join our [Discussions](https://github.com/your-username/personal-blog/discussions).
-- Ask questions on [Stack Overflow](https://stackoverflow.com/) with the `personal-blog` tag.
 
 ### **FAQ**
 **Q: How do I deploy this?**
