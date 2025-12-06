@@ -13,13 +13,17 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+    private final UserRepository userRepository;
+
+    private final JwtUtil jwtUtil;
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
+        this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
+    }
 
     public User register(UserDTO user) {
         User userEntity = new User();
