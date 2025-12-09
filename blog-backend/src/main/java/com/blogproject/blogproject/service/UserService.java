@@ -44,6 +44,17 @@ public class UserService {
         return "Invalid username or password";
     }
 
+    public boolean checkEmailExist(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
+
+    public boolean checkPassword(String email, String password) {
+        if(userRepository.findByEmail(email).isPresent()) {
+            return userRepository.findByEmail(email).get().getPassword().equals(password);
+        }
+        return false;
+    }
+
 
 
 }
