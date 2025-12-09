@@ -9,6 +9,7 @@ import {ErrorNotFoundComponent} from './error-not-found/error-not-found.componen
 
 
 
+
 export const routes: Routes = [
   { path: '', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginScreenComponent },

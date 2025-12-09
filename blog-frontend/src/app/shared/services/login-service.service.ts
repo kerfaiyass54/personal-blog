@@ -41,15 +41,9 @@ export class LoginServiceService {
 
   isLoggedIn(): boolean {
     const token = this.getToken();
-    if (!token) return false;
-    const decoded: any = (jwtDecode as any)(token); // cast to any
-    return decoded.exp * 1000 > Date.now();
+    return token != null;
   }
 
-  getRole(): string {
-    const token = this.getToken();
-    if (!token) return '';
-    const decoded: any = (jwtDecode as any)(token);
-    return decoded.role;
-  }
+
+
 }
