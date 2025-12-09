@@ -7,7 +7,7 @@ import * as jwtDecode from 'jwt-decode';
 })
 export class LoginServiceService {
 
-  private apiUrl = 'http://localhost:8081/user/';
+  private apiUrl = 'http://localhost:8081/user';
 
   constructor(private http: HttpClient) { }
 
@@ -17,6 +17,14 @@ export class LoginServiceService {
 
   login(user: any) {
     return this.http.post(`${this.apiUrl}/login`, user, { responseType: 'text' });
+  }
+
+  existEmail(user: any){
+    return this.http.post(`${this.apiUrl}/exist`,user);
+  }
+
+  checkPassword(user: any){
+    return this.http.post(`${this.apiUrl}/password`,user);
   }
 
   setToken(token: string) {

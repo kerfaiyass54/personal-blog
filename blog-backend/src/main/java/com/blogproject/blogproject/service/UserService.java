@@ -36,12 +36,19 @@ public class UserService {
         return userRepository.save(userEntity);
     }
 
-    public String login(UserLogin user) {
-        Optional<User> dbUser = userRepository.findByEmail(user.getEmail());
-        if(dbUser.isPresent() && passwordEncoder.matches(user.getPassword(), dbUser.get().getPassword())) {
+    public String login(UserLogin userLogin) {
+        Optional<User> dbUser = userRepository.findByEmail(userLogin.getEmail());
+        String rawPassword = userLogin.getPassword();
+        if (dbUser.isPresent()) {
+            String hashedPassword = dbUser.get().getPassword();
+            boolean matches = passwordEncoder.matches(rawPassword, hashedPassword);
+            if(matches){
+
+            }
             return jwtUtil.generateToken(dbUser.get().getName(), dbUser.get().getRole());
         }
-        return "Invalid username or password";
+
+        throw new RuntimeException("Invalid username or password");
     }
 
     public boolean checkEmailExist(String email) {
@@ -53,6 +60,10 @@ public class UserService {
             return userRepository.findByEmail(email).get().getPassword().equals(password);
         }
         return false;
+    }
+
+    public String getRole(String email) {
+        return userRepository.findByEmail(email).get().getRole();
     }
 
 

@@ -14,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin("*")
 public class UserController {
 
     private final UserService userService;
@@ -29,20 +30,27 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserLogin  userLogin) {
-        String message = userService.login(userLogin);
-        return new ResponseEntity<>(message, HttpStatus.OK);
+    public ResponseEntity<?> login(@RequestBody UserLogin userLogin) {
+        try {
+            String role = userService.getRole(userLogin.getEmail());
+            String token = userService.login(userLogin);
+            return ResponseEntity.ok(Map.of("token", token,
+                    "role", role));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("error", e.getMessage()));
+        }
     }
 
-    @GetMapping("/{email}/exist")
-    public ResponseEntity<Boolean> existEmail(@PathVariable String email) {
-        boolean emailIsExisted = userService.checkEmailExist(email);
+    @PostMapping("/exist")
+    public ResponseEntity<Boolean> existEmail(@RequestBody UserLogin userLogin) {
+        boolean emailIsExisted = userService.checkEmailExist(userLogin.getEmail());
         return new ResponseEntity<>(emailIsExisted, HttpStatus.OK);
     }
 
-    @GetMapping("/password")
-    public ResponseEntity<Boolean> checkPassword(@RequestParam String email, @RequestParam String password) {
-        boolean passwordIsValid = userService.checkPassword(email, password);
+    @PostMapping("/password")
+    public ResponseEntity<Boolean> checkPassword(@RequestBody UserLogin userLogin) {
+        boolean passwordIsValid = userService.checkPassword(userLogin.getEmail(), userLogin.getPassword());
         return new ResponseEntity<>(passwordIsValid, HttpStatus.OK);
     }
 

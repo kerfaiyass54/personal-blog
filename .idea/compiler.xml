@@ -19,4 +19,8 @@
       <module name="blogproject" options="-parameters" />
     </option>
   </component>
+  <component name="TypeScriptCompiler">
+    <option name="recompileOnChanges" value="true" />
+    <option name="useTypesFromServer" value="true" />
+  </component>
 </project>

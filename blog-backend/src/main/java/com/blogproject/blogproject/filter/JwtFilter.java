@@ -17,6 +17,13 @@ public class JwtFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
+        String path = req.getRequestURI();
+
+        if(path.startsWith("/user/")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         String authHeader = req.getHeader("Authorization");
 
         if(authHeader != null && authHeader.startsWith("Bearer ")) {
@@ -32,5 +39,6 @@ public class JwtFilter implements Filter {
 
         chain.doFilter(request, response);
     }
+
 }
 
