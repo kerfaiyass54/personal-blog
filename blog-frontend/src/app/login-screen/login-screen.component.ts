@@ -47,6 +47,7 @@ export class LoginScreenComponent implements OnInit{
         const data = JSON.parse(res);
         this.loginService.setToken(data.token);
         const role = data.role;
+        sessionStorage.setItem("role",role);
         console.log(data.token);
         console.log(role);
         if (role === 'WRITER') {
