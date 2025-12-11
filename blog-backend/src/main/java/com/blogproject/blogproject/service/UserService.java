@@ -5,7 +5,6 @@ import com.blogproject.blogproject.dtos.UserLogin;
 import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.repository.UserRepository;
 import com.blogproject.blogproject.util.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -32,7 +31,7 @@ public class UserService {
         userEntity.setRole(user.getRole());
         userEntity.setName(user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if(user.getRole() == null) user.setRole("USER"); // default role
+        if(user.getRole() == null) user.setRole("READER"); // default role
         return userRepository.save(userEntity);
     }
 

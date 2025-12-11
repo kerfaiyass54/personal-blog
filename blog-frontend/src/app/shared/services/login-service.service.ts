@@ -28,15 +28,15 @@ export class LoginServiceService {
   }
 
   setToken(token: string) {
-    localStorage.setItem('token', token);
+    sessionStorage.setItem('token', token);
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
   }
 
   logout() {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
   }
 
   isLoggedIn(): boolean {
