@@ -6,7 +6,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.0-green.svg)
 ![Angular](https://img.shields.io/badge/Angular-17.2.0-red.svg)
 
-A **full-stack personal blog platform** built with **Java (Spring Boot)** for the backend and **Angular** for the frontend. Perfect for writers, bloggers, and content creators who want to share their thoughts with the world while enjoying a modern, secure, and scalable solution.
+A **full-stack personal blog platform** built with **Java (Spring Boot)** for the backend and **Angular** for the frontend. Perfect for articles readers and me, who will be the author of many ones and the creator of lesosns related to some IT skills.
 
 ---
 
@@ -23,7 +23,7 @@ A **full-stack personal blog platform** built with **Java (Spring Boot)** for th
 - Skills and keywords fr better explanations
 
 ✅ **Search & Discovery**
-- Elasticsearch integration for fast, relevant search
+- Elasticsearch integration for fast, relevant search and AI recommandations or suggestions
 - MongoDB for flexible data storage
 
 ✅ **Modern UI/UX**
@@ -48,6 +48,7 @@ A **full-stack personal blog platform** built with **Java (Spring Boot)** for th
 - **Validation**: Spring Validation
 - **Build Tool**: Maven
 - **Language**: Java 21
+- **Testing**: JUnit, Mockito 
 
 ### **Frontend (Angular)**
 - **Framework**: Angular 17.2.0
@@ -59,7 +60,8 @@ A **full-stack personal blog platform** built with **Java (Spring Boot)** for th
 ### **Other Tools**
 - **IDE**: IntelliJ IDEA / VS Code
 - **Package Manager**: npm / yarn
-- **CI/CD**: Maven Wrapper
+- **DevOps**: GitHub Actions / Docker
+
 
 ---
 
@@ -92,7 +94,7 @@ cd blog-backend
 # Build and run the Spring Boot application
 ./mvnw spring-boot:run
 ```
-The backend will start on `http://localhost:8080`.
+The backend will start on `http://localhost:<your-configured-port`.
 
 #### **3. Set Up the Frontend**
 ```bash
@@ -167,23 +169,11 @@ docker-compose up --build
 
 ## 🔧 **Configuration**
 
-### **Environment Variables**
-Create a `.env` file in the `blog-backend` directory:
-```env
-# MongoDB Configuration
-MONGODB_URI=mongodb://localhost:27017/blogdb
-
-# Elasticsearch Configuration
-ELASTICSEARCH_URI=http://localhost:9200
-
-# JWT Configuration
-JWT_SECRET=your-secret-key
-JWT_EXPIRATION=86400000 # 24 hours
-```
 
 ### **Customization**
 - **Backend**: Modify `application.properties` in `blog-backend/src/main/resources`.
 - **Frontend**: Update `angular.json` for build configurations or `styles.scss` for global styles.
+- **Database**: Create new database using MongoDB Compass and insert new data there according to the entities code.
 
 ---
 
