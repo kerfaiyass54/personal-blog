@@ -9,5 +9,18 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
+
+  constructor() {
+    window.onpopstate = () => {
+      const token = sessionStorage.getItem("token");
+      if (token) {
+        history.go(1);
+      }
+    };
+  }
+
+
   title = 'blog-frontend';
+
+
 }

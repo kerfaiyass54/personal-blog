@@ -16,7 +16,6 @@ export class AuthGuard implements CanActivate {
 
     const roles = route.data['roles'] as Array<string>;
 
-
     return true;
   }
 }

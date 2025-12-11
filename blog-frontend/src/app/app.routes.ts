@@ -6,14 +6,15 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { WriterUiComponent} from './writer-ui/writer-ui.component';
 import { ReaderUiComponent} from './reader-ui/reader-ui.component';
 import {ErrorNotFoundComponent} from './error-not-found/error-not-found.component';
+import {NoAuthGuard} from "./shared/guards/noAuth.guard";
 
 
 
 
 export const routes: Routes = [
   { path: '', component: HomePageComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginScreenComponent },
-  { path: 'register', component: SignupScreenComponent },
+  { path: 'login', component: LoginScreenComponent, canActivate: [NoAuthGuard] },
+  { path: 'register', component: SignupScreenComponent, canActivate: [NoAuthGuard] },
   {
     path: 'writer',
     canActivate: [AuthGuard],

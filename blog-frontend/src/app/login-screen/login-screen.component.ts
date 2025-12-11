@@ -50,11 +50,11 @@ export class LoginScreenComponent implements OnInit{
         console.log(data.token);
         console.log(role);
         if (role === 'WRITER') {
-          this.router.navigate(['/writer']);
+          this.router.navigate(['/writer'], { replaceUrl: true });
         } else if (role === 'READER') {
-          this.router.navigate(['/reader']);
+          this.router.navigate(['/reader'], { replaceUrl: true });
         } else {
-          this.router.navigate(['/']);
+          this.router.navigate(['/', { replaceUrl: true }]);
         }
       }
     );
