@@ -44,9 +44,11 @@ export class LoginScreenComponent implements OnInit{
     }
     this.loginService.login(user).subscribe(
       (res:any)=>{
-        console.log(res);
-        this.loginService.setToken(res.token);
-        const role = res.role;
+        const data = JSON.parse(res);
+        this.loginService.setToken(data.token);
+        const role = data.role;
+        console.log(data.token);
+        console.log(role);
         if (role === 'WRITER') {
           this.router.navigate(['/writer']);
         } else if (role === 'READER') {
