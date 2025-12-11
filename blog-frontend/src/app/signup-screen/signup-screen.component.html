@@ -1,1 +1,26 @@
-<p>signup-screen works!</p>
+<div class="login-page">
+  <form class="my-form" aria-labelledby="login-title" [formGroup]="signUpForm"> <div class="login-welcome-row">
+     <p>Please enter your details!</p>
+  </div>
+    <div class="input_wrapper">
+      <input
+        type="email" id="email" name="email" class="input_field form-control" formControlName="email" placeholder="Email" required>
+    </div>
+    <div class="input_wrapper">
+      <input id="password" type="password" class="input_field form-control" formControlName="password" placeholder="Password" required>
+    </div>
+    <div class="input_wrapper">
+      <input
+        type="text" id="name" name="name" class="input_field form-control" formControlName="name" placeholder="Email" required>
+    </div>
+    <button type="submit" class="my-form__button" (click)="signup()">
+      Sign up
+    </button>
+    <div class="my-form_actions">
+      <div class="my-form_row">
+        <span>Already have an account?</span> <a href="/login" title="Log in"> Login here</a>
+      </div>
+    </div>
+  </form>
+</div>
+
