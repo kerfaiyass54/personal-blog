@@ -12,19 +12,19 @@ export class LoginServiceService {
   constructor(private http: HttpClient) { }
 
   register(user: any) {
-    return this.http.post(`${this.apiUrl}/register`, user, { responseType: 'text' });
+    return this.http.post<any>(`${this.apiUrl}/register`, user);
   }
 
   login(user: any) {
-    return this.http.post(`${this.apiUrl}/login`, user, { responseType: 'text' });
+    return this.http.post<any>(`${this.apiUrl}/login`, user);
   }
 
   existEmail(user: any){
-    return this.http.post(`${this.apiUrl}/exist`,user);
+    return this.http.post<any>(`${this.apiUrl}/exist`,user);
   }
 
   checkPassword(user: any){
-    return this.http.post(`${this.apiUrl}/password`,user);
+    return this.http.post<any>(`${this.apiUrl}/password`,user);
   }
 
   setToken(token: string) {

@@ -3,11 +3,13 @@ import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} fr
 import {LoginServiceService} from "../shared/services/login-service.service";
 import { Router } from '@angular/router';
 import { CommonModule } from "@angular/common";
+import {ToastrService} from "ngx-toastr";
+
 
 @Component({
   selector: 'app-login-screen',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule],
+  imports: [ReactiveFormsModule,CommonModule ],
   templateUrl: './login-screen.component.html',
   styleUrl: './login-screen.component.scss'
 })
@@ -17,7 +19,7 @@ export class LoginScreenComponent implements OnInit{
   submitted = false;
 
 
-  constructor(private fb: FormBuilder, private loginService: LoginServiceService, private router: Router) {
+  constructor(private fb: FormBuilder, private loginService: LoginServiceService, private router: Router, private toastrService: ToastrService) {
     this.loginForm = this.fb.group({
       email: new FormControl("",[Validators.required,Validators.email]),
       password:new FormControl("",[Validators.required]),});
@@ -29,7 +31,7 @@ export class LoginScreenComponent implements OnInit{
   }
 
 
-  get mail(){
+  get email(){
     return this.loginForm.get('email');
   }
 
@@ -51,6 +53,7 @@ export class LoginScreenComponent implements OnInit{
         this.loginService.setToken(data.token);
         const role = data.role;
         sessionStorage.setItem("role",role);
+        this.toastrService.success("WELCOME","Login passed");
         if (role === 'WRITER') {
           this.router.navigate(['/writer'], { replaceUrl: true });
         } else if (role === 'READER') {
@@ -58,31 +61,33 @@ export class LoginScreenComponent implements OnInit{
         } else {
           this.router.navigate(['/', { replaceUrl: true }]);
         }
+      },
+      ()=>{
+        this.verifyUser(user);
       }
     );
+  }
 
-
+  verifyUser(user: any){
     this.loginService.existEmail(user).subscribe(
       (val)=>{
         if(val){
           this.loginService.checkPassword(user).subscribe(
             (v)=>{
               if(!v){
-                console.log("PAssword incorrect");
+                this.toastrService.error("ERROR","Wrong password");
               }
               else{
-                console.log("PAssword correct");
+                this.toastrService.success("WELCOME","Login passed");
               }
             }
           )
         }
         else{
-          console.log("Email does not exist");
-
+          this.toastrService.error("ERROR","Email does not exist");
         }
       }
-    )
-
+    );
   }
 
 
