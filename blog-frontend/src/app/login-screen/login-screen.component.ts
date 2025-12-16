@@ -48,10 +48,10 @@ export class LoginScreenComponent implements OnInit{
       password: pass
     }
     this.loginService.login(user).subscribe(
-      (res:any)=>{
-        const data = JSON.parse(res);
-        this.loginService.setToken(data.token);
-        const role = data.role;
+      (res)=>{
+        console.log(res);
+        this.loginService.setToken(res.token);
+        const role = res.role;
         sessionStorage.setItem("role",role);
         this.toastrService.success("WELCOME","Login passed");
         if (role === 'WRITER') {
