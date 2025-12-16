@@ -1,3 +1,24 @@
-body{
-  background: linear-gradient(135deg, #6e00f5, #8617ff, #9a3dff);
+
+html, body {
+  height: 100%;
+  margin: 0;
 }
+
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+
+.background svg {
+  width: 110%;
+  height: 100%;
+}
+
+.app {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+}
+
