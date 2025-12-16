@@ -6,12 +6,17 @@
       <input
         type="email" id="email" name="email" class="input_field form-control" formControlName="email" placeholder="Email" required>
     </div>
+
+    <div class="input_wrapper">
+      <input
+        type="text" id="name" name="name" class="input_field form-control" formControlName="name" placeholder="Name" required>
+    </div>
     <div class="input_wrapper">
       <input id="password" type="password" class="input_field form-control" formControlName="password" placeholder="Password" required>
     </div>
     <div class="input_wrapper">
       <input
-        type="text" id="name" name="name" class="input_field form-control" formControlName="name" placeholder="Email" required>
+        type="password" id="confirm" name="confirm" class="input_field form-control" formControlName="confirm" placeholder="Confirm password" required>
     </div>
     <button type="submit" class="my-form__button" (click)="signup()">
       Sign up
