@@ -54,7 +54,8 @@ public class UserService {
         return userRepository.findByEmail(email).isPresent();
     }
 
-    public boolean checkPassword(String email, String password) {
+    public boolean checkPassword(String email, String pass) {
+        String password = passwordEncoder.encode(pass);
         if(userRepository.findByEmail(email).isPresent()) {
             return userRepository.findByEmail(email).get().getPassword().equals(password);
         }
