@@ -5,11 +5,20 @@
   <div class="input_wrapper">
     <input
       type="email" id="email" name="email" class="input_field form-control" formControlName="email" placeholder="Email" required>
+    <div class="alert" *ngIf="submitted && loginForm.get('email')?.errors?.['required']">
+      ⚠️ Email is required
+    </div>
+
+    <div class="alert" *ngIf="submitted && loginForm.get('email')?.errors?.['email']">
+      ⚠️ Invalid email format
+    </div>
 
   </div>
   <div class="input_wrapper">
     <input id="password" type="password" class="input_field form-control" formControlName="password" placeholder="Password" required>
-
+    <div class="alert" *ngIf="submitted && loginForm.get('password')?.errors?.['required']">
+      ⚠️ Password is required
+    </div>
   </div>
   <button type="submit" class="my-form__button" (click)="signIn()">
     Login

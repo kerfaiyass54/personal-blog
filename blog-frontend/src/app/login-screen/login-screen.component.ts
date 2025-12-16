@@ -2,22 +2,24 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {LoginServiceService} from "../shared/services/login-service.service";
 import { Router } from '@angular/router';
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-login-screen',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './login-screen.component.html',
   styleUrl: './login-screen.component.scss'
 })
 export class LoginScreenComponent implements OnInit{
 
   loginForm: FormGroup;
+  submitted = false;
 
 
   constructor(private fb: FormBuilder, private loginService: LoginServiceService, private router: Router) {
     this.loginForm = this.fb.group({
-      email: new FormControl("",[Validators.required]),
+      email: new FormControl("",[Validators.required,Validators.email]),
       password:new FormControl("",[Validators.required]),});
   }
 
@@ -36,6 +38,7 @@ export class LoginScreenComponent implements OnInit{
   }
 
   signIn() {
+    this.submitted = true;
     let email = this.loginForm.value.email;
     let pass = this.loginForm.value.password;
     let user = {
@@ -48,8 +51,6 @@ export class LoginScreenComponent implements OnInit{
         this.loginService.setToken(data.token);
         const role = data.role;
         sessionStorage.setItem("role",role);
-        console.log(data.token);
-        console.log(role);
         if (role === 'WRITER') {
           this.router.navigate(['/writer'], { replaceUrl: true });
         } else if (role === 'READER') {
@@ -67,15 +68,16 @@ export class LoginScreenComponent implements OnInit{
           this.loginService.checkPassword(user).subscribe(
             (v)=>{
               if(!v){
-
+                console.log("PAssword incorrect");
               }
               else{
-
+                console.log("PAssword correct");
               }
             }
           )
         }
         else{
+          console.log("Email does not exist");
 
         }
       }
