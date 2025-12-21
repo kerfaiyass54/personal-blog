@@ -8,10 +8,11 @@ describe('WriterUiComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [WriterUiComponent]
+
+imports: [WriterUiComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(WriterUiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

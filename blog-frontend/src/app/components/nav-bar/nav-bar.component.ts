@@ -4,7 +4,8 @@ import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-nav-bar',
-    imports: [CommonModule],
+  standalone: true,
+imports: [CommonModule],
     templateUrl: './nav-bar.component.html',
     styleUrl: './nav-bar.component.scss'
 })

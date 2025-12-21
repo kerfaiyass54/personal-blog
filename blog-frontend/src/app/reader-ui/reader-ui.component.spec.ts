@@ -8,10 +8,10 @@ describe('ReaderUiComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReaderUiComponent]
+imports: [ReaderUiComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(ReaderUiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

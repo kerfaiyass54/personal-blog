@@ -7,7 +7,8 @@ import {ToastrService} from "ngx-toastr";
 
 @Component({
     selector: 'app-signup-screen',
-    imports: [ReactiveFormsModule],
+    standalone: true,
+imports: [ReactiveFormsModule],
     templateUrl: './signup-screen.component.html',
     styleUrl: './signup-screen.component.scss'
 })
