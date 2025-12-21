@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {LoginServiceService} from "../shared/services/login-service.service";
 import { Router } from '@angular/router';
-import { CommonModule } from "@angular/common";
+
 import {ToastrService} from "ngx-toastr";
 
 
 @Component({
     selector: 'app-login-screen',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [ReactiveFormsModule],
     templateUrl: './login-screen.component.html',
     styleUrl: './login-screen.component.scss'
 })

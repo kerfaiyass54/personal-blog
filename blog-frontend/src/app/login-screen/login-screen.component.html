@@ -1,32 +1,38 @@
 <div class="login-page">
-<form class="my-form" aria-labelledby="login-title" [formGroup]="loginForm"> <div class="login-welcome-row">
-  <h1 id="login-title">Welcome back &#x1F44F;</h1> <p>Please enter your details!</p>
-</div>
+  <form class="my-form" aria-labelledby="login-title" [formGroup]="loginForm"> <div class="login-welcome-row">
+    <h1 id="login-title">Welcome back &#x1F44F;</h1> <p>Please enter your details!</p>
+  </div>
   <div class="input_wrapper">
     <input
       type="email" id="email" name="email" class="input_field form-control" formControlName="email" placeholder="Email" required>
-    <div class="alert" *ngIf="submitted && loginForm.get('email')?.errors?.['required']">
-      ⚠️ Email is required
-    </div>
+      @if (submitted && loginForm.get('email')?.errors?.['required']) {
+        <div class="alert">
+          ⚠️ Email is required
+        </div>
+      }
 
-    <div class="alert" *ngIf="submitted && loginForm.get('email')?.errors?.['email']">
-      ⚠️ Invalid email format
-    </div>
+      @if (submitted && loginForm.get('email')?.errors?.['email']) {
+        <div class="alert">
+          ⚠️ Invalid email format
+        </div>
+      }
 
-  </div>
-  <div class="input_wrapper">
-    <input id="password" type="password" class="input_field form-control" formControlName="password" placeholder="Password" required>
-    <div class="alert" *ngIf="submitted && loginForm.get('password')?.errors?.['required']">
-      ⚠️ Password is required
     </div>
-  </div>
-  <button type="submit" class="my-form__button" (click)="signIn()">
-    Login
-  </button>
-  <div class="my-form_actions">
-    <div class="my-form_row">
-      <span>Don't have an account?</span> <a href="/register" title="Create Account"> Sign Up</a>
+    <div class="input_wrapper">
+      <input id="password" type="password" class="input_field form-control" formControlName="password" placeholder="Password" required>
+      @if (submitted && loginForm.get('password')?.errors?.['required']) {
+        <div class="alert">
+          ⚠️ Password is required
+        </div>
+      }
     </div>
-  </div>
-</form>
+    <button type="submit" class="my-form__button" (click)="signIn()">
+      Login
+    </button>
+    <div class="my-form_actions">
+      <div class="my-form_row">
+        <span>Don't have an account?</span> <a href="/register" title="Create Account"> Sign Up</a>
+      </div>
+    </div>
+  </form>
 </div>
