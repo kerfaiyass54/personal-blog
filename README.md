@@ -6,7 +6,7 @@
 ![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.0-green.svg)
 ![Angular](https://img.shields.io/badge/Angular-17.2.0-red.svg)
 
-A **full-stack personal blog platform** built with **Java (Spring Boot)** for the backend and **Angular** for the frontend. Perfect for articles readers and me, who will be the author of many ones and the creator of lesosns related to some IT skills.
+A **full-stack personal blog platform** built with **Java (Spring Boot)** for the backend and **Angular** for the frontend. Perfect for articles readers and me, who will be the author of many ones and the creator of some lessons related to IT skills.
 
 ---
 
@@ -20,10 +20,10 @@ A **full-stack personal blog platform** built with **Java (Spring Boot)** for th
 ✅ **Content Management**
 - Create, edit, and publish blog articles or skills lessons.
 - Rich summarize and explaining generation
-- Skills and keywords fr better explanations
+- Skills and keywords for better explanations
 
 ✅ **Search & Discovery**
-- Elasticsearch integration for fast, relevant search and AI recommandations or suggestions
+- Elasticsearch integration for fast and relevant search and AI recommandations
 - MongoDB for flexible data storage
 
 ✅ **Modern UI/UX**
@@ -47,13 +47,13 @@ A **full-stack personal blog platform** built with **Java (Spring Boot)** for th
 - **Security**: JWT, Spring Security
 - **Validation**: Spring Validation
 - **Build Tool**: Maven
-- **Language**: Java 21
+- **Language**: Java 21, Python
 - **Testing**: JUnit, Mockito 
 
 ### **Frontend (Angular)**
-- **Framework**: Angular 17.2.0
+- **Framework**: Angular 21
 - **Build Tool**: Angular CLI
-- **Styling**: SCSS
+- **Styling**: SCSS, bootstrap
 - **Testing**: Jasmine + Karma
 - **State Management**: RxJS
 
@@ -61,6 +61,7 @@ A **full-stack personal blog platform** built with **Java (Spring Boot)** for th
 - **IDE**: IntelliJ IDEA / VS Code
 - **Package Manager**: npm / yarn
 - **DevOps**: GitHub Actions / Docker
+- **Tasks**: Jira/Confluence
 
 
 ---
@@ -75,6 +76,7 @@ Ensure you have the following installed:
 - **Angular CLI** (`npm install -g @angular/cli@17.2.2`)
 - **MongoDB** ([Download](https://www.mongodb.com/try/download/community))
 - **Elasticsearch** ([Download](https://www.elastic.co/downloads/elasticsearch))
+- **Python**
 
 ---
 
