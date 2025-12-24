@@ -70,9 +70,8 @@ Ensure you have the following installed:
 - **Java JDK 21** ([Download](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html))
 - **Maven 3.9.11** ([Download](https://maven.apache.org/download.cgi))
 - **Node.js 20+** ([Download](https://nodejs.org/))
-- **Angular CLI** (`npm install -g @angular/cli@17.2.2`)
+- **Angular CLI** (`npm install -g @angular/cli@21`)
 - **MongoDB** ([Download](https://www.mongodb.com/try/download/community))
-- **Elasticsearch** ([Download](https://www.elastic.co/downloads/elasticsearch))
 - **Python**
 
 ---
@@ -109,64 +108,6 @@ npm start
 The frontend will start on `http://localhost:4200`.
 
 ---
-
-### **Alternative: Docker Setup**
-If you prefer Docker, you can use the following `docker-compose.yml` (add this to your project root):
-
-```yaml
-version: '3.8'
-
-services:
-  backend:
-    build: ./blog-backend
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mongodb
-      - elasticsearch
-    environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/blogdb
-      - SPRING_DATA_ELASTICSEARCH_URI=http://elasticsearch:9200
-
-  frontend:
-    build: ./blog-frontend
-    ports:
-      - "4200:4200"
-    depends_on:
-      - backend
-
-  mongodb:
-    image: mongo:6.0
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
-    ports:
-      - "9200:9200"
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-
-volumes:
-  mongodb_data:
-  elasticsearch_data:
-```
-
-Run the services with:
-```bash
-docker-compose up --build
-```
-
----
-
-
-
-## 🔧 **Configuration**
 
 
 ### **Customization**
@@ -211,19 +152,3 @@ A: You can deploy the backend to any Java servlet container (e.g., Tomcat, WildF
 
 **Q: Can I use a different database?**
 A: Yes! The backend is designed to work with MongoDB, but you can easily switch to another database by modifying the configuration in `application.properties`.
-
----
-
-
-## 🚀 **Get Started Today!**
-
-Ready to build your personal blog? Star this repository, clone it, and start customizing!
-
-```bash
-git clone https://github.com/your-username/personal-blog.git
-cd personal-blog
-npm install && ./mvnw spring-boot:run
-```
-
-Happy coding! 🎉
-```
