@@ -1,10 +1,7 @@
 
 # 🌟 Personal Blog Platform
 
-![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Java](https://img.shields.io/badge/Java-21-orange.svg)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.0-green.svg)
-![Angular](https://img.shields.io/badge/Angular-17.2.0-red.svg)
+[![My Skills](https://skillicons.dev/icons?i=angular,html,css,ts,githubactions,docker,spring,mongodb,py)](https://skillicons.dev)
 
 A **full-stack personal blog platform** built with **Java (Spring Boot)** for the backend and **Angular** for the frontend. Perfect for articles readers and me, who will be the author of many ones and the creator of some lessons related to IT skills.
 
