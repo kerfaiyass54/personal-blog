@@ -80,7 +80,7 @@ Ensure you have the following installed:
 
 #### **1. Clone the Repository**
 ```bash
-git clone https://github.com/your-username/personal-blog.git
+git clone https://github.com/kerfaiyass54/personal-blog.git
 cd personal-blog
 ```
 
@@ -125,7 +125,7 @@ We welcome contributions! Here’s how you can help:
 1. Fork the repository.
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/your-username/personal-blog.git
+   git clone https://github.com/kerfaiyass54/personal-blog.git
    ```
 3. Install dependencies (as shown in the [Installation](#%E2%9C%94-installation) section).
 4. Create a new branch:
