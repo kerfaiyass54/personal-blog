@@ -1,12 +1,9 @@
 
 # 🌟 Personal Blog Platform
 
-![GitHub License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Java](https://img.shields.io/badge/Java-21-orange.svg)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.0-green.svg)
-![Angular](https://img.shields.io/badge/Angular-17.2.0-red.svg)
+[![My Skills](https://skillicons.dev/icons?i=angular,html,css,ts,githubactions,docker,spring,mongodb,py)](https://skillicons.dev)
 
-A **full-stack personal blog platform** built with **Java (Spring Boot)** for the backend and **Angular** for the frontend. Perfect for articles readers and me, who will be the author of many ones and the creator of lesosns related to some IT skills.
+A **full-stack personal blog platform** built with **Java (Spring Boot)** for the backend and **Angular** for the frontend. Perfect for articles readers and me, who will be the author of many ones and the creator of some lessons related to IT skills.
 
 ---
 
@@ -20,10 +17,10 @@ A **full-stack personal blog platform** built with **Java (Spring Boot)** for th
 ✅ **Content Management**
 - Create, edit, and publish blog articles or skills lessons.
 - Rich summarize and explaining generation
-- Skills and keywords fr better explanations
+- Skills and keywords for better explanations
 
 ✅ **Search & Discovery**
-- Elasticsearch integration for fast, relevant search and AI recommandations or suggestions
+- Elasticsearch integration for fast and relevant search and AI recommandations
 - MongoDB for flexible data storage
 
 ✅ **Modern UI/UX**
@@ -47,13 +44,13 @@ A **full-stack personal blog platform** built with **Java (Spring Boot)** for th
 - **Security**: JWT, Spring Security
 - **Validation**: Spring Validation
 - **Build Tool**: Maven
-- **Language**: Java 21
+- **Language**: Java 21, Python
 - **Testing**: JUnit, Mockito 
 
 ### **Frontend (Angular)**
-- **Framework**: Angular 17.2.0
+- **Framework**: Angular 21
 - **Build Tool**: Angular CLI
-- **Styling**: SCSS
+- **Styling**: SCSS, bootstrap
 - **Testing**: Jasmine + Karma
 - **State Management**: RxJS
 
@@ -61,6 +58,7 @@ A **full-stack personal blog platform** built with **Java (Spring Boot)** for th
 - **IDE**: IntelliJ IDEA / VS Code
 - **Package Manager**: npm / yarn
 - **DevOps**: GitHub Actions / Docker
+- **Tasks**: Jira/Confluence
 
 
 ---
@@ -72,9 +70,9 @@ Ensure you have the following installed:
 - **Java JDK 21** ([Download](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html))
 - **Maven 3.9.11** ([Download](https://maven.apache.org/download.cgi))
 - **Node.js 20+** ([Download](https://nodejs.org/))
-- **Angular CLI** (`npm install -g @angular/cli@17.2.2`)
+- **Angular CLI** (`npm install -g @angular/cli@21`)
 - **MongoDB** ([Download](https://www.mongodb.com/try/download/community))
-- **Elasticsearch** ([Download](https://www.elastic.co/downloads/elasticsearch))
+- **Python**
 
 ---
 
@@ -82,7 +80,7 @@ Ensure you have the following installed:
 
 #### **1. Clone the Repository**
 ```bash
-git clone https://github.com/your-username/personal-blog.git
+git clone https://github.com/kerfaiyass54/personal-blog.git
 cd personal-blog
 ```
 
@@ -111,64 +109,6 @@ The frontend will start on `http://localhost:4200`.
 
 ---
 
-### **Alternative: Docker Setup**
-If you prefer Docker, you can use the following `docker-compose.yml` (add this to your project root):
-
-```yaml
-version: '3.8'
-
-services:
-  backend:
-    build: ./blog-backend
-    ports:
-      - "8080:8080"
-    depends_on:
-      - mongodb
-      - elasticsearch
-    environment:
-      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/blogdb
-      - SPRING_DATA_ELASTICSEARCH_URI=http://elasticsearch:9200
-
-  frontend:
-    build: ./blog-frontend
-    ports:
-      - "4200:4200"
-    depends_on:
-      - backend
-
-  mongodb:
-    image: mongo:6.0
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
-
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
-    ports:
-      - "9200:9200"
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-
-volumes:
-  mongodb_data:
-  elasticsearch_data:
-```
-
-Run the services with:
-```bash
-docker-compose up --build
-```
-
----
-
-
-
-## 🔧 **Configuration**
-
 
 ### **Customization**
 - **Backend**: Modify `application.properties` in `blog-backend/src/main/resources`.
@@ -185,7 +125,7 @@ We welcome contributions! Here’s how you can help:
 1. Fork the repository.
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/your-username/personal-blog.git
+   git clone https://github.com/kerfaiyass54/personal-blog.git
    ```
 3. Install dependencies (as shown in the [Installation](#%E2%9C%94-installation) section).
 4. Create a new branch:
@@ -212,19 +152,3 @@ A: You can deploy the backend to any Java servlet container (e.g., Tomcat, WildF
 
 **Q: Can I use a different database?**
 A: Yes! The backend is designed to work with MongoDB, but you can easily switch to another database by modifying the configuration in `application.properties`.
-
----
-
-
-## 🚀 **Get Started Today!**
-
-Ready to build your personal blog? Star this repository, clone it, and start customizing!
-
-```bash
-git clone https://github.com/your-username/personal-blog.git
-cd personal-blog
-npm install && ./mvnw spring-boot:run
-```
-
-Happy coding! 🎉
-```
