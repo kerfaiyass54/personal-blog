@@ -3,7 +3,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   padding: 20px;
   font-family: "Inter", sans-serif;
 }
@@ -16,7 +15,6 @@
   text-align: center;
   box-shadow: 0 12px 28px rgba(0,0,0,0.18);
   animation: fadeIn .8s ease;
-
   position: relative;
   overflow: hidden;
 }
