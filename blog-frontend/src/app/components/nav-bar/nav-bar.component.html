@@ -16,14 +16,17 @@
       <input type="radio" id="settings" name="sidebar" />
       <label for="settings">
         <i class="ai-gear"></i>
-        <p>Settings</p>
+        <p>Skills</p>
         <i class="ai-chevron-down-small"></i>
       </label>
       <div class="sub-menu">
         <ul>
-          <li><button type="button">Display</button></li>
-          <li><button type="button">Appearance</button></li>
-          <li><button type="button">Preferences</button></li>
+          <li><button type="button">Check</button></li>
+          @for (s of skill; track s.id) {
+            <div>
+              <li><button type="button" routerLink="{{s.link}}">{{ s.title }}</button></li>
+            </div>
+          }
         </ul>
       </div>
     </li>
@@ -32,15 +35,36 @@
       <input type="radio" id="create" name="sidebar" />
       <label for="create">
         <i class="ai-folder-add"></i>
-        <p>Create</p>
+        <p>Articles</p>
         <i class="ai-chevron-down-small"></i>
       </label>
       <div class="sub-menu">
         <ul>
-          <li><button type="button">Article</button></li>
-          <li><button type="button">Document</button></li>
-          <li><button type="button">Video</button></li>
-          <li><button type="button">Presentation</button></li>
+          <li><button type="button">Check</button></li>
+          @for (a of articles; track a.id) {
+            <div>
+              <li><button type="button" routerLink="{{a.link}}">{{ a.title }}</button></li>
+            </div>
+          }
+        </ul>
+      </div>
+    </li>
+
+    <li>
+      <input type="radio" id="create" name="sidebar" />
+      <label for="create">
+        <i class="ai-folder-add"></i>
+        <p>Lessons</p>
+        <i class="ai-chevron-down-small"></i>
+      </label>
+      <div class="sub-menu">
+        <ul>
+          <li><button type="button">Check</button></li>
+          @for (l of lesson; track l.id) {
+            <div>
+              <li><button type="button" routerLink="{{l.link}}">{{ l.title }}</button></li>
+            </div>
+          }
         </ul>
       </div>
     </li>
@@ -52,29 +76,8 @@
         <p>Profile</p>
         <i class="ai-chevron-down-small"></i>
       </label>
-      <div class="sub-menu">
-        <ul>
-          <li><button type="button">Avatar</button></li>
-          <li><button type="button">Theme</button></li>
-        </ul>
-      </div>
     </li>
 
-    <li>
-      <input type="radio" id="notifications" name="sidebar" />
-      <label for="notifications">
-        <i class="ai-bell"></i>
-        <p>Notifications</p>
-      </label>
-    </li>
-
-    <li>
-      <input type="radio" id="products" name="sidebar" />
-      <label for="products">
-        <i class="ai-cart"></i>
-        <p>Products</p>
-      </label>
-    </li>
 
     <li>
       <input type="radio" id="account" name="sidebar" />
