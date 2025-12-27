@@ -7,6 +7,7 @@ import { WriterUiComponent} from './writer-ui/writer-ui.component';
 import { ReaderUiComponent} from './reader-ui/reader-ui.component';
 import {ErrorNotFoundComponent} from './error-not-found/error-not-found.component';
 import {NoAuthGuard} from "./shared/guards/noAuth.guard";
+import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
 
 
 
@@ -15,6 +16,7 @@ export const routes: Routes = [
   { path: '', component: HomePageComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginScreenComponent, canActivate: [NoAuthGuard] },
   { path: 'register', component: SignupScreenComponent, canActivate: [NoAuthGuard] },
+  { path: 'password', component: ForgotPasswordComponent, canActivate: [NoAuthGuard] },
   {
     path: 'writer',
     canActivate: [AuthGuard],
