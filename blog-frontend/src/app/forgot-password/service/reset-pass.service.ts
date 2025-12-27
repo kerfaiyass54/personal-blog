@@ -8,7 +8,6 @@ export class ResetPassService {
 
 
   private apiUrl = 'http://localhost:8081/reset/';
-  private slash: any= "/";
 
 
   constructor(private http: HttpClient) { }

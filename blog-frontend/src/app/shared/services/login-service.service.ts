@@ -8,6 +8,8 @@ import * as jwtDecode from 'jwt-decode';
 export class LoginServiceService {
 
   private apiUrl = 'http://localhost:8081/user';
+  private slash: any= "/";
+
 
   constructor(private http: HttpClient) { }
 
