@@ -62,11 +62,15 @@ label {
 }
 
 .sidebar input#create:checked ~ .sub-menu {
-  height: 200px;
+  height: 150px;
 }
 
 .sidebar input#profile:checked ~ .sub-menu {
-  height: 100px;
+  height: 150px;
+}
+
+.sidebar input#lessons:checked ~ .sub-menu {
+  height: 150px;
 }
 
 /* Buttons / labels */
