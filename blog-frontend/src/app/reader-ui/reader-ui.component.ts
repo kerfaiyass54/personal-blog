@@ -12,4 +12,14 @@ imports: [
 })
 export class ReaderUiComponent {
 
+  lessons:any[] = [{id: 0, title: 'Check',link: ''},
+    {id: 1, title: 'Explainings',link: ''},
+    {id: 2, title: 'Quiz',link: ''}];
+  skills:any[] = [{id: 0, title: 'Check',link: ''},
+    {id: 1, title: 'Keywords',link: ''}];
+  articles:any[] = [{id: 0, title: 'Check',link: ''},
+    {id: 1, title: 'Summaries',link: ''}];
+
+
+
 }
