@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import * as jwtDecode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'

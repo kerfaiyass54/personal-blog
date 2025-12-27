@@ -51,6 +51,7 @@ var LoginServiceService = function () {
         function LoginServiceService_1(http) {
             this.http = http;
             this.apiUrl = 'http://localhost:8081/user';
+            this.slash = "/";
         }
         LoginServiceService_1.prototype.register = function (user) {
             return this.http.post("".concat(this.apiUrl, "/register"), user);

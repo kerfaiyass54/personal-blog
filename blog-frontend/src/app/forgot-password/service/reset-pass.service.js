@@ -51,7 +51,6 @@ var ResetPassService = function () {
         function ResetPassService_1(http) {
             this.http = http;
             this.apiUrl = 'http://localhost:8081/reset/';
-            this.slash = "/";
         }
         ResetPassService_1.prototype.sendEmail = function (email) {
             return this.http.get(this.apiUrl + email);
