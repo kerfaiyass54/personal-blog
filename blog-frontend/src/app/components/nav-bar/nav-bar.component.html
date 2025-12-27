@@ -21,7 +21,6 @@
       </label>
       <div class="sub-menu">
         <ul>
-          <li><button type="button">Check</button></li>
           @for (s of skill; track s.id) {
             <div>
               <li><button type="button" routerLink="{{s.link}}">{{ s.title }}</button></li>
@@ -40,7 +39,7 @@
       </label>
       <div class="sub-menu">
         <ul>
-          <li><button type="button">Check</button></li>
+
           @for (a of articles; track a.id) {
             <div>
               <li><button type="button" routerLink="{{a.link}}">{{ a.title }}</button></li>
@@ -59,7 +58,7 @@
       </label>
       <div class="sub-menu">
         <ul>
-          <li><button type="button">Check</button></li>
+
           @for (l of lesson; track l.id) {
             <div>
               <li><button type="button" routerLink="{{l.link}}">{{ l.title }}</button></li>
