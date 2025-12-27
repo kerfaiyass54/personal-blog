@@ -66,6 +66,11 @@ public class UserService {
         return userRepository.findByEmail(email).get().getRole();
     }
 
+    public void changePassword(String email, String password){
+        User user = userRepository.findByEmail(email).get();
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
 
 
 }

@@ -1,6 +1,7 @@
 package com.blogproject.blogproject.service;
 
 
+import com.blogproject.blogproject.dtos.ResetDTO;
 import com.blogproject.blogproject.entities.PasswordResetToken;
 import com.blogproject.blogproject.repository.ResetPasswordRepository;
 import org.springframework.stereotype.Service;
@@ -34,5 +35,14 @@ public class PasswordResetService {
                 "Your reset code is: " + code
         );
     }
+
+    public void verifyCode(ResetDTO request) {
+        PasswordResetToken token = resetPasswordRepository
+                .findPasswordResetTokenByEmail(request.getEmail());
+        if (!request.getCode().equals(token.getCode())) {
+            throw new RuntimeException("Invalid code");
+        }
+    }
+
 
 }
