@@ -35,7 +35,8 @@ export class SignupScreenComponent implements OnInit{
       let user = {
         name: item.name,
         password: item.password,
-        email: item.email
+        email: item.email,
+        role: 'READER'
       }
       this.loginService.existEmail(user).subscribe(
         (val)=>{
@@ -55,7 +56,7 @@ export class SignupScreenComponent implements OnInit{
                     sessionStorage.setItem("role","READER");
                     this.router.navigate(['/reader'], { replaceUrl: true });
                   }
-                )
+                );
               }
             )
           }
