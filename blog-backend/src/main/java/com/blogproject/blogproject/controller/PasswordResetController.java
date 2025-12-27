@@ -23,7 +23,7 @@ public class PasswordResetController {
         return ResponseEntity.ok("Code sent");
     }
 
-    @GetMapping("/code")
+    @PostMapping("/code")
     public ResponseEntity<?> verifyCode(@RequestBody ResetDTO request) {
         passwordResetService.verifyCode(request);
         return ResponseEntity.ok("Code valid");
