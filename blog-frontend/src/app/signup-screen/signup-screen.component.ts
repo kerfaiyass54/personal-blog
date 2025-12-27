@@ -45,7 +45,17 @@ export class SignupScreenComponent implements OnInit{
           else{
             this.loginService.register(user).subscribe(
               ()=>{
-                this.toastrService.success("SUCCESS","Account saved!");
+                let userLogin = {
+                  email: user.email,
+                  password: user.password
+                }
+                this.loginService.login(userLogin).subscribe(
+                  (res)=>{
+                    this.loginService.setToken(res.token);
+                    sessionStorage.setItem("role","READER");
+                    this.router.navigate(['/reader'], { replaceUrl: true });
+                  }
+                )
               }
             )
           }
