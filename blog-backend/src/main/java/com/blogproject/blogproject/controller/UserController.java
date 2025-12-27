@@ -54,5 +54,10 @@ public class UserController {
     }
 
 
+    @PostMapping("/pass/{email}/{pass}")
+    public ResponseEntity<Void> changePassword( @PathVariable String email, @PathVariable String pass) {
+        userService.changePassword(email, pass);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }
