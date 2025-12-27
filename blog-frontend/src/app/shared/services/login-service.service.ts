@@ -44,6 +44,10 @@ export class LoginServiceService {
     return token != null;
   }
 
+  changePassword(email:any, pass:any){
+    return this.http.get<any>(this.apiUrl + this.slash + email + this.slash + pass);
+  }
+
 
 
 }
