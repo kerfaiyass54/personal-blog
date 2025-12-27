@@ -7,21 +7,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
 
-@Document(collection = "users")
+@Document(collection = "resets")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Getter
 @Setter
 public class PasswordResetToken {
-    /*
-    id
-email
-code_hash
-expires_at
-used
 
-     */
     @Id
     private String id;
     private String email;
