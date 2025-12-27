@@ -28,7 +28,7 @@ public class JwtFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
 
         // ✅ Allow public endpoints
-        if (path.startsWith("/user/")) {
+        if (path.startsWith("/user/") || path.startsWith("/reset/")) {
             filterChain.doFilter(request, response);
             return;
         }

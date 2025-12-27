@@ -17,13 +17,13 @@ public class PasswordResetController {
         this.passwordResetService = passwordResetService;
     }
 
-    @PostMapping("/{email}")
+    @GetMapping("/{email}")
     public ResponseEntity<?> forgotPassword(@PathVariable String email) {
         passwordResetService.sendResetCode(email);
         return ResponseEntity.ok("Code sent");
     }
 
-    @PostMapping("/code")
+    @GetMapping("/code")
     public ResponseEntity<?> verifyCode(@RequestBody ResetDTO request) {
         passwordResetService.verifyCode(request);
         return ResponseEntity.ok("Code valid");
