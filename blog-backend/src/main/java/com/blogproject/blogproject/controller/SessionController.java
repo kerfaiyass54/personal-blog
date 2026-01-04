@@ -33,7 +33,7 @@ public class SessionController {
         return new ResponseEntity<>(sessionDTOS, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/{isMe}")
+    @GetMapping("/{id}/{isMe}")
     public ResponseEntity<Void> setIsItMe(@PathVariable String id,@PathVariable boolean isMe){
         sessionService.setIsItMe(id, isMe);
         return new ResponseEntity<>(HttpStatus.OK);

@@ -6,6 +6,7 @@ import com.blogproject.blogproject.entities.Session;
 import com.blogproject.blogproject.repository.SessionsRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +33,7 @@ public class SessionService {
         Session session = new Session();
         session.setEmail(sessionDTO.getEmail());
         session.setOs(sessionDTO.getOs());
-        session.setTime(sessionDTO.getTime());
+        session.setTime(Instant.now());
         session.setBrowser(sessionDTO.getBrowser());
         return sessionsRepository.save(session);
     }
