@@ -12,10 +12,10 @@
         formControlName="email"
       />
       @if (form.get('email')?.errors?.['required']) {
-        <div class="alert">⚠️ Email is required</div>
+        <div class="alert"> Email is required</div>
       }
       @if (form.get('email')?.errors?.['email']) {
-        <div class="alert">⚠️ Invalid email format</div>
+        <div class="alert"> Invalid email format</div>
       }
     </div>
     <button class="my-form__button" [disabled]="form.value.email == '' || form.value.email == null" (click)="sendCode()">
@@ -30,7 +30,7 @@
           formControlName="code"
         />
         @if (form.get('code')?.errors?.['required']) {
-          <div class="alert">⚠️ Code is required</div>
+          <div class="alert"> Code is required</div>
         }
       </div>
       <button class="my-form__button" type="submit" [disabled]="!submitted">

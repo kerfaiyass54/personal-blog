@@ -35,6 +35,16 @@ export class InserCodeComponent {
   verifyCode() {
     this.submitted = true;
     if (this.form.invalid) return;
+    else{
+      this.resetService.setCode(this.form.value.code).subscribe(
+        (val)=>{
+          if(val){
+            this.codeVerified = true;
+            this.verified.emit(this.codeVerified);
+          }
+        }
+      );
+    }
   }
 
   sendCode(){

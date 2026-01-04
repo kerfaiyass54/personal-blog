@@ -7,13 +7,13 @@
       type="email" id="email" name="email" class="input_field form-control" formControlName="email" placeholder="Email" required>
       @if (submitted && loginForm.get('email')?.errors?.['required']) {
         <div class="alert">
-          ⚠️ Email is required
+           Email is required
         </div>
       }
 
       @if (submitted && loginForm.get('email')?.errors?.['email']) {
         <div class="alert">
-          ⚠️ Invalid email format
+           Invalid email format
         </div>
       }
 
@@ -22,7 +22,7 @@
       <input id="password" type="password" class="input_field form-control" formControlName="password" placeholder="Password" required>
       @if (submitted && loginForm.get('password')?.errors?.['required']) {
         <div class="alert">
-          ⚠️ Password is required
+           Password is required
         </div>
       }
     </div>
