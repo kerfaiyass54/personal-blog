@@ -1,0 +1,52 @@
+<div class="login-page">
+  <form class="my-form" [formGroup]="form" (ngSubmit)="setPassword()">
+    <div class="login-welcome-row">
+      <h1>Reset Password</h1>
+      <p>Enter your app email and new password</p>
+    </div>
+    <div class="input_wrapper">
+      <input
+        type="email"
+        class="input_field"
+        placeholder="Email"
+        formControlName="email"
+      />
+      @if (form.get('email')?.errors?.['required']) {
+        <div class="alert"> Email is required</div>
+      }
+      @if (form.get('email')?.errors?.['email']) {
+        <div class="alert"> Invalid email format</div>
+      }
+    </div>
+      <div class="input_wrapper">
+        <input
+          type="text"
+          class="input_field"
+          placeholder="New password"
+          formControlName="password"
+        />
+        @if (form.get('password')?.errors?.['required']) {
+          <div class="alert"> Password is required</div>
+        }
+      </div>
+    <div class="input_wrapper">
+      <input
+        type="text"
+        class="input_field"
+        placeholder="Confirm password"
+        formControlName="confirm"
+      />
+      @if (form.get('confirm')?.errors?.['required']) {
+        <div class="alert"> Confirmation is required</div>
+      }
+    </div>
+      <button class="my-form__button" type="submit" [disabled]="form.invalid">
+        Change password
+      </button>
+
+
+    <button class="my-form__previous" routerLink="/login">
+      Go back to login
+    </button>
+  </form>
+</div>
