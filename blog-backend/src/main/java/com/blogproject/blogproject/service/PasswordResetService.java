@@ -36,11 +36,16 @@ public class PasswordResetService {
         );
     }
 
-    public void verifyCode(ResetDTO request) {
+    public boolean verifyCode(ResetDTO request) {
         PasswordResetToken token = resetPasswordRepository
                 .findPasswordResetTokenByEmail(request.getEmail());
         if (!request.getCode().equals(token.getCode())) {
-            throw new RuntimeException("Invalid code");
+            return false;
+        }
+        else{
+            token.setUsed(true);
+            resetPasswordRepository.save(token);
+            return true;
         }
     }
 
