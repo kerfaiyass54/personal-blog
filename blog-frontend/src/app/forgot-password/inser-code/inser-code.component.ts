@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-import {HttpClient} from "@angular/common/http";
-import {Router, RouterLink} from "@angular/router";
+import {RouterLink} from "@angular/router";
 import {ResetPassService} from "../service/reset-pass.service";
 import {ToastrService} from "ngx-toastr";
 
