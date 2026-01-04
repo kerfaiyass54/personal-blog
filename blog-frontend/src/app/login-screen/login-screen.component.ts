@@ -4,6 +4,7 @@ import {LoginServiceService} from "../shared/services/login-service.service";
 import { Router } from '@angular/router';
 
 import {ToastrService} from "ngx-toastr";
+import {SessionsManagementService} from "../shared/services/sessions-management.service";
 
 
 @Component({
@@ -19,7 +20,8 @@ export class LoginScreenComponent implements OnInit{
   submitted = false;
 
 
-  constructor(private fb: FormBuilder, private loginService: LoginServiceService, private router: Router, private toastrService: ToastrService) {
+  constructor(private fb: FormBuilder, private loginService: LoginServiceService, private router: Router, private toastrService: ToastrService,
+              private sessionService: SessionsManagementService) {
     this.loginForm = this.fb.group({
       email: new FormControl("",[Validators.required,Validators.email]),
       password:new FormControl("",[Validators.required]),});
@@ -79,6 +81,7 @@ export class LoginScreenComponent implements OnInit{
               }
               else{
                 this.toastrService.success("WELCOME","Login passed");
+                this.keepSession(user.email);
               }
             }
           )
@@ -86,6 +89,36 @@ export class LoginScreenComponent implements OnInit{
         else{
           this.toastrService.error("ERROR","Email does not exist");
         }
+      }
+    );
+  }
+
+
+  keepSession(email:any){
+    const ua = navigator.userAgent;
+
+    let browser = 'Unknown';
+    let os = 'Unknown';
+
+    if (ua.includes('Chrome') && !ua.includes('Edg')) browser = 'Chrome';
+    else if (ua.includes('Firefox')) browser = 'Firefox';
+    else if (ua.includes('Edg')) browser = 'Edge';
+    else if (ua.includes('Safari') && !ua.includes('Chrome')) browser = 'Safari';
+
+    if (ua.includes('Windows')) os = 'Windows';
+    else if (ua.includes('Android')) os = 'Android';
+    else if (ua.includes('Mac')) os = 'MacOS';
+    else if (ua.includes('Linux')) os = 'Linux';
+    else if (ua.includes('iPhone') || ua.includes('iPad')) os = 'iOS';
+
+    let session = {
+      email: email,
+      os: os,
+      browser: browser
+    }
+    this.sessionService.addSession(session).subscribe(
+      ()=>{
+        console.log("session saved");
       }
     );
   }
