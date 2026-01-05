@@ -1,0 +1,38 @@
+<div class="card">
+  <header>
+    <h2>{{ title }}</h2>
+    <button type="button">
+      <span class="material-symbols-outlined">download</span>
+      Download
+    </button>
+  </header>
+
+  <div class="wrapper">
+    <table>
+      <thead>
+      <tr>
+        @for (col of columns; track $index) {
+          <th draggable="true">{{ col }}</th>
+        }
+      </tr>
+      </thead>
+
+      <tbody>
+        @for (row of pagedData; track $index) {
+          <tr>
+            @for (cell of row; track $index) {
+              <td>{{ cell }}</td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <footer class="pagination">
+    <button (click)="prev()" [disabled]="page === 1">Prev</button>
+    <span>{{ page }} / {{ totalPages }}</span>
+    <button (click)="next()" [disabled]="page === totalPages">Next</button>
+  </footer>
+</div>

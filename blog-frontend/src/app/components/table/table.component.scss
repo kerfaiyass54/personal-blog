@@ -1,0 +1,177 @@
+:root {
+  --primary: #4f46e5;
+  --primary-light: #eef2ff;
+  --text-dark: #111827;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --bg: #ffffff;
+}
+
+/* Card / Container */
+.card {
+  width: 100%;
+  max-width: none;
+  margin: 32px;
+  background: linear-gradient(180deg, #ffffff, #f7f7fb);
+  border-radius: 20px;
+  padding: 24px 28px 22px;
+  color: var(--text-dark);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+  animation: fadeIn 0.4s ease;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 16px;
+  margin-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+}
+
+header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Button */
+button {
+  background: var(--primary);
+  border: none;
+  color: white;
+  border-radius: 8px;
+  padding: 10px 16px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  cursor: pointer;
+  font-size: 13px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
+}
+
+/* Table Wrapper */
+.wrapper {
+  overflow-x: auto;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Header cells */
+th {
+  text-align: left;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: 14px;
+  cursor: grab;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+th:hover {
+  color: #312e81;
+}
+
+/* Cells */
+th,
+td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+td {
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+/* Row hover */
+tbody tr {
+  transition: background 0.2s ease;
+}
+
+tbody tr:hover {
+  background: var(--primary-light);
+}
+
+/* Drag states */
+.drag {
+  opacity: 0.4;
+}
+
+th.over {
+  border-bottom: 3px solid var(--primary);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding-top: 18px;
+}
+
+.pagination span {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* Pagination buttons */
+.pagination button {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--border);
+  padding: 6px 12px;
+}
+
+.pagination button:hover {
+  background: var(--primary-light);
+}
+
+/* Disabled state */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card {
+    margin: 16px;
+    padding: 16px;
+  }
+
+  th,
+  td {
+    font-size: 13px;
+    padding: 10px 8px;
+  }
+
+  header h2 {
+    font-size: 18px;
+  }
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

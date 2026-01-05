@@ -1,15 +1,21 @@
 import {Component, OnInit} from '@angular/core';
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {LoginServiceService} from "../shared/services/login-service.service";
+import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
+import {TableComponent} from "../components/table/table.component";
 
 @Component({
     selector: 'app-writer-ui',
     standalone: true,
-imports: [],
+  imports: [
+    NavBarComponent
+  ],
     templateUrl: './writer-ui.component.html',
     styleUrl: './writer-ui.component.scss'
 })
 export class WriterUiComponent implements OnInit{
+
+
 
   constructor(private sessionService: SessionsManagementService, private loginService: LoginServiceService) {
   }

@@ -1,0 +1,17 @@
+<footer class="table-3-footer">
+  <div class="table-3-pagination">
+    @for (page of pages(); track page) {
+      <button
+        (click)="goToPage(page)"
+        [disabled]="pageNumber === page"
+        [class.active]="pageNumber === page"
+      >
+        {{ page }}
+      </button>
+    }
+  </div>
+
+  <p>
+    Viewing <em>{{ rangeText() }}</em> of <em>{{ totalRows }}</em> rows
+  </p>
+</footer>

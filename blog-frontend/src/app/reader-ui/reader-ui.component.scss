@@ -1,0 +1,39 @@
+/* Main layout */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Content area */
+.content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 32px;
+  overflow-x: hidden;
+}
+
+/* Limit content width so it doesn’t look empty */
+.content > * {
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .content {
+    padding: 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  app-nav-bar {
+    display: none;
+  }
+
+  .content {
+    padding: 16px;
+  }
+}

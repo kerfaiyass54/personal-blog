@@ -2,17 +2,22 @@ import {Component, OnInit} from '@angular/core';
 import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {LoginServiceService} from "../shared/services/login-service.service";
+import {TableComponent} from "../components/table/table.component";
 
 @Component({
     selector: 'app-reader-ui',
     standalone: true,
-imports: [
-        NavBarComponent
-    ],
+  imports: [
+    NavBarComponent,
+    TableComponent,
+  ],
     templateUrl: './reader-ui.component.html',
     styleUrl: './reader-ui.component.scss'
 })
 export class ReaderUiComponent implements OnInit{
+
+
+
 
   constructor(private sessionService: SessionsManagementService, private loginService: LoginServiceService) {
   }

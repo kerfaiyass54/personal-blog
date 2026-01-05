@@ -30,7 +30,6 @@ label {
   flex-direction: column;
   gap: 8px;
   width: 260px;
-  opacity: 0.5;
   border-radius: 16px;
   padding: 0 16px;
   background: rgb(0 0 0 / 32%);
@@ -38,9 +37,14 @@ label {
   transition: all 0.4s ease;
 }
 
-.sidebar:hover{
-  opacity: 1;
+:host {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 260px;
 }
+
 
 /* Header */
 .sidebar header {
