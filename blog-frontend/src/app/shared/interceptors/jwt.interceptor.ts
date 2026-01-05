@@ -9,8 +9,15 @@ export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService: LoginServiceService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
+
     const token = this.authService.getToken();
+    if (req.url.includes('/sessions/')) {
+      return next.handle(req);
+    }
     if (token) {
+      if (req.url.includes('/sessions/')) {
+        return next.handle(req);
+      }
       const cloned = req.clone({
         headers: req.headers.set('Authorization', 'Bearer ' + token)
       });

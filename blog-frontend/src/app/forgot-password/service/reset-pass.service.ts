@@ -7,7 +7,7 @@ import {HttpClient} from "@angular/common/http";
 export class ResetPassService {
 
 
-  private apiUrl = 'http://localhost:8081/reset/';
+  private apiUrl = 'http://localhost:8083/reset/';
 
 
   constructor(private http: HttpClient) { }

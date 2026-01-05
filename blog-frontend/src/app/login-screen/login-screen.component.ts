@@ -55,10 +55,13 @@ export class LoginScreenComponent implements OnInit{
         this.loginService.setToken(res.token);
         const role = res.role;
         sessionStorage.setItem("role",role);
+        sessionStorage.setItem("email",user.email);
         this.toastrService.success("WELCOME","Login passed");
         if (role === 'WRITER') {
+
           this.router.navigate(['/writer'], { replaceUrl: true });
         } else if (role === 'READER') {
+
           this.router.navigate(['/reader'], { replaceUrl: true });
         } else {
           this.router.navigate(['/', { replaceUrl: true }]);
@@ -81,7 +84,7 @@ export class LoginScreenComponent implements OnInit{
               }
               else{
                 this.toastrService.success("WELCOME","Login passed");
-                this.keepSession(user.email);
+
               }
             }
           )
@@ -94,34 +97,7 @@ export class LoginScreenComponent implements OnInit{
   }
 
 
-  keepSession(email:any){
-    const ua = navigator.userAgent;
 
-    let browser = 'Unknown';
-    let os = 'Unknown';
-
-    if (ua.includes('Chrome') && !ua.includes('Edg')) browser = 'Chrome';
-    else if (ua.includes('Firefox')) browser = 'Firefox';
-    else if (ua.includes('Edg')) browser = 'Edge';
-    else if (ua.includes('Safari') && !ua.includes('Chrome')) browser = 'Safari';
-
-    if (ua.includes('Windows')) os = 'Windows';
-    else if (ua.includes('Android')) os = 'Android';
-    else if (ua.includes('Mac')) os = 'MacOS';
-    else if (ua.includes('Linux')) os = 'Linux';
-    else if (ua.includes('iPhone') || ua.includes('iPad')) os = 'iOS';
-
-    let session = {
-      email: email,
-      os: os,
-      browser: browser
-    }
-    this.sessionService.addSession(session).subscribe(
-      ()=>{
-        console.log("session saved");
-      }
-    );
-  }
 
 
 }

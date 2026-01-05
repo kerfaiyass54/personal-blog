@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {SessionsManagementService} from "./shared/services/sessions-management.service";
+import {LoginServiceService} from "./shared/services/login-service.service";
 
 @Component({
     selector: 'app-root',
@@ -8,7 +10,7 @@ imports: [RouterOutlet],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
   constructor() {
     window.onpopstate = () => {
@@ -19,6 +21,9 @@ export class AppComponent {
     };
   }
 
+  ngOnInit() {
+
+  }
 
   title = 'blog-frontend';
 

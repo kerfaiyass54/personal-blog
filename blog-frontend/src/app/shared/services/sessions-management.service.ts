@@ -6,12 +6,12 @@ import {HttpClient} from "@angular/common/http";
 })
 export class SessionsManagementService {
 
-  private apiUrl = 'http://localhost:8081/sessions/';
+  private apiUrl = 'http://localhost:8083/sessions/';
 
   constructor(private http: HttpClient) { }
 
   addSession(session: any){
-    return this.http.post<any>(this.apiUrl, session);
+    return this.http.post<any>(`${this.apiUrl}`, session);
   }
 
   getAllSessions(email:any){
@@ -19,8 +19,15 @@ export class SessionsManagementService {
   }
 
   setIsItMe(id: any, isMe: any){
-    return this.http.get<any[]>(this.apiUrl + id + "/" + isMe);
+    return this.http.get<any>(this.apiUrl + "isMe/" + id + "/" + isMe);
   }
+
+  setIsActive(id: any, isActive: any){
+    return this.http.get<any>(this.apiUrl + "activity/" + id + "/" + isActive);
+  }
+
+
+
 
 
 }
