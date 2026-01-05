@@ -33,9 +33,15 @@ public class SessionController {
         return new ResponseEntity<>(sessionDTOS, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/{isMe}")
+    @GetMapping("/isMe/{id}/{isMe}")
     public ResponseEntity<Void> setIsItMe(@PathVariable String id,@PathVariable boolean isMe){
         sessionService.setIsItMe(id, isMe);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/activity/{id}/{isActive}")
+    public ResponseEntity<Void> setIsItActive(@PathVariable String id,@PathVariable boolean isActive){
+        sessionService.setIsItActive(isActive, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

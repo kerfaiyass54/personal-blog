@@ -26,6 +26,7 @@ public class SessionService {
         sessionDTO.setEmail(session.getEmail());
         sessionDTO.setTime(session.getTime());
         sessionDTO.setMe(session.isMe());
+        sessionDTO.setActive(session.isActive());
         return sessionDTO;
     }
 
@@ -35,6 +36,7 @@ public class SessionService {
         session.setOs(sessionDTO.getOs());
         session.setTime(Instant.now());
         session.setBrowser(sessionDTO.getBrowser());
+        session.setActive(sessionDTO.isActive());
         return sessionsRepository.save(session);
     }
 
@@ -46,6 +48,14 @@ public class SessionService {
         Optional<Session> session = sessionsRepository.findById(id);
         if (session.isPresent()) {
             session.get().setMe(isMe);
+            sessionsRepository.save(session.get());
+        }
+    }
+
+    public void setIsItActive(boolean isActive, String id) {
+        Optional<Session> session = sessionsRepository.findById(id);
+        if (session.isPresent()) {
+            session.get().setActive(isActive);
             sessionsRepository.save(session.get());
         }
     }

@@ -17,4 +17,5 @@ public class SessionDTO {
     private String os;
     private String browser;
     private boolean isMe;
+    private boolean active;
 }

@@ -22,4 +22,5 @@ public class Session {
     private String os;
     private String browser;
     private boolean isMe;
+    private boolean active;
 }
