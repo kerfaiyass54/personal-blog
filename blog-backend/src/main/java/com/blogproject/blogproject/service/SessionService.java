@@ -36,7 +36,8 @@ public class SessionService {
         session.setOs(sessionDTO.getOs());
         session.setTime(Instant.now());
         session.setBrowser(sessionDTO.getBrowser());
-        session.setActive(sessionDTO.isActive());
+        session.setActive(true);
+        session.setMe(true);
         return sessionsRepository.save(session);
     }
 
@@ -60,5 +61,10 @@ public class SessionService {
         }
     }
 
+
+    public SessionDTO getSessionById(String id) {
+        Optional<Session> session = sessionsRepository.findById(id);
+        return session.map(this::getSession).orElse(null);
+    }
 
 }

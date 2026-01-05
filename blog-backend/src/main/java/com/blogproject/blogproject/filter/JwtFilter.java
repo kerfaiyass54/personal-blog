@@ -20,20 +20,21 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String path = request.getRequestURI();
+
+        return path.startsWith("/user/")
+                || path.startsWith("/reset/")
+                || path.startsWith("/sessions/");
+    }
+
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        String path = request.getRequestURI();
-
-        // ✅ Allow public endpoints
-        if (path.startsWith("/user/") || path.startsWith("/reset/")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
-        // ✅ Allow OPTIONS (CORS preflight)
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             filterChain.doFilter(request, response);
             return;

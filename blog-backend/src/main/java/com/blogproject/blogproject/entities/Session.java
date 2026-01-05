@@ -21,6 +21,6 @@ public class Session {
     private Instant time;
     private String os;
     private String browser;
-    private boolean isMe;
+    private boolean me;
     private boolean active;
 }

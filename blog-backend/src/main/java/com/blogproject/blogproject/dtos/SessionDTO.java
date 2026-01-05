@@ -16,6 +16,6 @@ public class SessionDTO {
     private Instant time;
     private String os;
     private String browser;
-    private boolean isMe;
+    private boolean me;
     private boolean active;
 }

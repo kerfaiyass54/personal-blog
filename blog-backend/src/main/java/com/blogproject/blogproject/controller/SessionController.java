@@ -45,5 +45,11 @@ public class SessionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @GetMapping("/session/{id}")
+    public ResponseEntity<SessionDTO> getSession(@PathVariable String id){
+        SessionDTO sessionDTO = sessionService.getSessionById(id);
+        return new ResponseEntity<>(sessionDTO, HttpStatus.OK);
+    }
+
 
 }
