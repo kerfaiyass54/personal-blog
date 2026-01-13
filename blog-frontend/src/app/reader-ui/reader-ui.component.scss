@@ -9,10 +9,8 @@
 
 /* Main content */
 .content {
-  flex: 1;                   /* take remaining space */
-  padding: 1.5rem;
-  background: #faf7f7;       /* your light background */
-  overflow-y: auto;
+  flex: 1;
+  background: #faf7f7;
 }
 
 @media (max-width: 768px) {

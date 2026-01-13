@@ -79,11 +79,11 @@ html, body {
   position: absolute;
   top: -50%;
   left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, #3498db 10%, transparent 20%),
-  radial-gradient(circle, transparent 10%, #3498db 20%);
-  background-size: 30px 30px; /* Adjust the size of the pattern */
+  width: 150%;
+  height: 150%;
+  background: radial-gradient(circle, #0c0c42 10%, transparent 20%),
+  radial-gradient(circle, transparent 10%, #cd4dff 20%);
+  background-size: 24px 24px; /* Adjust the size of the pattern */
   animation: moveBackground 8s linear infinite; /* Adjust the animation duration and timing function */
 }
 
@@ -92,6 +92,6 @@ html, body {
     transform: translate(0, 0);
   }
   100% {
-    transform: translate(20%, 20%);
+    transform: translate(8%, 8%);
   }
 }
