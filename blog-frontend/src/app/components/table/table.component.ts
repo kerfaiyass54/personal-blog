@@ -16,7 +16,7 @@ import { CommonModule } from '@angular/common';
 export class TableComponent implements AfterViewInit {
   @Input() title = '';
   @Input() columns: string[] = [];
-  @Input() data: string[][] = [];
+  @Input() data: any[][] = [];
 
   pageSize = 5;
   page = 1;
@@ -26,10 +26,10 @@ export class TableComponent implements AfterViewInit {
   constructor(private el: ElementRef<HTMLElement>) {}
 
   get totalPages(): number {
-    return Math.ceil(this.data.length / this.pageSize);
+    return Math.max(1, Math.ceil(this.data.length / this.pageSize));
   }
 
-  get pagedData(): string[][] {
+  get pagedData(): any[][] {
     const start = (this.page - 1) * this.pageSize;
     return this.data.slice(start, start + this.pageSize);
   }
@@ -43,24 +43,17 @@ export class TableComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    const thead = this.el.nativeElement.querySelector(
-      'thead'
-    ) as HTMLTableSectionElement;
-    const tbody = this.el.nativeElement.querySelector(
-      'tbody'
-    ) as HTMLTableSectionElement;
-
+    const thead = this.el.nativeElement.querySelector('thead');
+    const tbody = this.el.nativeElement.querySelector('tbody');
     if (!thead || !tbody) return;
 
-    const headers = Array.from(
-      thead.rows[0].cells
-    ) as HTMLTableCellElement[];
+    const headers = Array.from(thead.querySelectorAll('th'));
 
     headers.forEach((th) => {
       th.addEventListener('dragstart', (e: DragEvent) => {
         this.dragSrc = th;
         th.classList.add('drag');
-        e.dataTransfer?.setData('text/plain', th.cellIndex.toString());
+        e.dataTransfer?.setData('index', th.cellIndex.toString());
       });
 
       th.addEventListener('dragover', (e) => e.preventDefault());
@@ -76,13 +69,13 @@ export class TableComponent implements AfterViewInit {
         e.preventDefault();
         if (!this.dragSrc || this.dragSrc === th) return;
 
-        const from = Number(e.dataTransfer?.getData('text/plain'));
+        const from = Number(e.dataTransfer?.getData('index'));
         const to = th.cellIndex;
         const pos = to > from ? 'afterend' : 'beforebegin';
 
         headers[to].insertAdjacentElement(pos, headers[from]);
 
-        Array.from(tbody.rows).forEach((row: HTMLTableRowElement) => {
+        Array.from(tbody.rows).forEach(row => {
           row.cells[to].insertAdjacentElement(pos, row.cells[from]);
         });
       });

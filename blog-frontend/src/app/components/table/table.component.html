@@ -1,6 +1,7 @@
 <div class="card">
   <header>
     <h2>{{ title }}</h2>
+
     <button type="button">
       <span class="material-symbols-outlined">download</span>
       Download
@@ -27,9 +28,12 @@
         }
       </tbody>
     </table>
+
+    <ng-template #empty>
+      <div class="empty">No data available</div>
+    </ng-template>
   </div>
 
-  <!-- Pagination -->
   <footer class="pagination">
     <button (click)="prev()" [disabled]="page === 1">Prev</button>
     <span>{{ page }} / {{ totalPages }}</span>

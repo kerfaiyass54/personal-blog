@@ -3,6 +3,7 @@ import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {LoginServiceService} from "../shared/services/login-service.service";
 import {TableComponent} from "../components/table/table.component";
+import {RouterOutlet} from "@angular/router";
 
 @Component({
     selector: 'app-reader-ui',
@@ -10,6 +11,7 @@ import {TableComponent} from "../components/table/table.component";
   imports: [
     NavBarComponent,
     TableComponent,
+    RouterOutlet,
   ],
     templateUrl: './reader-ui.component.html',
     styleUrl: './reader-ui.component.scss'
@@ -68,5 +70,14 @@ export class ReaderUiComponent implements OnInit{
     {id: 1, title: 'Summaries',link: ''}];
 
 
+  columns = ['ID', 'Title', 'Author', 'Date'];
 
+  rows = [
+    [1, 'Angular Layout Mastery', 'John Doe', '2025-01-01'],
+    [2, 'RxJS Deep Dive', 'Jane Smith', '2025-01-02'],
+    [3, 'Standalone Components', 'Alex Ray', '2025-01-03'],
+    [4, 'Change Detection', 'Maria Fox', '2025-01-04'],
+    [5, 'Signals Explained', 'Chris Green', '2025-01-05'],
+    [6, 'Advanced Forms', 'Emma White', '2025-01-06'],
+  ];
 }

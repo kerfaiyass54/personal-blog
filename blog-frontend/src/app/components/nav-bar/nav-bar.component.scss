@@ -1,7 +1,5 @@
 /* Component root */
 :host {
-  display: block;
-  height: 70vh;
   font-family: "Euclid Circular A", system-ui, sans-serif;
 }
 
@@ -20,23 +18,24 @@ label {
   color: inherit;
 }
 
-/* Sidebar */
 .sidebar {
   position: fixed;
   top: 24px;
   left: 24px;
-  bottom: 44px;
+  bottom: 24px;
+  width: 250px;
+  padding: 0 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 260px;
   border-radius: 16px;
-  padding: 0 16px;
   background: rgb(0 0 0 / 32%);
   backdrop-filter: blur(30px);
-  transition: all 0.4s ease;
-  overflow: auto;
+  overflow-y: auto;
+  z-index: 1000;
 }
+
+
 
 
 .sidebar::-webkit-scrollbar {
@@ -65,14 +64,6 @@ label {
 }
 
 
-
-:host {
-  position: fixed;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 260px;
-}
 
 
 /* Header */

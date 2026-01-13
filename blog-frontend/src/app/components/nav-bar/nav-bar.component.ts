@@ -10,8 +10,7 @@ import {ModalComponent} from "../modal/modal.component";
     selector: 'app-nav-bar',
   standalone: true,
   imports: [
-    RouterLink,
-    ModalComponent
+    RouterLink
   ],
     templateUrl: './nav-bar.component.html',
     styleUrl: './nav-bar.component.scss'
