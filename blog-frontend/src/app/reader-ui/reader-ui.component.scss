@@ -1,39 +1,27 @@
-/* Main layout */
-.layout {
-  display: flex;
-  min-height: 100vh;
+
+/* Sidebar */
+.sidebar {
+  width: 260px;              /* desktop width */
+  min-width: 240px;
+  background: #bdb6b6;       /* your gray */
+  flex-shrink: 0;            /* prevent shrinking */
 }
 
-/* Content area */
+/* Main content */
 .content {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 32px;
-  overflow-x: hidden;
+  flex: 1;                   /* take remaining space */
+  padding: 1.5rem;
+  background: #faf7f7;       /* your light background */
+  overflow-y: auto;
 }
 
-/* Limit content width so it doesn’t look empty */
-.content > * {
-  width: 100%;
-  max-width: 1200px;
-}
-
-/* Tablet */
-@media (max-width: 1024px) {
-  .content {
-    padding: 24px;
-  }
-}
-
-/* Mobile */
 @media (max-width: 768px) {
-  app-nav-bar {
-    display: none;
+  .layout {
+    flex-direction: column;
   }
 
-  .content {
-    padding: 16px;
+  .sidebar {
+    width: 100%;
+    height: auto;
   }
 }

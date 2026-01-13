@@ -186,3 +186,20 @@ label {
   margin-top: 300px;
 }
 
+li{
+  animation: fade-left 1.2s ease forwards;
+}
+
+
+@keyframes fade-left {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+

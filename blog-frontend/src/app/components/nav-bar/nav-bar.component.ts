@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {LoginServiceService} from "../../shared/services/login-service.service";
 import {SessionsManagementService} from "../../shared/services/sessions-management.service";
+import {ModalComponent} from "../modal/modal.component";
 
 
 
@@ -9,7 +10,8 @@ import {SessionsManagementService} from "../../shared/services/sessions-manageme
     selector: 'app-nav-bar',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    ModalComponent
   ],
     templateUrl: './nav-bar.component.html',
     styleUrl: './nav-bar.component.scss'
@@ -23,6 +25,16 @@ export class NavBarComponent {
   @Input() skill: any[] = [];
   @Input() lesson: any[] = [];
   id: any = '';
+  isModalOpen = false;
+
+
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  modalCanceled() {
+    console.log('Modal closed without action');
+  }
 
   logout(){
     this.id = sessionStorage.getItem('sessionId');

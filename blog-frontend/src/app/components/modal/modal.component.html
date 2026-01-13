@@ -1,5 +1,4 @@
-<div *ngIf="isOpen">
-  <div class="modal-backdrop" (click)="close()"></div>
+@if(isOpen){
   <div class="card">
     <div class="card-content">
       <p class="card-heading">{{ title }}</p>
@@ -17,4 +16,6 @@
       </svg>
     </button>
   </div>
-</div>
+}
+
+
