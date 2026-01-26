@@ -82,4 +82,27 @@ export class TableComponent implements AfterViewInit {
       });
     });
   }
+
+  downloadCSV() {
+    const rows = [this.columns, ...this.data];
+
+    const csv = rows
+      .map(row =>
+        row
+          .map(cell => `"${String(cell).replace(/"/g, '""')}"`)
+          .join(',')
+      )
+      .join('\n');
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${this.title || 'table'}.csv`;
+    a.click();
+
+    URL.revokeObjectURL(url);
+  }
+
 }
