@@ -70,14 +70,4 @@ export class ReaderUiComponent implements OnInit{
     {id: 1, title: 'Summaries',link: ''}];
 
 
-  columns = ['ID', 'Title', 'Author', 'Date'];
-
-  rows = [
-    [1, 'Angular Layout Mastery', 'John Doe', '2025-01-01'],
-    [2, 'RxJS Deep Dive', 'Jane Smith', '2025-01-02'],
-    [3, 'Standalone Components', 'Alex Ray', '2025-01-03'],
-    [4, 'Change Detection', 'Maria Fox', '2025-01-04'],
-    [5, 'Signals Explained', 'Chris Green', '2025-01-05'],
-    [6, 'Advanced Forms', 'Emma White', '2025-01-06'],
-  ];
 }
