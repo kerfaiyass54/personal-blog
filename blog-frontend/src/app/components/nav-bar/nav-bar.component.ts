@@ -3,6 +3,7 @@ import {Router, RouterLink} from "@angular/router";
 import {LoginServiceService} from "../../shared/services/login-service.service";
 import {SessionsManagementService} from "../../shared/services/sessions-management.service";
 import {ModalComponent} from "../modal/modal.component";
+import {UserProfileComponent} from "../../shared/components/user-profile/user-profile.component";
 
 
 
@@ -10,7 +11,8 @@ import {ModalComponent} from "../modal/modal.component";
     selector: 'app-nav-bar',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    UserProfileComponent
   ],
     templateUrl: './nav-bar.component.html',
     styleUrl: './nav-bar.component.scss'

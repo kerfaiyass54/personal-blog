@@ -67,8 +67,8 @@
       </div>
     </li>
 
-    <li>
-      <input type="radio" id="profile" name="sidebar" />
+    <li role="button" data-bs-toggle="modal" data-bs-target="#profileModal">
+      <input type="radio" id="profile" name="sidebar"/>
       <label for="profile">
         <i class="bi-person"></i>
         <p>Profile</p>
@@ -76,7 +76,7 @@
     </li>
 
 
-    <li>
+    <li role="button" data-bs-toggle="modal" data-bs-target="#accountModal">
       <input type="radio" id="account" name="sidebar" />
       <label for="account">
         <i class="bi-lock"></i>
@@ -84,7 +84,7 @@
       </label>
     </li>
 
-    <li>
+    <li role="button" data-bs-toggle="modal" data-bs-target="#loginModal">
       <input type="radio" id="login" name="sidebar" />
       <label for="login">
         <i class="bi-alarm"></i>
@@ -92,7 +92,7 @@
       </label>
     </li>
 
-    <li class="signout">
+    <li role="button" class="signout" data-bs-toggle="modal" data-bs-target="#signoutModal">
       <input type="radio" id="out" name="sidebar" />
       <label for="out">
         <i class="bi-airplane"></i>
@@ -102,4 +102,22 @@
   </ul>
 </aside>
 
+
+<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="profileModalLabel">Profile</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <app-user-profile></app-user-profile>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 

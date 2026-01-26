@@ -103,6 +103,12 @@ tbody tr:hover {
   transform: scale(1.005);
 }
 
+
+
+.card{
+  width: 200%;
+}
+
 /* Drag */
 .drag {
   opacity: 0.4;
@@ -112,7 +118,7 @@ th.over {
   border-bottom: 3px solid #4f46e5;
 }
 
-/* Empty */
+
 .empty {
   padding: 40px;
   text-align: center;
