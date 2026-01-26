@@ -2,10 +2,12 @@
   <app-nav-bar
     [lesson]="lessons"
     [skill]="skills"
-    [articles]="articles">
+    [articles]="articles"
+  [role]="'reader'">
   </app-nav-bar>
 
   <main class="content">
+    <router-outlet></router-outlet>
     <app-table
       [title]="'TEST TEST'"
       [columns]="columns"

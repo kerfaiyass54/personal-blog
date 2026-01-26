@@ -76,7 +76,7 @@
     </li>
 
 
-    <li role="button" data-bs-toggle="modal" data-bs-target="#accountModal">
+    <li role="button"  routerLink="/{{role}}/user-details">
       <input type="radio" id="account" name="sidebar" />
       <label for="account">
         <i class="bi-lock"></i>
@@ -84,7 +84,7 @@
       </label>
     </li>
 
-    <li role="button" data-bs-toggle="modal" data-bs-target="#loginModal">
+    <li role="button" routerLink="/{{role}}/user-history">
       <input type="radio" id="login" name="sidebar" />
       <label for="login">
         <i class="bi-alarm"></i>
