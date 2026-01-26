@@ -38,30 +38,8 @@ label {
 
 
 
-.sidebar::-webkit-scrollbar {
-  width: 8px;
-}
 
-.sidebar::-webkit-scrollbar-track {
-  background: #7e22ce;       /* dark purple track */
-  border-radius: 10px;
-}
 
-.sidebar::-webkit-scrollbar-thumb {
-  background: #c084fc;       /* light purple thumb */
-  border-radius: 10px;
-  border: 2px solid #7e22ce; /* spacing illusion */
-}
-
-.sidebar::-webkit-scrollbar-thumb:hover {
-  background: #e9d5ff;       /* hover effect */
-}
-
-.sidebar {
-  overflow-y: auto;
-  scrollbar-width: thin;              /* Firefox */
-  scrollbar-color: #c084fc #7e22ce;   /* thumb track */
-}
 
 
 
@@ -124,7 +102,7 @@ label {
 
 /* Active item */
 .sidebar input:checked ~ label {
-  background: #1960f3;
+  background: rgb(255 255 255 / 35%);
 }
 
 /* Chevron animation */
