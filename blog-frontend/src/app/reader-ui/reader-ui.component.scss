@@ -1,17 +1,25 @@
 .container {
-  flex-direction: row;
-  height: 100vh;
+  display: flex;
+  min-height: 100vh;
 }
 
-/* Sidebar */
-app-nav-bar {
-  width: 260px;           /* match actual sidebar width */
-  min-width: 260px;
-  flex-shrink: 0;
+/* Sidebar already has width: 250px */
+.sidebar {
+  position: fixed;
+  left: 24px;
+  top: 24px;
+  bottom: 24px;
 }
 
 /* Content area */
 .content {
-  width: 100%;           /* VERY important for flex layouts */
-  padding-top: 50px;
+  margin-left: 300px; /* 250px sidebar + spacing */
+  padding: 32px;
+  width: calc(100% - 300px);
+  position: relative; /* ❗ NOT fixed */
 }
+
+.content {
+  overflow-x: hidden;
+}
+
