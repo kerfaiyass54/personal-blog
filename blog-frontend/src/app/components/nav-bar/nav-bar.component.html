@@ -22,7 +22,7 @@
         <ul>
           @for (s of skill; track s.id) {
             <div>
-              <li><button type="button" routerLink="{{s.link}}">{{ s.title }}</button></li>
+              <li><button type="button" class="link-title" routerLink="{{s.link}}">{{ s.title }}</button></li>
             </div>
           }
         </ul>
@@ -41,7 +41,7 @@
 
           @for (a of articles; track a.id) {
             <div>
-              <li><button type="button" routerLink="{{a.link}}">{{ a.title }}</button></li>
+              <li><button type="button" class="link-title" routerLink="{{a.link}}">{{ a.title }}</button></li>
             </div>
           }
         </ul>
@@ -60,14 +60,14 @@
 
           @for (l of lesson; track l.id) {
             <div>
-              <li><button type="button" routerLink="{{l.link}}">{{ l.title }}</button></li>
+              <li><button type="button" class="link-title" routerLink="{{l.link}}">{{ l.title }}</button></li>
             </div>
           }
         </ul>
       </div>
     </li>
 
-    <li role="button" data-bs-toggle="modal" data-bs-target="#profileModal">
+    <li role="button">
       <input type="radio" id="profile" name="sidebar"/>
       <label for="profile">
         <i class="bi-person"></i>
@@ -103,19 +103,19 @@
 </aside>
 
 
-<div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+<div class="modal fade" id="signoutModal" tabindex="-1" aria-labelledby="signoutModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="profileModalLabel">Profile</h1>
+        <h1 class="modal-title fs-5" id="signoutModalLabel">Confirm signing out</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <app-user-profile></app-user-profile>
+        Are you sure to sign out?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Sign out</button>
       </div>
     </div>
   </div>
