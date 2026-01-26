@@ -24,7 +24,7 @@ header h2 {
 }
 
 /* Button */
-button {
+button, select, option{
   background: #4f46e5;
   color: white;
   border: none;
@@ -49,7 +49,8 @@ button:disabled {
 
 /* Wrapper */
 .wrapper {
-  overflow-x: auto;
+  overflow: auto;
+  max-height: 325px;
 }
 
 /* TABLE */
@@ -102,7 +103,6 @@ tbody tr:hover {
   background: #eef2ff;
   transform: scale(1.005);
 }
-
 
 
 .card{
@@ -215,7 +215,7 @@ th.over {
 table {
   width: 100%;
   min-width: 100%;
-  table-layout: fixed;
+  max-height: 1px;
 }
 
 

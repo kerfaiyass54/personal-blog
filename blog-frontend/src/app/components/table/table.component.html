@@ -35,6 +35,12 @@
   </div>
 
   <footer class="pagination">
+    <select [(ngModel)]="pageSize" (change)="page = 1">
+      <option [value]="5">5</option>
+      <option [value]="10">10</option>
+      <option [value]="20">20</option>
+    </select>
+
     <button (click)="prev()" [disabled]="page === 1">Prev</button>
     <span>{{ page }} / {{ totalPages }}</span>
     <button (click)="next()" [disabled]="page === totalPages">Next</button>
