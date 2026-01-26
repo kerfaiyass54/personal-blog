@@ -1,1 +1,10 @@
-<p>login-history works!</p>
+<div class="container-fluid">
+  <div class="card">
+    <div class="card-header">
+      <h1 class="text-center">Here is your login history</h1>
+    </div>
+    <div class="card-body">
+      <app-table [columns]="columns" [title]="title" [data]="tableData" (rowClick)="handleRowClick($event)"></app-table>
+    </div>
+  </div>
+</div>

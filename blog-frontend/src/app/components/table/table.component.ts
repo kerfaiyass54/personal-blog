@@ -2,7 +2,7 @@ import {
   Component,
   Input,
   AfterViewInit,
-  ElementRef,
+  ElementRef, Output, EventEmitter,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
@@ -23,6 +23,13 @@ export class TableComponent implements AfterViewInit {
   page = 1;
 
   private dragSrc: HTMLTableCellElement | null = null;
+
+  @Output() rowClick = new EventEmitter<any[]>();
+
+  onRowClick(row: any[]) {
+    this.rowClick.emit(row);
+  }
+
 
   constructor(private el: ElementRef<HTMLElement>) {}
 
