@@ -8,6 +8,8 @@ import { ReaderUiComponent} from './reader-ui/reader-ui.component';
 import {ErrorNotFoundComponent} from './error-not-found/error-not-found.component';
 import {NoAuthGuard} from "./shared/guards/noAuth.guard";
 import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
+import {LoginHistoryComponent} from "./login-history/login-history.component";
+import {UserDetailsComponent} from "./user-details/user-details.component";
 
 
 
@@ -21,8 +23,34 @@ export const routes: Routes = [
     path: 'writer',
     canActivate: [AuthGuard],
     data: { roles: ['WRITER'] },
-    component: WriterUiComponent
+    component: WriterUiComponent,
+    children: [
+      {
+        path: 'user-history',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER'] },
+        component: LoginHistoryComponent
+      },
+      {
+        path: 'user-details',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER'] },
+        component: UserDetailsComponent
+      }
+    ]
   },
-  { path: 'reader', canActivate: [AuthGuard], component: ReaderUiComponent },
+  { path: 'reader', canActivate: [AuthGuard], component: ReaderUiComponent,
+    children: [
+      {
+        path: 'user-history',
+        canActivate: [AuthGuard],
+        component: LoginHistoryComponent
+      },
+      {
+        path: 'user-details',
+        canActivate: [AuthGuard],
+        component: UserDetailsComponent
+      }
+    ]},
   { path: '**', component: ErrorNotFoundComponent }
 ];
