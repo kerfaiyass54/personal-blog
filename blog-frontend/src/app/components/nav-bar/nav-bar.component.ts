@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {LoginServiceService} from "../../shared/services/login-service.service";
 import {SessionsManagementService} from "../../shared/services/sessions-management.service";
+import {ToastrService} from "ngx-toastr";
 
 
 
@@ -14,7 +15,7 @@ import {SessionsManagementService} from "../../shared/services/sessions-manageme
 })
 export class NavBarComponent {
 
-  constructor(private loginService: LoginServiceService, private route: Router, private sessionService: SessionsManagementService) {
+  constructor(private loginService: LoginServiceService, private route: Router, private sessionService: SessionsManagementService, private toastrService: ToastrService) {
   }
 
   @Input() articles: any[] = [];
@@ -30,8 +31,10 @@ export class NavBarComponent {
     this.sessionService.setIsActive(this.id, false).subscribe(
       ()=>{
         sessionStorage.clear();
+        this.toastrService.success("LOGOUT","You're out now!");
         this.loginService.logout();
         this.route.navigate(['/login']);
+        window.location.reload();
       }
     );
   }
