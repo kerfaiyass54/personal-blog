@@ -18,6 +18,7 @@ export class TableComponent implements AfterViewInit {
   @Input() title = '';
   @Input() columns: string[] = [];
   @Input() data: any[][] = [];
+  @Input() nameModal: any = '';
 
   pageSize = 5;
   page = 1;

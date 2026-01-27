@@ -19,6 +19,16 @@ export class LoginHistoryComponent implements OnInit{
   ];
   title = 'Sessions';
   tableData: any[][] = [];
+  selectedSession: any[] | null = null;
+  showModal = false;
+  id: any = '';
+
+  handleRowClick(row: any[]) {
+    this.selectedSession = row;
+    this.showModal = true;
+  }
+
+
 
   constructor(private sessionsService: SessionsManagementService) {
   }
@@ -38,10 +48,6 @@ export class LoginHistoryComponent implements OnInit{
         ]);
       }
     )
-  }
-
-  handleRowClick(row: any[]) {
-    console.log('Clicked row:', row);
   }
 
 
