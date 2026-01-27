@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import {SessionsManagementService} from "./shared/services/sessions-management.service";
-import {LoginServiceService} from "./shared/services/login-service.service";
+
 
 @Component({
     selector: 'app-root',
@@ -11,6 +10,7 @@ imports: [RouterOutlet],
     styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit{
+
 
   constructor() {
     window.onpopstate = () => {
