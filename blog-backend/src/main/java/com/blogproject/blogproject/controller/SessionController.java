@@ -39,9 +39,9 @@ public class SessionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/activity/{id}/{isActive}")
-    public ResponseEntity<Void> setIsItActive(@PathVariable String id,@PathVariable boolean isActive){
-        sessionService.setIsItActive(isActive, id);
+    @GetMapping("/activity/{id}/{email}")
+    public ResponseEntity<Void> setAlert(@PathVariable String id,@PathVariable String email){
+        sessionService.setAlert(id, email);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

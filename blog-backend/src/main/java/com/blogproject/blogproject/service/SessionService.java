@@ -3,9 +3,11 @@ package com.blogproject.blogproject.service;
 
 import com.blogproject.blogproject.dtos.SessionDTO;
 import com.blogproject.blogproject.entities.Session;
+import com.blogproject.blogproject.enums.ActivityType;
 import com.blogproject.blogproject.repository.SessionsRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +28,7 @@ public class SessionService {
         sessionDTO.setEmail(session.getEmail());
         sessionDTO.setTime(session.getTime());
         sessionDTO.setMe(session.isMe());
-        sessionDTO.setActive(session.isActive());
+        sessionDTO.setAlert(session.getAlert());
         sessionDTO.setId(session.getId());
         return sessionDTO;
     }
@@ -37,7 +39,7 @@ public class SessionService {
         session.setOs(sessionDTO.getOs());
         session.setTime(Instant.now());
         session.setBrowser(sessionDTO.getBrowser());
-        session.setActive(true);
+        session.setAlert(ActivityType.NOTHING);
         session.setMe(true);
         return sessionsRepository.save(session);
     }
@@ -54,11 +56,28 @@ public class SessionService {
         }
     }
 
-    public void setIsItActive(boolean isActive, String id) {
-        Optional<Session> session = sessionsRepository.findById(id);
-        if (session.isPresent()) {
-            session.get().setActive(isActive);
-            sessionsRepository.save(session.get());
+    public List<SessionDTO> getActiveSessions(String email, String id) {
+        List<SessionDTO> sessionDTOS = sessionsRepository.findSessionsByEmail(email).stream().map(this::getSession).toList();
+        SessionDTO sessionDTO = getSession(sessionsRepository.findById(id).get());
+        return sessionDTOS.stream()
+                .filter(e -> {
+                    long minutes = Duration.between(e.getTime(), sessionDTO.getTime()).toMinutes();
+                    return minutes >= 15 && minutes < 16;
+                })
+                .toList();
+    }
+
+    public void setAlert(String email, String id) {
+        List<SessionDTO> sessionDTOS = getActiveSessions(email, id);
+        SessionDTO sessionDTO = getSession(sessionsRepository.findById(id).get());
+        if (!sessionDTOS.isEmpty()) {
+            sessionDTO.setAlert(ActivityType.ALERT_LOGIN);
+            saveSession(sessionDTO);
+            sessionDTOS.stream().forEach(e -> {
+                e.setAlert(ActivityType.ALERT_LOGIN);
+                saveSession(e);
+            });
+
         }
     }
 

@@ -1,6 +1,7 @@
 package com.blogproject.blogproject.dtos;
 
 
+import com.blogproject.blogproject.enums.ActivityType;
 import lombok.*;
 
 import java.time.Instant;
@@ -18,5 +19,5 @@ public class SessionDTO {
     private String os;
     private String browser;
     private boolean me;
-    private boolean active;
+    private ActivityType alert;
 }
