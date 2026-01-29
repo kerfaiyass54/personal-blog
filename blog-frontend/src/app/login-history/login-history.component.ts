@@ -15,7 +15,7 @@ export class LoginHistoryComponent implements OnInit{
   email: any = '';
   sessions: any [] = [];
   columns = [
-    'Time','Operating system', 'Active','Browser',
+    'Time','Operating system', 'Alerts','Browser',
   ];
   title = 'Sessions';
   tableData: any[][] = [];
@@ -42,7 +42,7 @@ export class LoginHistoryComponent implements OnInit{
         this.tableData = sessions.map(s => [
           new Date(s.time).toLocaleString(),
           s.os,
-          s.active ? 'Active' : 'Inactive',
+          s.alert,
           s.browser,
 
         ]);

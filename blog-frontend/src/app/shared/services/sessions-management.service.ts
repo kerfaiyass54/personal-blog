@@ -22,8 +22,8 @@ export class SessionsManagementService {
     return this.http.get<any>(this.apiUrl + "isMe/" + id + "/" + isMe);
   }
 
-  setAlert(id: any, email:any){
-    return this.http.get<any>(this.apiUrl + "activity/" + id +"/" + email);
+  setAlert(email:any, time: any){
+    return this.http.get<any>(this.apiUrl + "activity/" + email +"/" + time);
   }
 
 
