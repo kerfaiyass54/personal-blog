@@ -28,15 +28,11 @@ export class NavBarComponent {
 
   logout(){
     this.id = sessionStorage.getItem('sessionId');
-    this.sessionService.setIsActive(this.id, false).subscribe(
-      ()=>{
-        sessionStorage.clear();
-        this.toastrService.success("LOGOUT","You're out now!");
-        this.loginService.logout();
-        this.route.navigate(['/login']);
-        window.location.reload();
-      }
-    );
+    this.loginService.logout();
+    this.route.navigate(['/login']);
+    window.location.reload();
+    sessionStorage.clear();
+    this.toastrService.success("LOGOUT","You're out now!");
   }
 
 
