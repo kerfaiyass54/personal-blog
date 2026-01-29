@@ -52,4 +52,11 @@ public class SessionController {
     }
 
 
+    @GetMapping("/alerts/{email}")
+    public ResponseEntity<Integer> getAlerts(@PathVariable String email){
+        int totalAlerts = sessionService.getTotalAlerts(email);
+        return new ResponseEntity<>(totalAlerts, HttpStatus.OK);
+    }
+
+
 }

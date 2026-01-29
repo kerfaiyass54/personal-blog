@@ -8,7 +8,6 @@ import com.blogproject.blogproject.repository.SessionsRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,10 +36,10 @@ public class SessionService {
         Session session = new Session();
         session.setEmail(sessionDTO.getEmail());
         session.setOs(sessionDTO.getOs());
-        session.setTime(Instant.now());
+        session.setTime(sessionDTO.getTime());
         session.setBrowser(sessionDTO.getBrowser());
-        session.setAlert(ActivityType.NOTHING);
-        session.setMe(true);
+        session.setAlert(sessionDTO.getAlert());
+        session.setMe(sessionDTO.isMe());
         return sessionsRepository.save(session);
     }
 
@@ -85,6 +84,11 @@ public class SessionService {
     public SessionDTO getSessionById(String id) {
         Optional<Session> session = sessionsRepository.findById(id);
         return session.map(this::getSession).orElse(null);
+    }
+
+
+    public int getTotalAlerts(String email) {
+        return sessionsRepository.findSessionsByEmailAndAlert(email, ActivityType.ALERT_LOGIN).size();
     }
 
 }
