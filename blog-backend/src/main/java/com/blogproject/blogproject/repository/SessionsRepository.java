@@ -14,4 +14,5 @@ public interface SessionsRepository extends MongoRepository<Session, String> {
     List<Session> findSessionsByEmailAndAlert(String email, ActivityType alert);
 
     Session findSessionByTime(Instant time);
+
 }

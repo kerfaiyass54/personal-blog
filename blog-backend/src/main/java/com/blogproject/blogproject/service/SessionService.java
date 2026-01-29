@@ -91,4 +91,8 @@ public class SessionService {
         return sessionsRepository.findSessionsByEmailAndAlert(email, ActivityType.ALERT_LOGIN).size();
     }
 
+    public SessionDTO getSessionByTime(Instant time) {
+        return getSession(sessionsRepository.findSessionByTime(time));
+    }
+
 }

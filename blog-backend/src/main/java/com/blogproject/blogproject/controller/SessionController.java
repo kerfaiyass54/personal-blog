@@ -59,5 +59,11 @@ public class SessionController {
         return new ResponseEntity<>(totalAlerts, HttpStatus.OK);
     }
 
+    @GetMapping("/time/{time}")
+    public ResponseEntity<SessionDTO> getSessionsByTime(@PathVariable Instant time){
+        SessionDTO sessionDTO = sessionService.getSessionByTime(time);
+    return new ResponseEntity<>(sessionDTO, HttpStatus.OK);
+    }
+
 
 }
