@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -39,9 +40,9 @@ public class SessionController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/activity/{id}/{email}")
-    public ResponseEntity<Void> setAlert(@PathVariable String id,@PathVariable String email){
-        sessionService.setAlert(id, email);
+    @GetMapping("/activity/{email}/{time}")
+    public ResponseEntity<Void> setAlert(@PathVariable String email,@PathVariable Instant time){
+        sessionService.setAlert(email, time);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

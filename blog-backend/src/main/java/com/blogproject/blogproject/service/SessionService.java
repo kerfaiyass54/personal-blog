@@ -8,6 +8,7 @@ import com.blogproject.blogproject.repository.SessionsRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,24 +56,23 @@ public class SessionService {
         }
     }
 
-    public List<SessionDTO> getActiveSessions(String email, String id) {
+    public List<SessionDTO> getActiveSessions(String email, Instant time) {
         List<SessionDTO> sessionDTOS = sessionsRepository.findSessionsByEmail(email).stream().map(this::getSession).toList();
-        SessionDTO sessionDTO = getSession(sessionsRepository.findById(id).get());
         return sessionDTOS.stream()
                 .filter(e -> {
-                    long minutes = Duration.between(e.getTime(), sessionDTO.getTime()).toMinutes();
-                    return minutes >= 15 && minutes < 16;
+                    long minutes = Duration.between(e.getTime(), time).toMinutes();
+                    return minutes <= 5;
                 })
                 .toList();
     }
 
-    public void setAlert(String email, String id) {
-        List<SessionDTO> sessionDTOS = getActiveSessions(email, id);
-        SessionDTO sessionDTO = getSession(sessionsRepository.findById(id).get());
+    public void setAlert(String email, Instant time) {
+        List<SessionDTO> sessionDTOS = getActiveSessions(email, time);
+        SessionDTO sessionDTO = getSession(sessionsRepository.findSessionByTime(time));
         if (!sessionDTOS.isEmpty()) {
             sessionDTO.setAlert(ActivityType.ALERT_LOGIN);
             saveSession(sessionDTO);
-            sessionDTOS.stream().forEach(e -> {
+            sessionDTOS.forEach(e -> {
                 e.setAlert(ActivityType.ALERT_LOGIN);
                 saveSession(e);
             });
