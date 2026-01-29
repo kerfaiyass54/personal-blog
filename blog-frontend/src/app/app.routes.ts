@@ -10,6 +10,7 @@ import {NoAuthGuard} from "./shared/guards/noAuth.guard";
 import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
 import {LoginHistoryComponent} from "./login-history/login-history.component";
 import {UserDetailsComponent} from "./user-details/user-details.component";
+import {SessionDetailsComponent} from "./session-details/session-details.component";
 
 
 
@@ -36,6 +37,12 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER'] },
         component: UserDetailsComponent
+      },
+      {
+        path: 'session-details/:id',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER'] },
+        component: SessionDetailsComponent
       }
     ]
   },
@@ -50,6 +57,12 @@ export const routes: Routes = [
         path: 'user-details',
         canActivate: [AuthGuard],
         component: UserDetailsComponent
+      },
+      {
+        path: 'session-details/:id',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER'] },
+        component: SessionDetailsComponent
       }
     ]},
   { path: '**', component: ErrorNotFoundComponent }
