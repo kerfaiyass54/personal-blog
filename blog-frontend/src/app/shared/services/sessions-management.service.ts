@@ -26,6 +26,10 @@ export class SessionsManagementService {
     return this.http.get<any>(this.apiUrl + "activity/" + email +"/" + time);
   }
 
+  getSessionByTime(time: any){
+    return this.http.get<any>(this.apiUrl + "activity/" + time);
+  }
+
 
 
 

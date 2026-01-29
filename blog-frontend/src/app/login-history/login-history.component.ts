@@ -44,7 +44,6 @@ export class LoginHistoryComponent implements OnInit{
           s.os,
           s.alert,
           s.browser,
-
         ]);
       }
     )
