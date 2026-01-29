@@ -61,6 +61,8 @@ export class WriterUiComponent implements OnInit{
     this.sessionService.addSession(session).subscribe(
       (s)=>{
         sessionStorage.setItem('sessionId', s.id);
+        this.sessionService.setAlert(s.id,s.email).subscribe(
+          ()=>{});
       }
     );
   }
