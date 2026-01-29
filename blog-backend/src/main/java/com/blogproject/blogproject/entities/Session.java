@@ -1,6 +1,7 @@
 package com.blogproject.blogproject.entities;
 
 
+import com.blogproject.blogproject.enums.ActivityType;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -22,5 +23,5 @@ public class Session {
     private String os;
     private String browser;
     private boolean me;
-    private boolean active;
+    private ActivityType alert;
 }

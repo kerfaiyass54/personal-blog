@@ -12,6 +12,7 @@ import java.time.Instant;
 @Setter
 public class SessionDTO {
 
+    private String id;
     private String email;
     private Instant time;
     private String os;

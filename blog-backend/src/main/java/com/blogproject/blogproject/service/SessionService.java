@@ -27,6 +27,7 @@ public class SessionService {
         sessionDTO.setTime(session.getTime());
         sessionDTO.setMe(session.isMe());
         sessionDTO.setActive(session.isActive());
+        sessionDTO.setId(session.getId());
         return sessionDTO;
     }
 
