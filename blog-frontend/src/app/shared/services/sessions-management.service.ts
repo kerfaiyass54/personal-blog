@@ -31,6 +31,13 @@ export class SessionsManagementService {
   }
 
 
+  getSession(id: any){
+    return this.http.get<any>(this.apiUrl + "session/" + id);
+  }
+
+
+
+
 
 
 
