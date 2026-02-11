@@ -25,6 +25,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/**").permitAll()
                         .requestMatchers("/reset/**").permitAll()
+                        .requestMatchers("/reset**").permitAll()
                         .requestMatchers("/sessions/**").permitAll()
                         .anyRequest().authenticated()
                 )

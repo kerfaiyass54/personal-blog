@@ -18,8 +18,8 @@ public class PasswordResetController {
         this.passwordResetService = passwordResetService;
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<?> forgotPassword(@PathVariable String email) {
+    @GetMapping("")
+    public ResponseEntity<?> forgotPassword(@RequestParam String email) {
         passwordResetService.sendResetCode(email);
         return ResponseEntity.ok("Code sent");
     }
