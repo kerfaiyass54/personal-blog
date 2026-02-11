@@ -1,7 +1,6 @@
 package com.blogproject.blogproject.controller;
 
 
-import com.blogproject.blogproject.dtos.ResetDTO;
 import com.blogproject.blogproject.service.PasswordResetService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,9 +23,9 @@ public class PasswordResetController {
         return ResponseEntity.ok("Code sent");
     }
 
-    @PostMapping("/code")
-    public ResponseEntity<Boolean> verifyCode(@RequestBody ResetDTO request) {
-        boolean val = passwordResetService.verifyCode(request);
+    @GetMapping("/code")
+    public ResponseEntity<Boolean> verifyCode(@RequestParam String code, @RequestParam String email) {
+        boolean val = passwordResetService.verifyCode(code,email);
         return new ResponseEntity<>(val, HttpStatus.OK);
     }
 
