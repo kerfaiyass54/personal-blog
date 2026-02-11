@@ -54,8 +54,8 @@ public class UserController {
     }
 
 
-    @PostMapping("/pass/{email}/{pass}")
-    public ResponseEntity<Void> changePassword( @PathVariable String email, @PathVariable String pass) {
+    @GetMapping("/change")
+    public ResponseEntity<Void> changePassword( @RequestParam String email, @RequestParam String pass) {
         userService.changePassword(email, pass);
         return new ResponseEntity<>(HttpStatus.OK);
     }
