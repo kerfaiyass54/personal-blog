@@ -18,7 +18,8 @@ export class InserCodeComponent implements OnInit{
   codeSent = false;
   submitted = false;
   codeVerified = false;
-  link = '';
+  link: any = '';
+  email: any = '';
   @Output() verified = new EventEmitter<boolean>();
 
   form = this.fb.nonNullable.group({
@@ -49,7 +50,8 @@ export class InserCodeComponent implements OnInit{
     this.submitted = true;
     if (this.form.invalid) return;
     else{
-      this.resetService.setCode(this.form.value.code).subscribe(
+
+      this.resetService.setCode(this.form.value.code,this.email).subscribe(
         (val)=>{
           if(val){
             this.codeVerified = true;
@@ -61,6 +63,9 @@ export class InserCodeComponent implements OnInit{
   }
 
   sendCode(){
+    this.codeSent = true;
+    this.toastr.success("Code sent", "SUCCESS");
+    this.email = this.form.value.email;
     this.resetService.sendEmail(this.form.value.email).subscribe(
       ()=>{
         this.codeSent = true;

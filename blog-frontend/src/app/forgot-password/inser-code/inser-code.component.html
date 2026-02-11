@@ -1,28 +1,32 @@
 <div class="login-page">
-  <form class="my-form" [formGroup]="form" (ngSubmit)="verifyCode()">
+  <form class="my-form" [formGroup]="form">
     <div class="login-welcome-row">
       <h1>Reset Password</h1>
-      <p>Enter your email and verification code</p>
     </div>
-    <div class="input_wrapper">
-      <input
-        type="email"
-        class="input_field"
-        placeholder="Email"
-        formControlName="email"
-      />
-      @if (form.get('email')?.errors?.['required']) {
-        <div class="alert"> Email is required</div>
-      }
-      @if (form.get('email')?.errors?.['email']) {
-        <div class="alert"> Invalid email format</div>
-      }
-    </div>
-    <button class="my-form__button" [disabled]="form.value.email == '' || form.value.email == null" (click)="sendCode()">
-      Send code
-    </button>
+    @if(!codeSent){
+      <div class="input_wrapper">
+        <p>Enter your email</p>
+        <input
+          type="email"
+          class="input_field"
+          placeholder="Email"
+          formControlName="email"
+        />
+        @if (form.get('email')?.errors?.['required']) {
+          <div class="alert"> Email is required</div>
+        }
+        @if (form.get('email')?.errors?.['email']) {
+          <div class="alert"> Invalid email format</div>
+        }
+      </div>
+      <button class="my-form__button" [disabled]="form.value.email == '' || form.value.email == null" (click)="sendCode()">
+        Send code
+      </button>
+    }
+
     @if (codeSent) {
       <div class="input_wrapper">
+        <p>Enter your verification code</p>
         <input
           type="text"
           class="input_field"
@@ -33,7 +37,7 @@
           <div class="alert"> Code is required</div>
         }
       </div>
-      <button class="my-form__button" type="submit" [disabled]="!submitted">
+      <button class="my-form__button" (click)="verifyCode()">
         Verify Code
       </button>
     }

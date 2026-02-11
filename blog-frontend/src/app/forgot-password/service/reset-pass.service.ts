@@ -20,8 +20,8 @@ export class ResetPassService {
 
 
 
-  setCode(request:any){
-    return this.http.post<any>(this.apiUrl + '/code', request);
+  setCode(code:any,email:any ){
+    return this.http.get<any>(this.apiUrl + '/code', { params: {email: email, code: code}});
   }
 
 
