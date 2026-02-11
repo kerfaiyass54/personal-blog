@@ -38,7 +38,10 @@ export class LoginServiceService {
 
   logout() {
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('role');
+    sessionStorage.removeItem('email');
   }
+
 
   isLoggedIn(): boolean {
     const token = this.getToken();
