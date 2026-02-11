@@ -6,6 +6,7 @@ import com.blogproject.blogproject.repository.ResetPasswordRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -36,15 +37,15 @@ public class PasswordResetService {
     }
 
     public boolean verifyCode(String code, String email) {
-        PasswordResetToken token = resetPasswordRepository
-                .findPasswordResetTokenByEmail(email);
-        if (!code.equals(token.getCode())) {
-            return false;
+        List<String> passwordResetTokenCodesList = resetPasswordRepository.findPasswordResetTokensByEmail(email).stream().map(PasswordResetToken::getCode).toList();
+        if (passwordResetTokenCodesList.contains(code)) {
+            PasswordResetToken passwordResetDTO = resetPasswordRepository.findPasswordResetTokenByEmailAndCodeAndUsed(email,code,false);
+            passwordResetDTO.setUsed(true);
+            resetPasswordRepository.save(passwordResetDTO);
+            return true;
         }
         else{
-            token.setUsed(true);
-            resetPasswordRepository.save(token);
-            return true;
+            return false;
         }
     }
 
