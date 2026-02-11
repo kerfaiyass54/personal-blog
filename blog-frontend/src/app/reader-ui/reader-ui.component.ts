@@ -10,7 +10,6 @@ import {RouterOutlet} from "@angular/router";
     standalone: true,
   imports: [
     NavBarComponent,
-    TableComponent,
     RouterOutlet,
   ],
     templateUrl: './reader-ui.component.html',

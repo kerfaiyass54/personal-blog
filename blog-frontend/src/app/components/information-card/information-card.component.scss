@@ -1,76 +1,32 @@
 :host {
-  margin: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
-  color: #f7f7f7;
-  font-family: "Euclid Circular B", "Poppins";
+  display: block;
+  width: 100%;
 }
 
-h2 {
-  margin: 0;
+.info-card {
+  background: #f8f9fb;
+  border: 1px solid #e6e8ec;
+  border-radius: 16px;
+  padding: 1.75rem;
+  transition: 0.2s ease;
+}
+
+.info-card:hover {
+  border-color: #d0d4da;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.info-title {
+  font-size: 0.9rem;
   font-weight: 500;
-}
-
-.card {
-  position: relative;
-  perspective: 1000px;
-  width: 300px;
-  height: 200px;
-}
-
-.card header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 40px;
-  margin-bottom: 26px;
-}
-
-.card header h2 {
-  font-size: 20px;
+  color: #6b7280; /* muted gray like your table header */
+  margin-bottom: 0.75rem;
   text-transform: capitalize;
 }
 
-.card .front{
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  backface-visibility: hidden;
-  border-radius: 16px;
-  padding: 36px 36px 44px 44px;
-  transition: 0.6s;
-  cursor: pointer;
-}
-
-
-input {
-  position: absolute;
-  scale: 0;
-}
-
-
-.card var {
-  font-style: normal;
-  font-size: 40px;
-  line-height: 1;
-}
-
-.card h3 {
-  margin: 0 0 30px;
-  font-weight: 500;
-}
-
-
-
-.card :is(h4, p) {
-  opacity: 0.6;
-  font-size: 20px;
-}
-
-.card p {
-  margin-top: 76px;
+.info-value {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #111827;
+  word-break: break-word;
 }

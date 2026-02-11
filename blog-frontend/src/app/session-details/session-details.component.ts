@@ -1,10 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
+import {InformationCardComponent} from "../components/information-card/information-card.component";
+import {ButtonComponent} from "../components/button/button.component";
 
 @Component({
   selector: 'app-session-details',
   imports: [
+    InformationCardComponent,
+    ButtonComponent
 
   ],
   templateUrl: './session-details.component.html',
@@ -12,6 +16,7 @@ import {SessionsManagementService} from "../shared/services/sessions-management.
 })
 export class SessionDetailsComponent implements OnInit{
 
+  role: any = '';
   id: any = '';
   browser: any = {title: 'Browser', value: ''};
   os: any = {title: 'OS', value: ''};
@@ -24,6 +29,7 @@ export class SessionDetailsComponent implements OnInit{
 
   ngOnInit() {
     this.id = this.activeRouter.snapshot.paramMap.get('id');
+    this.role = sessionStorage.getItem("role");
     this.sessionsService.getSession(this.id).subscribe(
       (session)=>{
         console.log(session);
@@ -37,5 +43,5 @@ export class SessionDetailsComponent implements OnInit{
   }
 
 
-
+  protected readonly length = length;
 }

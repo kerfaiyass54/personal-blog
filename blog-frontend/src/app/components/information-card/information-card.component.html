@@ -1,11 +1,9 @@
-<label id="summary">
-  <input type="checkbox" />
-  <div class="card">
-    <div class="front">
-      <header>
-        <h2>{{title}}</h2>
-      </header>
-      <var [style.color]="color">{{value}}</var>
-    </div>
+<div class="info-card">
+  <div class="info-title">
+    {{ title }}
   </div>
-</label>
+
+  <div class="info-value" [style.color]="color">
+    {{ value }}
+  </div>
+</div>

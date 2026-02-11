@@ -1,6 +1,6 @@
 .slice {
   --c1: white;
-  --c2: #00a1b7;
+  --c2: var(--c2, #00a1b7); // fallback if not provided
 
   display: inline-flex;
   justify-content: center;

@@ -1,9 +1,25 @@
 <div class="container-fluid">
   <div class="card">
     <div class="card-header">
-      <h1>Your login at: {{time}}</h1>
+      <h1 class="text-center">Your login at: {{time}}</h1>
+      <div>
+        @if (alert.length > 0) {
+          <h2 class="text-center alert-login">This can be a suspicious login</h2>
+        } @else {
+          <h2 class="text-center good-login">There is no alert</h2>
+        }
+      </div>
     </div>
-    <div class="card-body">
+    <div class="card-body grid">
+      <app-information-card [title]="browser.title" [value]="browser.value" [color]="'#669bbc'">
+      </app-information-card>
+      <app-information-card [title]="os.title" [value]="os.value" [color]="'#669bbc'">
+      </app-information-card>
+
+    </div>
+    <div class="card-footer">
+      <app-button [link]="'/' + role + '/user-history'" [text]="'Go back'"></app-button>
+      <app-button text="Not you?" color="#dc2626"></app-button>
 
     </div>
   </div>
