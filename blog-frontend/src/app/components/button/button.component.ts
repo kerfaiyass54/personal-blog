@@ -10,6 +10,6 @@ import {RouterLink} from "@angular/router";
   styleUrl: './button.component.scss',
 })
 export class ButtonComponent {
-  @Input() text: any = '';
-  @Input() link: any = '';
+  @Input() text: string = '';
+  @Input() link: string | any[] = '';
 }
