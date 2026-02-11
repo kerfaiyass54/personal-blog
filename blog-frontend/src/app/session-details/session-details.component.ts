@@ -29,6 +29,7 @@ export class SessionDetailsComponent implements OnInit{
 
   ngOnInit() {
     this.id = this.activeRouter.snapshot.paramMap.get('id');
+    localStorage.setItem("sessionID",this.id);
     this.role = sessionStorage.getItem("role")?.toLowerCase();
     this.sessionsService.getSession(this.id).subscribe(
       (session)=>{

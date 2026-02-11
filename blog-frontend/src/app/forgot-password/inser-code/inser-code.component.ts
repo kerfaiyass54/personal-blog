@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {ResetPassService} from "../service/reset-pass.service";
@@ -13,11 +13,12 @@ import {ToastrService} from "ngx-toastr";
   templateUrl: './inser-code.component.html',
   styleUrl: './inser-code.component.scss',
 })
-export class InserCodeComponent {
+export class InserCodeComponent implements OnInit{
 
   codeSent = false;
   submitted = false;
   codeVerified = false;
+  link = '';
   @Output() verified = new EventEmitter<boolean>();
 
   form = this.fb.nonNullable.group({
@@ -30,6 +31,19 @@ export class InserCodeComponent {
     private resetService: ResetPassService
   ) {}
 
+
+  ngOnInit() {
+
+    if(sessionStorage.getItem("email") !== null){
+      let role = sessionStorage.getItem("role")?.toLowerCase();
+      let id = localStorage.getItem("sessionID");
+      this.link = '/' + role + '/session-details/' + id;
+    }
+    else{
+      this.link = '/login';
+    }
+
+  }
 
   verifyCode() {
     this.submitted = true;
