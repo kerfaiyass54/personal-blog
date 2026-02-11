@@ -7,18 +7,21 @@ import {HttpClient} from "@angular/common/http";
 export class ResetPassService {
 
 
-  private apiUrl = 'http://localhost:8083/reset/';
+  private apiUrl = 'http://localhost:8083/reset';
 
 
   constructor(private http: HttpClient) { }
 
   sendEmail(email: any) {
-    return this.http.get<any>(this.apiUrl + email);
+    return this.http.get<any>(this.apiUrl, {
+      params: { email: email }
+    });
   }
 
 
+
   setCode(request:any){
-    return this.http.post<any>(this.apiUrl + 'code', request);
+    return this.http.post<any>(this.apiUrl + '/code', request);
   }
 
 

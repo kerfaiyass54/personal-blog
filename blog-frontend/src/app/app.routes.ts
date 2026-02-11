@@ -43,6 +43,12 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER'] },
         component: SessionDetailsComponent
+      },
+      {
+        path: 'password',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: ForgotPasswordComponent
       }
     ]
   },
@@ -61,8 +67,14 @@ export const routes: Routes = [
       {
         path: 'session-details/:id',
         canActivate: [AuthGuard],
-        data: { roles: ['WRITER'] },
+        data: { roles: ['READER'] },
         component: SessionDetailsComponent
+      },
+      {
+        path: 'password',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: ForgotPasswordComponent
       }
     ]},
   { path: '**', component: ErrorNotFoundComponent }
