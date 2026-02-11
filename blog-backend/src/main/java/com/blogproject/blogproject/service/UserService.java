@@ -5,8 +5,10 @@ import com.blogproject.blogproject.dtos.UserLogin;
 import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.repository.UserRepository;
 import com.blogproject.blogproject.util.JwtUtil;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.Optional;
 
 @Service
@@ -17,11 +19,15 @@ public class UserService {
 
     private final JwtUtil jwtUtil;
 
+    private final SimpMessagingTemplate messagingTemplate;
+
+
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
+    public UserService(UserRepository userRepository, JwtUtil jwtUtil, SimpMessagingTemplate messagingTemplate) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
+        this.messagingTemplate = messagingTemplate;
     }
 
     public User register(UserDTO user) {
@@ -71,6 +77,10 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(password));
         user.setTokenVersion(user.getTokenVersion() + 1);
         userRepository.save(user);
+        messagingTemplate.convertAndSend(
+                "/topic/logout/" + email,
+                "FORCE_LOGOUT"
+        );
     }
 
 
