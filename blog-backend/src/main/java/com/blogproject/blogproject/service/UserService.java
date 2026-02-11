@@ -44,7 +44,7 @@ public class UserService {
             if(matches){
 
             }
-            return jwtUtil.generateToken(dbUser.get().getName(), dbUser.get().getRole());
+            return jwtUtil.generateToken(dbUser.get().getName(), dbUser.get().getRole(), dbUser.get().getTokenVersion());
         }
 
         throw new RuntimeException("Invalid username or password");
@@ -69,6 +69,7 @@ public class UserService {
     public void changePassword(String email, String password){
         User user = userRepository.findByEmail(email).get();
         user.setPassword(passwordEncoder.encode(password));
+        user.setTokenVersion(user.getTokenVersion() + 1);
         userRepository.save(user);
     }
 

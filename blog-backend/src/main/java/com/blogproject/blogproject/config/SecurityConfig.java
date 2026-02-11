@@ -1,6 +1,7 @@
 package com.blogproject.blogproject.config;
 
 import com.blogproject.blogproject.filter.JwtFilter;
+import com.blogproject.blogproject.repository.UserRepository;
 import com.blogproject.blogproject.util.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +15,11 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
 
-    public SecurityConfig(JwtUtil jwtUtil) {
+    private final UserRepository userRepository;
+
+    public SecurityConfig(JwtUtil jwtUtil, UserRepository userRepository) {
         this.jwtUtil = jwtUtil;
+        this.userRepository = userRepository;
     }
 
     @Bean
@@ -39,6 +43,6 @@ public class SecurityConfig {
 
     @Bean
     public JwtFilter jwtFilter() {
-        return new JwtFilter(jwtUtil);
+        return new JwtFilter(jwtUtil,userRepository);
     }
 }

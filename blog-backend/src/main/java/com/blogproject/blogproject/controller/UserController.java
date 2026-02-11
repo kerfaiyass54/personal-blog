@@ -31,10 +31,13 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLogin userLogin) {
         try {
-            String role = userService.getRole(userLogin.getEmail());
             String token = userService.login(userLogin);
-            return ResponseEntity.ok(Map.of("token", token,
-                    "role", role));
+            String role = userService.getRole(userLogin.getEmail());
+
+            return ResponseEntity.ok(Map.of(
+                    "token", token,
+                    "role", role
+            ));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", e.getMessage()));

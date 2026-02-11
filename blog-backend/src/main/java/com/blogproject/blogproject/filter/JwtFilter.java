@@ -1,10 +1,13 @@
 package com.blogproject.blogproject.filter;
 
+import com.blogproject.blogproject.entities.User;
+import com.blogproject.blogproject.repository.UserRepository;
 import com.blogproject.blogproject.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -15,8 +18,11 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
 
-    public JwtFilter(JwtUtil jwtUtil) {
+    private final UserRepository userRepository;
+
+    public JwtFilter(JwtUtil jwtUtil,  UserRepository userRepository) {
         this.jwtUtil = jwtUtil;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -48,6 +54,18 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         String token = authHeader.substring(7);
+
+        String email = jwtUtil.getUsername(token);
+
+        int tokenVersion = jwtUtil.getTokenVersion(token);
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (tokenVersion != user.getTokenVersion()) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            return;
+        }
 
         if (!jwtUtil.validateToken(token)) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT");
