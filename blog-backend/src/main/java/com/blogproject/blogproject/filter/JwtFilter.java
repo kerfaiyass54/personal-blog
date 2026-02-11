@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.util.Date;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -56,13 +58,21 @@ public class JwtFilter extends OncePerRequestFilter {
 
         String email = jwtUtil.getUsername(token);
 
-        int tokenVersion = jwtUtil.getTokenVersion(token);
+
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (tokenVersion != user.getTokenVersion()) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Session expired");
+// 🔥 NEW LOGIC STARTS HERE
+
+        Date issuedAtDate = jwtUtil.getIssuedAt(token);
+        Instant tokenIssuedAt = issuedAtDate.toInstant();
+
+        if (user.getPasswordChangedAt() != null &&
+                tokenIssuedAt.isBefore(user.getPasswordChangedAt())) {
+
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                    "Password changed. Please login again.");
             return;
         }
 

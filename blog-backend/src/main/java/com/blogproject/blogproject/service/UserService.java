@@ -5,10 +5,10 @@ import com.blogproject.blogproject.dtos.UserLogin;
 import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.repository.UserRepository;
 import com.blogproject.blogproject.util.JwtUtil;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Optional;
 
 @Service
@@ -19,15 +19,13 @@ public class UserService {
 
     private final JwtUtil jwtUtil;
 
-    private final SimpMessagingTemplate messagingTemplate;
 
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    public UserService(UserRepository userRepository, JwtUtil jwtUtil, SimpMessagingTemplate messagingTemplate) {
+    public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
-        this.messagingTemplate = messagingTemplate;
     }
 
     public User register(UserDTO user) {
@@ -50,7 +48,7 @@ public class UserService {
             if(matches){
 
             }
-            return jwtUtil.generateToken(dbUser.get().getName(), dbUser.get().getRole(), dbUser.get().getTokenVersion());
+            return jwtUtil.generateToken(dbUser.get().getName(), dbUser.get().getRole());
         }
 
         throw new RuntimeException("Invalid username or password");
@@ -75,12 +73,8 @@ public class UserService {
     public void changePassword(String email, String password){
         User user = userRepository.findByEmail(email).get();
         user.setPassword(passwordEncoder.encode(password));
-        user.setTokenVersion(user.getTokenVersion() + 1);
+        user.setPasswordChangedAt(Instant.now());
         userRepository.save(user);
-        messagingTemplate.convertAndSend(
-                "/topic/logout/" + email,
-                "FORCE_LOGOUT"
-        );
     }
 
 

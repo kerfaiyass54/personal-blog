@@ -1,13 +1,11 @@
 package com.blogproject.blogproject.entities;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.Instant;
 
 @Document(collection = "users")
 @AllArgsConstructor
@@ -23,5 +21,5 @@ public class User {
     private String email;
     private String password;
     private String role;
-    private int tokenVersion = 0;
+    private Instant passwordChangedAt;
 }
