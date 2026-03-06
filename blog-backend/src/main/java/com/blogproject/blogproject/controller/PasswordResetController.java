@@ -24,13 +24,13 @@ public class PasswordResetController {
     @GetMapping("")
     public ResponseEntity<?> forgotPassword(@RequestParam String email) {
         passwordResetService.sendResetCode(email);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/code")
     public ResponseEntity<Boolean> verifyCode(@RequestParam String code, @RequestParam String email) {
         boolean val = passwordResetService.verifyCode(code,email);
-        return new ResponseEntity<>(val, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(val, HttpStatus.OK);
     }
 
 

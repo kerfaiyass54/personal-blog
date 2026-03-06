@@ -40,30 +40,33 @@ public class UserController {
             String token = userService.login(userLogin);
             String role = userService.getRole(userLogin.getEmail());
 
-            return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
+            return ResponseEntity.ok(Map.of(
+                    "token", token,
+                    "role", role
+            ));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", e.getMessage()));
         }
     }
 
-    @GetMapping("/")
+    @GetMapping("/email")
     public ResponseEntity<Boolean> existEmail(@RequestParam String emailToTest) {
         boolean emailIsExisted = userService.checkEmailExist(emailToTest);
-        return new ResponseEntity<>(emailIsExisted, HttpStatus.FOUND);
+        return new ResponseEntity<>(emailIsExisted, HttpStatus.OK);
     }
 
     @GetMapping("/")
     public ResponseEntity<Boolean> checkPassword(@RequestParam  String emailLogin, @RequestParam String password) {
         boolean passwordIsValid = userService.checkPassword(emailLogin, password);
-        return new ResponseEntity<>(passwordIsValid, HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(passwordIsValid, HttpStatus.OK);
     }
 
 
     @PatchMapping("/")
     public ResponseEntity<Void> changePassword( @RequestParam String email, @RequestParam String newPass) {
         userService.changePassword(email, newPass);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

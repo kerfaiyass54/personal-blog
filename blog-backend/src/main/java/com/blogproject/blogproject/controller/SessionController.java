@@ -41,38 +41,38 @@ public class SessionController {
     @GetMapping("/list/{email}")
     public ResponseEntity<List<SessionDTO>> getAllSessions(@PathVariable String email) {
         List<SessionDTO> sessionDTOS = sessionService.getSessions(email);
-        return new ResponseEntity<>(sessionDTOS, HttpStatus.FOUND);
+        return new ResponseEntity<>(sessionDTOS, HttpStatus.OK);
     }
 
     @PatchMapping("/")
     public ResponseEntity<Void> setIsItMe(@RequestParam String id,@RequestParam boolean isMe){
         sessionService.setIsItMe(id, isMe);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping("/")
+    @PatchMapping("/alert")
     public ResponseEntity<Void> setAlert(@RequestParam String email,@RequestParam Instant time){
         sessionService.setAlert(email, time);
-        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<SessionDTO> getSession(@PathVariable String id){
         SessionDTO sessionDTO = sessionService.getSessionById(id);
-        return new ResponseEntity<>(sessionDTO, HttpStatus.FOUND);
+        return new ResponseEntity<>(sessionDTO, HttpStatus.OK);
     }
 
 
     @GetMapping("/alerts/{email}")
     public ResponseEntity<Integer> getAlerts(@PathVariable String email){
         int totalAlerts = sessionService.getTotalAlerts(email);
-        return new ResponseEntity<>(totalAlerts, HttpStatus.FOUND);
+        return new ResponseEntity<>(totalAlerts, HttpStatus.OK);
     }
 
     @GetMapping("/")
     public ResponseEntity<SessionDTO> getSessionsByTime(@RequestParam Instant time){
         SessionDTO sessionDTO = sessionService.getSessionByTime(time);
-    return new ResponseEntity<>(sessionDTO, HttpStatus.FOUND);
+    return new ResponseEntity<>(sessionDTO, HttpStatus.OK);
     }
 
 
