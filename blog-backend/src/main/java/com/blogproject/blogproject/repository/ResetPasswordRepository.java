@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface ResetPasswordRepository extends MongoRepository<PasswordResetToken, String> {
 
-    public PasswordResetToken findPasswordResetTokenByEmail(String email);
-
     public List<PasswordResetToken> findPasswordResetTokensByEmail(String email);
 
     public PasswordResetToken findPasswordResetTokenByEmailAndCodeAndUsed(String email, String code, boolean used);
