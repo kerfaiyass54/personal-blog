@@ -39,7 +39,7 @@ public class Session {
     @NotBlank(message = "Browser is required")
     private String browser;
 
-    private boolean rememberMe = false;
+    private boolean isMe = false;
 
     @NotNull(message = "Activity type is required")
     private ActivityType alert;
