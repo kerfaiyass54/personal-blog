@@ -19,8 +19,6 @@ public class UserService {
 
     private final JwtUtil jwtUtil;
 
-
-
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public UserService(UserRepository userRepository, JwtUtil jwtUtil) {

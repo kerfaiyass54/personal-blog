@@ -4,7 +4,11 @@ package com.blogproject.blogproject.controller;
 import com.blogproject.blogproject.service.PasswordResetService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/reset")
@@ -20,13 +24,13 @@ public class PasswordResetController {
     @GetMapping("")
     public ResponseEntity<?> forgotPassword(@RequestParam String email) {
         passwordResetService.sendResetCode(email);
-        return ResponseEntity.ok("Code sent");
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/code")
     public ResponseEntity<Boolean> verifyCode(@RequestParam String code, @RequestParam String email) {
         boolean val = passwordResetService.verifyCode(code,email);
-        return new ResponseEntity<>(val, HttpStatus.OK);
+        return new ResponseEntity<>(val, HttpStatus.ACCEPTED);
     }
 
 

@@ -7,8 +7,14 @@ import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import java.util.Map;
 
 @RestController
@@ -25,7 +31,7 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody UserDTO userDTO) {
         User user = userService.register(userDTO);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -34,33 +40,30 @@ public class UserController {
             String token = userService.login(userLogin);
             String role = userService.getRole(userLogin.getEmail());
 
-            return ResponseEntity.ok(Map.of(
-                    "token", token,
-                    "role", role
-            ));
+            return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Map.of("error", e.getMessage()));
         }
     }
 
-    @PostMapping("/exist")
-    public ResponseEntity<Boolean> existEmail(@RequestBody UserLogin userLogin) {
-        boolean emailIsExisted = userService.checkEmailExist(userLogin.getEmail());
-        return new ResponseEntity<>(emailIsExisted, HttpStatus.OK);
+    @GetMapping("/")
+    public ResponseEntity<Boolean> existEmail(@RequestParam String emailToTest) {
+        boolean emailIsExisted = userService.checkEmailExist(emailToTest);
+        return new ResponseEntity<>(emailIsExisted, HttpStatus.FOUND);
     }
 
-    @PostMapping("/password")
-    public ResponseEntity<Boolean> checkPassword(@RequestBody UserLogin userLogin) {
-        boolean passwordIsValid = userService.checkPassword(userLogin.getEmail(), userLogin.getPassword());
-        return new ResponseEntity<>(passwordIsValid, HttpStatus.OK);
+    @GetMapping("/")
+    public ResponseEntity<Boolean> checkPassword(@RequestParam  String emailLogin, @RequestParam String password) {
+        boolean passwordIsValid = userService.checkPassword(emailLogin, password);
+        return new ResponseEntity<>(passwordIsValid, HttpStatus.ACCEPTED);
     }
 
 
-    @GetMapping("/change")
-    public ResponseEntity<Void> changePassword( @RequestParam String email, @RequestParam String pass) {
-        userService.changePassword(email, pass);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PatchMapping("/")
+    public ResponseEntity<Void> changePassword( @RequestParam String email, @RequestParam String newPass) {
+        userService.changePassword(email, newPass);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
 }

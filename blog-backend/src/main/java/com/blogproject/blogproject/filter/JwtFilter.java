@@ -63,7 +63,6 @@ public class JwtFilter extends OncePerRequestFilter {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-// 🔥 NEW LOGIC STARTS HERE
 
         Date issuedAtDate = jwtUtil.getIssuedAt(token);
         Instant tokenIssuedAt = issuedAtDate.toInstant();
