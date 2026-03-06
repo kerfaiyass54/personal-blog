@@ -5,6 +5,7 @@ import com.blogproject.blogproject.dtos.UserLogin;
 import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.repository.UserRepository;
 import com.blogproject.blogproject.util.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +13,7 @@ import java.time.Instant;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserService {
 
 
@@ -58,21 +60,22 @@ public class UserService {
 
     public boolean checkPassword(String email, String pass) {
         String password = passwordEncoder.encode(pass);
-        if(userRepository.findByEmail(email).isPresent()) {
-            return userRepository.findByEmail(email).get().getPassword().equals(password);
-        }
-        return false;
+        Optional<User> dbUser = userRepository.findByEmail(email);
+        return dbUser.isPresent() && passwordEncoder.matches(password, dbUser.get().getPassword());
     }
 
     public String getRole(String email) {
-        return userRepository.findByEmail(email).get().getRole();
+        Optional<User> dbUser = userRepository.findByEmail(email);
+        return dbUser.map(User::getRole).orElse(null);
     }
 
     public void changePassword(String email, String password){
-        User user = userRepository.findByEmail(email).get();
-        user.setPassword(passwordEncoder.encode(password));
-        user.setPasswordChangedAt(Instant.now());
-        userRepository.save(user);
+        Optional<User> dbUser = userRepository.findByEmail(email);
+        if(dbUser.isPresent()){
+            User user = dbUser.get();
+            user.setPassword(passwordEncoder.encode(password));
+            userRepository.save(user);
+        }
     }
 
 

@@ -49,22 +49,6 @@ public class JwtUtil {
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
-    public String getRole(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build()
-                .parseClaimsJws(token).getBody().get("role", String.class);
-    }
-
-    public int getTokenVersion(String token) {
-        Number tv = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .get("tv", Number.class);
-
-        return tv.intValue();
-    }
-
 
 
 

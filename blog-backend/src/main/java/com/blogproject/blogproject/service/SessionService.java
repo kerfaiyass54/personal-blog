@@ -5,6 +5,7 @@ import com.blogproject.blogproject.dtos.SessionDTO;
 import com.blogproject.blogproject.entities.Session;
 import com.blogproject.blogproject.enums.ActivityType;
 import com.blogproject.blogproject.repository.SessionsRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class SessionService {
 
     private final SessionsRepository sessionsRepository;
