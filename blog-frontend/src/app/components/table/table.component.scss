@@ -1,11 +1,12 @@
+/* Card */
 .card {
-  width: 80%;
+  width: 100%;
   max-width: 100%;
-  background: linear-gradient(180deg, #ffffff, #f7f7fb);
-  border-radius: 18px;
   padding: 24px;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.12);
-  animation: cardIn 0.45s ease;
+  border-radius: 18px;
+  background: linear-gradient(180deg,#fff,#f7f7fb);
+  box-shadow: 0 25px 60px rgba(0,0,0,.12);
+  animation: cardIn .45s ease;
 }
 
 /* Header */
@@ -23,27 +24,29 @@ header h2 {
   font-weight: 600;
 }
 
-/* Button */
-button, select, option{
-  background: #4f46e5;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  padding: 10px 16px;
+/* Controls */
+button,
+select,
+option {
   display: flex;
-  gap: 6px;
   align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #4f46e5;
+  color: #fff;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform .2s ease, box-shadow .2s ease;
 }
 
 button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 25px rgba(79, 70, 229, 0.35);
+  box-shadow: 0 10px 25px rgba(79,70,229,.35);
 }
 
 button:disabled {
-  opacity: 0.4;
+  opacity: .4;
   cursor: not-allowed;
 }
 
@@ -53,20 +56,18 @@ button:disabled {
   max-height: 325px;
 }
 
-/* TABLE */
+/* Table */
 table {
   width: 100%;
-  table-layout: fixed; /* 🔥 fixes column sizing */
+  table-layout: fixed;
   border-collapse: collapse;
-  overflow-x: auto;
 }
 
-/* Sticky header */
 thead th {
   position: sticky;
   top: 0;
-  background: #ffffff;
   z-index: 2;
+  background: #fff;
 }
 
 /* Cells */
@@ -80,7 +81,6 @@ td {
   text-overflow: ellipsis;
 }
 
-/* Header cells */
 th {
   font-size: 14px;
   font-weight: 600;
@@ -88,16 +88,15 @@ th {
   cursor: grab;
 }
 
-/* Body cells */
 td {
   font-size: 14px;
   color: #111827;
 }
 
-/* ROW animation */
+/* Rows */
 tbody tr {
-  animation: rowFade 0.35s ease forwards;
-  transition: background 0.2s ease, transform 0.15s ease;
+  animation: rowFade .35s ease forwards;
+  transition: background .2s ease, transform .15s ease;
 }
 
 tbody tr:hover {
@@ -105,27 +104,29 @@ tbody tr:hover {
   transform: scale(1.005);
 }
 
-
-.card{
-  width: 100%;
-  max-width: 100%;
-}
-
 /* Drag */
-.drag {
-  opacity: 0.4;
-}
+.drag { opacity: .4; }
 
 th.over {
   border-bottom: 3px solid #4f46e5;
 }
 
+/* Clickable rows */
+.clickable-row {
+  cursor: pointer;
+  transition: all .5s ease;
+}
 
+.clickable-row:hover {
+  background: #f8f9fa;
+}
+
+/* Empty state */
 .empty {
   padding: 40px;
   text-align: center;
   color: #6b7280;
-  animation: fadeIn 0.3s ease;
+  animation: fadeIn .3s ease;
 }
 
 /* Pagination */
@@ -135,7 +136,7 @@ th.over {
   align-items: center;
   gap: 14px;
   padding-top: 20px;
-  animation: fadeUp 0.4s ease;
+  animation: fadeUp .4s ease;
 }
 
 .pagination span {
@@ -144,12 +145,12 @@ th.over {
 }
 
 .pagination button {
-  background: transparent;
-  border: 1px solid #e5e7eb;
-  color: #4f46e5;
   padding: 6px 14px;
   border-radius: 8px;
-  transition: background 0.2s ease, transform 0.15s ease;
+  border: 1px solid #e5e7eb;
+  background: transparent;
+  color: #4f46e5;
+  transition: background .2s ease, transform .15s ease;
 }
 
 .pagination button:hover {
@@ -159,83 +160,33 @@ th.over {
 
 /* Animations */
 @keyframes cardIn {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from {opacity:0; transform:translateY(12px);}
+  to {opacity:1; transform:translateY(0);}
 }
 
 @keyframes rowFade {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from {opacity:0; transform:translateY(6px);}
+  to {opacity:1; transform:translateY(0);}
 }
 
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from {opacity:0; transform:translateY(6px);}
+  to {opacity:1; transform:translateY(0);}
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from {opacity:0;}
+  to {opacity:1;}
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  th,
-  td {
-    font-size: 13px;
-    padding: 10px;
+@media (max-width:768px) {
+  th,td {
+    font-size:13px;
+    padding:10px;
   }
 
   header h2 {
-    font-size: 18px;
+    font-size:18px;
   }
-}
-
-table {
-  width: 100%;
-  min-width: 100%;
-  max-height: 1px;
-}
-
-
-table tr {
-  width: 100%;
-}
-
-
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.clickable-row {
-  cursor: pointer;
-  transition: all 0.5s ease;
-}
-
-.clickable-row:hover {
-  background-color: #f8f9fa;
 }

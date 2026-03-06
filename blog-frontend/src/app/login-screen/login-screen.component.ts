@@ -74,10 +74,10 @@ export class LoginScreenComponent implements OnInit{
   }
 
   verifyUser(user: any){
-    this.loginService.existEmail(user).subscribe(
+    this.loginService.existEmail(user.email).subscribe(
       (val)=>{
         if(val){
-          this.loginService.checkPassword(user).subscribe(
+          this.loginService.checkPassword(user.email,user.password).subscribe(
             (v)=>{
               if(!v){
                 this.toastrService.error("ERROR","Wrong password");

@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {LoginServiceService} from "../../shared/services/login-service.service";
-import {SessionsManagementService} from "../../shared/services/sessions-management.service";
 import {ToastrService} from "ngx-toastr";
 
 
@@ -15,13 +14,13 @@ import {ToastrService} from "ngx-toastr";
 })
 export class NavBarComponent {
 
-  constructor(private loginService: LoginServiceService, private route: Router, private sessionService: SessionsManagementService, private toastrService: ToastrService) {
+  constructor(private loginService: LoginServiceService, private route: Router, private toastrService: ToastrService) {
   }
 
   @Input() articles: any[] = [];
   @Input() skill: any[] = [];
   @Input() lesson: any[] = [];
-  @Input() role: any = '';
+  @Input() role: string = '';
   id: any = '';
 
 

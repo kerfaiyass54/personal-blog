@@ -4,9 +4,7 @@
 }
 
 /* Reset */
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 button,
 label {
@@ -18,11 +16,10 @@ label {
   color: inherit;
 }
 
+/* Sidebar */
 .sidebar {
   position: fixed;
-  top: 24px;
-  left: 24px;
-  bottom: 24px;
+  inset: 24px auto 24px 24px;
   width: 250px;
   padding: 0 16px;
   display: flex;
@@ -35,15 +32,6 @@ label {
   z-index: 1000;
 }
 
-
-
-
-
-
-
-
-
-
 /* Header */
 .sidebar header {
   display: flex;
@@ -53,9 +41,7 @@ label {
   border-bottom: 1px solid rgb(255 255 255 / 8%);
 }
 
-.sidebar header img {
-  height: 44px;
-}
+.sidebar header img { height: 44px; }
 
 /* Hide radios */
 .sidebar input {
@@ -63,42 +49,28 @@ label {
   scale: 0;
 }
 
-/* Expand sub-menus */
-.sidebar input#settings:checked ~ .sub-menu {
-  height: 150px;
-}
-
-.sidebar input#create:checked ~ .sub-menu {
-  height: 150px;
-}
-
-.sidebar input#profile:checked ~ .sub-menu {
-  height: 150px;
-}
-
-.sidebar input#lessons:checked ~ .sub-menu {
+/* Expand submenus */
+.sidebar input:is(#settings,#create,#profile,#lessons):checked ~ .sub-menu {
   height: 150px;
 }
 
 /* Buttons / labels */
-.sidebar :is(button, label) {
-  position: relative;
+.sidebar :is(button,label) {
   display: flex;
-  gap: 16px;
   align-items: center;
+  gap: 16px;
   height: 50px;
   width: 100%;
+  padding: 0 16px;
   border-radius: 6px;
   font-size: 22px;
   font-weight: 400;
   line-height: 1;
-  padding: 0 16px;
   color: rgb(255 255 255 / 95%);
+  position: relative;
 }
 
-.sidebar label p:nth-child(2) {
-  flex: 1 1 auto;
-}
+.sidebar label p:nth-child(2) { flex: 1; }
 
 /* Active item */
 .sidebar input:checked ~ label {
@@ -106,19 +78,17 @@ label {
 }
 
 /* Chevron animation */
-.sidebar label i {
-  transition: transform 0.3s ease;
-}
+.sidebar label i { transition: transform .3s ease; }
 
 .sidebar input:checked ~ label > i:nth-child(3) {
   transform: rotate(-180deg);
 }
 
+/* Hover */
 .sidebar input:not(:checked) ~ label,
-.sidebar button{
-  transition: all 0.5s ease;
+.sidebar button {
+  transition: all .5s ease;
 }
-
 
 .sidebar input:not(:checked) ~ label:hover,
 .sidebar button:hover {
@@ -128,49 +98,44 @@ label {
 /* Lists */
 .sidebar ul {
   display: grid;
-  list-style: none;
-  padding: 0;
-  margin: 0;
   width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-/* Sub menu */
+/* Submenu */
 .sub-menu {
   position: relative;
-  overflow: auto;
   height: 0;
-  transition: height 0.5s ease;
+  overflow: auto;
+  transition: height .5s ease;
 }
 
 .sub-menu ul {
   position: absolute;
-  top: 0;
-  left: 0;
-  display: grid;
+  inset: 0 auto auto 0;
   width: 100%;
+  display: grid;
 }
 
-.sub-menu button {
-  padding-left: 52px;
-}
+.sub-menu button { padding-left: 52px; }
 
-/* Sub-menu bullet */
+/* Submenu bullet */
 .sub-menu button::before {
   content: "";
   position: absolute;
   top: 50%;
   left: 24px;
-  transform: translateY(-50%);
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background-color: rgb(255 255 255 / 35%);
+  transform: translateY(-50%);
+  background: rgb(255 255 255 / 35%);
 }
 
 /* Icons */
-.sidebar .material-symbols-outlined {
-  font-size: 20px;
-}
+.sidebar .material-symbols-outlined { font-size: 20px; }
 
 .sidebar i {
   font-size: 24px;
@@ -179,15 +144,13 @@ label {
   max-width: 20px;
 }
 
+/* Signout */
+.signout { margin-top: 300px; }
 
-.signout{
-  margin-top: 300px;
-}
-
-li{
+/* List animation */
+li {
   animation: fade-left 1.2s ease forwards;
 }
-
 
 @keyframes fade-left {
   from {
@@ -199,5 +162,3 @@ li{
     opacity: 1;
   }
 }
-
-

@@ -54,14 +54,15 @@ export class WriterUiComponent implements OnInit{
     let session = {
       email: email,
       os: os,
+      time: new Date().toISOString(),
       browser: browser,
-      active: true,
+      alert: 'NOTHING',
       me: true
     }
     this.sessionService.addSession(session).subscribe(
       (s)=>{
         sessionStorage.setItem('sessionId', s.id);
-        this.sessionService.setAlert(s.id,s.email).subscribe(
+        this.sessionService.setAlert(s.email,s.time).subscribe(
           ()=>{});
       }
     );

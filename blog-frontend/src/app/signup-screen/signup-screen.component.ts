@@ -38,7 +38,7 @@ export class SignupScreenComponent implements OnInit{
         email: item.email,
         role: 'READER'
       }
-      this.loginService.existEmail(user).subscribe(
+      this.loginService.existEmail(item.email).subscribe(
         (val)=>{
           if(val){
             this.toastrService.error("ERROR","This email already exists!");

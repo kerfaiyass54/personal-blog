@@ -4,23 +4,23 @@
 }
 
 .info-card {
+  padding: 1.75rem;
   background: #f8f9fb;
   border: 1px solid #e6e8ec;
   border-radius: 16px;
-  padding: 1.75rem;
-  transition: 0.2s ease;
+  transition: .2s ease;
 }
 
 .info-card:hover {
   border-color: #d0d4da;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 12px rgba(0,0,0,.04);
 }
 
 .info-title {
-  font-size: 0.9rem;
+  margin-bottom: .75rem;
+  font-size: .9rem;
   font-weight: 500;
-  color:black; /* muted gray like your table header */
-  margin-bottom: 0.75rem;
+  color: #000;
   text-transform: capitalize;
 }
 

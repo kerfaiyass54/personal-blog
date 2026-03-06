@@ -3,39 +3,13 @@
   border-collapse: collapse;
 }
 
+.table-3 :is(td, th) {
+  border-bottom: 1px solid #2d2d2d;
+}
+
 .table-3 td {
   padding: 16px;
   white-space: nowrap;
-}
-
-.table-3 tr td:last-of-type {
-  text-align: right;
-}
-
-.table-3 th:first-of-type {
-  width: 20px;
-}
-
-.table-3 tr td:first-child,
-.table-3 tr th:first-child {
-  padding-right: 2px;
-}
-
-.table-3 tr td:last-child,
-.table-3 tr th:last-child {
-  padding-right: 12px;
-}
-
-.table-3 th:nth-child(2) {
-  width: 133px;
-  max-width: 133px;
-  min-width: 133px;
-}
-
-.table-3 th:nth-child(3) {
-  width: 180px;
-  max-width: 180px;
-  min-width: 180px;
 }
 
 .table-3 th {
@@ -45,10 +19,31 @@
   text-transform: capitalize;
 }
 
-.table-3 :is(td, th) {
-  border-bottom: 1px solid #2d2d2d;
+.table-3 tr td:last-of-type {
+  text-align: right;
 }
 
+/* column sizing */
+.table-3 th:first-of-type { width: 20px; }
+
+.table-3 th:nth-child(2) {
+  width: 133px;
+  min-width: 133px;
+  max-width: 133px;
+}
+
+.table-3 th:nth-child(3) {
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
+}
+
+/* padding adjustments */
+.table-3 :is(td, th):first-child { padding-right: 2px; }
+
+.table-3 :is(td, th):last-child { padding-right: 12px; }
+
+/* footer */
 .table-3-footer {
   display: flex;
   align-items: center;
@@ -61,39 +56,40 @@
 }
 
 .table-3-footer p em {
-  color: #ffffff;
+  color: #fff;
   font-style: normal;
 }
 
+/* pagination */
 .table-3-pagination {
-  padding: 16px;
   display: flex;
+  padding: 16px;
 }
 
 .table-3-pagination > button {
-  background: transparent;
-  border: 1px solid #2d2d2d;
-  border-right: 0;
-  color: #ffffff;
-  font-family: inherit;
+  height: 40px;
+  width: 40px;
   padding: 0 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  width: 40px;
-  font-size: 14px;
-  transition: 0.3s;
+
+  font: 14px inherit;
+  color: #fff;
+
+  border: 1px solid #2d2d2d;
+  border-right: 0;
+  background: transparent;
+
+  transition: .3s;
 }
 
 .table-3-pagination > button:first-child {
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+  border-radius: 6px 0 0 6px;
 }
 
 .table-3-pagination > button:last-child {
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
+  border-radius: 0 6px 6px 0;
   border-right: 1px solid #2d2d2d;
 }
 

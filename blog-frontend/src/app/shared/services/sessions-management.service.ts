@@ -1,44 +1,49 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class SessionsManagementService {
 
-  private apiUrl = 'http://localhost:8083/sessions/';
+  private apiUrl = 'http://localhost:8083/sessions';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  addSession(session: any){
-    return this.http.post<any>(`${this.apiUrl}`, session);
+  // POST /sessions/
+  addSession(session: any): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/`, session);
   }
 
-  getAllSessions(email:any){
-    return this.http.get<any[]>(this.apiUrl + "list/" + email);
+  // GET /sessions/list/{email}
+  getAllSessions(email: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/list/${email}`);
   }
 
-  setIsItMe(id: any, isMe: any){
-    return this.http.get<any>(this.apiUrl + "isMe/" + id + "/" + isMe);
+  // PATCH /sessions/?id=...&isMe=...
+  setIsItMe(id: string, isMe: boolean): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/?id=${id}&isMe=${isMe}`, {});
   }
 
-  setAlert(email:any, time: any){
-    return this.http.get<any>(this.apiUrl + "activity/" + email +"/" + time);
+  // PATCH /sessions/alert?email=...&time=...
+  setAlert(email: string, time: any): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/alert?email=${email}&time=${time}`, {});
   }
 
-  getSessionByTime(time: any){
-    return this.http.get<any>(this.apiUrl + "activity/" + time);
+  // GET /sessions/{id}
+  getSession(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
   }
 
-
-  getSession(id: any){
-    return this.http.get<any>(this.apiUrl + "session/" + id);
+  // GET /sessions/alerts/{email}
+  getAlerts(email: string): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/alerts/${email}`);
   }
 
-
-
-
-
-
+  // GET /sessions/?time=...
+  getSessionByTime(time: any): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/?time=${time}`);
+  }
 
 }

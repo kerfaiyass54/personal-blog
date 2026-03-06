@@ -1,123 +1,145 @@
 <aside class="sidebar">
-  <header>
-  </header>
+  <header></header>
 
   <ul>
+
     <li>
-      <input type="radio" id="dashboard" name="sidebar" />
+      <input type="radio" id="dashboard" name="sidebar">
       <label for="dashboard">
         <i class="bi bi-speedometer2"></i>
         <p>Dashboard</p>
       </label>
     </li>
 
+    <!-- Skills -->
     <li>
-      <input type="radio" id="settings" name="sidebar" />
+      <input type="radio" id="settings" name="sidebar">
       <label for="settings">
         <i class="bi-gear"></i>
         <p>Skills</p>
         <i class="bi-chevron-down"></i>
       </label>
+
       <div class="sub-menu">
         <ul>
           @for (s of skill; track s.id) {
-            <div>
-              <li><button type="button" class="link-title" routerLink="{{s.link}}">{{ s.title }}</button></li>
-            </div>
+            <li>
+              <button type="button" class="link-title" [routerLink]="s.link">
+                {{ s.title }}
+              </button>
+            </li>
           }
         </ul>
       </div>
     </li>
 
+    <!-- Articles -->
     <li>
-      <input type="radio" id="create" name="sidebar" />
+      <input type="radio" id="create" name="sidebar">
       <label for="create">
         <i class="bi-folder-plus"></i>
         <p>Articles</p>
         <i class="bi-chevron-down"></i>
       </label>
+
       <div class="sub-menu">
         <ul>
-
           @for (a of articles; track a.id) {
-            <div>
-              <li><button type="button" class="link-title" routerLink="{{a.link}}">{{ a.title }}</button></li>
-            </div>
+            <li>
+              <button type="button" class="link-title" [routerLink]="a.link">
+                {{ a.title }}
+              </button>
+            </li>
           }
         </ul>
       </div>
     </li>
 
+    <!-- Lessons -->
     <li>
-      <input type="radio" id="lessons" name="sidebar" />
+      <input type="radio" id="lessons" name="sidebar">
       <label for="lessons">
         <i class="bi-journal-text"></i>
         <p>Lessons</p>
         <i class="bi-chevron-down"></i>
       </label>
+
       <div class="sub-menu">
         <ul>
-
           @for (l of lesson; track l.id) {
-            <div>
-              <li><button type="button" class="link-title" routerLink="{{l.link}}">{{ l.title }}</button></li>
-            </div>
+            <li>
+              <button type="button" class="link-title" [routerLink]="l.link">
+                {{ l.title }}
+              </button>
+            </li>
           }
         </ul>
       </div>
     </li>
 
-    <li role="button">
-      <input type="radio" id="profile" name="sidebar"/>
+    <!-- Profile -->
+    <li>
+      <input type="radio" id="profile" name="sidebar">
       <label for="profile">
         <i class="bi-person"></i>
         <p>Profile</p>
       </label>
     </li>
 
-
-    <li role="button"  routerLink="/{{role}}/user-details">
-      <input type="radio" id="account" name="sidebar" />
+    <!-- Account -->
+    <li [routerLink]="'/' + role + '/user-details'">
+      <input type="radio" id="account" name="sidebar">
       <label for="account">
         <i class="bi-lock"></i>
         <p>Account</p>
       </label>
     </li>
 
-    <li role="button" routerLink="/{{role}}/user-history">
-      <input type="radio" id="login" name="sidebar" />
+    <!-- Login History -->
+    <li [routerLink]="'/' + role + '/user-history'">
+      <input type="radio" id="login" name="sidebar">
       <label for="login">
         <i class="bi-alarm"></i>
         <p>Login history</p>
       </label>
     </li>
 
-    <li role="button" class="signout" data-bs-toggle="modal" data-bs-target="#signoutModal">
-      <input type="radio" id="out" name="sidebar" />
+    <!-- Signout -->
+    <li class="signout" data-bs-toggle="modal" data-bs-target="#signoutModal">
+      <input type="radio" id="out" name="sidebar">
       <label for="out">
         <i class="bi-airplane"></i>
         <p>Sign out</p>
       </label>
     </li>
+
   </ul>
 </aside>
 
 
-<div class="modal fade" id="signoutModal" tabindex="-1" aria-labelledby="signoutModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="signoutModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
+
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="signoutModalLabel">Confirm signing out</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h1 class="modal-title fs-5">Confirm signing out</h1>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
       </div>
+
       <div class="modal-body">
-        Are you sure to sign out?
+        Are you sure you want to sign out?
       </div>
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="logout()">Sign out</button>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">
+          Close
+        </button>
+        <button class="btn btn-primary" (click)="logout()">
+          Sign out
+        </button>
       </div>
+
     </div>
   </div>
 </div>
-

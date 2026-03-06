@@ -1,28 +1,28 @@
 .slice {
-  --c1: white;
-  --c2: var(--c2, #00a1b7); // fallback if not provided
+  --c1: #fff;
+  --c2: var(--c2, #00a1b7);
 
   display: inline-flex;
-  justify-content: center;
-  align-items: center;
+  place-content: center;
+  place-items: center;
 
   width: 100%;
-  padding: 0.9em 1em;
+  padding: .9em 1em;
 
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
+  font: 600 18px/1 inherit;
+  letter-spacing: .5px;
 
   text-decoration: none;
-  background-color: transparent;
+  background: transparent;
   cursor: pointer;
 
-  border-radius: 12px;
   border: 2px solid var(--c2);
+  border-radius: 12px;
 
-  overflow: hidden;
   position: relative;
-  transition: 300ms cubic-bezier(0.83, 0, 0.17, 1);
+  overflow: hidden;
+
+  transition: 300ms cubic-bezier(.83,0,.17,1);
 }
 
 .slice > .text {
@@ -42,18 +42,12 @@
   width: 0;
   height: 300%;
 
-  background-color: var(--c2);
-  transition: 600ms cubic-bezier(0.83, 0, 0.17, 1);
+  background: var(--c2);
+  transition: 600ms cubic-bezier(.83,0,.17,1);
 }
 
-.slice:hover::after {
-  width: 130%;
-}
+.slice:hover::after { width: 130%; }
 
-.slice:hover > .text {
-  color: var(--c1);
-}
+.slice:hover > .text { color: var(--c1); }
 
-.slice:active {
-  transform: scale(0.97);
-}
+.slice:active { transform: scale(.97); }
