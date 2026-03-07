@@ -96,7 +96,7 @@ Ensure you have the following installed:
 
 #### **1. Clone the Repository**
 ```bash
-git clone https://github.com/your-username/personal-blog.git
+git clone https://github.com/kerfaiyass54/personal-blog.git
 cd personal-blog
 ```
 
