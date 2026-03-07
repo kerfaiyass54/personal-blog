@@ -1,31 +1,87 @@
 <div class="login-page">
-  <form class="my-form" aria-labelledby="login-title" [formGroup]="signUpForm"> <div class="login-welcome-row">
-     <p>Please enter your details!</p>
-  </div>
-    <div class="input_wrapper">
-      <input
-        type="email" id="email" name="email" class="input_field form-control" formControlName="email" placeholder="Email" required>
+  <form
+    class="my-form"
+    aria-labelledby="login-title"
+    [formGroup]="signUpForm"
+    (ngSubmit)="signup()"
+  >
+
+    <div class="login-welcome-row">
+      <p>Please enter your details!</p>
     </div>
 
+    <!-- EMAIL -->
     <div class="input_wrapper">
+      <label for="email" class="sr-only">Email</label>
       <input
-        type="text" id="name" name="name" class="input_field form-control" formControlName="name" placeholder="Name" required>
+        id="email"
+        type="email"
+        class="input_field"
+        formControlName="email"
+        placeholder="Email"
+        autocomplete="email"
+        required
+      />
     </div>
+
+    <!-- NAME -->
     <div class="input_wrapper">
-      <input id="password" type="password" class="input_field form-control" formControlName="password" placeholder="Password" required>
-    </div>
-    <div class="input_wrapper">
+      <label for="name" class="sr-only">Name</label>
       <input
-        type="password" id="confirm" name="confirm" class="input_field form-control" formControlName="confirm" placeholder="Confirm password" required>
+        id="name"
+        type="text"
+        class="input_field"
+        formControlName="name"
+        placeholder="Name"
+        autocomplete="name"
+        required
+      />
     </div>
-    <button type="submit" class="my-form__button" (click)="signup()">
+
+    <!-- PASSWORD -->
+    <div class="input_wrapper">
+      <label for="password" class="sr-only">Password</label>
+      <input
+        id="password"
+        type="password"
+        class="input_field"
+        formControlName="password"
+        placeholder="Password"
+        autocomplete="new-password"
+        required
+      />
+    </div>
+
+    <!-- CONFIRM PASSWORD -->
+    <div class="input_wrapper">
+      <label for="confirm" class="sr-only">Confirm Password</label>
+      <input
+        id="confirm"
+        type="password"
+        class="input_field"
+        formControlName="confirm"
+        placeholder="Confirm password"
+        autocomplete="new-password"
+        required
+      />
+    </div>
+
+    <!-- BUTTON -->
+    <button
+      type="submit"
+      class="my-form__button"
+      [disabled]="signUpForm.invalid"
+    >
       Sign up
     </button>
+
+    <!-- FOOTER -->
     <div class="my-form_actions">
       <div class="my-form_row">
-        <span>Already have an account?</span> <a href="/login" title="Log in"> Login here</a>
+        <span>Already have an account?</span>
+        <a routerLink="/login">Login here</a>
       </div>
     </div>
+
   </form>
 </div>
-

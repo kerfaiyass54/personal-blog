@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
-import {LoginServiceService} from "../shared/services/login-service.service";
-import {TableComponent} from "../components/table/table.component";
 import {RouterOutlet} from "@angular/router";
 
 @Component({
@@ -20,7 +18,7 @@ export class ReaderUiComponent implements OnInit{
 
 
 
-  constructor(private sessionService: SessionsManagementService, private loginService: LoginServiceService) {
+  constructor(private sessionService: SessionsManagementService) {
   }
 
   ngOnInit() {

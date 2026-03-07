@@ -20,8 +20,7 @@ export class LoginScreenComponent implements OnInit{
   submitted = false;
 
 
-  constructor(private fb: FormBuilder, private loginService: LoginServiceService, private router: Router, private toastrService: ToastrService,
-              private sessionService: SessionsManagementService) {
+  constructor(private fb: FormBuilder, private loginService: LoginServiceService, private router: Router, private toastrService: ToastrService) {
     this.loginForm = this.fb.group({
       email: new FormControl("",[Validators.required,Validators.email]),
       password:new FormControl("",[Validators.required]),});

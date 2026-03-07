@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
-import {LoginServiceService} from "../shared/services/login-service.service";
 import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
-import {TableComponent} from "../components/table/table.component";
 
 @Component({
     selector: 'app-writer-ui',
@@ -17,7 +15,7 @@ export class WriterUiComponent implements OnInit{
 
 
 
-  constructor(private sessionService: SessionsManagementService, private loginService: LoginServiceService) {
+  constructor(private sessionService: SessionsManagementService) {
   }
 
   ngOnInit() {

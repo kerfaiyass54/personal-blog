@@ -8,18 +8,19 @@
   animation: fade-up 0.4s ease;
 }
 
+/* CARD */
+
 .card {
   width: 100%;
   max-width: 700px;
-  border: none;
-  border-radius: 16px;
-  background: #ffffff;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
+  background: #fff;
+  border: none;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  overflow: hidden;
 }
-
 
 .card-header {
   padding: 1.5rem;
@@ -32,27 +33,28 @@
   color: #495057;
 }
 
-.alert-login {
-  display: inline-block;
-  padding: 0.4rem 0.8rem;
-  border-radius: 999px;
-  background: #fee2e2;
-  color: #dc2626;
-  font-weight: 500;
-  font-size: 0.9rem;
-}
+/* STATUS BADGES */
 
+.alert-login,
 .good-login {
   display: inline-block;
   padding: 0.4rem 0.8rem;
   border-radius: 999px;
-  background: #dcfce7;
-  color: #16a34a;
-  font-weight: 500;
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
+.alert-login {
+  background: #fee2e2;
+  color: #dc2626;
+}
 
+.good-login {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+/* BODY */
 
 .card-body {
   padding: 2rem;
@@ -60,5 +62,3 @@
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
 }
-
-

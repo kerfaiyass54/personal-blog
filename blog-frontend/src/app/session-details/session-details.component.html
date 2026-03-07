@@ -1,26 +1,53 @@
 <div class="container-fluid">
   <div class="card">
+
     <div class="card-header">
-      <h1 class="text-center">Your login at: {{time}}</h1>
-      <div>
-        @if (alert.length > 0) {
-          <h2 class="text-center alert-login">This can be a suspicious login</h2>
-        } @else {
-          <h2 class="text-center good-login">There is no alert</h2>
-        }
-      </div>
+      <h1 class="text-center">
+        Your login at: {{ time }}
+      </h1>
+
+      @if (alert.length > 0) {
+        <h2 class="text-center alert-login">
+          This can be a suspicious login
+        </h2>
+      } @else {
+        <h2 class="text-center good-login">
+          There is no alert
+        </h2>
+      }
     </div>
+
     <div class="card-body grid">
-      <app-information-card [title]="browser.title" [value]="browser.value" [color]="'#4f46e5'">
+
+      <app-information-card
+        [title]="browser.title"
+        [value]="browser.value"
+        color="#4f46e5">
       </app-information-card>
-      <app-information-card [title]="os.title" [value]="os.value" [color]="'#4f46e5'">
+
+      <app-information-card
+        [title]="os.title"
+        [value]="os.value"
+        color="#4f46e5">
       </app-information-card>
 
     </div>
+
     <div class="card-footer">
-      <app-button [link]="'/' + role + '/user-history'" [text]="'Go back'" color="#4f46e5"></app-button>
-      <app-button text="Not you?" color="#dc2626" [link]="'/' + role + '/password'"></app-button>
+
+      <app-button
+        text="Go back"
+        color="#4f46e5"
+        [link]="'/' + role + '/user-history'">
+      </app-button>
+
+      <app-button
+        text="Not you?"
+        color="#dc2626"
+        [link]="'/' + role + '/password'">
+      </app-button>
 
     </div>
+
   </div>
 </div>
