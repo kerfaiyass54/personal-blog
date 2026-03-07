@@ -1,11 +1,8 @@
 
 # **Personal Blog Platform** 🌟
 
-[![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)](https://angular.io/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-%2347A248.svg?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Elasticsearch](https://img.shields.io/badge/Elasticsearch-005571?style=for-the-badge&logo=elasticsearch&logoColor=white)](https://www.elastic.co/elasticsearch/)
-[![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/features/actions)
+[![My Skills](https://skillicons.dev/icons?i=py,docker,spring,angular,bootstrap,css,git,github,html,idea,mongodb,npm,postman)](https://skillicons.dev)
+
 
 A **modern, full-stack personal blog platform** built with **TypeScript, Angular, and Spring Boot**, designed for both content creators and readers. Perfect for sharing articles, IT lessons, and technical explanations with a clean, intuitive interface and robust backend.
 
