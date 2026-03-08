@@ -48,7 +48,7 @@ export class SessionDetailsComponent implements OnInit{
       ()=>{
         this.router.navigate(['/reader/password']);
       }
-    )
+    );
   }
 
 
