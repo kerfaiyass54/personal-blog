@@ -1,65 +1,80 @@
 
-# 🌟 Personal Blog Platform
+# **Personal Blog Platform** 🌟
 
-[![My Skills](https://skillicons.dev/icons?i=angular,html,css,ts,githubactions,docker,spring,mongodb,py)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=py,docker,spring,angular,bootstrap,css,git,github,html,idea,mongodb,npm,postman)](https://skillicons.dev)
 
-A **full-stack personal blog platform** built with **Java (Spring Boot)** for the backend and **Angular** for the frontend. Perfect for articles readers and me, who will be the author of many ones and the creator of some lessons related to IT skills.
+
+A **modern, full-stack personal blog platform** built with **TypeScript, Angular, and Spring Boot**, designed for both content creators and readers. Perfect for sharing articles, IT lessons, and technical explanations with a clean, intuitive interface and robust backend.
 
 ---
 
 ## ✨ **Key Features**
 
-✅ **User Authentication & Authorization**
+### **For Writers**
+✅ **Content Creation & Management**
+- Write, edit, and publish articles and technical lessons
+- Rich text editor for formatting content
+- Keyword and skill tagging for better organization
+
+✅ **User Authentication & Security**
 - JWT-based authentication
 - Role-based access control (Writer/Reader)
-- Secure login and registration
+- Secure login and registration with password recovery
 
-✅ **Content Management**
-- Create, edit, and publish blog articles or skills lessons.
-- Rich summarize and explaining generation
-- Skills and keywords for better explanations
+✅ **Session Management**
+- Track login sessions with OS and browser detection
+- Alerts for suspicious login activities
+- Session history for security monitoring
 
-✅ **Search & Discovery**
-- Elasticsearch integration for fast and relevant search and AI recommandations
+### **For Readers**
+✅ **Seamless Reading Experience**
+- Clean, responsive UI with intuitive navigation
+- Search and filter articles by tags, skills, and topics
+- Access to structured lessons and summaries
+
+✅ **Personalized Content**
+- AI-powered recommendations for related articles
+- Easy-to-navigate dashboard with categorized content
+
+### **Backend & Infrastructure**
+✅ **Scalable Architecture**
 - MongoDB for flexible data storage
+- Elasticsearch for fast and relevant search
+- RESTful API design for seamless integration
 
-✅ **Modern UI/UX**
-- Responsive Angular frontend
-- Clean, intuitive interface
-- Role-specific dashboards
-
-✅ **Scalability & Performance**
+✅ **Performance & Reliability**
 - Optimized for high traffic
-- RESTful API design
-- Efficient data handling
+- Docker support for easy deployment
+- GitHub Actions for CI/CD pipelines
 
 ---
 
 ## 🛠️ **Tech Stack**
 
-### **Backend (Java)**
+### **Frontend**
+- **Framework**: Angular 21
+- **Styling**: SCSS, Bootstrap 5
+- **State Management**: RxJS
+- **UI Components**: Material Design, Bootstrap Icons
+- **Notifications**: ngx-toastr
+- **Authentication**: JWT Decode
+- **WebSockets**: STOMP.js
+
+### **Backend**
 - **Framework**: Spring Boot 4.0.0
-- **Database**: MongoDB (NoSQL)
-- **Search**: Elasticsearch
+- **Language**: TypeScript (Frontend), Java 21 (Backend)
+- **Database**: MongoDB
+- **Search Engine**: Elasticsearch
 - **Security**: JWT, Spring Security
 - **Validation**: Spring Validation
 - **Build Tool**: Maven
-- **Language**: Java 21, Python
-- **Testing**: JUnit, Mockito 
 
-### **Frontend (Angular)**
-- **Framework**: Angular 21
-- **Build Tool**: Angular CLI
-- **Styling**: SCSS, bootstrap
-- **Testing**: Jasmine + Karma
-- **State Management**: RxJS
-
-### **Other Tools**
+### **DevOps & Tools**
 - **IDE**: IntelliJ IDEA / VS Code
 - **Package Manager**: npm / yarn
-- **DevOps**: GitHub Actions / Docker
-- **Tasks**: Jira/Confluence
-
+- **CI/CD**: GitHub Actions
+- **Containerization**: Docker
+- **Testing**: JUnit (Backend), Jasmine + Karma (Frontend)
 
 ---
 
@@ -67,12 +82,13 @@ A **full-stack personal blog platform** built with **Java (Spring Boot)** for th
 
 ### **Prerequisites**
 Ensure you have the following installed:
+- **Node.js** v20+ ([Download](https://nodejs.org/))
+- **npm** or **yarn** (comes with Node.js)
+- **Angular CLI** (`npm install -g @angular/cli@21`)
 - **Java JDK 21** ([Download](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html))
 - **Maven 3.9.11** ([Download](https://maven.apache.org/download.cgi))
-- **Node.js 20+** ([Download](https://nodejs.org/))
-- **Angular CLI** (`npm install -g @angular/cli@21`)
 - **MongoDB** ([Download](https://www.mongodb.com/try/download/community))
-- **Python**
+- **Python** (for backend scripts if needed)
 
 ---
 
@@ -92,7 +108,7 @@ cd blog-backend
 # Build and run the Spring Boot application
 ./mvnw spring-boot:run
 ```
-The backend will start on `http://localhost:<your-configured-port`.
+The backend will start on `http://localhost:8083`.
 
 #### **3. Set Up the Frontend**
 ```bash
@@ -109,46 +125,89 @@ The frontend will start on `http://localhost:4200`.
 
 ---
 
+### **Environment Configuration**
+Configure the backend using the `.env` file or `application.properties` in `blog-backend/src/main/resources`:
+
+```properties
+# MongoDB Configuration
+spring.mongodb.uri=mongodb://localhost:27017/blog_database
+
+# Email Configuration (for password recovery)
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.username=your-email@gmail.com
+spring.mail.password=your-email-password
+email=noreply@blogproject.com
+
+# Server Port
+server.port=8083
+```
+
+
+## 🔧 **Configuration**
+
+### **Environment Variables**
+Create a `.env` file in the root directory for local development:
+
+```env
+# Frontend
+NODE_ENV=development
+API_BASE_URL=http://localhost:8083/api
+
+# Backend (in application.properties)
+spring.mongodb.uri=mongodb://localhost:27017/blog_database
+spring.mail.username=your-email@gmail.com
+spring.mail.password=your-email-password
+```
 
 ### **Customization**
-- **Backend**: Modify `application.properties` in `blog-backend/src/main/resources`.
-- **Frontend**: Update `angular.json` for build configurations or `styles.scss` for global styles.
-- **Database**: Create new database using MongoDB Compass and insert new data there according to the entities code.
+- **Backend**: Modify `application.properties` in `blog-backend/src/main/resources` for database connections, ports, and other configurations.
+- **Frontend**: Update `angular.json` to change build configurations, assets, and styles.
+- **Themes**: Customize the UI by modifying SCSS files in the `src/styles` directory.
 
 ---
 
 ## 🤝 **Contributing**
 
-We welcome contributions! Here’s how you can help:
+We welcome contributions from the community! Here’s how you can get involved:
 
 ### **Development Setup**
-1. Fork the repository.
-2. Clone your fork locally:
+1. **Fork** the repository.
+2. **Clone** your fork locally.
+3. **Install** dependencies:
    ```bash
-   git clone https://github.com/kerfaiyass54/personal-blog.git
+   cd blog-backend && ./mvnw install
+   cd ../blog-frontend && npm install
    ```
-3. Install dependencies (as shown in the [Installation](#%E2%9C%94-installation) section).
-4. Create a new branch:
+4. **Run** the application:
    ```bash
-   git checkout -b feature/your-feature
+   cd blog-backend && ./mvnw spring-boot:run
+   cd ../blog-frontend && npm start
    ```
 
 ### **Code Style Guidelines**
-- **Backend**: Follow Spring Boot conventions. Use Lombok for boilerplate reduction.
-- **Frontend**: Follow Angular style guide. Use SCSS for styling.
-- **Commit Messages**: Use [Conventional Commits](https://www.conventionalcommits.org/) format.
+- **TypeScript**: Follow TypeScript best practices and use interfaces for complex data structures.
+- **Angular**: Use standalone components where applicable and follow Angular’s style guide.
+- **Java**: Follow Spring Boot conventions and use Lombok for reducing boilerplate code.
+- **Testing**: Write unit tests for critical components and ensure test coverage is maintained.
 
 ### **Pull Request Process**
-1. Write a clear description of your changes.
-2. Ensure your code passes all tests.
-3. Submit a pull request to the `main` branch.
+1. **Create** a new branch for your feature or bug fix.
+2. **Commit** changes with clear, concise messages.
+3. **Push** your branch and open a **Pull Request** to the `main` branch.
+4. **Review**: Your PR will be reviewed by maintainers. Address any feedback and iterate as needed.
 
 ---
 
 
-### **FAQ**
-**Q: How do I deploy this?**
-A: You can deploy the backend to any Java servlet container (e.g., Tomcat, WildFly) or use a cloud platform like Heroku or AWS. The frontend can be deployed to any static hosting service (e.g., Netlify, Vercel).
 
-**Q: Can I use a different database?**
-A: Yes! The backend is designed to work with MongoDB, but you can easily switch to another database by modifying the configuration in `application.properties`.
+## 🚀 **Get Started Today!**
+
+Ready to build your personal blog platform? Follow the steps above to set up and start contributing. Whether you're a developer looking to enhance your skills or a content creator wanting a robust platform, this project is for you!
+
+🌟 **Star this repository** to show your support and stay updated with the latest developments!
+
+Happy coding! 💻🚀
+```
