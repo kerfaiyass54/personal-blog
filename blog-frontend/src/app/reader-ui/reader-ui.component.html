@@ -5,8 +5,13 @@
     [articles]="articles"
   [role]="'reader'">
   </app-nav-bar>
+@if(loading){
+<app-loader></app-loader>
+}
+  @else(){
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  }
 
-  <main class="content">
-    <router-outlet></router-outlet>
-  </main>
 </div>

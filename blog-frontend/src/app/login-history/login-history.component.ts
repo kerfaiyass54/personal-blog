@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {TableComponent} from "../components/table/table.component";
-import {Route, Router} from "@angular/router";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-history',
@@ -13,6 +13,7 @@ import {Route, Router} from "@angular/router";
 })
 export class LoginHistoryComponent implements OnInit{
 
+  loading = true;
   email: any = '';
   sessions: any [] = [];
   columns = ['id','Operating system',
@@ -23,7 +24,7 @@ export class LoginHistoryComponent implements OnInit{
   selectedSession: any[] | null = null;
   showModal = false;
   id: any = '';
-  role: any = '';
+  role: string | undefined = '';
 
   handleRowClick(row: any[]) {
     this.selectedSession = row;
@@ -38,6 +39,7 @@ export class LoginHistoryComponent implements OnInit{
   }
 
   ngOnInit() {
+
     this.role = sessionStorage.getItem("role")?.toLowerCase();
     this.email = sessionStorage.getItem("email");
     this.sessionsService.getAllSessions(this.email).subscribe(
@@ -53,6 +55,8 @@ export class LoginHistoryComponent implements OnInit{
       }
     )
   }
+
+
 
 
 

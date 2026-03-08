@@ -1,18 +1,19 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {LoginServiceService} from "../../shared/services/login-service.service";
 import {ToastrService} from "ngx-toastr";
+import {LoaderComponent} from "../loader/loader.component";
 
 
 
 @Component({
     selector: 'app-nav-bar',
     standalone: true,
-    imports: [RouterLink],
+  imports: [RouterLink, LoaderComponent],
     templateUrl: './nav-bar.component.html',
     styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent {
+export class NavBarComponent implements OnInit{
 
   constructor(private loginService: LoginServiceService, private route: Router, private toastrService: ToastrService) {
   }
@@ -22,8 +23,13 @@ export class NavBarComponent {
   @Input() lesson: any[] = [];
   @Input() role: string = '';
   id: any = '';
+  loading = true;
 
 
+
+  ngOnInit() {
+    this.loadPage();
+  }
 
   logout(){
     this.id = sessionStorage.getItem('sessionId');
@@ -32,6 +38,13 @@ export class NavBarComponent {
     window.location.reload();
     sessionStorage.clear();
     this.toastrService.success("LOGOUT","You're out now!");
+  }
+
+  loadPage(){
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
   }
 
 

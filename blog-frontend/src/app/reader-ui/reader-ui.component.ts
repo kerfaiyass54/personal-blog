@@ -1,27 +1,42 @@
 import {Component, OnInit} from '@angular/core';
 import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
-import {RouterOutlet} from "@angular/router";
+import {RouterOutlet, Router, NavigationEnd} from "@angular/router";
+import {filter} from "rxjs/operators";
+import {LoaderComponent} from "../components/loader/loader.component";
 
 @Component({
-    selector: 'app-reader-ui',
-    standalone: true,
+  selector: 'app-reader-ui',
+  standalone: true,
   imports: [
     NavBarComponent,
     RouterOutlet,
+    LoaderComponent,
   ],
-    templateUrl: './reader-ui.component.html',
-    styleUrl: './reader-ui.component.scss'
+  templateUrl: './reader-ui.component.html',
+  styleUrl: './reader-ui.component.scss'
 })
 export class ReaderUiComponent implements OnInit{
 
+  currentUrl: string = '';
+  loading = false;
 
 
-
-  constructor(private sessionService: SessionsManagementService) {
+  constructor(
+    private sessionService: SessionsManagementService,
+    private router: Router
+  ) {
   }
 
   ngOnInit() {
+
+    // URL change listener
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.currentUrl = event.urlAfterRedirects;
+this.loadPage();      });
+
     if((sessionStorage.getItem("sessionId") == null) ){
       this.keepSession(sessionStorage.getItem("email"));
     }
@@ -69,5 +84,10 @@ export class ReaderUiComponent implements OnInit{
   articles:any[] = [{id: 0, title: 'Check',link: ''},
     {id: 1, title: 'Summaries',link: ''}];
 
-
+  loadPage(){
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+    }, 2000);
+  }
 }
