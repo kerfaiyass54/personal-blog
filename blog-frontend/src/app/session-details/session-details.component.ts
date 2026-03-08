@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {InformationCardComponent} from "../components/information-card/information-card.component";
 import {ButtonComponent} from "../components/button/button.component";
@@ -16,15 +16,15 @@ import {ButtonComponent} from "../components/button/button.component";
 })
 export class SessionDetailsComponent implements OnInit{
 
-  role: any = '';
+  role: string | undefined;
   id: any = '';
   browser: any = {title: 'Browser', value: ''};
   os: any = {title: 'OS', value: ''};
   time: any = '';
-  isMe: any = false;
-  alert: any = '';
+  isMe: boolean = false;
+  alert: string = '';
 
-  constructor(private activeRouter: ActivatedRoute, private sessionsService: SessionsManagementService) {
+  constructor(private activeRouter: ActivatedRoute, private sessionsService: SessionsManagementService, private router: Router) {
   }
 
   ngOnInit() {
@@ -39,6 +39,14 @@ export class SessionDetailsComponent implements OnInit{
         this.time = session.time;
         this.alert = session.alert;
         this.isMe = session.me;
+      }
+    )
+  }
+
+  notMe(){
+    this.sessionsService.setIsItMe(this.id,false).subscribe(
+      ()=>{
+        this.router.navigate(['/reader/password']);
       }
     )
   }
