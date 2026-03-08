@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {RouterLink} from "@angular/router";
 
 @Component({
@@ -13,5 +13,10 @@ export class ButtonComponent {
   @Input() text: string = '';
   @Input() link: string | any[] = '';
   @Input() color: string = '#00a1b7';
+  @Output() action = new EventEmitter<void>();
+
+  handleClick() {
+    this.action.emit();
+  }
 
 }
