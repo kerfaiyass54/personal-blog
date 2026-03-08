@@ -1,1 +1,13 @@
-<p>error-not-found works!</p>
+<div class="not-found-wrapper">
+  <div class="card">
+    <h1 class="code">404</h1>
+
+    <h2 class="title">Page not found</h2>
+
+    <p class="description">
+      The page you are looking for doesn't exist or has been moved.
+    </p>
+
+    <app-button [text]="'Return back'" [color]="'#5b4cf0'" (action)="goBack()"></app-button>
+  </div>
+</div>
