@@ -1,30 +1,31 @@
 package com.blogproject.blogproject.service;
 
-
 import com.blogproject.blogproject.entities.PasswordResetToken;
 import com.blogproject.blogproject.repository.ResetPasswordRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
 import java.time.Instant;
-import java.util.List;
-import java.util.Random;
 
 @Service
 @Slf4j
 public class PasswordResetService {
 
-
     private final ResetPasswordRepository resetPasswordRepository;
     private final EmailService emailService;
 
-    public PasswordResetService(ResetPasswordRepository resetPasswordRepository, EmailService emailService) {
+    private final SecureRandom secureRandom = new SecureRandom();
+
+    public PasswordResetService(ResetPasswordRepository resetPasswordRepository,
+                                EmailService emailService) {
         this.resetPasswordRepository = resetPasswordRepository;
         this.emailService = emailService;
     }
 
     public void sendResetCode(String email) {
-        String code = String.valueOf(100000 + new Random().nextInt(900000));
+
+        String code = String.valueOf(100000 + secureRandom.nextInt(900000));
 
         PasswordResetToken token = new PasswordResetToken();
         token.setEmail(email);
@@ -56,11 +57,13 @@ public class PasswordResetService {
             return false;
         }
 
+        if (token.getExpiration().isBefore(Instant.now())) {
+            return false;
+        }
+
         token.setUsed(true);
         resetPasswordRepository.save(token);
 
         return true;
     }
-
-
 }

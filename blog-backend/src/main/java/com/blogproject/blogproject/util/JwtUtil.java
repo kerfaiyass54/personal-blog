@@ -11,9 +11,9 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final String jwtSecret = "mySuperSecretKeyForJwtMySuperSecretKeyForJwt"; // 256-bit
-    private final int jwtExpirationMs = 86400000; // 1 day
-    private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+    private final static String jwtSecret = "mySuperSecretKeyForJwtMySuperSecretKeyForJwt"; // 256-bit
+    private final static int jwtExpirationMs = 86400000; // 1 day
+    private final static Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
     public String generateToken(String username, String role) {
         return Jwts.builder()
