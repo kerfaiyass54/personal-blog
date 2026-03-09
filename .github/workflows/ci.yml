@@ -54,7 +54,7 @@ jobs:
 
       - name: Build Angular
         run: |
-          cd frontend
+          cd blog-frontend
           npm run build -- --configuration production
 
 
@@ -76,7 +76,7 @@ jobs:
       - name: SonarCloud Scan Backend
         run: |
           cd blog-backend
-          mvn sonar:sonar \
+          mvn clean verify sonar:sonar \
             -Dsonar.projectKey=kerfaiyass54_personal-blog \
             -Dsonar.organization=kerfaiyass54 \
             -Dsonar.host.url=https://sonarcloud.io \
