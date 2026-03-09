@@ -1,5 +1,6 @@
 package com.blogproject.blogproject.entities;
 
+import com.blogproject.blogproject.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -37,7 +38,7 @@ public class User {
     private String password;
 
     @NotBlank(message = "Role cannot be empty")
-    private String role;
+    private UserRole role;
 
     private Instant passwordChangedAt;
 }
