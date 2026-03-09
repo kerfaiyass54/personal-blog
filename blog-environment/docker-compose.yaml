@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+
+  mongodb:
+    image: mongo:7
+    container_name: blog-mongodb
+    restart: always
+    ports:
+      - "27019:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - blog-network
+
+  backend:
+    build: ./blog-backend
+    container_name: blog-backend
+    depends_on:
+      - mongodb
+    ports:
+      - "8083:8083"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/blog_database
+    networks:
+      - blog-network
+
+  frontend:
+    build: ./blog-frontend
+    container_name: blog-frontend
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+    networks:
+      - blog-network
+
+volumes:
+  mongo_data:
+
+networks:
+  blog-network:
