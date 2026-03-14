@@ -33,9 +33,9 @@ public class ProfileController {
         return new ResponseEntity<>(profileEditableDTO1, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProfileEditableDTO> getProfile(@PathVariable String id){
-        return new ResponseEntity<>(profileService.getProfile(id), HttpStatus.OK);
+    @GetMapping("/{username}")
+    public ResponseEntity<ProfileEditableDTO> getProfile(@PathVariable String username){
+        return new ResponseEntity<>(profileService.getProfile(username), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

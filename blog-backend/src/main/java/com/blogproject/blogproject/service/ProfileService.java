@@ -65,9 +65,9 @@ public class ProfileService {
         return profileToEditable(profile);
     }
 
-    public ProfileEditableDTO getProfile(String id){
-        Optional<Profile> profile = profileRepository.findById(id);
-        return profile.map(this::profileToEditable).orElse(null);
+    public ProfileEditableDTO getProfile(String username){
+        Optional<User>  user = userRepository.findByName(username);
+        return user.map(value -> profileToEditable(value.getProfile())).orElse(null);
     }
 
     public void editProfile(String id, ProfileEditableDTO profileEditableDTO){
