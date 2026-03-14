@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserProfile } from '../shared/models/UserProfile';
-import {getNationalityByCode} from "../shared/utils/countries.utils";
+import {getNationalityByCode, getNationalityByLabel} from "../shared/utils/countries.utils";
 import {getInterestsByLabels} from "../shared/utils/interests.utils";
 
 
@@ -15,11 +15,11 @@ import {getInterestsByLabels} from "../shared/utils/interests.utils";
 export class UserProfileComponent {
 
   profile: UserProfile = {
-    firstName: 'Yasmine',
-    lastName: 'Bensalem',
+    firstName: 'Yassine',
+    lastName: 'KERFAI',
     job: 'Full-Stack Developer',
     birthDate: new Date('1997-06-14'),
-    nationality: getNationalityByCode('TN')!,
+    nationality: getNationalityByLabel('Tunisian')!,
     city: 'Tunis',
     avatarInitials: 'YB',
     interests: getInterestsByLabels([

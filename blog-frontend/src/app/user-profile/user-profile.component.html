@@ -75,10 +75,13 @@
     <div class="interests-section">
       <h2 class="section-title">Interests</h2>
       <div class="interests-grid">
-        <div class="interest-chip" *ngFor="let interest of profile.interests">
-          <span class="chip-icon">{{ interest.icon }}</span>
-          <span class="chip-label">{{ interest.label }}</span>
-        </div>
+        @for(interest of profile.interests; track $index){
+          <div class="interest-chip">
+            <span class="chip-icon">{{ interest.icon }}</span>
+            <span class="chip-label">{{ interest.label }}</span>
+          </div>
+        }
+
       </div>
     </div>
 
