@@ -79,6 +79,11 @@ public class UserService {
         }
     }
 
+    public boolean hasItProfile(String username){
+        Optional<User> dbUser = userRepository.findByEmail(username);
+        return dbUser.filter(user -> user.getProfile() != null).isPresent();
+    }
+
 
 }
 

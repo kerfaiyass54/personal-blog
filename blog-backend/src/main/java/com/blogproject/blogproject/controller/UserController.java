@@ -7,14 +7,8 @@ import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Map;
 
 @RestController
@@ -67,6 +61,12 @@ public class UserController {
     public ResponseEntity<Void> changePassword( @RequestParam String email, @RequestParam String newPass) {
         userService.changePassword(email, newPass);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/profile/{username}")
+    public ResponseEntity<Boolean>  checkUserProfile(@PathVariable String username) {
+        boolean hasItProfile = userService.hasItProfile(username);
+        return new ResponseEntity<>(hasItProfile, HttpStatus.OK);
     }
 
 }
