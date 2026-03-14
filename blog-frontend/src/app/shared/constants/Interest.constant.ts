@@ -1,0 +1,28 @@
+import { Interest } from '../models/Interest';
+
+export const INTERESTS: Interest[] = [
+  { label: 'Technology',     icon: '💻' },
+  { label: 'Photography',    icon: '📷' },
+  { label: 'Travel',         icon: '✈️' },
+  { label: 'Reading',        icon: '📚' },
+  { label: 'Music',          icon: '🎵' },
+  { label: 'Design',         icon: '🎨' },
+  { label: 'Gaming',         icon: '🎮' },
+  { label: 'Cooking',        icon: '🍳' },
+  { label: 'Fitness',        icon: '🏋️' },
+  { label: 'Cinema',         icon: '🎬' },
+  { label: 'Art',            icon: '🖼️' },
+  { label: 'Writing',        icon: '✍️' },
+  { label: 'Science',        icon: '🔬' },
+  { label: 'Sports',         icon: '⚽' },
+  { label: 'Hiking',         icon: '🥾' },
+  { label: 'Fashion',        icon: '👗' },
+  { label: 'Finance',        icon: '📈' },
+  { label: 'Psychology',     icon: '🧠' },
+  { label: 'Languages',      icon: '🌐' },
+  { label: 'Yoga',           icon: '🧘' },
+  { label: 'Astronomy',      icon: '🔭' },
+  { label: 'Architecture',   icon: '🏛️' },
+  { label: 'Volunteering',   icon: '🤝' },
+  { label: 'Podcasts',       icon: '🎙️' },
+];

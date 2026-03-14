@@ -1,0 +1,86 @@
+<!-- user-profile.component.html -->
+<div class="page-wrapper">
+  <div class="profile-card">
+
+    <!-- Header Band -->
+    <div class="card-header">
+      <div class="header-bg"></div>
+      <div class="avatar-wrap">
+        <div class="avatar">{{ profile.avatarInitials }}</div>
+        <span class="status-dot"></span>
+      </div>
+    </div>
+
+    <!-- Name & Job -->
+    <div class="card-identity">
+      <h1 class="full-name">{{ profile.firstName }} {{ profile.lastName }}</h1>
+      <p class="job-title">{{ profile.job }}</p>
+
+      <!-- Action Buttons -->
+      <div class="action-row">
+        <button class="btn btn-edit" (click)="onEdit()">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.166 2.5a2.357 2.357 0 1 1 3.334 3.333L6.25 17.083 2.5 17.5l.417-3.75L14.166 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Edit Profile
+        </button>
+        <button class="btn btn-export" (click)="onExport()">
+          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.333 14.167v1.666A1.667 1.667 0 0 0 5 17.5h10a1.667 1.667 0 0 0 1.667-1.667v-1.666M13.333 10 10 13.333 6.667 10M10 13.333V2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Export
+        </button>
+      </div>
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Info Grid -->
+    <div class="info-grid">
+
+      <!-- Birthday -->
+      <div class="info-tile">
+        <span class="tile-icon">🎂</span>
+        <div class="tile-body">
+          <span class="tile-label">Date of Birth</span>
+          <span class="tile-value">{{ formattedBirthDate }}</span>
+          <span class="tile-sub">{{ age }} years old</span>
+        </div>
+      </div>
+
+      <!-- Nationality -->
+      <div class="info-tile">
+        <span class="tile-icon flag">{{ profile.nationality.flag }}</span>
+        <div class="tile-body">
+          <span class="tile-label">Nationality</span>
+          <span class="tile-value">{{ profile.nationality.label }}</span>
+          <span class="tile-sub tile-code">{{ profile.nationality.code }}</span>
+        </div>
+      </div>
+
+      <!-- City -->
+      <div class="info-tile">
+        <span class="tile-icon">📍</span>
+        <div class="tile-body">
+          <span class="tile-label">City</span>
+          <span class="tile-value">{{ profile.city }}</span>
+        </div>
+      </div>
+
+    </div>
+
+    <hr class="divider" />
+
+    <!-- Interests -->
+    <div class="interests-section">
+      <h2 class="section-title">Interests</h2>
+      <div class="interests-grid">
+        <div class="interest-chip" *ngFor="let interest of profile.interests">
+          <span class="chip-icon">{{ interest.icon }}</span>
+          <span class="chip-label">{{ interest.label }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
