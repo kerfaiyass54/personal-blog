@@ -1,6 +1,7 @@
 package com.blogproject.blogproject.dtos;
 
 
+import com.blogproject.blogproject.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -18,7 +19,7 @@ public class UserDTO {
     private String name;
     private String email;
     private String password;
-    private String role;
+    private UserRole role;
 
 
 }

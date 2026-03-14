@@ -38,7 +38,7 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody UserLogin userLogin) {
         try {
             String token = userService.login(userLogin);
-            String role = userService.getRole(userLogin.getEmail());
+            String role = String.valueOf(userService.getRole(userLogin.getEmail()));
 
             return ResponseEntity.ok(Map.of(
                     "token", token,

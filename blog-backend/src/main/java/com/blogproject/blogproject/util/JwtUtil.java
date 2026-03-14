@@ -1,5 +1,6 @@
 package com.blogproject.blogproject.util;
 
+import com.blogproject.blogproject.enums.UserRole;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -15,7 +16,7 @@ public class JwtUtil {
     private final static int jwtExpirationMs = 86400000; // 1 day
     private final static Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
-    public String generateToken(String username, String role) {
+    public String generateToken(String username, UserRole role) {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)

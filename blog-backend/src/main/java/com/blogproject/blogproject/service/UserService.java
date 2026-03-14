@@ -3,6 +3,7 @@ package com.blogproject.blogproject.service;
 import com.blogproject.blogproject.dtos.UserDTO;
 import com.blogproject.blogproject.dtos.UserLogin;
 import com.blogproject.blogproject.entities.User;
+import com.blogproject.blogproject.enums.UserRole;
 import com.blogproject.blogproject.repository.UserRepository;
 import com.blogproject.blogproject.util.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -35,7 +36,7 @@ public class UserService {
         userEntity.setRole(user.getRole());
         userEntity.setName(user.getName());
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        if(user.getRole() == null) user.setRole("READER"); // default role
+        if(user.getRole() == null) user.setRole(UserRole.READER); // default role
         return userRepository.save(userEntity);
     }
 
@@ -64,7 +65,7 @@ public class UserService {
         return dbUser.isPresent() && passwordEncoder.matches(password, dbUser.get().getPassword());
     }
 
-    public String getRole(String email) {
+    public UserRole getRole(String email) {
         Optional<User> dbUser = userRepository.findByEmail(email);
         return dbUser.map(User::getRole).orElse(null);
     }
