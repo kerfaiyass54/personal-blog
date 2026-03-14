@@ -1,8 +1,11 @@
 package com.blogproject.blogproject.entities;
 
+
+import com.blogproject.blogproject.enums.InterestType;
 import com.blogproject.blogproject.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
@@ -14,38 +17,32 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
-import java.time.Instant;
 
-@Document(collection = "users")
+import java.util.List;
+
+
+@Document(collection = "interests")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Interest {
 
     @Id
     private String id;
 
+
     @NotBlank(message = "Name cannot be empty")
-    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
+    @NotNull
+    @Indexed(unique = true)
+    @Size(min = 10, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;
 
-    @NotBlank(message = "Email cannot be empty")
-    @Email(message = "Invalid email format")
-    @Indexed(unique = true)
-    private String email;
-
-    @NotBlank(message = "Password cannot be empty")
-    @Size(min = 8, message = "Password must contain at least 8 characters")
-    private String password;
-
-    @NotBlank(message = "Role cannot be empty")
+    @NotBlank(message = "Interest cannot be empty")
     @Enumerated(EnumType.STRING)
-    private UserRole role;
+    private InterestType  interestType;
 
-    private Instant passwordChangedAt;
+    private String description;
 
     @DBRef
-    @Indexed(unique = true)
-    private Profile profile;
-
+    private List<Profile> profiles;
 }
