@@ -14,11 +14,10 @@
   --radius-tile:    14px;
   --radius-chip:    100px;
   --shadow-card:    0 8px 40px rgba(79, 70, 229, .12), 0 2px 8px rgba(0,0,0,.06);
-  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-display: "Inter", Georgia, serif;
   --font-body:    'Outfit', system-ui, sans-serif;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap');
 
 .page-wrapper {
   min-height: 60vh;
