@@ -32,7 +32,9 @@
             "styles": [
               "src/styles.scss","node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css",
-              "node_modules/bootstrap-icons/font/bootstrap-icons.css"
+              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+              "node_modules/country-flag-icons/3x2/flags.css"
+
             ],
             "scripts": []
           },

@@ -21,12 +21,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Outfit:wght@300;400;500;600&display=swap');
 
 .page-wrapper {
-  min-height: 65vh;
+  min-height: 60vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--bg);
-  padding: 1rem 1rem;
+  padding: 0.5rem 0.5rem;
   font-family: var(--font-body);
 }
 
@@ -462,4 +462,14 @@ th.over { border-bottom: 3px solid #4f46e5; }
   }
 
   header h2 { font-size: 18px; }
+}
+
+/* ── Flag icon (country-flag-icons) ──────────────────── */
+.flag-icon {
+  display: inline-block;
+  width: 28px;
+  height: 20px;
+  border-radius: 3px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.15);
 }

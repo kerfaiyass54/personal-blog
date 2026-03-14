@@ -50,7 +50,9 @@
 
       <!-- Nationality -->
       <div class="info-tile">
-        <span class="tile-icon flag">{{ profile.nationality.flag }}</span>
+        <span class="tile-icon">
+          <span [class]="profile.nationality.flagClass" class="flag-icon"></span>
+        </span>
         <div class="tile-body">
           <span class="tile-label">Nationality</span>
           <span class="tile-value">{{ profile.nationality.label }}</span>

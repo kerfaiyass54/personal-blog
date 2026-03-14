@@ -19,7 +19,7 @@ export class UserProfileComponent {
     lastName: 'KERFAI',
     job: 'Full-Stack Developer',
     birthDate: new Date('1997-06-14'),
-    nationality: getNationalityByLabel('Tunisian')!,
+    nationality: getNationalityByLabel('German')!,
     city: 'Tunis',
     avatarInitials: 'YB',
     interests: getInterestsByLabels([
