@@ -8,7 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -38,6 +39,7 @@ public class User {
     private String password;
 
     @NotBlank(message = "Role cannot be empty")
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     private Instant passwordChangedAt;
