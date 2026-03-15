@@ -1,4 +1,4 @@
-<!-- user-profile.component.html -->
+<!-- profile-details.component.html -->
 <div class="page-wrapper">
   <div class="profile-card">
 
@@ -16,17 +16,18 @@
       <h1 class="full-name">{{ profile.firstName }} {{ profile.lastName }}</h1>
       <p class="job-title">{{ profile.job }}</p>
 
-      <!-- Action Buttons -->
       <div class="action-row">
         <button class="btn btn-edit" (click)="onEdit()">
-          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14.166 2.5a2.357 2.357 0 1 1 3.334 3.333L6.25 17.083 2.5 17.5l.417-3.75L14.166 2.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg viewBox="0 0 20 20" fill="none">
+            <path d="M14.166 2.5a2.357 2.357 0 1 1 3.334 3.333L6.25 17.083 2.5 17.5l.417-3.75L14.166 2.5Z"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Edit Profile
         </button>
         <button class="btn btn-export" (click)="onExport()">
-          <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.333 14.167v1.666A1.667 1.667 0 0 0 5 17.5h10a1.667 1.667 0 0 0 1.667-1.667v-1.666M13.333 10 10 13.333 6.667 10M10 13.333V2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <svg viewBox="0 0 20 20" fill="none">
+            <path d="M3.333 14.167v1.666A1.667 1.667 0 0 0 5 17.5h10a1.667 1.667 0 0 0 1.667-1.667v-1.666M13.333 10 10 13.333 6.667 10M10 13.333V2.5"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           Export
         </button>
@@ -37,8 +38,6 @@
 
     <!-- Info Grid -->
     <div class="info-grid">
-
-      <!-- Birthday -->
       <div class="info-tile">
         <span class="tile-icon">🎂</span>
         <div class="tile-body">
@@ -46,8 +45,6 @@
           <span class="tile-sub">{{ age }} years old</span>
         </div>
       </div>
-
-      <!-- Nationality -->
       <div class="info-tile">
         <span class="tile-icon">
           <span [class]="profile.nationality.flagClass" class="flag-icon"></span>
@@ -57,15 +54,12 @@
           <span class="tile-sub tile-code">{{ profile.nationality.code }}</span>
         </div>
       </div>
-
-      <!-- City -->
       <div class="info-tile">
         <span class="tile-icon">📍</span>
         <div class="tile-body">
           <span class="tile-value">{{ profile.city }}</span>
         </div>
       </div>
-
     </div>
 
     <hr class="divider" />
@@ -73,15 +67,109 @@
     <!-- Interests -->
     <div class="interests-section">
       <div class="interests-grid">
-        @for(interest of profile.interests; track $index){
+        @for (interest of profile.interests; track $index) {
           <div class="interest-chip">
             <span class="chip-icon">{{ interest.icon }}</span>
             <span class="chip-label">{{ interest.label }}</span>
           </div>
         }
-
       </div>
     </div>
 
+  </div>
+</div>
+
+<!-- ── Edit Profile Modal ─────────────────────────────── -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content edit-modal">
+
+      <div class="modal-header edit-modal-header">
+        <h5 class="modal-title edit-modal-title">Edit Profile</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body edit-modal-body">
+
+        <!-- Personal -->
+        <p class="section-label">Personal Info</p>
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label edit-label">First Name</label>
+            <input type="text" class="form-control edit-input" [(ngModel)]="editFirstName" placeholder="First name" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label edit-label">Last Name</label>
+            <input type="text" class="form-control edit-input" [(ngModel)]="editLastName" placeholder="Last name" />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label edit-label">Job Title</label>
+          <input type="text" class="form-control edit-input" [(ngModel)]="editJob" placeholder="Job title" />
+        </div>
+        <div class="mb-4">
+          <label class="form-label edit-label">Date of Birth</label>
+          <input type="date" class="form-control edit-input" [(ngModel)]="editBirthDate" />
+        </div>
+
+        <!-- Location -->
+        <p class="section-label">Location</p>
+        <div class="mb-3 position-relative">
+          <label class="form-label edit-label">Nationality</label>
+          <input
+            type="text"
+            class="form-control edit-input"
+            [(ngModel)]="editNationalitySearch"
+            placeholder="Search country..."
+            autocomplete="off"
+            (ngModelChange)="editSelectedNationality = null"
+          />
+          @if (filteredNationalities.length > 0 && !editSelectedNationality) {
+            <div class="nat-dropdown">
+              @for (n of filteredNationalities; track n.code) {
+                <div class="nat-item" (click)="selectNationality(n)">
+                  <span [class]="n.flagClass" class="flag-icon"></span>
+                  <span>{{ n.label }}</span>
+                  <span class="nat-code">{{ n.code }}</span>
+                </div>
+              }
+            </div>
+          }
+          @if (editSelectedNationality) {
+            <div class="nat-selected mt-2">
+              <span [class]="editSelectedNationality.flagClass" class="flag-icon"></span>
+              <span>{{ editSelectedNationality.label }}</span>
+              <button class="nat-clear" (click)="clearNationality()">✕</button>
+            </div>
+          }
+        </div>
+        <div class="mb-4">
+          <label class="form-label edit-label">City</label>
+          <input type="text" class="form-control edit-input" [(ngModel)]="editCity" placeholder="City" />
+        </div>
+
+        <!-- Interests -->
+        <p class="section-label">Interests</p>
+        <div class="interests-picker">
+          @for (interest of allInterests; track interest.label) {
+            <div
+              class="picker-chip"
+              [class.picked]="isInterestSelected(interest)"
+              (click)="toggleInterest(interest)"
+            >
+              <span>{{ interest.icon }}</span>
+              <span>{{ interest.label }}</span>
+            </div>
+          }
+        </div>
+
+      </div>
+
+      <div class="modal-footer edit-modal-footer">
+        <button type="button" class="btn edit-btn-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn edit-btn-save" (click)="saveChanges()">Save Changes</button>
+      </div>
+
+    </div>
   </div>
 </div>

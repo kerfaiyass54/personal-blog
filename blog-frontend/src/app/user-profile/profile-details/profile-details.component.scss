@@ -1,3 +1,4 @@
+/* user-profile.component.scss */
 
 :host {
   --brand:        #4f46e5;
@@ -13,8 +14,8 @@
   --radius-tile:    14px;
   --radius-chip:    100px;
   --shadow-card:    0 8px 40px rgba(79, 70, 229, .12), 0 2px 8px rgba(0,0,0,.06);
-  --font-display: "Inter", Georgia, serif;
-  --font-body:    'Outfit', system-ui, sans-serif;
+  --font-display: 'Inter', Georgia, serif;
+  --font-body:    'Inter', system-ui, sans-serif;
 }
 
 
@@ -24,7 +25,7 @@
   align-items: center;
   justify-content: center;
   background: var(--bg);
-  padding: 0.5rem 0.5rem;
+  padding: 1rem 1rem;
   font-family: var(--font-body);
 }
 
@@ -470,4 +471,412 @@ th.over { border-bottom: 3px solid #4f46e5; }
   border-radius: 3px;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0,0,0,.15);
+}
+
+/* ── Edit Profile Modal ───────────────────────────────── */
+.edit-modal {
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+  font-family: var(--font-body);
+}
+
+.edit-modal-header {
+  background: linear-gradient(135deg, var(--brand) 0%, #3730a3 100%);
+  border: none;
+  padding: 20px 28px;
+}
+
+.edit-modal-title {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.edit-modal-body {
+  padding: 28px;
+  background: var(--bg);
+}
+
+.section-label {
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--brand);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 12px;
+}
+
+.edit-label {
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 6px;
+}
+
+.edit-input {
+  font-family: var(--font-body);
+  font-size: .93rem;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 11px 16px;
+  transition: border-color .2s, box-shadow .2s;
+
+  &:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 4px var(--brand-light);
+    background: #fff;
+    outline: none;
+  }
+
+  &::placeholder { color: var(--text-muted); }
+}
+
+/* Nationality dropdown inside modal */
+.nat-dropdown {
+  position: absolute;
+  top: calc(100% - 4px);
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.1);
+  z-index: 1060;
+  overflow: hidden;
+}
+
+.nat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: .88rem;
+  color: var(--text-primary);
+  transition: background .15s;
+
+  &:hover { background: var(--brand-light); }
+}
+
+.nat-code {
+  margin-left: auto;
+  font-size: .65rem;
+  font-weight: 700;
+  color: var(--brand);
+  background: var(--brand-light);
+  padding: 2px 7px;
+  border-radius: 100px;
+}
+
+.nat-selected {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  background: var(--brand-light);
+  border: 1.5px solid rgba(79,70,229,.3);
+  border-radius: 12px;
+  font-size: .93rem;
+  font-weight: 500;
+  margin-top: 6px;
+}
+
+.nat-clear {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: .85rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background .15s;
+
+  &:hover { background: rgba(0,0,0,.07); }
+}
+
+/* Interests picker */
+.interests-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.picker-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  cursor: pointer;
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: all .15s ease;
+  user-select: none;
+
+  &:hover {
+    border-color: var(--brand);
+    background: var(--brand-light);
+  }
+
+  &.picked {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(79,70,229,.3);
+  }
+}
+
+/* Modal footer */
+.edit-modal-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 16px 28px;
+  gap: 10px;
+}
+
+.edit-btn-cancel {
+  font-family: var(--font-body);
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 11px;
+  padding: 9px 22px;
+  transition: all .18s;
+
+  &:hover {
+    background: var(--bg);
+    color: var(--text-primary);
+  }
+}
+
+.edit-btn-save {
+  font-family: var(--font-body);
+  font-size: .85rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--brand);
+  border: none;
+  border-radius: 11px;
+  padding: 9px 22px;
+  transition: all .18s;
+
+  &:hover {
+    background: var(--brand-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(79,70,229,.35);
+  }
+}
+
+/* ── Edit Profile Modal ───────────────────────────────── */
+.edit-modal {
+  border: none;
+  border-radius: 20px;
+  overflow: hidden;
+  font-family: var(--font-body);
+}
+
+.edit-modal-header {
+  background: linear-gradient(135deg, var(--brand) 0%, #3730a3 100%);
+  border: none;
+  padding: 20px 28px;
+}
+
+.edit-modal-title {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 0;
+}
+
+.edit-modal-body {
+  padding: 28px;
+  background: var(--bg);
+}
+
+.section-label {
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--brand);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0 0 12px;
+}
+
+.edit-label {
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  margin-bottom: 6px;
+}
+
+.edit-input {
+  font-family: var(--font-body);
+  font-size: .93rem;
+  color: var(--text-primary);
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 11px 16px;
+  transition: border-color .2s, box-shadow .2s;
+
+  &:focus {
+    border-color: var(--brand);
+    box-shadow: 0 0 0 4px var(--brand-light);
+    background: #fff;
+    outline: none;
+  }
+
+  &::placeholder { color: var(--text-muted); }
+}
+
+.nat-dropdown {
+  position: absolute;
+  top: calc(100% - 4px);
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.1);
+  z-index: 1060;
+  overflow: hidden;
+}
+
+.nat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-size: .88rem;
+  color: var(--text-primary);
+  transition: background .15s;
+
+  &:hover { background: var(--brand-light); }
+}
+
+.nat-code {
+  margin-left: auto;
+  font-size: .65rem;
+  font-weight: 700;
+  color: var(--brand);
+  background: var(--brand-light);
+  padding: 2px 7px;
+  border-radius: 100px;
+}
+
+.nat-selected {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 16px;
+  background: var(--brand-light);
+  border: 1.5px solid rgba(79,70,229,.3);
+  border-radius: 12px;
+  font-size: .93rem;
+  font-weight: 500;
+}
+
+.nat-clear {
+  margin-left: auto;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: .85rem;
+  padding: 2px 6px;
+  border-radius: 6px;
+  transition: background .15s;
+  &:hover { background: rgba(0,0,0,.07); }
+}
+
+.interests-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.picker-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  cursor: pointer;
+  font-size: .8rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  transition: all .15s ease;
+  user-select: none;
+
+  &:hover {
+    border-color: var(--brand);
+    background: var(--brand-light);
+  }
+
+  &.picked {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+    box-shadow: 0 3px 10px rgba(79,70,229,.3);
+  }
+}
+
+.edit-modal-footer {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 16px 28px;
+  gap: 10px;
+}
+
+.edit-btn-cancel {
+  font-family: var(--font-body);
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: 11px;
+  padding: 9px 22px;
+  transition: all .18s;
+
+  &:hover { background: var(--bg); color: var(--text-primary); }
+}
+
+.edit-btn-save {
+  font-family: var(--font-body);
+  font-size: .85rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--brand);
+  border: none;
+  border-radius: 11px;
+  padding: 9px 22px;
+  transition: all .18s;
+
+  &:hover {
+    background: var(--brand-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(79,70,229,.35);
+  }
 }
