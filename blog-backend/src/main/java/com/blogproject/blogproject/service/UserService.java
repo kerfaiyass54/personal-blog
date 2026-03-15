@@ -84,6 +84,11 @@ public class UserService {
         return dbUser.filter(user -> user.getProfile() != null).isPresent();
     }
 
+    public String getUsername(String email){
+        Optional<User> dbUser = userRepository.findByEmail(email);
+        return dbUser.map(User::getName).orElse(null);
+    }
+
 
 }
 

@@ -28,6 +28,12 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
+    @GetMapping("/username/{email}")
+    public ResponseEntity<String>  getUsername(@PathVariable("email") String email){
+        String username = userService.getUsername(email);
+        return new ResponseEntity<>(username, HttpStatus.OK);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLogin userLogin) {
         try {
