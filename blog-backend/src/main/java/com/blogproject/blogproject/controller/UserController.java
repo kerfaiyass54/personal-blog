@@ -28,8 +28,8 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
-    @GetMapping("/username/{email}")
-    public ResponseEntity<String>  getUsername(@PathVariable("email") String email){
+    @GetMapping("/username")
+    public ResponseEntity<String> getUsername(@RequestParam String email) {
         String username = userService.getUsername(email);
         return new ResponseEntity<>(username, HttpStatus.OK);
     }

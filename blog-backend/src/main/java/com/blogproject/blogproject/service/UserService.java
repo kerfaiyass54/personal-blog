@@ -80,8 +80,8 @@ public class UserService {
     }
 
     public boolean hasItProfile(String username){
-        Optional<User> dbUser = userRepository.findByEmail(username);
-        return dbUser.filter(user -> user.getProfile() != null).isPresent();
+        User user = userRepository.findUserByName(username);
+        return user.getProfile() != null;
     }
 
     public String getUsername(String email){

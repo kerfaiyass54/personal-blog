@@ -61,8 +61,11 @@ public class ProfileService {
         profile.setCity(profileAddDTO.getCity());
         profile.setInterests(profileAddDTO.getInterests().stream().map(this::getInterest).toList());
         profile.setUser(getUser(username));
-        profileRepository.save(profile);
-        return profileToEditable(profile);
+        Profile profile1 = profileRepository.save(profile);
+        User user = userRepository.findUserByName(username);
+        user.setProfile(profile1);
+        userRepository.save(user);
+        return profileToEditable(profile1);
     }
 
     public ProfileEditableDTO getProfile(String username){

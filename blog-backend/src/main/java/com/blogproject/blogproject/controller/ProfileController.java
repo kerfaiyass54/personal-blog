@@ -30,7 +30,7 @@ public class ProfileController {
     @PostMapping("/")
     public ResponseEntity<ProfileEditableDTO> addProfile(@RequestBody ProfileAddDTO profileEditableDTO, @RequestParam String username) {
         ProfileEditableDTO profileEditableDTO1 = profileService.addProfile(profileEditableDTO,username);
-        return new ResponseEntity<>(profileEditableDTO1, HttpStatus.CREATED);
+        return new ResponseEntity<>(profileEditableDTO1, HttpStatus.OK);
     }
 
     @GetMapping("/{username}")
