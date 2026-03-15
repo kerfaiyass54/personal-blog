@@ -16,8 +16,11 @@ export class LoginServiceService {
     return this.http.post<any>(`${this.apiUrl}/register`, user);
   }
 
-  getUsername(email: string): Observable<string> {
-    return this.http.get<string>(`${this.apiUrl}/username/${email}`);
+  getUsername(email: any): Observable<string> {
+    return this.http.get(
+      `${this.apiUrl}/username`,
+      { params: { email }, responseType: 'text' }
+    );
   }
 
   // POST /user/login

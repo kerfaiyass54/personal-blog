@@ -8,6 +8,7 @@ import { ProfileService } from '../service/profile.service';
 import { ProfileAddDTO } from '../../models/ProfileAddDTO';
 import { getAllInterests } from '../../shared/utils/interests.utils';
 import { LoginServiceService } from '../../shared/services/login-service.service';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-profile-adding',
@@ -50,7 +51,7 @@ export class ProfileAddingComponent {
 
   constructor(
     private profileService: ProfileService,
-    private loginService: LoginServiceService,
+    private loginService: LoginServiceService, private toasterService:ToastrService
   ) {}
 
   // ── Computed ─────────────────────────────────────────
@@ -143,17 +144,21 @@ export class ProfileAddingComponent {
       firstName:   this.firstName,
       lastName:    this.lastName,
       job:         this.job,
-      birthDate:   this.birthDate,
+      birthDate:   `${this.birthDate}T00:00:00Z`,
       nationality: this.selectedNationality!.label,
       city:        this.city,
       interests:   this.selectedInterests.map(i => i.label),
     };
 
-    const email = sessionStorage.getItem('email') ?? '';
+    const email = sessionStorage.getItem('email');
+
     this.loginService.getUsername(email).subscribe({
       next: (username) => {
         this.profileService.addProfile(dto, username).subscribe({
-          next: () => console.log('Profile created'),
+          next: () => {
+            window.location.reload();
+            this.toasterService.success("SUCCESS","Profile added");
+          },
           error: (e) => console.error(e),
         });
       },
