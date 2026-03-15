@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface InterestRepository extends MongoRepository<Interest,String> {
 
     Optional<Interest> findByName(String name);
+
+    boolean existsByName(String name);
 }
