@@ -16,7 +16,7 @@ export class ProfileService {
 
   constructor(private http: HttpClient) {}
 
-  addProfile(profile: ProfileAddDTO, username: string): Observable<ProfileEditableDTO> {
+  addProfile(profile: ProfileAddDTO, username: any): Observable<ProfileEditableDTO> {
     const params = new HttpParams().set('username', username);
     return this.http.post<ProfileEditableDTO>(`${this.BASE_URL}/`, profile, { params });
   }

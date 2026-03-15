@@ -1,1 +1,188 @@
-<p>profile-adding works!</p>
+<!-- profile-adding.component.html -->
+<div class="page-wrapper">
+  <div class="stepper-card">
+
+    <!-- Progress Header -->
+    <div class="stepper-header">
+      <div class="step-track">
+        @for (step of steps; track step.number; let last = $last) {
+          <div
+            class="step-item"
+            [class.active]="currentStep === step.number"
+            [class.done]="currentStep > step.number"
+            [class.visited]="visitedSteps.has(step.number)"
+            (click)="goToStep(step.number)"
+          >
+            <div class="step-circle">
+              @if (currentStep > step.number) {
+                <svg viewBox="0 0 20 20" fill="none">
+                  <path d="M4 10l4.5 4.5L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              } @else {
+                <span>{{ step.number }}</span>
+              }
+            </div>
+            <span class="step-label">{{ step.label }}</span>
+          </div>
+          @if (!last) {
+            <div class="step-line" [class.done]="currentStep > step.number"></div>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- Step Body -->
+    <div class="step-body">
+
+      <!-- Step 1: Personal -->
+      @if (currentStep === 1) {
+        <div class="step-content">
+          <h2 class="step-title">Personal Info</h2>
+          <p class="step-sub">Tell us a bit about yourself</p>
+          <div class="form-row">
+            <div class="form-field">
+              <label>First Name</label>
+              <input type="text" [(ngModel)]="firstName" placeholder="e.g. Yasmine" />
+            </div>
+            <div class="form-field">
+              <label>Last Name</label>
+              <input type="text" [(ngModel)]="lastName" placeholder="e.g. Bensalem" />
+            </div>
+          </div>
+          <div class="form-field">
+            <label>Job Title</label>
+            <input type="text" [(ngModel)]="job" placeholder="e.g. Full-Stack Developer" />
+          </div>
+          <div class="form-field">
+            <label>Date of Birth</label>
+            <input type="date" [(ngModel)]="birthDate" />
+          </div>
+        </div>
+      }
+
+      <!-- Step 2: Location -->
+      @if (currentStep === 2) {
+        <div class="step-content">
+          <h2 class="step-title">Location</h2>
+          <p class="step-sub">Where are you from?</p>
+          <div class="form-field">
+            <label>Nationality</label>
+            <input
+              type="text"
+              [(ngModel)]="nationalitySearch"
+              placeholder="Search country..."
+              autocomplete="off"
+            />
+            @if (nationalitySearch && !selectedNationality) {
+              <div class="dropdown">
+                @for (n of filteredNationalities | slice:0:8; track n.code) {
+                  <div class="dropdown-item" (click)="selectNationality(n)">
+                    <span [class]="n.flagClass" class="flag-icon"></span>
+                    <span>{{ n.label }}</span>
+                    <span class="code-badge">{{ n.code }}</span>
+                  </div>
+                }
+                @if (filteredNationalities.length === 0) {
+                  <div class="dropdown-empty">No results</div>
+                }
+              </div>
+            }
+            @if (selectedNationality) {
+              <div class="selected-nationality">
+                <span [class]="selectedNationality.flagClass" class="flag-icon"></span>
+                <span>{{ selectedNationality.label }}</span>
+                <button class="clear-btn" (click)="clearNationality()">✕</button>
+              </div>
+            }
+          </div>
+          <div class="form-field">
+            <label>City</label>
+            <input type="text" [(ngModel)]="city" placeholder="e.g. Tunis" />
+          </div>
+        </div>
+      }
+
+      <!-- Step 3: Interests -->
+      @if (currentStep === 3) {
+        <div class="step-content">
+          <h2 class="step-title">Interests</h2>
+          <p class="step-sub">Pick at least one that defines you</p>
+          <div class="interests-grid">
+            @for (interest of allInterests; track interest.label) {
+              <div
+                class="interest-chip"
+                [class.selected]="isInterestSelected(interest)"
+                (click)="toggleInterest(interest)"
+              >
+                <span class="chip-icon">{{ interest.icon }}</span>
+                <span class="chip-label">{{ interest.label }}</span>
+              </div>
+            }
+          </div>
+          @if (selectedInterests.length > 0) {
+            <p class="selection-count">{{ selectedInterests.length }} selected</p>
+          }
+        </div>
+      }
+
+      <!-- Step 4: Review -->
+      @if (currentStep === 4) {
+        <div class="step-content">
+          <h2 class="step-title">Review</h2>
+          <p class="step-sub">Everything look good?</p>
+          <div class="review-card">
+            <div class="review-avatar">{{ avatarInitials }}</div>
+            <div class="review-name">{{ firstName }} {{ lastName }}</div>
+            <div class="review-job">{{ job }}</div>
+          </div>
+          <div class="review-grid">
+            <div class="review-tile">
+              <span class="rtile-label">🎂 Birth Date</span>
+              <span class="rtile-value">{{ formattedBirthDate }} <em>({{ age }} yrs)</em></span>
+            </div>
+            @if (selectedNationality) {
+              <div class="review-tile">
+                <span class="rtile-label">🌍 Nationality</span>
+                <span class="rtile-value">
+                  <span [class]="selectedNationality.flagClass" class="flag-icon-sm"></span>
+                  {{ selectedNationality.label }}
+                </span>
+              </div>
+            }
+            <div class="review-tile">
+              <span class="rtile-label">📍 City</span>
+              <span class="rtile-value">{{ city }}</span>
+            </div>
+          </div>
+          <div class="review-interests">
+            <span class="rtile-label">Interests</span>
+            <div class="chips-row">
+              @for (i of selectedInterests; track i.label) {
+                <span class="mini-chip">{{ i.icon }} {{ i.label }}</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+
+    </div>
+
+    <!-- Footer Navigation -->
+    <div class="stepper-footer">
+      <button class="btn btn-ghost" (click)="prev()" [disabled]="currentStep === 1">
+        ← Back
+      </button>
+      @if (currentStep < totalSteps) {
+        <button class="btn btn-primary" (click)="next()" [disabled]="!canProceed()">
+          Continue →
+        </button>
+      }
+      @if (currentStep === totalSteps) {
+        <button class="btn btn-submit" (click)="submit()">
+          Create Profile 🎉
+        </button>
+      }
+    </div>
+
+  </div>
+</div>

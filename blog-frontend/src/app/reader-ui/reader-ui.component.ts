@@ -69,7 +69,8 @@ this.loadPage();      });
     }
     this.sessionService.addSession(session).subscribe(
       (s)=>{
-        sessionStorage.setItem('sessionId', s.id);
+        sessionStorage.setItem('sessionId', s.id);        sessionStorage.setItem('username', s.name);
+
         this.sessionService.setAlert(s.email,s.time).subscribe(
           ()=>{});
       }
