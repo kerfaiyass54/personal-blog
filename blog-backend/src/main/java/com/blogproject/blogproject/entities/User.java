@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
 import java.time.Instant;
+import java.util.List;
 
 @Document(collection = "users")
 @Data
@@ -47,5 +48,8 @@ public class User {
     @DBRef
     @Indexed(unique = true)
     private Profile profile;
+
+    @DBRef
+    private List<SocialMedia> socialMediaList;
 
 }

@@ -9,6 +9,9 @@ import lombok.Setter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
+
 
 @Document(collection = "social_medias")
 @AllArgsConstructor
@@ -28,5 +31,10 @@ public class SocialMedia {
     @NotBlank(message = "Link cannot be empty")
     private String link;
 
+    private String description;
+
+    @DBRef
+    @Indexed(unique = true)
+    private User user;
 
 }

@@ -15,4 +15,7 @@ public class SocialMediaDTO {
     private String id;
     private String name;
     private String link;
+    private String userName;
+    private String userEmail;
+    private String description;
 }
