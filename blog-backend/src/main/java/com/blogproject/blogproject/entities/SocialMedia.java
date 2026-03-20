@@ -1,8 +1,9 @@
 package com.blogproject.blogproject.entities;
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
@@ -12,7 +13,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "social_medias")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Getter
 @Setter
 public class SocialMedia {
@@ -20,7 +20,12 @@ public class SocialMedia {
 
     @Id
     private String id;
+
+    @NotBlank(message = "Name cannot be empty")
+    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;
+
+    @NotBlank(message = "Link cannot be empty")
     private String link;
 
 
