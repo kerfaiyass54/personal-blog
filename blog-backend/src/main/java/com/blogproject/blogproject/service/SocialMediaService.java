@@ -5,6 +5,7 @@ import com.blogproject.blogproject.dtos.SocialMediaCreation;
 import com.blogproject.blogproject.dtos.SocialMediaDTO;
 import com.blogproject.blogproject.entities.SocialMedia;
 import com.blogproject.blogproject.entities.User;
+import com.blogproject.blogproject.enums.SocialMediaType;
 import com.blogproject.blogproject.repository.SocialMediaRepository;
 import com.blogproject.blogproject.repository.UserRepository;
 import com.blogproject.blogproject.util.ConvertListToPage;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,17 +40,19 @@ public class SocialMediaService {
         socialMediaDTO.setId(socialMedia.getId());
         socialMediaDTO.setUserName(socialMedia.getUser().getName());
         socialMediaDTO.setUserEmail(socialMedia.getUser().getEmail());
+        socialMediaDTO.setSocialMediaType(socialMedia.getType());
         return socialMediaDTO;
     }
 
 
-    public SocialMediaDTO saveSocialMedia(SocialMediaCreation  socialMediaCreation, String name, String email) {
+    public SocialMediaDTO saveSocialMedia(SocialMediaCreation  socialMediaCreation, String email) {
         SocialMedia socialMedia = new SocialMedia();
-        socialMedia.setName(name);
-        socialMedia.setLink(email);
+        socialMedia.setName(socialMediaCreation.getName());
+        socialMedia.setLink(socialMediaCreation.getLink());
         socialMedia.setDescription(socialMediaCreation.getDescription());
         User user = userRepository.findUserByEmail(email);
         socialMedia.setUser(user);
+        socialMedia.setType(socialMediaCreation.getSocialMediaType());
         SocialMedia socialMedia1 = socialMediaRepository.save(socialMedia);
         return convertToDTO(socialMedia1);
     }
@@ -81,5 +85,17 @@ public class SocialMediaService {
 
     public boolean isLinkUsed(String link) {
         return socialMediaRepository.findSocialMediaByLink(link) != null;
+    }
+
+    public Page<SocialMediaDTO> getSocialMediaByType(int page, int size, SocialMediaType socialMediaType, String email) {
+        List<SocialMediaDTO> socialMediaDTOS = userRepository.findUserByEmail(email).getSocialMediaList().stream().map(this::convertToDTO).toList();
+        List<SocialMediaDTO> socialMediaDTOList = new ArrayList<>();
+        for(SocialMediaDTO socialMediaDTO : socialMediaDTOS) {
+            if (socialMediaDTO.getSocialMediaType().equals(socialMediaType)) {
+                socialMediaDTOList.add(socialMediaDTO);
+            }
+        }
+        Pageable pageable = PageRequest.of(page, size);
+        return ConvertListToPage.convertListToPage(socialMediaDTOList, pageable);
     }
 }

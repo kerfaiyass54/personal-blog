@@ -1,6 +1,9 @@
 package com.blogproject.blogproject.entities;
 
 
+import com.blogproject.blogproject.enums.SocialMediaType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -33,7 +36,9 @@ public class SocialMedia {
 
     private String description;
 
-
+    @NotBlank(message = "Type cannot be empty")
+    @Enumerated(EnumType.STRING)
+    private SocialMediaType type;
 
     @DBRef
     @Indexed(unique = true)
