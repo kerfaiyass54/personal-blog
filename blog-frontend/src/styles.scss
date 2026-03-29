@@ -1,58 +1,57 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
 
-/* ── Reset ────────────────────────────────────────────── */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  height: 100%;
+  @include mat.theme((
+    color: (
+      primary: mat.$magenta-palette,
+      tertiary: mat.$violet-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
 }
 
-/* ── App-wide dark background ─────────────────────────── */
+.alert {
+  color: #cd4dff;
+  font-size: 14px;
+  margin-top: 6px;
+  text-align: left;
+}
+
+
+body {
+  color-scheme: dark;
+
+  /* Gradient background layer */
+  background:
+    radial-gradient(circle at 20% 20%, #3a0ca3 0%, transparent 40%),
+    radial-gradient(circle at 80% 30%, #7209b7 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, #560bad 0%, transparent 40%),
+    linear-gradient(135deg, #0f0c29, #1a0933, #000000);
+
+  background-attachment: fixed;
+  background-size: cover;
+
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  margin: 0;
+  height: 100%;
+}
+
 html, body {
   height: 100%;
-  font-family: 'DM Sans', sans-serif;
-  background: radial-gradient(ellipse at 60% 40%, #1a0a3c 0%, #0d0618 55%, #060410 100%);
-  background-attachment: fixed; /* ← key: doesn't repeat/reset on scroll */
-  min-height: 100dvh;
-  color: #ffffff;
+  margin: 0;
 }
 
-/* ── Dot grid overlay on body ─────────────────────────── */
-body::before {
-  content: '';
-  position: fixed;   /* fixed so it stays put during scroll */
-  inset: 0;
-  z-index: 0;
-  background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
-  background-size: 32px 32px;
-  pointer-events: none;
-}
 
-/* ── Animated orbs ────────────────────────────────────── */
-body::after {
-  content: '';
-  position: fixed;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(122,47,247,0.3) 0%, transparent 70%);
-  top: -150px;
-  left: -100px;
-  filter: blur(80px);
-  pointer-events: none;
-  z-index: 0;
-  animation: orbFloat 9s ease-in-out infinite;
-}
-
-@keyframes orbFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50%       { transform: translate(50px, 40px) scale(1.1); }
-}
-
-/* ── Make sure app root stacks above the bg ───────────── */
-app-root {
-  position: relative;
-  z-index: 1;
-  display: block;
-  min-height: 100dvh;
+* {
+  font-family: "Inter", sans-serif;
 }

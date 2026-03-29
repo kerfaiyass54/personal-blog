@@ -20,7 +20,7 @@ export class SocialMediaService {
     return this.http.get<SocialMedia>(`${this.BASE_URL}/${id}`);
   }
 
-  deleteSocialMediaById(id: string): Observable<void> {
+  deleteSocialMediaById(id: any): Observable<void> {
     return this.http.delete<void>(`${this.BASE_URL}/${id}`);
   }
 
@@ -32,7 +32,7 @@ export class SocialMediaService {
     return this.http.get<any>(`${this.BASE_URL}/`, { params });
   }
 
-  updateSocialMediaById(id: string, socialMediaDTO: SocialMedia): Observable<void> {
+  updateSocialMediaById(id: any, socialMediaDTO: SocialMedia): Observable<void> {
     return this.http.put<void>(`${this.BASE_URL}/${id}`, socialMediaDTO);
   }
 

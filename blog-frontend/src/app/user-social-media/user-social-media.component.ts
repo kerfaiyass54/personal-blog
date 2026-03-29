@@ -1,15 +1,17 @@
-// user-social-media.component.ts
-
 import {
-  Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, inject
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  inject
 } from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {SmartTableComponent} from "../components/smart-table/smart-table.component";
-import {SocialMediaService} from "../user-profile/service/social-media.service";
-import {SocialMedia, SocialMediaCreation} from "../models/SocialMedia";
-import {SmartTableConfig} from "../components/models/smart-table";
 
+import { SmartTableComponent } from "../components/smart-table/smart-table.component";
+import { SocialMediaService } from "../user-profile/service/social-media.service";
+import { SocialMedia, SocialMediaCreation } from "../models/SocialMedia";
+import { SmartTableConfig } from "../components/models/smart-table";
 
 declare var bootstrap: any;
 
@@ -18,270 +20,402 @@ declare var bootstrap: any;
   standalone: true,
   imports: [CommonModule, FormsModule, SmartTableComponent],
   templateUrl: './user-social-media.component.html',
-  styleUrl: './user-social-media.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./user-social-media.component.scss'],
 })
 export class UserSocialMediaComponent implements OnInit {
 
-  private readonly socialService = inject(SocialMediaService);
-  private readonly cdr = inject(ChangeDetectorRef);
+  private socialService = inject(SocialMediaService);
+  private cdr = inject(ChangeDetectorRef);
 
-  // ── State ──────────────────────────────────────────────
   loading = false;
   tableData: SocialMedia[] = [];
 
-  // ── Pagination ─────────────────────────────────────────
   private currentPage = 0;
-  private pageSize = 20; // fetch a larger batch; smart-table handles display pagination
-  private userEmail: any = ''; // set from auth/session
+  private pageSize = 20;
 
-  // ── Add modal ──────────────────────────────────────────
+  private userEmail = '';
+
+  // ADD MODAL STATE
   newSocial: SocialMediaCreation = this.emptyCreation();
   linkError = '';
   addSubmitting = false;
   private addModalInstance: any = null;
 
-  // ── Row action modal ────────────────────────────────────
+  // DETAILS MODAL STATE
   selectedSocial: SocialMedia | null = null;
-  editBuffer: SocialMedia | null = null;
-  isEditing = false;
-  deleteConfirm = false;
-  editSubmitting = false;
-  deleteSubmitting = false;
-  private rowModalInstance: any = null;
+  private detailsModalInstance: any = null;
 
-  // ── Social type options ────────────────────────────────
+  // EDIT MODAL STATE
+  editBuffer: SocialMedia | null = null;
+  editSubmitting = false;
+  private editModalInstance: any = null;
+
+  // DELETE MODAL STATE
+  deleteSubmitting = false;
+  private deleteModalInstance: any = null;
+
+  // ENUM TYPES
   readonly socialTypes = [
-    { value: 'LINKEDIN',  label: '💼 LinkedIn'  },
-    { value: 'TWITTER',   label: '🐦 Twitter / X' },
-    { value: 'INSTAGRAM', label: '📸 Instagram' },
-    { value: 'FACEBOOK',  label: '👤 Facebook'  },
-    { value: 'GITHUB',    label: '🐙 GitHub'    },
-    { value: 'YOUTUBE',   label: '▶️ YouTube'   },
-    { value: 'TIKTOK',    label: '🎵 TikTok'    },
-    { value: 'OTHER',     label: '🌐 Other'     },
+    { value: 'FACEBOOK', label: 'Facebook', icon: 'facebook' },
+    { value: 'X', label: 'X', icon: 'x' },
+    { value: 'INSTAGRAM', label: 'Instagram', icon: 'instagram' },
+    { value: 'LINKEDIN', label: 'LinkedIn', icon: 'linkedin' },
+    { value: 'YOUTUBE', label: 'YouTube', icon: 'youtube' },
+    { value: 'MEDIUM', label: 'Medium', icon: 'medium' },
+    { value: 'GITHUB', label: 'GitHub', icon: 'github' },
+    { value: 'GITLAB', label: 'GitLab', icon: 'gitlab' },
+    { value: 'SNAPCHAT', label: 'Snapchat', icon: 'snapchat' }
   ];
 
-  // ── SmartTable config ──────────────────────────────────
   readonly tableConfig: SmartTableConfig<SocialMedia> = {
+
     title: 'Social Accounts',
+
     searchable: true,
     exportable: true,
+
     pageSizeOptions: [5, 10, 20],
+
     columns: [
+
       {
         key: 'socialMediaType',
         label: 'Platform',
         type: 'icon',
         sortable: true,
         width: '120px',
+
         iconMap: {
-          LINKEDIN:  '💼',
-          TWITTER:   '🐦',
-          INSTAGRAM: '📸',
-          FACEBOOK:  '👤',
-          GITHUB:    '🐙',
-          YOUTUBE:   '▶️',
-          TIKTOK:    '🎵',
-          OTHER:     '🌐',
-        },
+          FACEBOOK: 'bi bi-facebook',
+          X: 'bi bi-twitter-x',
+          INSTAGRAM: 'bi bi-instagram',
+          LINKEDIN: 'bi bi-linkedin',
+          YOUTUBE: 'bi bi-youtube',
+          MEDIUM: 'bi bi-medium',
+          GITHUB: 'bi bi-github',
+          GITLAB: 'bi bi-gitlab',
+          SNAPCHAT: 'bi bi-snapchat'
+        }
       },
+
       {
         key: 'name',
         label: 'Name',
         type: 'text',
-        sortable: true,
+        sortable: true
       },
+
       {
         key: 'link',
         label: 'Link',
-        type: 'text',
-        sortable: false,
+        type: 'text'
       },
+
       {
         key: 'userName',
         label: 'Owner',
-        type: 'text',
-        sortable: true,
+        type: 'text'
       },
+
       {
         key: 'description',
         label: 'Description',
-        type: 'text',
-        sortable: false,
-      },
+        type: 'text'
+      }
+
     ],
 
-    // We override with our own row-action modal, but keep this for compatibility
-    modalFields: [],
-    modalTitle: (row: any) => row.name,
+    modalTitle: (row) => {
+      this.openDetailsModal(row);
+      return row.name;
+    },
+
+    modalFields: []
   };
 
-  // ──────────────────────────────────────────────────────
+
   ngOnInit() {
-    this.userEmail = sessionStorage.getItem('email');
+
+    const email = sessionStorage.getItem('email');
+
+    if (!email) {
+      console.error("Email missing from sessionStorage");
+      return;
+    }
+
+    this.userEmail = email;
+
     this.loadData();
   }
 
-  // ── Data loading ────────────────────────────────────────
+
   loadData() {
-    this.loading = true;
+
+
     this.cdr.markForCheck();
 
-    this.socialService.getAllSocialMedia(this.currentPage, this.pageSize, this.userEmail)
+    this.socialService
+      .getAllSocialMedia(
+        this.currentPage,
+        this.pageSize,
+        this.userEmail
+      )
       .subscribe({
-        next: (res) => {
-          // Backend returns Page object; adjust to your actual response shape
+
+        next: (res: any) => {
+
           this.tableData = res.content ?? res ?? [];
+
           this.loading = false;
+
           this.cdr.markForCheck();
         },
+
         error: () => {
+
           this.loading = false;
+
           this.cdr.markForCheck();
         }
+
       });
+
   }
 
-  // ── SmartTable row-save callback (edit from smart-table modal) ─
+
   onRowSave(updated: SocialMedia) {
+
     if (!updated.id) return;
-    this.socialService.updateSocialMediaById(updated.id, updated).subscribe({
-      next: () => this.loadData(),
-    });
+
+    this.socialService
+      .updateSocialMediaById(updated.id, updated)
+      .subscribe(() => this.loadData());
+
   }
 
-  // ── ADD ─────────────────────────────────────────────────
+
+  /* ================= ADD MODAL ================= */
+
   openAddModal() {
+
     this.newSocial = this.emptyCreation();
+
     this.linkError = '';
-    this.addSubmitting = false;
+
     setTimeout(() => {
-      const el = document.getElementById('addSocialModal');
-      if (el) {
-        this.addModalInstance = new bootstrap.Modal(el);
-        this.addModalInstance.show();
-      }
+
+      const el = document.getElementById("addSocialModal");
+
+      if (!el) return;
+
+      this.addModalInstance ??=
+        new bootstrap.Modal(el);
+
+      this.addModalInstance.show();
+
     });
+
   }
+
 
   submitAdd() {
-    if (!this.newSocial.link) return;
-    this.addSubmitting = true;
-    this.linkError = '';
-    this.cdr.markForCheck();
 
-    this.socialService.isLinkUsed(this.newSocial.link).subscribe({
-      next: (used) => {
-        if (used) {
-          this.linkError = 'This link is already registered.';
-          this.addSubmitting = false;
-          this.cdr.markForCheck();
-          return;
-        }
-        this.socialService.createSocialMedia(this.newSocial, this.userEmail).subscribe({
-          next: () => {
-            this.addModalInstance?.hide();
+    if (!this.newSocial.link) return;
+
+    this.addSubmitting = true;
+
+    this.socialService
+      .isLinkUsed(this.newSocial.link)
+      .subscribe({
+
+        next: (used) => {
+
+          if (used) {
+
+            this.linkError = "Link already exists";
+
             this.addSubmitting = false;
+
             this.cdr.markForCheck();
-            this.loadData();
-          },
-          error: () => {
-            this.addSubmitting = false;
-            this.cdr.markForCheck();
+
+            return;
+
           }
-        });
-      },
-      error: () => {
-        this.addSubmitting = false;
-        this.cdr.markForCheck();
-      }
-    });
+
+          this.socialService
+            .createSocialMedia(
+              this.newSocial,
+              this.userEmail
+            )
+            .subscribe({
+
+              next: () => {
+
+                this.addModalInstance?.hide();
+
+                this.addSubmitting = false;
+
+                this.loadData();
+
+              }
+
+            });
+
+        }
+
+      });
+
   }
 
-  // ── ROW click → open action modal ──────────────────────
-  // Called from smart-table's (rowSave) won't cover click unless we add
-  // our own listener. Wire this from the parent via (rowClick) if you extend
-  // SmartTableComponent, OR simply override openRow via config callback.
-  // For now this is called from smart-table's rowSave output for the row modal.
 
-  openRowModal(row: SocialMedia) {
+  /* ================= DETAILS MODAL ================= */
+
+  openDetailsModal(row: SocialMedia) {
+
     this.selectedSocial = row;
-    this.editBuffer = { ...row };
-    this.isEditing = false;
-    this.deleteConfirm = false;
-    this.editSubmitting = false;
-    this.deleteSubmitting = false;
-    this.cdr.markForCheck();
 
     setTimeout(() => {
-      const el = document.getElementById('rowActionModal');
-      if (el) {
-        this.rowModalInstance = new bootstrap.Modal(el);
-        this.rowModalInstance.show();
-      }
+
+      const el = document.getElementById("detailsModal");
+
+      if (!el) return;
+
+      this.detailsModalInstance ??=
+        new bootstrap.Modal(el);
+
+      this.detailsModalInstance.show();
+
     });
+
   }
 
-  closeRowModal() {
-    this.selectedSocial = null;
-    this.isEditing = false;
-    this.deleteConfirm = false;
+
+  /* ================= EDIT MODAL ================= */
+
+  openEditModal(row: SocialMedia) {
+
+    this.editBuffer = { ...row };
+
+    this.detailsModalInstance?.hide();
+
+    setTimeout(() => {
+
+      const el = document.getElementById("editModal");
+
+      if (!el) return;
+
+      this.editModalInstance ??=
+        new bootstrap.Modal(el);
+
+      this.editModalInstance.show();
+
+    });
+
   }
 
-  // ── EDIT ────────────────────────────────────────────────
-  startEdit() {
-    this.editBuffer = { ...this.selectedSocial! };
-    this.isEditing = true;
-  }
 
   submitEdit() {
+
     if (!this.editBuffer?.id) return;
+
     this.editSubmitting = true;
-    this.cdr.markForCheck();
 
-    this.socialService.updateSocialMediaById(this.editBuffer.id, this.editBuffer).subscribe({
-      next: () => {
-        this.rowModalInstance?.hide();
-        this.editSubmitting = false;
-        this.isEditing = false;
-        this.cdr.markForCheck();
-        this.loadData();
-      },
-      error: () => {
-        this.editSubmitting = false;
-        this.cdr.markForCheck();
-      }
-    });
+    this.socialService
+      .updateSocialMediaById(
+        this.editBuffer.id,
+        this.editBuffer
+      )
+      .subscribe({
+
+        next: () => {
+
+          this.editModalInstance?.hide();
+
+          this.editSubmitting = false;
+
+          this.loadData();
+
+        }
+
+      });
+
   }
 
-  // ── DELETE ──────────────────────────────────────────────
+
+  /* ================= DELETE MODAL ================= */
+
+  openDeleteModal(row: SocialMedia) {
+
+    this.selectedSocial = row;
+
+    this.detailsModalInstance?.hide();
+
+    setTimeout(() => {
+
+      const el = document.getElementById("deleteModal");
+
+      if (!el) return;
+
+      this.deleteModalInstance ??=
+        new bootstrap.Modal(el);
+
+      this.deleteModalInstance.show();
+
+    });
+
+  }
+
+
   submitDelete() {
+
     if (!this.selectedSocial?.id) return;
+
     this.deleteSubmitting = true;
-    this.cdr.markForCheck();
 
-    this.socialService.deleteSocialMediaById(this.selectedSocial.id).subscribe({
-      next: () => {
-        this.rowModalInstance?.hide();
-        this.deleteSubmitting = false;
-        this.deleteConfirm = false;
-        this.cdr.markForCheck();
-        this.loadData();
-      },
-      error: () => {
-        this.deleteSubmitting = false;
-        this.cdr.markForCheck();
-      }
-    });
+    this.socialService
+      .deleteSocialMediaById(this.selectedSocial.id)
+      .subscribe({
+
+        next: () => {
+
+          this.deleteModalInstance?.hide();
+
+          this.deleteSubmitting = false;
+
+          this.loadData();
+
+        }
+
+      });
+
   }
 
-  // ── Helpers ─────────────────────────────────────────────
-  getTypeLabel(type: string): string {
-    return this.socialTypes.find(t => t.value === type)?.label ?? type;
+
+  /* ================= HELPERS ================= */
+
+  getTypeLabel(type: string) {
+
+    return this.socialTypes.find(
+      t => t.value === type
+    )?.label ?? type;
+
   }
+
 
   private emptyCreation(): SocialMediaCreation {
-    return { name: '', link: '', description: '', socialMediaType: 'LINKEDIN' };
+
+    return {
+
+      name: '',
+
+      link: '',
+
+      description: '',
+
+      socialMediaType: 'LINKEDIN'
+
+    };
+
   }
+
 }

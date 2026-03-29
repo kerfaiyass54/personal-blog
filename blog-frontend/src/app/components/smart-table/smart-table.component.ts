@@ -40,7 +40,6 @@ export class SmartTableComponent<T extends Record<string, any>>
   selectedRow: T | null = null;
   editRow: T | null = null;   // mutable copy for editing
   isEditing = false;
-  private modalInstance: any = null;
 
   constructor(private cdr: ChangeDetectorRef) {}
 
@@ -115,38 +114,10 @@ export class SmartTableComponent<T extends Record<string, any>>
     this.selectedRow = row;
     this.editRow = { ...row };
     this.isEditing = false;
+    this.rowSave.emit(row); // 🔥 missing piece
+
     this.cdr.markForCheck();
 
-    setTimeout(() => {
-      const el = document.getElementById('smartTableModal');
-      if (el) {
-        this.modalInstance = new bootstrap.Modal(el);
-        this.modalInstance.show();
-      }
-    });
-  }
-
-  closeModal() {
-    this.modalInstance?.hide();
-    this.selectedRow = null;
-    this.editRow = null;
-    this.isEditing = false;
-  }
-
-  toggleEdit() {
-    this.isEditing = !this.isEditing;
-    if (this.isEditing) this.editRow = { ...this.selectedRow! };
-  }
-
-  saveEdit() {
-    if (!this.editRow) return;
-    // reflect back into data array
-    const idx = this.data.indexOf(this.selectedRow!);
-    if (idx !== -1) this.data[idx] = { ...this.editRow };
-    this.selectedRow = this.data[idx];
-    this.rowSave.emit(this.selectedRow);
-    this.isEditing = false;
-    this.cdr.markForCheck();
   }
 
   // ── Cell rendering ──────────────────────────────────────
@@ -194,8 +165,4 @@ export class SmartTableComponent<T extends Record<string, any>>
     URL.revokeObjectURL(url);
   }
 
-  modalTitle(): string {
-    if (!this.selectedRow) return 'Details';
-    return this.config.modalTitle?.(this.selectedRow) ?? 'Row Details';
-  }
 }
