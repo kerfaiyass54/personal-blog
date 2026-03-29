@@ -3,7 +3,6 @@
 
 [![My Skills](https://skillicons.dev/icons?i=py,docker,spring,angular,bootstrap,css,git,github,html,idea,mongodb,npm,postman)](https://skillicons.dev)
 
-
 A **modern, full-stack personal blog platform** built with **TypeScript, Angular, and Spring Boot**, designed for both content creators and readers. Perfect for sharing articles, IT lessons, and technical explanations with a clean, intuitive interface and robust backend.
 
 ---
