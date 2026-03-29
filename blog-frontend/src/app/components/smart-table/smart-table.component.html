@@ -107,6 +107,10 @@
                   </span>
                 }
 
+                @if (col.type === 'svg') {
+                  <span class="cell-svg-icon" [innerHTML]="getIcon(getCellValue(row, col), col)"></span>
+                }
+
                 <!-- STATE / BADGE -->
                 @if (col.type === 'state' || col.type === 'badge') {
                   @let state = getState(getCellValue(row, col), col);

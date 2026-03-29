@@ -1,6 +1,6 @@
 // smart-table.model.ts
 
-export type ColumnType = 'text' | 'icon' | 'state' | 'date' | 'badge';
+export type ColumnType = 'text' | 'icon' | 'state' | 'date' | 'badge' | 'svg';
 
 export interface StateConfig {
   value: string;

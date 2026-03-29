@@ -33,7 +33,7 @@ export class UserSocialMediaComponent implements OnInit {
   // ── Pagination ─────────────────────────────────────────
   private currentPage = 0;
   private pageSize = 20; // fetch a larger batch; smart-table handles display pagination
-  private userEmail = ''; // set from auth/session
+  private userEmail: any = ''; // set from auth/session
 
   // ── Add modal ──────────────────────────────────────────
   newSocial: SocialMediaCreation = this.emptyCreation();
@@ -111,7 +111,7 @@ export class UserSocialMediaComponent implements OnInit {
         sortable: false,
       },
     ],
-    // Modal fields shown when row clicked (smart-table built-in modal)
+
     // We override with our own row-action modal, but keep this for compatibility
     modalFields: [],
     modalTitle: (row: any) => row.name,
@@ -119,8 +119,7 @@ export class UserSocialMediaComponent implements OnInit {
 
   // ──────────────────────────────────────────────────────
   ngOnInit() {
-    // TODO: replace with real user email from AuthService
-    this.userEmail = 'user@example.com';
+    this.userEmail = sessionStorage.getItem('email');
     this.loadData();
   }
 

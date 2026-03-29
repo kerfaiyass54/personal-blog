@@ -602,6 +602,13 @@ th.sort-desc .sort-arrows { opacity: 1; }
   }
 }
 
+.cell-svg-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg { width: 28px; height: 28px; }
+}
+
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 640px) {
   .st-toolbar { padding: 16px 16px 12px; }
