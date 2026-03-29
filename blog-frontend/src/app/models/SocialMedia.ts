@@ -7,11 +7,11 @@ export interface SocialMediaCreation {
 
 
 export interface SocialMedia {
-  id: string;
+  id?: string;
   name: string;
   link: string;
-  userName: string;
-  userEmail: string;
+  userName?: string;
+  userEmail?: string;
   description: string;
   socialMediaType: string;
 }

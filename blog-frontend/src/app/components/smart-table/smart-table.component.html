@@ -142,8 +142,7 @@
         }
       </select>
       <span class="st-count">
-        {{ (currentPage - 1) * pageSize + 1 }}–{{ [currentPage * pageSize, filtered.length] | min }}
-        of {{ filtered.length }}
+{{ (currentPage - 1) * pageSize + 1 }}–{{ pageEnd }}        of {{ filtered.length }}
       </span>
     </div>
     <div class="st-pager">

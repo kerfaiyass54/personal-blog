@@ -89,6 +89,6 @@ this.loadPage();      });
     this.loading = true;
     setTimeout(() => {
       this.loading = false;
-    }, 2000);
+    }, 300);
   }
 }

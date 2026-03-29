@@ -6,8 +6,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import {TableColumn} from "../models/table-column";
-import {SmartTableConfig, StateConfig} from "../models/smart-table";
+import {SmartTableConfig, StateConfig, TableColumn} from "../models/smart-table";
 
 declare var bootstrap: any;
 
@@ -170,6 +169,10 @@ export class SmartTableComponent<T extends Record<string, any>>
       year: 'numeric', month: 'short', day: 'numeric',
       hour: '2-digit', minute: '2-digit'
     });
+  }
+
+  get pageEnd(): number {
+    return Math.min(this.currentPage * this.pageSize, this.filtered.length);
   }
 
   truncate(val: string, len = 22): string {

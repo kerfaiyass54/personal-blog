@@ -42,7 +42,7 @@ export class WriterUiComponent implements OnInit{
     this.loading = true;
     setTimeout(() => {
       this.loading = false;
-    }, 2000);
+    }, 500);
   }
 
   lessons:any[] = [{id: 0, title: 'Check',link: ''},

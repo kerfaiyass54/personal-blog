@@ -90,6 +90,14 @@
         </label>
       </li>
 
+      <li [routerLink]="'/' + role + '/social'">
+        <input type="radio" id="social" name="sidebar">
+        <label for="social">
+          <i class="bi-megaphone"></i>
+          <p>Social media</p>
+        </label>
+      </li>
+
       <!-- Login History -->
       <li [routerLink]="'/' + role + '/user-history'">
         <input type="radio" id="login" name="sidebar">
