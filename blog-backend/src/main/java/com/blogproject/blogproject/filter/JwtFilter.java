@@ -32,7 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         return path.startsWith("/user/")
                 || path.startsWith("/reset") || path.startsWith("/profiles")
-                || path.startsWith("/sessions/");
+                || path.startsWith("/sessions/") || path.startsWith("/socials/") || path.startsWith("/socials") ;
     }
 
 

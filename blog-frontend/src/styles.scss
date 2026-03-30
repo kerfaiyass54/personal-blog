@@ -27,19 +27,21 @@ html {
 
 
 body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
+  color-scheme: dark;
 
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
+  /* Gradient background layer */
+  background:
+    radial-gradient(circle at 20% 20%, #3a0ca3 0%, transparent 40%),
+    radial-gradient(circle at 80% 30%, #7209b7 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, #560bad 0%, transparent 40%),
+    linear-gradient(135deg, #0f0c29, #1a0933, #000000);
+
+  background-attachment: fixed;
+  background-size: cover;
+
   color: var(--mat-sys-on-surface);
   font: var(--mat-sys-body-medium);
 
-  // Reset the user agent margin.
   margin: 0;
   height: 100%;
 }
@@ -53,7 +55,3 @@ html, body {
 * {
   font-family: "Inter", sans-serif;
 }
-
-
-
-

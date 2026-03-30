@@ -11,6 +11,7 @@ import {ForgotPasswordComponent} from "./forgot-password/forgot-password.compone
 import {LoginHistoryComponent} from "./login-history/login-history.component";
 import {SessionDetailsComponent} from "./session-details/session-details.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
+import {UserSocialMediaComponent} from "./user-social-media/user-social-media.component";
 
 
 
@@ -49,6 +50,12 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
         component: UserProfileComponent
+      },
+      {
+        path: 'social',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: UserSocialMediaComponent
       }
     ]
   },
@@ -76,6 +83,12 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['READER']},
         component: UserProfileComponent
+      },
+      {
+        path: 'social',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: UserSocialMediaComponent
       }
     ]},
   { path: '**', component: ErrorNotFoundComponent }

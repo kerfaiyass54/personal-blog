@@ -1,12 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
+import {LoaderComponent} from "../components/loader/loader.component";
+import {NavigationEnd, Router, RouterOutlet} from "@angular/router";
+import {filter} from "rxjs/operators";
 
 @Component({
     selector: 'app-writer-ui',
     standalone: true,
   imports: [
-    NavBarComponent
+    NavBarComponent,
+    LoaderComponent,
+    RouterOutlet
   ],
     templateUrl: './writer-ui.component.html',
     styleUrl: './writer-ui.component.scss'
@@ -14,14 +19,30 @@ import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
 export class WriterUiComponent implements OnInit{
 
 
+  loading = false;
+  currentUrl: string = '';
 
-  constructor(private sessionService: SessionsManagementService) {
+
+
+  constructor(private sessionService: SessionsManagementService,private router: Router) {
   }
 
   ngOnInit() {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        this.currentUrl = event.urlAfterRedirects;
+        this.loadPage();      });
     if((sessionStorage.getItem("sessionId") == null) ){
       this.keepSession(sessionStorage.getItem("email"));
     }
+  }
+
+  loadPage(){
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+    }, 500);
   }
 
   lessons:any[] = [{id: 0, title: 'Check',link: ''},

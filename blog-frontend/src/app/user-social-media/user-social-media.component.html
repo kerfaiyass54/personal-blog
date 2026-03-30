@@ -1,0 +1,361 @@
+<!-- user-social-media.component.html -->
+
+<div class="usm-page">
+
+  <!-- ── Header ─────────────────────────────────────────── -->
+  <div class="usm-header">
+    <div class="usm-header-left">
+      <div class="usm-header-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M18 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6ZM6 9a3 3 0 1 1 0 6A3 3 0 0 1 6 9Zm12 7a3 3 0 1 1 0 6 3 3 0 0 1 0-6ZM8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"
+                stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="usm-title">Social Media</h1>
+        <p class="usm-subtitle">Manage your connected accounts</p>
+      </div>
+    </div>
+    <div class="usm-header-actions">
+      <button class="usm-btn usm-btn-add" (click)="openAddModal()">
+        <svg viewBox="0 0 20 20" fill="none">
+          <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+        Add Account
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Smart Table ─────────────────────────────────────── -->
+  <app-smart-table
+    [config]="tableConfig"
+    [data]="tableData"
+    (rowSave)="openDetailsModal($event)"
+  />
+
+  <!-- ── Loading overlay ────────────────────────────────── -->
+  @if (loading) {
+    <div class="usm-loading">
+      <div class="usm-spinner"></div>
+    </div>
+  }
+
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- ADD Modal                                             -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="modal fade" id="addSocialModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered usm-modal-dialog">
+    <div class="modal-content usm-modal">
+
+      <div class="usm-modal-header">
+        <div class="usm-modal-title-wrap">
+          <div class="usm-modal-icon">
+            <svg viewBox="0 0 20 20" fill="none">
+              <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h5 class="usm-modal-title">Add Social Account</h5>
+        </div>
+        <button class="usm-modal-close" data-bs-dismiss="modal">
+          <svg viewBox="0 0 20 20" fill="none">
+            <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="usm-modal-body">
+
+        <div class="usm-form-field">
+          <label class="usm-label">Name</label>
+          <input class="usm-input" type="text" [(ngModel)]="newSocial.name" placeholder="e.g. My LinkedIn" />
+        </div>
+
+        <div class="usm-form-field">
+          <label class="usm-label">Link / URL</label>
+          <input class="usm-input" type="url" [(ngModel)]="newSocial.link" placeholder="https://linkedin.com/in/..." />
+          @if (linkError) {
+            <span class="usm-error">{{ linkError }}</span>
+          }
+        </div>
+
+        <div class="usm-form-field">
+          <label class="usm-label">Type</label>
+          <select class="usm-input usm-select" [(ngModel)]="newSocial.socialMediaType">
+            @for (t of socialTypes; track t.value) {
+              <option [value]="t.value">{{ t.label }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="usm-form-field">
+          <label class="usm-label">Description</label>
+          <textarea class="usm-input usm-textarea" [(ngModel)]="newSocial.description" placeholder="Optional description…"></textarea>
+        </div>
+
+      </div>
+
+      <div class="usm-modal-footer">
+        <button class="usm-footer-btn usm-cancel" data-bs-dismiss="modal">Cancel</button>
+        <button class="usm-footer-btn usm-save" (click)="submitAdd()" [disabled]="addSubmitting">
+          @if (addSubmitting) {
+            <span class="btn-spinner"></span>
+          } @else {
+            <svg viewBox="0 0 20 20" fill="none">
+              <path d="M4 10l4.5 4.5L16 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          }
+          {{ addSubmitting ? 'Saving…' : 'Add Account' }}
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="detailsModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered usm-modal-dialog">
+    <div class="modal-content usm-modal">
+
+      @if (selectedSocial) {
+
+        <div class="usm-modal-header">
+          <div class="usm-modal-title-wrap">
+            <div class="usm-modal-icon">
+              📄
+            </div>
+            <h5 class="usm-modal-title">
+              {{ selectedSocial.name }}
+            </h5>
+          </div>
+
+          <div class="usm-modal-header-actions">
+
+            <button class="usm-action-btn"
+                    (click)="openEditModal(selectedSocial)">
+              ✏️ Edit
+            </button>
+
+            <button class="usm-action-btn usm-action-delete"
+                    (click)="openDeleteModal(selectedSocial)">
+              🗑 Delete
+            </button>
+
+            <button class="usm-modal-close"
+                    data-bs-dismiss="modal">
+              ✖
+            </button>
+
+          </div>
+        </div>
+
+
+        <div class="usm-modal-body">
+
+          <div class="usm-detail-card">
+
+            <div class="usm-detail-row">
+              <span class="usm-detail-label">Platform</span>
+              <span class="usm-detail-value">
+                {{ getTypeLabel(selectedSocial.socialMediaType) }}
+              </span>
+            </div>
+
+            <div class="usm-detail-row">
+              <span class="usm-detail-label">Link</span>
+
+              <a class="usm-detail-link"
+                 [href]="selectedSocial.link"
+                 target="_blank">
+
+                {{ selectedSocial.link }}
+
+              </a>
+
+            </div>
+
+            <div class="usm-detail-row">
+              <span class="usm-detail-label">Owner</span>
+              <span class="usm-detail-value">
+                {{ selectedSocial.userName }}
+              </span>
+            </div>
+
+            @if (selectedSocial.description) {
+
+              <div class="usm-detail-row">
+
+                <span class="usm-detail-label">
+                  Description
+                </span>
+
+                <span class="usm-detail-value">
+                  {{ selectedSocial.description }}
+                </span>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered usm-modal-dialog">
+    <div class="modal-content usm-modal">
+
+      @if (editBuffer) {
+
+        <div class="usm-modal-header">
+
+          <div class="usm-modal-title-wrap">
+            ✏️ Edit Account
+          </div>
+
+          <button class="usm-modal-close"
+                  data-bs-dismiss="modal">
+            ✖
+          </button>
+
+        </div>
+
+
+        <div class="usm-modal-body">
+
+          <div class="usm-form-field">
+
+            <label>Name</label>
+
+            <input class="usm-input"
+                   [(ngModel)]="editBuffer.name">
+
+          </div>
+
+
+          <div class="usm-form-field">
+
+            <label>Link</label>
+
+            <input class="usm-input"
+                   [(ngModel)]="editBuffer.link">
+
+          </div>
+
+
+          <div class="usm-form-field">
+
+            <label>Type</label>
+
+            <select class="usm-input"
+                    [(ngModel)]="editBuffer.socialMediaType">
+
+              @for (t of socialTypes; track t.value) {
+
+                <option [value]="t.value">
+                  {{ t.label }}
+                </option>
+
+              }
+
+            </select>
+
+          </div>
+
+
+          <div class="usm-form-field">
+
+            <label>Description</label>
+
+            <textarea class="usm-input"
+                      [(ngModel)]="editBuffer.description">
+            </textarea>
+
+          </div>
+
+        </div>
+
+
+        <div class="usm-modal-footer">
+
+          <button class="usm-footer-btn usm-cancel"
+                  data-bs-dismiss="modal">
+            Cancel
+          </button>
+
+          <button class="usm-footer-btn usm-save"
+                  (click)="submitEdit()">
+
+            Save Changes
+
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered usm-modal-dialog">
+    <div class="modal-content usm-modal">
+
+      @if (selectedSocial) {
+
+        <div class="usm-modal-header usm-modal-header--danger">
+
+          Delete Account
+
+        </div>
+
+
+        <div class="usm-modal-body usm-delete-confirm">
+
+          <div class="usm-delete-icon">
+            🗑
+          </div>
+
+          <p>
+
+            Delete
+            <strong>{{ selectedSocial.name }}</strong>
+            ?
+
+          </p>
+
+        </div>
+
+
+        <div class="usm-modal-footer">
+
+          <button class="usm-footer-btn usm-cancel"
+                  data-bs-dismiss="modal">
+
+            Cancel
+
+          </button>
+
+          <button class="usm-footer-btn usm-delete-btn"
+                  (click)="submitDelete()">
+
+            Yes Delete
+
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+  </div>
+</div>

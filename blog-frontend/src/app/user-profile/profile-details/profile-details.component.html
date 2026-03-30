@@ -15,7 +15,6 @@
     <div class="card-identity">
       <h1 class="full-name">{{ profile.firstName }} {{ profile.lastName }}</h1>
       <p class="job-title">{{ profile.job }}</p>
-
       <div class="action-row">
         <button class="btn btn-edit" (click)="onEdit()">
           <svg viewBox="0 0 20 20" fill="none">
@@ -36,36 +35,47 @@
 
     <hr class="divider" />
 
-    <!-- Info Grid -->
+    <!-- Info Grid — HORIZONTAL 3 columns -->
     <div class="info-grid">
+
+      <!-- Birth Date -->
       <div class="info-tile">
         <span class="tile-icon">🎂</span>
         <div class="tile-body">
+          <span class="tile-label">Birthday</span>
           <span class="tile-value">{{ formattedBirthDate }}</span>
           <span class="tile-sub">{{ age }} years old</span>
         </div>
       </div>
+
+      <!-- Nationality -->
       <div class="info-tile">
-        <span class="tile-icon">
+        <span class="tile-icon flag">
           <span [class]="profile.nationality.flagClass" class="flag-icon"></span>
         </span>
         <div class="tile-body">
+          <span class="tile-label">Nationality</span>
           <span class="tile-value">{{ profile.nationality.label }}</span>
           <span class="tile-sub tile-code">{{ profile.nationality.code }}</span>
         </div>
       </div>
+
+      <!-- City -->
       <div class="info-tile">
         <span class="tile-icon">📍</span>
         <div class="tile-body">
+          <span class="tile-label">City</span>
           <span class="tile-value">{{ profile.city }}</span>
         </div>
       </div>
+
     </div>
 
     <hr class="divider" />
 
     <!-- Interests -->
     <div class="interests-section">
+      <p class="section-title">Interests</p>
       <div class="interests-grid">
         @for (interest of profile.interests; track $index) {
           <div class="interest-chip">
@@ -91,7 +101,6 @@
 
       <div class="modal-body edit-modal-body">
 
-        <!-- Personal -->
         <p class="section-label">Personal Info</p>
         <div class="row g-3 mb-3">
           <div class="col-md-6">
@@ -112,7 +121,6 @@
           <input type="date" class="form-control edit-input" [(ngModel)]="editBirthDate" />
         </div>
 
-        <!-- Location -->
         <p class="section-label">Location</p>
         <div class="mb-3 position-relative">
           <label class="form-label edit-label">Nationality</label>
@@ -148,7 +156,6 @@
           <input type="text" class="form-control edit-input" [(ngModel)]="editCity" placeholder="City" />
         </div>
 
-        <!-- Interests -->
         <p class="section-label">Interests</p>
         <div class="interests-picker">
           @for (interest of allInterests; track interest.label) {

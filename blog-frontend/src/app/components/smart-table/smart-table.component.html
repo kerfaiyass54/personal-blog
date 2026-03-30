@@ -1,0 +1,179 @@
+<!-- smart-table.component.html -->
+
+<div class="st-wrapper">
+
+  <!-- ── Toolbar ─────────────────────────────────────── -->
+  <div class="st-toolbar">
+    <div class="st-toolbar-left">
+      <h2 class="st-title">{{ config.title }}</h2>
+      @if (config.searchable) {
+        <div class="st-search">
+          <svg class="st-search-icon" viewBox="0 0 20 20" fill="none">
+            <circle cx="8.5" cy="8.5" r="5.5" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M15 15l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          <input
+            class="st-search-input"
+            type="text"
+            [(ngModel)]="searchQuery"
+            (ngModelChange)="currentPage = 1"
+            placeholder="Search…"
+          />
+        </div>
+      }
+    </div>
+    <div class="st-toolbar-right">
+      @if (config.exportable) {
+        <button class="st-btn st-btn-export" (click)="exportCSV()" title="Export CSV">
+          <svg viewBox="0 0 20 20" fill="none">
+            <path d="M3.333 14.167v1.666A1.667 1.667 0 0 0 5 17.5h10a1.667 1.667 0 0 0 1.667-1.667v-1.666M13.333 10 10 13.333 6.667 10M10 13.333V2.5"
+                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- ── Table ───────────────────────────────────────── -->
+  <div class="st-scroll">
+    <table class="st-table">
+      <thead>
+      <tr>
+        @for (col of config.columns; track col.key) {
+          <th
+            [class.sortable]="col.sortable"
+            [class.sort-asc]="sortKey === col.key && sortDir === 'asc'"
+            [class.sort-desc]="sortKey === col.key && sortDir === 'desc'"
+            [style.width]="col.width ?? 'auto'"
+            (click)="toggleSort(col)"
+          >
+              <span class="th-inner">
+                {{ col.label }}
+                @if (col.sortable) {
+                  <span class="sort-arrows">
+                    <svg viewBox="0 0 10 14" fill="none">
+                      <path d="M5 1v12M1 5l4-4 4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"
+                            [class.active]="sortKey === col.key && sortDir === 'asc'"/>
+                      <path d="M1 9l4 4 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"
+                            [class.active]="sortKey === col.key && sortDir === 'desc'"/>
+                    </svg>
+                  </span>
+                }
+              </span>
+          </th>
+        }
+      </tr>
+      </thead>
+      <tbody>
+        @if (paged.length === 0) {
+          <tr class="st-empty-row">
+            <td [attr.colspan]="config.columns.length">
+              <div class="st-empty">
+                <svg viewBox="0 0 48 48" fill="none">
+                  <circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+                  <path d="M16 24h16M24 16v16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".3"/>
+                </svg>
+                <span>No records found</span>
+              </div>
+            </td>
+          </tr>
+        }
+        @for (row of paged; track $index; let i = $index) {
+          <tr
+            class="st-row"
+            [style.animation-delay]="i * 40 + 'ms'"
+            (click)="openRow(row)"
+          >
+            @for (col of config.columns; track col.key) {
+              <td class="st-cell" [attr.data-type]="col.type">
+
+                <!-- TEXT / DATE -->
+                @if (col.type === 'text') {
+                  <span class="cell-text" [title]="getCellValue(row, col)">
+                    {{ truncate(getCellValue(row, col)) }}
+                  </span>
+                }
+
+                @if (col.type === 'date') {
+                  <span class="cell-text cell-date">
+                    {{ formatDate(getCellValue(row, col), col) }}
+                  </span>
+                }
+
+                <!-- ICON -->
+                @if (col.type === 'icon') {
+                  <span class="cell-icon">
+  <i [class]="getIcon(getCellValue(row, col), col)"></i>
+</span>
+                }
+
+                @if (col.type === 'svg') {
+                  <span class="cell-svg-icon" [innerHTML]="getIcon(getCellValue(row, col), col)"></span>
+                }
+
+                <!-- STATE / BADGE -->
+                @if (col.type === 'state' || col.type === 'badge') {
+                  @let state = getState(getCellValue(row, col), col);
+                  <span
+                    class="cell-state"
+                    [attr.data-color]="state?.color ?? 'neutral'"
+                  >
+                    @if (state?.icon) {
+                      <span class="state-icon">{{ state!.icon }}</span>
+                    }
+                    {{ state?.label ?? getCellValue(row, col) }}
+                  </span>
+                }
+
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ── Pagination ──────────────────────────────────── -->
+  <div class="st-footer">
+    <div class="st-page-size">
+      <select
+        class="st-select"
+        [ngModel]="pageSize"
+        (ngModelChange)="onPageSizeChange($event)"
+      >
+        @for (s of (config.pageSizeOptions ?? [5, 10, 20]); track s) {
+          <option [value]="s">{{ s }}</option>
+        }
+      </select>
+      <span class="st-count">
+{{ (currentPage - 1) * pageSize + 1 }}–{{ pageEnd }}        of {{ filtered.length }}
+      </span>
+    </div>
+    <div class="st-pager">
+      <button class="st-page-btn" [disabled]="currentPage === 1" (click)="goTo(currentPage - 1)">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      @for (p of pageNumbers; track p) {
+        @if (p === 1 || p === totalPages || (p >= currentPage - 1 && p <= currentPage + 1)) {
+          <button
+            class="st-page-btn"
+            [class.active]="p === currentPage"
+            (click)="goTo(p)"
+          >{{ p }}</button>
+        } @else if (p === currentPage - 2 || p === currentPage + 2) {
+          <span class="st-ellipsis">…</span>
+        }
+      }
+      <button class="st-page-btn" [disabled]="currentPage === totalPages" (click)="goTo(currentPage + 1)">
+        <svg viewBox="0 0 16 16" fill="none">
+          <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+
