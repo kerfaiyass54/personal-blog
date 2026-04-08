@@ -98,6 +98,14 @@
         </label>
       </li>
 
+      <li [routerLink]="'/' + role + '/playlists'">
+        <input type="radio" id="playlists" name="sidebar">
+        <label for="playlists">
+          <i class="bi-music-note"></i>
+          <p>Soundtracks</p>
+        </label>
+      </li>
+
       <!-- Login History -->
       <li [routerLink]="'/' + role + '/user-history'">
         <input type="radio" id="login" name="sidebar">

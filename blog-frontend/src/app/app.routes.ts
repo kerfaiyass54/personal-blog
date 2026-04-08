@@ -12,6 +12,7 @@ import {LoginHistoryComponent} from "./login-history/login-history.component";
 import {SessionDetailsComponent} from "./session-details/session-details.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {UserSocialMediaComponent} from "./user-social-media/user-social-media.component";
+import {UserPlaylistsComponent} from "./user-playlists/user-playlists.component";
 
 
 
@@ -56,6 +57,12 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
         component: UserSocialMediaComponent
+      },
+      {
+        path: 'playlists',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: UserPlaylistsComponent
       }
     ]
   },
@@ -89,7 +96,14 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['READER']},
         component: UserSocialMediaComponent
+      },
+      {
+        path: 'playlists',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: UserPlaylistsComponent
       }
+
     ]},
   { path: '**', component: ErrorNotFoundComponent }
 ];

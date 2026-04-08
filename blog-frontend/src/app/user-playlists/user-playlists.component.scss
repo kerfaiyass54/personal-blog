@@ -1,0 +1,326 @@
+.playlists-wrapper {
+
+  margin-top: 40px;
+
+}
+
+
+/* PAGE ENTRY ANIMATION */
+
+.fade-in-wrapper {
+
+  animation: fadeSlideUp 0.9s ease forwards;
+
+}
+
+@keyframes fadeSlideUp {
+
+  from {
+
+    opacity: 0;
+    transform: translateY(40px);
+
+  }
+
+  to {
+
+    opacity: 1;
+    transform: translateY(0);
+
+  }
+
+}
+
+
+/* CARD BASE */
+
+.stat-card {
+
+  padding: 30px;
+
+  border-radius: 18px;
+
+  position: relative;
+
+  transition: 0.45s ease;
+
+  overflow: hidden;
+
+}
+
+
+/* SHIMMER EFFECT */
+
+.stat-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  width: 200%;
+
+  height: 200%;
+
+  background: linear-gradient(
+      120deg,
+      transparent,
+      rgba(255,255,255,0.2),
+      transparent
+  );
+
+  transform: rotate(25deg) translateX(-120%);
+
+  transition: 0.7s ease;
+
+}
+
+
+.stat-card:hover::before {
+
+  transform: rotate(25deg) translateX(120%);
+
+}
+
+
+/* CARD HOVER LIFT */
+
+.stat-card:hover {
+
+  transform: translateY(-8px) scale(1.01);
+
+}
+
+.container{
+  background: white;
+  border-radius: 15px;
+  padding: 45px;
+}
+
+
+/* HEADER */
+
+.card-header {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  margin-bottom: 25px;
+
+  color: white;
+
+}
+
+
+/* FLOATING ICON */
+
+.floating-icon {
+
+  animation: floatIcon 4s ease-in-out infinite;
+
+}
+
+@keyframes floatIcon {
+
+  0% { transform: translateY(0px); }
+
+  50% { transform: translateY(-6px); }
+
+  100% { transform: translateY(0px); }
+
+}
+
+
+/* ICON */
+
+.icon-box {
+
+  width: 55px;
+
+  height: 55px;
+
+  border-radius: 15px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-size: 22px;
+
+  color: white;
+
+  background: linear-gradient(
+      135deg,
+      #6a5cff,
+      #8c52ff
+  );
+
+}
+
+
+/* ACTION BUTTON */
+
+.action-btn {
+
+  background: rgba(255,255,255,0.18);
+
+  color: white;
+
+  border-radius: 12px;
+
+  padding: 8px 18px;
+
+  font-weight: 500;
+
+  backdrop-filter: blur(6px);
+
+  transition: 0.3s ease;
+
+}
+
+
+.action-btn:hover {
+
+  transform: translateY(-3px) scale(1.05);
+
+  background: rgba(255,255,255,0.35);
+
+}
+
+
+/* STATS */
+
+.stats {
+
+  display: flex;
+
+  justify-content: space-around;
+
+}
+
+
+/* STATS ENTRY ANIMATION */
+
+.animated-stat {
+
+  opacity: 0;
+
+  transform: translateY(20px);
+
+  animation: statAppear 0.6s ease forwards;
+
+}
+
+
+.delay-1 {
+
+  animation-delay: 0.2s;
+
+}
+
+.delay-2 {
+
+  animation-delay: 0.4s;
+
+}
+
+
+@keyframes statAppear {
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+
+  }
+
+}
+
+
+/* HOVER MICRO-INTERACTION */
+
+.stat-card:hover .stat {
+
+  transform: translateY(-6px) scale(1.05);
+
+}
+
+
+.stat {
+
+  transition: 0.3s ease;
+
+}
+
+
+/* NUMBERS */
+
+.value {
+
+  font-size: 26px;
+
+  font-weight: 700;
+
+  color: white;
+
+  transition: 0.3s ease;
+
+}
+
+
+.stat-card:hover .value {
+
+  transform: scale(1.15);
+
+}
+
+
+/* LABEL */
+
+.label {
+
+  font-size: 13px;
+
+  opacity: 0.75;
+
+  color: white;
+
+}
+
+
+/* CARD COLORS */
+
+.playlists-card {
+
+  background: linear-gradient(
+      135deg,
+      #6a5cff,
+      #5f27cd
+  );
+
+}
+
+
+.soundtracks-card {
+
+  background: linear-gradient(
+      135deg,
+      #00c6ff,
+      #0072ff
+  );
+
+}
+
+
+/* CARD DELAY ENTRY */
+
+.delay-card {
+
+  animation-delay: 0.3s;
+
+}
