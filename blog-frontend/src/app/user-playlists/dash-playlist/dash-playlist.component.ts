@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 })
 export class DashPlaylistComponent {
 
+  trackToDelete: number | null = null;
+
   availableTracks = [
 
     { id: 100, title: "Skyline", author: "Artist A" },
@@ -166,6 +168,65 @@ export class DashPlaylistComponent {
     };
 
     this.selectedPlaylist.tracks.push(newTrack);
+
+  }
+
+  openDeleteModal(trackId: number) {
+
+    this.trackToDelete = trackId;
+
+    const modalElement =
+      document.getElementById("deleteTrackModal");
+
+    if (modalElement) {
+
+      const modal =
+        new (window as any).bootstrap.Modal(
+          modalElement,
+          {
+            backdrop: "static",
+            keyboard: false
+          }
+        );
+
+      modal.show();
+
+    }
+
+  }
+
+
+
+  confirmDeleteTrack() {
+
+    if (
+      !this.selectedPlaylist ||
+      this.trackToDelete === null
+    ) return;
+
+
+    this.selectedPlaylist.tracks =
+      this.selectedPlaylist.tracks.filter(
+        (t: any) =>
+          t.id !== this.trackToDelete
+      );
+
+
+    this.trackToDelete = null;
+
+
+    const modal =
+      document.getElementById("deleteTrackModal");
+
+    if (modal) {
+
+      (window as any)
+        .bootstrap
+        .Modal
+        .getInstance(modal)
+        ?.hide();
+
+    }
 
   }
 
