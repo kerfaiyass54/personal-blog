@@ -23,6 +23,127 @@
 
 }
 
+/* SEARCH INPUT */
+
+.search-box {
+
+  margin-bottom: 14px;
+
+}
+
+
+/* TABLE STYLE */
+
+.soundtrack-table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+  border-radius: 14px;
+
+  overflow: hidden;
+
+  animation: fadeSlideUp .35s ease;
+
+}
+
+
+/* TABLE HEADER */
+
+.soundtrack-table thead {
+
+  background: #f2f3ff;
+
+}
+
+
+.soundtrack-table th {
+
+  padding: 12px;
+
+  font-weight: 600;
+
+  text-align: left;
+
+}
+
+
+/* TABLE ROW */
+
+.soundtrack-table td {
+
+  padding: 12px;
+
+  border-top: 1px solid #eee;
+
+  transition: .25s ease;
+
+}
+
+
+/* ROW HOVER */
+
+.soundtrack-table tbody tr:hover:not(.selected-row) {
+
+  background: #f7f7ff;
+
+  cursor: pointer;
+
+}
+
+.selected-row input[type="checkbox"] {
+
+  filter: brightness(0) invert(1);
+
+}
+
+
+/* SELECTED ROW */
+
+.selected-row {
+
+  background:
+
+    linear-gradient(
+        135deg,
+        #6a5cff,
+        #8c52ff
+    );
+
+  color: white;
+
+}
+
+
+/* CHECKBOX ALIGN */
+
+.soundtrack-table input[type="checkbox"] {
+
+  pointer-events: none;
+
+}
+
+
+/* SUBTLE CARD FLOAT ANIMATION */
+
+.track-card {
+
+  animation: floatMini 3s ease-in-out infinite;
+
+}
+
+
+@keyframes floatMini {
+
+  0% { transform: translateY(0px); }
+
+  50% { transform: translateY(-3px); }
+
+  100% { transform: translateY(0px); }
+
+}
+
 
 /* MAIN CARD */
 

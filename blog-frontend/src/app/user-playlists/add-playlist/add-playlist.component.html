@@ -60,6 +60,7 @@
 
           <input
             class="form-control modern-input"
+            [value]="title()"
             (input)="title.set($any($event.target).value)"
             placeholder="Enter playlist title"
           />
@@ -80,6 +81,7 @@
           <textarea
             class="form-control modern-input"
             rows="4"
+            [value]="description()"
             (input)="description.set($any($event.target).value)"
           ></textarea>
 
@@ -88,33 +90,70 @@
       }
 
 
-      <!-- STEP 3 -->
-
       @if(step() === 3) {
 
         <div class="animated-step">
 
           <h5>Select soundtracks</h5>
 
-          <div class="soundtrack-grid">
 
-            @for(track of soundtracks(); track track.id) {
+          <!-- SEARCH BOX -->
 
-              <div
-                class="track-card"
-                [class.selected]="selectedSoundtracks().includes(track.id)"
-                (click)="toggleSoundtrack(track.id)"
-              >
+          <input
+            class="form-control modern-input search-box"
+            placeholder="Search soundtrack..."
+            (input)="searchTerm.set($any($event.target).value)"
+          />
 
-                <strong>{{ track.title }}</strong>
 
-                <span>{{ track.author }}</span>
+          <!-- TABLE -->
 
-              </div>
+          <table class="soundtrack-table">
 
-            }
+            <thead>
 
-          </div>
+            <tr>
+
+              <th></th>
+
+              <th>Title</th>
+
+              <th>Author</th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              @for(track of filteredSoundtracks(); track track.id) {
+
+                <tr
+                  [class.selected-row]="selectedSoundtracks().includes(track.id)"
+                  (click)="toggleSoundtrack(track.id)"
+                >
+
+                  <td>
+
+                    <input
+                      type="checkbox"
+                      [checked]="selectedSoundtracks().includes(track.id)"
+                    />
+
+                  </td>
+
+                  <td>{{ track.title }}</td>
+
+                  <td>{{ track.author }}</td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
 
         </div>
 
@@ -154,6 +193,13 @@
 
     </div>
 
+    <button
+      class="btn btn-light"
+      (click)="cancel()"
+    >
+      Cancel
+    </button>
+
 
     <!-- ACTION BUTTONS -->
 
@@ -171,7 +217,7 @@
       }
 
 
-      @if(step() < steps.length) {
+      @if(step() < steps.length && canProceed()) {
 
         <button
           class="btn primary-btn"

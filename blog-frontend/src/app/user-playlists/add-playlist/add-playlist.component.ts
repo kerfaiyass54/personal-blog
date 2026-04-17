@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-playlist',
@@ -19,6 +20,16 @@ export class AddPlaylistComponent {
     'Review'
   ];
 
+  constructor(private router: Router) {}
+
+  cancel() {
+
+    const role = sessionStorage.getItem('role')?.toLowerCase();
+
+    this.router.navigate([`/${role}/playlists`]);
+
+  }
+
   animationDirection = signal<'forward' | 'backward'>('forward');
 
   title = signal('');
@@ -27,8 +38,10 @@ export class AddPlaylistComponent {
 
   selectedSoundtracks = signal<string[]>([]);
 
+  searchTerm = signal('');
 
-  /* MOCK DATA (replace with API later) */
+
+  /* MOCK DATA */
 
   soundtracks = signal([
     { id: '1', title: 'Interstellar', author: 'Hans Zimmer' },
@@ -38,7 +51,48 @@ export class AddPlaylistComponent {
   ]);
 
 
+  /* FILTERED TABLE DATA */
+
+  filteredSoundtracks = computed(() => {
+
+    const term = this.searchTerm().toLowerCase();
+
+    if (!term) return this.soundtracks();
+
+    return this.soundtracks().filter(track =>
+      track.title.toLowerCase().includes(term) ||
+      track.author.toLowerCase().includes(term)
+    );
+
+  });
+
+
+  /* STEP VALIDATION */
+
+  canProceed(): boolean {
+
+    switch (this.step()) {
+
+      case 1:
+        return this.title().trim().length > 0;
+
+      case 2:
+        return this.description().trim().length > 0;
+
+      case 3:
+        return this.selectedSoundtracks().length > 0;
+
+      default:
+        return true;
+
+    }
+
+  }
+
+
   nextStep() {
+
+    if (!this.canProceed()) return;
 
     if (this.step() < this.steps.length) {
 
