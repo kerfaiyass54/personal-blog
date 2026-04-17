@@ -1,111 +1,110 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-dash-music',
-  standalone: true,
-  imports: [],
   templateUrl: './dash-music.component.html',
-  styleUrl: './dash-music.component.scss',
+  imports: [
+    FormsModule
+  ],
+  styleUrl: './dash-music.component.scss'
 })
 export class DashMusicComponent {
 
-  activePlatform = signal<'SPOTIFY' | 'YOUTUBE' | null>(null);
+  constructor(private router: Router) {}
 
-  search = signal('');
+  songs = [
+    { id: 1, title: 'Track One', author: 'Artist A', link: 'https://youtube.com' },
+    { id: 2, title: 'Track Two', author: 'Artist B', link: 'https://spotify.com' }
+  ];
 
-  selectedSong = signal<any>(null);
+  selectedSong: any;
 
-  page = signal(1);
+  activePlatformValue = '';
 
-  pageSize = 5;
-
-
-  songs = signal([
-    { id: 1, title: 'Interstellar', author: 'Hans Zimmer', platform: 'SPOTIFY' },
-    { id: 2, title: 'Time', author: 'Hans Zimmer', platform: 'SPOTIFY' },
-    { id: 3, title: 'Experience', author: 'Einaudi', platform: 'SPOTIFY' },
-    { id: 4, title: 'Cornfield Chase', author: 'Hans Zimmer', platform: 'SPOTIFY' },
-
-    { id: 5, title: 'Numb', author: 'Linkin Park', platform: 'YOUTUBE' },
-    { id: 6, title: 'Believer', author: 'Imagine Dragons', platform: 'YOUTUBE' },
-    { id: 7, title: 'Faded', author: 'Alan Walker', platform: 'YOUTUBE' }
-  ]);
+  search = {
+    value: '',
+    set: (v: string) => this.search.value = v
+  };
 
 
-  spotifyCount = computed(() =>
-    this.songs().filter(x => x.platform === 'SPOTIFY').length
-  );
+  goBack() {
 
+    const role = sessionStorage.getItem('role')?.toLowerCase();
 
-  youtubeCount = computed(() =>
-    this.songs().filter(x => x.platform === 'YOUTUBE').length
-  );
-
-
-  filteredSongs = computed(() => {
-
-    if (!this.activePlatform()) return [];
-
-    return this.songs()
-      .filter(song =>
-        song.platform === this.activePlatform()
-      )
-      .filter(song =>
-        song.title.toLowerCase().includes(this.search().toLowerCase())
-      );
-
-  });
-
-
-  paginatedSongs = computed(() => {
-
-    const start = (this.page() - 1) * this.pageSize;
-
-    return this.filteredSongs().slice(
-      start,
-      start + this.pageSize
+    this.router.navigate(
+      [`/${role}/playlists`],
+      { replaceUrl: true }
     );
 
-  });
+  }
 
 
-  openSongs(platform: 'SPOTIFY' | 'YOUTUBE') {
+  openSongs(platform: string) {
 
-    this.activePlatform.set(platform);
+    this.activePlatformValue = platform;
 
-    this.page.set(1);
+  }
+
+
+  activePlatform() {
+
+    return this.activePlatformValue;
 
   }
 
 
   selectSong(song: any) {
 
-    this.selectedSong.set(song);
+    this.selectedSong = song;
 
   }
 
 
-  deleteSong() {
+  listenSong(song: any) {
 
-    this.songs.set(
-      this.songs().filter(
-        s => s.id !== this.selectedSong()?.id
-      )
-    );
+    window.open(song.link, '_blank');
 
   }
 
 
   updateSong() {
 
-    alert('Update modal confirmed (connect API later)');
+    console.log('updated:', this.selectedSong);
 
   }
 
 
-  listenSong() {
+  deleteSong() {
 
-    alert('Redirect to listen page');
+    this.songs = this.songs.filter(
+      s => s.id !== this.selectedSong.id
+    );
+
+  }
+
+
+  spotifyCount() {
+
+    return this.songs.length;
+
+  }
+
+
+  youtubeCount() {
+
+    return this.songs.length;
+
+  }
+
+
+  paginatedSongs() {
+
+    return this.songs.filter(song =>
+      song.title.toLowerCase()
+        .includes(this.search.value.toLowerCase())
+    );
 
   }
 

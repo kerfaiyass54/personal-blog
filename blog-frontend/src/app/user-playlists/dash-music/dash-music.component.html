@@ -1,116 +1,73 @@
 <div class="music-dashboard">
 
-
   <div class="dashboard-container">
 
-
     <!-- HEADER -->
-
     <h2 class="title">
-
       <i class="bi bi-music-note-list title-icon"></i>
-
       Music Dashboard
-
     </h2>
 
+    <button class="back-btn" (click)="goBack()">
+      ← Back
+    </button>
 
-    <!-- PLATFORM ROW CARDS -->
-
+    <!-- PLATFORM CARDS -->
     <div class="platform-grid">
 
-
       <!-- SPOTIFY -->
-
       <div
         class="platform-card spotify"
         data-bs-toggle="modal"
         data-bs-target="#songsModal"
         (click)="openSongs('SPOTIFY')"
       >
-
         <div class="card-left">
-
           <i class="bi bi-spotify platform-icon"></i>
-
           <h4>Spotify</h4>
-
         </div>
-
 
         <div class="count">
-
-          {{ spotifyCount() }}
-
-          songs
-
+          {{ spotifyCount() }} songs
         </div>
-
       </div>
 
-
-
       <!-- YOUTUBE -->
-
       <div
         class="platform-card youtube"
         data-bs-toggle="modal"
         data-bs-target="#songsModal"
         (click)="openSongs('YOUTUBE')"
       >
-
         <div class="card-left">
-
           <i class="bi bi-youtube platform-icon"></i>
-
           <h4>YouTube</h4>
-
         </div>
-
 
         <div class="count">
-
-          {{ youtubeCount() }}
-
-          songs
-
+          {{ youtubeCount() }} songs
         </div>
-
       </div>
 
-
     </div>
-
 
   </div>
 
 
+  <!-- SONG LIST MODAL -->
 
-  <!-- SONGS MODAL -->
-
-  <div class="modal fade" id="songsModal" tabindex="-1">
+  <div class="modal fade" id="songsModal">
 
     <div class="modal-dialog modal-xl modal-dialog-centered">
 
       <div class="modal-content">
 
-
         <div class="modal-header">
-
-          <h5 class="modal-title">
-
-            {{ activePlatform() }} songs
-
-          </h5>
-
+          <h5>{{ activePlatform() }} songs</h5>
           <button class="btn-close" data-bs-dismiss="modal"></button>
-
         </div>
 
-
-
         <div class="modal-body">
-
 
           <input
             class="form-control search-box"
@@ -118,70 +75,127 @@
             (input)="search.set($any($event.target).value)"
           >
 
-
           <div class="table-wrapper">
-
 
             <table class="modern-table">
 
-
               <thead>
-
               <tr>
-
                 <th>Title</th>
-
                 <th>Author</th>
-
-                <th>Actions</th>
-
+                <th>Play</th>
               </tr>
-
               </thead>
 
-
               <tbody>
-
 
                 @for(song of paginatedSongs(); track song.id) {
 
                   <tr
                     (click)="selectSong(song)"
                     data-bs-toggle="modal"
-                    data-bs-target="#actionsModal"
+                    data-bs-target="#detailsModal"
                   >
 
                     <td>{{ song.title }}</td>
-
                     <td>{{ song.author }}</td>
 
                     <td>
-
                       <button
                         class="mini-btn listen"
-                        (click)="$event.stopPropagation(); listenSong()"
+                        (click)="$event.stopPropagation(); listenSong(song)"
                       >
-                        ▶
+                        <i class="bi bi-play-fill"></i>
                       </button>
-
                     </td>
 
                   </tr>
 
                 }
 
-
               </tbody>
-
 
             </table>
 
-
           </div>
-
 
         </div>
 
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- DETAILS MODAL -->
+
+  <div class="modal fade" id="detailsModal">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+      <div class="modal-content">
+
+        <div class="modal-header">
+
+          <h5>
+            <i class="bi bi-info-circle"></i>
+            Song Details
+          </h5>
+
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+
+        </div>
+
+
+        <div class="modal-body details-box">
+
+          <p>
+            <i class="bi bi-music-note"></i>
+            <strong>Title:</strong>
+            {{ selectedSong?.title }}
+          </p>
+
+          <p>
+            <i class="bi bi-person"></i>
+            <strong>Author:</strong>
+            {{ selectedSong?.author }}
+          </p>
+
+        </div>
+
+
+        <div class="modal-footer action-buttons">
+
+          <button
+            class="action-btn listen"
+            (click)="listenSong(selectedSong)"
+          >
+            <i class="bi bi-play-circle"></i>
+            Listen
+          </button>
+
+
+          <button
+            class="action-btn update"
+            data-bs-toggle="modal"
+            data-bs-target="#updateModal"
+          >
+            <i class="bi bi-pencil-square"></i>
+            Update
+          </button>
+
+
+          <button
+            class="action-btn delete"
+            data-bs-toggle="modal"
+            data-bs-target="#confirmDeleteModal"
+          >
+            <i class="bi bi-trash"></i>
+            Delete
+          </button>
+
+        </div>
 
       </div>
 
@@ -191,67 +205,117 @@
 
 
 
-  <!-- ACTION MODAL -->
+  <!-- UPDATE MODAL -->
 
-  <div class="modal fade" id="actionsModal" tabindex="-1">
+  <div class="modal fade" id="updateModal">
 
     <div class="modal-dialog modal-dialog-centered">
 
       <div class="modal-content">
 
-
         <div class="modal-header">
 
           <h5>
-
-            Manage Song
-
+            <i class="bi bi-pencil-square"></i>
+            Update Song
           </h5>
 
-          <button
-            class="btn-close"
-            data-bs-dismiss="modal"
-          ></button>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
 
         </div>
 
 
+        <div class="modal-body">
 
-        <div class="modal-body action-buttons">
+          <form>
+
+            <input
+              class="form-control mb-3"
+              [(ngModel)]="selectedSong.title"
+              name="title"
+              placeholder="Title"
+            >
+
+            <input
+              class="form-control"
+              [(ngModel)]="selectedSong.author"
+              name="author"
+              placeholder="Author"
+            >
+
+          </form>
+
+        </div>
 
 
-          <button
-            class="action-btn listen"
-            (click)="listenSong()"
-          >
-
-            Listen
-
-          </button>
-
+        <div class="modal-footer">
 
           <button
             class="action-btn update"
             (click)="updateSong()"
           >
+            Save changes
+          </button>
 
-            Update
+        </div>
 
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- DELETE CONFIRMATION MODAL -->
+
+  <div class="modal fade" id="confirmDeleteModal">
+
+    <div class="modal-dialog modal-dialog-centered">
+
+      <div class="modal-content">
+
+        <div class="modal-header">
+
+          <h5>
+            <i class="bi bi-exclamation-triangle"></i>
+            Confirm deletion
+          </h5>
+
+        </div>
+
+
+        <div class="modal-body">
+
+          Are you sure you want to delete:
+
+          <strong>
+            {{ selectedSong?.title }}
+          </strong>
+
+          ?
+
+        </div>
+
+
+        <div class="modal-footer">
+
+          <button
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
           </button>
 
 
           <button
-            class="action-btn delete"
+            class="btn btn-danger"
             (click)="deleteSong()"
           >
-
             Delete
-
           </button>
 
-
         </div>
-
 
       </div>
 

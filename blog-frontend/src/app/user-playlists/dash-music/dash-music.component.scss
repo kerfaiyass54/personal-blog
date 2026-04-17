@@ -29,6 +29,75 @@
 
 }
 
+/* ============================= */
+/* BACK BUTTON STYLE */
+/* ============================= */
+
+.back-btn {
+
+  margin-bottom: 25px;
+
+  border: none;
+
+  padding: 10px 18px;
+
+  border-radius: 12px;
+
+  font-weight: 500;
+
+  background: linear-gradient(
+      135deg,
+      #6a5cff,
+      #8c52ff
+  );
+
+  color: white;
+
+  transition: .25s ease;
+
+}
+
+
+.back-btn:hover {
+
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 6px 18px rgba(106,92,255,.35);
+
+}
+
+.details-box {
+
+  font-size: 17px;
+
+  line-height: 2;
+
+}
+
+
+.details-box i {
+
+  margin-right: 8px;
+
+  color: #6a5cff;
+
+}
+
+
+.modal-content {
+
+  border-radius: 18px;
+
+}
+
+
+.modal-footer {
+
+  justify-content: center;
+
+}
+
 
 
 /* HEADER */
@@ -243,6 +312,11 @@
 
   gap: 14px;
 
+}
+
+
+.action-buttons button{
+  width: 100%;
 }
 
 
