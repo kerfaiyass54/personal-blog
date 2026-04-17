@@ -149,27 +149,7 @@ export class DashPlaylistComponent {
   }
 
 
-  removeTrack(trackId: number) {
 
-    this.selectedPlaylist.tracks =
-      this.selectedPlaylist.tracks.filter(
-        (t: any) => t.id !== trackId
-      );
-
-  }
-
-
-  addTrack() {
-
-    const newTrack = {
-      id: Date.now(),
-      title: "New Track",
-      author: "Unknown"
-    };
-
-    this.selectedPlaylist.tracks.push(newTrack);
-
-  }
 
   openDeleteModal(trackId: number) {
 
