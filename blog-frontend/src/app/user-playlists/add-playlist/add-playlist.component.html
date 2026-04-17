@@ -1,0 +1,200 @@
+<div class="container add-wrapper">
+
+  <div class="card wizard-card">
+
+    <h3 class="title">Create playlist</h3>
+
+
+    <!-- STEPPER -->
+
+    <div class="stepper">
+
+      @for(label of steps; track label; let i = $index) {
+
+        <div
+          class="step"
+          [class.active]="step() >= i + 1"
+        >
+
+          <div class="circle">
+
+            {{ i + 1 }}
+
+          </div>
+
+          <span>{{ label }}</span>
+
+        </div>
+
+
+        @if(i < steps.length - 1) {
+
+          <div
+            class="line"
+            [class.filled]="step() > i + 1"
+          ></div>
+
+        }
+
+      }
+
+    </div>
+
+
+    <!-- STEP CONTENT -->
+
+    <div
+      class="step-content"
+      [class.forward]="animationDirection() === 'forward'"
+      [class.backward]="animationDirection() === 'backward'"
+    >
+
+
+      <!-- STEP 1 -->
+
+      @if(step() === 1) {
+
+        <div class="animated-step">
+
+          <h5>Playlist title</h5>
+
+          <input
+            class="form-control modern-input"
+            (input)="title.set($any($event.target).value)"
+            placeholder="Enter playlist title"
+          />
+
+        </div>
+
+      }
+
+
+      <!-- STEP 2 -->
+
+      @if(step() === 2) {
+
+        <div class="animated-step">
+
+          <h5>Description</h5>
+
+          <textarea
+            class="form-control modern-input"
+            rows="4"
+            (input)="description.set($any($event.target).value)"
+          ></textarea>
+
+        </div>
+
+      }
+
+
+      <!-- STEP 3 -->
+
+      @if(step() === 3) {
+
+        <div class="animated-step">
+
+          <h5>Select soundtracks</h5>
+
+          <div class="soundtrack-grid">
+
+            @for(track of soundtracks(); track track.id) {
+
+              <div
+                class="track-card"
+                [class.selected]="selectedSoundtracks().includes(track.id)"
+                (click)="toggleSoundtrack(track.id)"
+              >
+
+                <strong>{{ track.title }}</strong>
+
+                <span>{{ track.author }}</span>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+      }
+
+
+      <!-- STEP 4 -->
+
+      @if(step() === 4) {
+
+        <div class="animated-step">
+
+          <h5>Review playlist</h5>
+
+          <div class="review-box">
+
+            <p>
+              <strong>Title:</strong>
+              {{ title() }}
+            </p>
+
+            <p>
+              <strong>Description:</strong>
+              {{ description() }}
+            </p>
+
+            <p>
+              <strong>Soundtracks:</strong>
+              {{ selectedSoundtracks().length }}
+            </p>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+
+    <!-- ACTION BUTTONS -->
+
+    <div class="actions">
+
+      @if(step() > 1) {
+
+        <button
+          class="btn btn-light"
+          (click)="prevStep()"
+        >
+          Back
+        </button>
+
+      }
+
+
+      @if(step() < steps.length) {
+
+        <button
+          class="btn primary-btn"
+          (click)="nextStep()"
+        >
+          Next
+        </button>
+
+      }
+
+
+      @if(step() === steps.length) {
+
+        <button class="btn primary-btn glow">
+
+          Create Playlist
+
+        </button>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

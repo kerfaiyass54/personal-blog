@@ -13,6 +13,8 @@ import {SessionDetailsComponent} from "./session-details/session-details.compone
 import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {UserSocialMediaComponent} from "./user-social-media/user-social-media.component";
 import {UserPlaylistsComponent} from "./user-playlists/user-playlists.component";
+import {AddSoundtrackComponent} from "./user-playlists/add-soundtrack/add-soundtrack.component";
+import {AddPlaylistComponent} from "./user-playlists/add-playlist/add-playlist.component";
 
 
 
@@ -39,6 +41,17 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER'] },
         component: SessionDetailsComponent
+      },{
+        path: 'add-music',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER'] },
+        component: AddSoundtrackComponent
+      },
+      {
+        path: 'add-playlist',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER'] },
+        component: AddPlaylistComponent
       },
       {
         path: 'password',
@@ -63,6 +76,18 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
         component: UserPlaylistsComponent
+      },
+      {
+        path: 'add-soundtrack',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: AddSoundtrackComponent
+      },
+      {
+        path: 'add-playlist',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: AddPlaylistComponent
       }
     ]
   },
@@ -102,6 +127,29 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['READER']},
         component: UserPlaylistsComponent
+      },
+      {
+        path: 'add-soundtrack',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: AddSoundtrackComponent
+      },{
+        path: 'add-music',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER'] },
+        component: AddSoundtrackComponent
+      },
+      {
+        path: 'add-playlist',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER'] },
+        component: AddPlaylistComponent
+      },
+      {
+        path: 'add-playlist',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: AddPlaylistComponent
       }
 
     ]},

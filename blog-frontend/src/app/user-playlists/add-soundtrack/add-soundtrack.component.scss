@@ -1,0 +1,511 @@
+/* PAGE BACKGROUND */
+
+:host {
+
+
+
+  background: white;
+
+  border-radius: 15px;
+
+}
+
+
+/* CENTER WRAPPER */
+
+.add-wrapper {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  min-height: 70vh;
+
+}
+
+
+/* MAIN CARD */
+
+.wizard-card {
+
+  width: 900px;
+
+  max-width: 95%;
+
+  border-radius: 22px;
+
+  padding: 45px 60px;
+
+  background: #ffffff;
+
+  box-shadow:
+
+    0 20px 70px rgba(0,0,0,.25);
+
+  animation: cardEnter .6s ease forwards;
+
+}
+
+
+@keyframes cardEnter {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(60px) scale(.96);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0) scale(1);
+
+  }
+
+}
+
+
+/* TITLE */
+
+.title {
+
+  text-align: center;
+
+  margin-bottom: 45px;
+
+  font-weight: 600;
+
+}
+
+
+/* STEPPER */
+
+.stepper {
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 0;
+
+  margin-bottom: 50px;
+
+}
+
+
+.step {
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  font-weight: 500;
+
+  color: #777;
+
+  transition: .3s ease;
+
+}
+
+
+.step.active {
+
+  color: #6a5cff;
+
+}
+
+
+/* STEP CIRCLE */
+
+.circle {
+
+  width: 44px;
+
+  height: 44px;
+
+  border-radius: 50%;
+
+  background: #ececf6;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  font-weight: 600;
+
+  transition: .35s ease;
+
+}
+
+
+.step.active .circle {
+
+  background: linear-gradient(
+      135deg,
+      #6a5cff,
+      #8c52ff
+  );
+
+  color: white;
+
+  transform: scale(1.1);
+
+}
+
+
+/* CONNECTOR LINE */
+
+.line {
+
+  width: 110px;
+
+  height: 4px;
+
+  background: #e4e4ee;
+
+  position: relative;
+
+  margin: 0 10px;
+
+  border-radius: 4px;
+
+  overflow: hidden;
+
+}
+
+
+.line.filled::after {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background: linear-gradient(
+      90deg,
+      #6a5cff,
+      #8c52ff
+  );
+
+  animation: progressFill .4s ease forwards;
+
+}
+
+
+@keyframes progressFill {
+
+  from {
+
+    transform: scaleX(0);
+
+  }
+
+  to {
+
+    transform: scaleX(1);
+
+  }
+
+}
+
+
+/* STEP CONTENT CONTAINER */
+
+.step-content {
+
+  min-height: 150px;
+
+}
+
+
+/* STEP TRANSITION */
+
+.step-content.forward {
+
+  animation: slideForward .4s ease;
+
+}
+
+
+.step-content.backward {
+
+  animation: slideBack .4s ease;
+
+}
+
+
+@keyframes slideForward {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateX(60px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateX(0);
+
+  }
+
+}
+
+
+@keyframes slideBack {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateX(-60px);
+
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateX(0);
+
+  }
+
+}
+
+
+/* TYPE SELECT GRID */
+
+.type-grid {
+
+  display: flex;
+
+  gap: 35px;
+
+  margin-top: 25px;
+
+}
+
+
+/* TYPE CARD */
+
+.type-card {
+
+  width: 160px;
+
+  height: 140px;
+
+  border-radius: 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: center;
+
+  font-size: 18px;
+
+  font-weight: 500;
+
+  background: #f7f7ff;
+
+  cursor: pointer;
+
+  transition: .4s ease;
+
+  box-shadow:
+
+    0 5px 20px rgba(0,0,0,.08);
+
+}
+
+
+/* ICON SIZE */
+
+.type-card i {
+
+  font-size: 36px;
+
+  margin-bottom: 12px;
+
+}
+
+
+/* HOVER EFFECT */
+
+.type-card:hover {
+
+  transform:
+
+    translateY(-8px)
+
+    scale(1.05);
+
+  box-shadow:
+
+    0 12px 35px rgba(0,0,0,.18);
+
+}
+
+
+/* ACTIVE CARD */
+
+.type-card.selected {
+
+  background: linear-gradient(
+      135deg,
+      #6a5cff,
+      #8c52ff
+  );
+
+  color: white;
+
+  box-shadow:
+
+    0 15px 40px rgba(106,92,255,.45);
+
+}
+
+
+/* INPUT STYLE */
+
+.modern-input {
+
+  height: 48px;
+
+  border-radius: 12px;
+
+  border: 1px solid #ddd;
+
+  transition: .3s ease;
+
+}
+
+
+.modern-input:focus {
+
+  border-color: #6a5cff;
+
+  box-shadow:
+
+    0 0 0 3px rgba(106,92,255,.2);
+
+}
+
+
+/* REVIEW BOX */
+
+.review-box {
+
+  background: #f7f7ff;
+
+  padding: 25px;
+
+  border-radius: 15px;
+
+  line-height: 2;
+
+}
+
+
+/* BUTTON AREA */
+
+.actions {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  margin-top: 40px;
+
+}
+
+
+/* PRIMARY BUTTON */
+
+.primary-btn {
+
+  background: linear-gradient(
+      135deg,
+      #6a5cff,
+      #8c52ff
+  );
+
+  color: white;
+
+  border: none;
+
+  padding: 10px 30px;
+
+  border-radius: 12px;
+
+  font-weight: 500;
+
+  transition: .35s ease;
+
+}
+
+
+/* BUTTON HOVER */
+
+.primary-btn:hover {
+
+  transform:
+
+    translateY(-2px);
+
+  box-shadow:
+
+    0 10px 30px rgba(106,92,255,.45);
+
+}
+
+
+/* BACK BUTTON */
+
+.btn-light {
+
+  border-radius: 12px;
+
+}
+
+
+/* MOBILE RESPONSIVE */
+
+@media(max-width: 768px) {
+
+  .wizard-card {
+
+    padding: 30px;
+
+  }
+
+  .type-grid {
+
+    flex-direction: column;
+
+  }
+
+  .line {
+
+    width: 40px;
+
+  }
+
+}
