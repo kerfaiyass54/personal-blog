@@ -99,8 +99,18 @@
           <input
             class="form-control modern-input"
             placeholder="Paste URL here..."
-            (input)="link.set($any($event.target).value)"
+            (input)="onLinkInput($any($event.target).value)"
           />
+
+          @if(link() && !isValidLink()) {
+
+            <small class="text-danger mt-2 d-block">
+
+              Invalid {{ selectedType() === 'YOUTUBE' ? 'YouTube' : 'Spotify' }} link
+
+            </small>
+
+          }
 
         </div>
 
@@ -191,6 +201,7 @@
         <button
           class="btn primary-btn"
           (click)="nextStep()"
+          [disabled]="!canProceed()"
         >
           Next
         </button>
@@ -200,10 +211,12 @@
 
       @if(step() === steps.length) {
 
-        <button class="btn primary-btn glow">
-
-          Create Soundtrack
-
+        <button
+          class="btn success-btn"
+          (click)="submitSoundtrack()"
+          [disabled]="!canProceed()"
+        >
+          Submit Soundtrack
         </button>
 
       }
