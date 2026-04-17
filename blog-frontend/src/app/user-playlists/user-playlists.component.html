@@ -17,10 +17,21 @@
 
         </div>
 
-        <button class="btn action-btn" [routerLink]="'/' + role + '/add-playlist'">
-          <i class="bi bi-plus-lg"></i>
-          Add Playlist
-        </button>
+        <div class="header-actions">
+
+          <button class="btn action-btn"
+                  [routerLink]="'/' + role + '/dash-playlist'">
+            <i class="bi bi-speedometer2"></i>
+            Dashboard
+          </button>
+
+          <button class="btn action-btn"
+                  [routerLink]="'/' + role + '/add-playlist'">
+            <i class="bi bi-plus-lg"></i>
+            Add Playlist
+          </button>
+
+        </div>
 
       </div>
 
@@ -61,10 +72,21 @@
 
         </div>
 
-        <button class="btn action-btn" [routerLink]="'/' + role + '/add-music'">
-          <i class="bi bi-plus-lg"></i>
-          Add Soundtrack
-        </button>
+        <div class="header-actions">
+
+          <button class="btn action-btn"
+                  [routerLink]="'/' + role + '/dash-music'">
+            <i class="bi bi-speedometer2"></i>
+            Dashboard
+          </button>
+
+          <button class="btn action-btn"
+                  [routerLink]="'/' + role + '/add-music'">
+            <i class="bi bi-plus-lg"></i>
+            Add Soundtrack
+          </button>
+
+        </div>
 
       </div>
 

@@ -15,6 +15,8 @@ import {UserSocialMediaComponent} from "./user-social-media/user-social-media.co
 import {UserPlaylistsComponent} from "./user-playlists/user-playlists.component";
 import {AddSoundtrackComponent} from "./user-playlists/add-soundtrack/add-soundtrack.component";
 import {AddPlaylistComponent} from "./user-playlists/add-playlist/add-playlist.component";
+import {DashMusicComponent} from "./user-playlists/dash-music/dash-music.component";
+import {DashPlaylistComponent} from "./user-playlists/dash-playlist/dash-playlist.component";
 
 
 
@@ -88,6 +90,18 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
         component: AddPlaylistComponent
+      },
+      {
+        path: 'dash-playlist',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: DashPlaylistComponent
+      },
+      {
+        path: 'dash-music',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: DashMusicComponent
       }
     ]
   },
@@ -129,10 +143,10 @@ export const routes: Routes = [
         component: UserPlaylistsComponent
       },
       {
-        path: 'add-soundtrack',
+        path: 'dash-music',
         canActivate: [AuthGuard],
         data: { roles: ['READER']},
-        component: AddSoundtrackComponent
+        component: DashMusicComponent
       },{
         path: 'add-music',
         canActivate: [AuthGuard],
@@ -146,10 +160,10 @@ export const routes: Routes = [
         component: AddPlaylistComponent
       },
       {
-        path: 'add-playlist',
+        path: 'dash-playlist',
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
-        component: AddPlaylistComponent
+        component: DashPlaylistComponent
       }
 
     ]},
