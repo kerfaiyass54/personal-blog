@@ -1,6 +1,7 @@
 package com.blogproject.blogproject.service;
 
 
+import com.blogproject.blogproject.dtos.PlaylistCreateDTO;
 import com.blogproject.blogproject.dtos.PlaylistDetailsDTO;
 import com.blogproject.blogproject.dtos.SoundtrackDetailsDTO;
 import com.blogproject.blogproject.entities.Playlist;
@@ -108,12 +109,21 @@ public class PlaylistService {
     }
 
 
-    public void deletePlaylist(String soundTrackId){
-        Optional<Soundtrack> soundtrack = soundtrackRepository.findById(soundTrackId);
-        soundtrack.ifPresent(soundtrackRepository::delete);
+    public void deletePlaylist(String playlistId){
+        playlistRepository.deleteById(playlistId);
     }
 
 
+    public Playlist createPlaylist(PlaylistCreateDTO playlistCreateDTO){
+        Playlist playlist = new Playlist();
+        playlist.setTitle(playlistCreateDTO.getTitle());
+        playlist.setDescription(playlistCreateDTO.getDescription());
+        Playlist playlist1 = playlistRepository.save(playlist);
+        for(String soundtrackId : playlistCreateDTO.getSoundtrackIds()){
+            addPlaylist(soundtrackId,playlist1.getId());
+        }
+        return playlistRepository.save(playlist1);
+    }
 
 
 
