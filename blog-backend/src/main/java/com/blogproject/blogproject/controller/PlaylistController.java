@@ -1,10 +1,7 @@
 package com.blogproject.blogproject.controller;
 
-import com.blogproject.blogproject.dtos.PlaylistCreateDTO;
-import com.blogproject.blogproject.dtos.PlaylistDetailsDTO;
-import com.blogproject.blogproject.dtos.SoundtrackDetailsDTO;
-import com.blogproject.blogproject.entities.Playlist;
-import com.blogproject.blogproject.entities.SoundtrackPlaylist;
+import com.blogproject.blogproject.dtos.*;
+import com.blogproject.blogproject.entities.*;
 import com.blogproject.blogproject.service.PlaylistService;
 
 import org.springframework.data.domain.Page;
@@ -14,63 +11,91 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/playlists")
+@RequestMapping("/users/{email}/playlists")
 @CrossOrigin("*")
 public class PlaylistController {
 
     private final PlaylistService playlistService;
 
-    public PlaylistController(PlaylistService playlistService) {
+    public PlaylistController(
+            PlaylistService playlistService
+    ) {
+
         this.playlistService = playlistService;
     }
 
 
-    // ✅ getPlaylistsCount()
     @GetMapping("/total")
-    public ResponseEntity<Integer> getPlaylistsCount() {
+    public ResponseEntity<Integer> total(
+            @PathVariable String email
+    ) {
 
         return ResponseEntity.ok(
-                playlistService.getPlaylistsCount()
+                playlistService.getPlaylistsCount(email)
         );
     }
 
 
-    // ✅ getInsertedTracksNumber()
     @GetMapping("/tracks/total")
-    public ResponseEntity<Integer> getInsertedTracksNumber() {
+    public ResponseEntity<Integer> tracksTotal(
+            @PathVariable String email
+    ) {
 
         return ResponseEntity.ok(
-                playlistService.getInsertedTracksNumber()
+                playlistService.getInsertedTracksNumber(email)
         );
     }
 
 
-    // ✅ getPlaylists()
     @GetMapping
-    public ResponseEntity<List<PlaylistDetailsDTO>> getPlaylists() {
+    public ResponseEntity<List<PlaylistDetailsDTO>> all(
+            @PathVariable String email
+    ) {
 
         return ResponseEntity.ok(
-                playlistService.getPlaylists()
+                playlistService.getPlaylists(email)
         );
     }
 
 
-    // ✅ getSoundTracksForPlaylist()
+    @PostMapping
+    public ResponseEntity<Playlist> create(
+            @PathVariable String email,
+            @RequestBody PlaylistCreateDTO dto
+    ) {
+
+        return ResponseEntity.ok(
+                playlistService.createPlaylist(email, dto)
+        );
+    }
+
+
+    @DeleteMapping("/{playlistId}")
+    public ResponseEntity<Void> delete(
+            @PathVariable String email,
+            @PathVariable String playlistId
+    ) {
+
+        playlistService.deletePlaylist(
+                email,
+                playlistId
+        );
+
+        return ResponseEntity.noContent().build();
+    }
+
+
     @GetMapping("/{playlistId}/soundtracks")
-    public ResponseEntity<Page<SoundtrackDetailsDTO>>
-    getSoundTracksForPlaylist(
-
+    public ResponseEntity<Page<SoundtrackDetailsDTO>> soundtracks(
+            @PathVariable String email,
             @PathVariable String playlistId,
-
-            @RequestParam(defaultValue = "0")
-            int page,
-
-            @RequestParam(defaultValue = "10")
-            int size
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
     ) {
 
         return ResponseEntity.ok(
                 playlistService.getSoundTracksForPlaylist(
+                        email,
                         playlistId,
                         page,
                         size
@@ -79,72 +104,37 @@ public class PlaylistController {
     }
 
 
-    // ✅ removeSoundtrack()
-    @DeleteMapping("/{playlistId}/soundtracks/{soundtrackId}")
-    public ResponseEntity<Void> removeSoundtrack(
-
+    @PostMapping("/{playlistId}/soundtracks/{soundtrackId}")
+    public ResponseEntity<?> addTrack(
+            @PathVariable String email,
             @PathVariable String playlistId,
+            @PathVariable String soundtrackId
+    ) {
 
+        return ResponseEntity.ok(
+                playlistService.addSoundtrackToPlaylist(
+                        email,
+                        soundtrackId,
+                        playlistId
+                )
+        );
+    }
+
+
+    @DeleteMapping("/{playlistId}/soundtracks/{soundtrackId}")
+    public ResponseEntity<?> removeTrack(
+            @PathVariable String email,
+            @PathVariable String playlistId,
             @PathVariable String soundtrackId
     ) {
 
         playlistService.removeSoundtrack(
+                email,
                 soundtrackId,
                 playlistId
         );
 
         return ResponseEntity.noContent().build();
-    }
-
-
-    // ✅ addPlaylist()  (adds soundtrack to playlist)
-    @PostMapping("/{playlistId}/soundtracks/{soundtrackId}")
-    public ResponseEntity<SoundtrackPlaylist>
-    addSoundtrackToPlaylist(
-
-            @PathVariable String playlistId,
-
-            @PathVariable String soundtrackId
-    ) {
-
-        SoundtrackPlaylist result =
-                playlistService.addPlaylist(
-                        soundtrackId,
-                        playlistId
-                );
-
-        if (result == null) {
-
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(result);
-    }
-
-
-    // ✅ deletePlaylist()
-    @DeleteMapping("/{playlistId}")
-    public ResponseEntity<Void> deletePlaylist(
-
-            @PathVariable String playlistId
-    ) {
-
-        playlistService.deletePlaylist(playlistId);
-
-        return ResponseEntity.noContent().build();
-    }
-
-
-    // ✅ createPlaylist()
-    @PostMapping
-    public ResponseEntity<Playlist> createPlaylist(
-
-            @RequestBody PlaylistCreateDTO dto
-    ) {
-
-        return ResponseEntity.ok(
-                playlistService.createPlaylist(dto)
-        );
     }
 
 }

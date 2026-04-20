@@ -7,59 +7,79 @@ import com.blogproject.blogproject.service.SoundtrackService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/soundtracks")
+@RequestMapping("/users/{email}/soundtracks")
 @CrossOrigin("*")
 public class SoundtrackController {
 
     private final SoundtrackService soundtrackService;
 
-    public SoundtrackController(SoundtrackService soundtrackService) {
+
+    public SoundtrackController(
+            SoundtrackService soundtrackService
+    ) {
+
         this.soundtrackService = soundtrackService;
     }
 
 
-    // ✅ getTotalSoundtracks()
     @GetMapping("/total")
-    public ResponseEntity<Integer> getTotalSoundtracks() {
+    public ResponseEntity<Integer> total(
+            @PathVariable String email
+    ) {
 
         return ResponseEntity.ok(
-                soundtrackService.getTotalSoundtracks()
+                soundtrackService.getTotalSoundtracks(email)
         );
     }
 
 
-    // ✅ getRatedPlaylists()
     @GetMapping("/rated")
-    public ResponseEntity<Integer> getRatedPlaylists() {
+    public ResponseEntity<Integer> rated(
+            @PathVariable String email
+    ) {
 
         return ResponseEntity.ok(
-                soundtrackService.getRatedSoundtracks()
+                soundtrackService.getRatedSoundtracks(email)
         );
     }
 
 
-    // ✅ addSoundtrack()
-    @PostMapping
-    public ResponseEntity<Soundtrack> addSoundtrack(
+    @GetMapping
+    public ResponseEntity<List<Soundtrack>> all(
+            @PathVariable String email
+    ) {
 
+        return ResponseEntity.ok(
+                soundtrackService.getUserSoundtracks(email)
+        );
+    }
+
+
+    @PostMapping
+    public ResponseEntity<Soundtrack> create(
+            @PathVariable String email,
             @RequestBody SoundtrackCreateDTO dto
     ) {
 
         return ResponseEntity.ok(
-                soundtrackService.addSoundtrack(dto)
+                soundtrackService.addSoundtrack(email, dto)
         );
     }
 
 
-    // ✅ removeSoundtrack()
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removeSoundtrack(
-
-            @PathVariable String id
+    @DeleteMapping("/{soundtrackId}")
+    public ResponseEntity<Void> delete(
+            @PathVariable String email,
+            @PathVariable String soundtrackId
     ) {
 
-        soundtrackService.removeSoundtrack(id);
+        soundtrackService.removeSoundtrack(
+                email,
+                soundtrackId
+        );
 
         return ResponseEntity.noContent().build();
     }

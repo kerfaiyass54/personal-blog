@@ -44,4 +44,7 @@ public class Soundtrack {
 
     @DBRef
     private List<SoundtrackPlaylist> playlists;
+
+    @DBRef
+    private User user;
 }

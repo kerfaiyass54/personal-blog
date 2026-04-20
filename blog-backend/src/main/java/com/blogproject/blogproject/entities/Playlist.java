@@ -39,4 +39,7 @@ public class Playlist {
     @DBRef
     private List<SoundtrackPlaylist>  soundtracks;
 
+    @DBRef
+    private User user;
+
 }
