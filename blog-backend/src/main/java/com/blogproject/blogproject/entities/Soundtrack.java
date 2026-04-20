@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.Instant;
+import java.util.List;
 
 @Getter
 @Setter
@@ -38,14 +39,9 @@ public class Soundtrack {
     @NotNull(message = "Soundtrack type must not be null")
     private SoundtrackType type;
 
-    private Instant lastTimePlayed;
-
     @Min(value = 0, message = "Rate must be positive")
     private Integer rate = 0;
 
-    @Min(value = 0, message = "Times played must be positive")
-    private Integer timesPlayed = 0;
-
-    @DBRef(lazy = true)
-    private Playlist playlist;
+    @DBRef
+    private List<SoundtrackPlaylist> playlists;
 }

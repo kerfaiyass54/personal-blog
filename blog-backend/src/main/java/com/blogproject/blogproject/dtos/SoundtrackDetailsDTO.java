@@ -22,14 +22,7 @@ public class SoundtrackDetailsDTO {
 
     private SoundtrackType type;
 
-    private Instant lastTimePlayed;
-
     private Integer rate;
 
-    private Integer timesPlayed;
-
-    private String playlistId;
-
-    private String playlistTitle;
 
 }

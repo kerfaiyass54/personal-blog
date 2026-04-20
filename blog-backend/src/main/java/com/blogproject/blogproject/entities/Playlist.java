@@ -33,12 +33,10 @@ public class Playlist {
 
     private String description;
 
-    private Instant lastTimePlayed;
-
     @Min(value = 0, message = "Rate must be positive")
     private Integer rate = 0;
 
     @DBRef
-    private List<Soundtrack>  soundtracks;
+    private List<SoundtrackPlaylist>  soundtracks;
 
 }

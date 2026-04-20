@@ -20,10 +20,6 @@ public class PlaylistDetailsDTO {
 
     private String description;
 
-    private Instant lastTimePlayed;
-
     private Integer rate;
-
-    private List<SoundtrackSummaryDTO> soundtracks;
 
 }
