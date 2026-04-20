@@ -36,7 +36,8 @@ public class SecurityConfig {
                         .requestMatchers("/reset/**").permitAll()
                         .requestMatchers("/profiles/**").permitAll()
                         .requestMatchers("/sessions/**").permitAll()
-                        .requestMatchers("/socials", "/socials/", "/socials/**").permitAll()
+                        .requestMatchers("/socials", "/socials/", "/socials/**").permitAll().requestMatchers("/users/**")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session ->
