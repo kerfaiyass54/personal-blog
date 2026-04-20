@@ -1,5 +1,6 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import {SoundtrackServicesService} from "../service/soundtrack-services.service";
 
 @Component({
   selector: 'app-add-soundtrack',
@@ -9,6 +10,11 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './add-soundtrack.component.scss'
 })
 export class AddSoundtrackComponent {
+
+  private soundtrackService = inject(SoundtrackServicesService);
+
+  email = localStorage.getItem('email')!;
+
 
   step = signal(1);
 
@@ -28,6 +34,7 @@ export class AddSoundtrackComponent {
   author = signal('');
 
   link = signal('');
+
 
 
   /* -----------------------------
@@ -62,8 +69,9 @@ export class AddSoundtrackComponent {
   }
 
 
+
   /* -----------------------------
-     TYPE SELECTION (REQUIRED)
+     TYPE SELECTION
   ----------------------------- */
 
   selectType(type: 'SPOTIFY' | 'YOUTUBE') {
@@ -73,8 +81,9 @@ export class AddSoundtrackComponent {
   }
 
 
+
   /* -----------------------------
-     LINK INPUT (REQUIRED + VALID)
+     LINK INPUT
   ----------------------------- */
 
   onLinkInput(value: string) {
@@ -82,6 +91,7 @@ export class AddSoundtrackComponent {
     this.link.set(value);
 
   }
+
 
 
   isValidLink(): boolean {
@@ -118,8 +128,9 @@ export class AddSoundtrackComponent {
   }
 
 
+
   /* -----------------------------
-     METADATA INPUT (REQUIRED)
+     METADATA INPUT
   ----------------------------- */
 
   onTitleInput(value: string) {
@@ -144,8 +155,9 @@ export class AddSoundtrackComponent {
   }
 
 
+
   /* -----------------------------
-     GLOBAL STEP VALIDATION
+     STEP VALIDATION
   ----------------------------- */
 
   canProceed(): boolean {
@@ -169,6 +181,7 @@ export class AddSoundtrackComponent {
   }
 
 
+
   /* -----------------------------
      FINAL SUBMIT
   ----------------------------- */
@@ -189,7 +202,46 @@ export class AddSoundtrackComponent {
 
     };
 
-    console.log("Submitting soundtrack:", payload);
+
+    this.soundtrackService
+      .createSoundtrack(this.email, payload)
+      .subscribe({
+
+        next: () => {
+
+          console.log("Soundtrack created successfully");
+
+          this.resetWizard();
+
+        },
+
+        error: err => {
+
+          console.error("Creation failed:", err);
+
+        }
+
+      });
+
+  }
+
+
+
+  /* -----------------------------
+     RESET WIZARD
+  ----------------------------- */
+
+  resetWizard() {
+
+    this.step.set(1);
+
+    this.selectedType.set(null);
+
+    this.title.set('');
+
+    this.author.set('');
+
+    this.link.set('');
 
   }
 

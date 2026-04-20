@@ -90,6 +90,8 @@
       }
 
 
+      <!-- STEP 3 -->
+
       @if(step() === 3) {
 
         <div class="animated-step">
@@ -97,7 +99,7 @@
           <h5>Select soundtracks</h5>
 
 
-          <!-- SEARCH BOX -->
+          <!-- SEARCH -->
 
           <input
             class="form-control modern-input search-box"
@@ -181,7 +183,7 @@
             </p>
 
             <p>
-              <strong>Soundtracks:</strong>
+              <strong>Selected soundtracks:</strong>
               {{ selectedSoundtracks().length }}
             </p>
 
@@ -192,6 +194,9 @@
       }
 
     </div>
+
+
+    <!-- CANCEL BUTTON -->
 
     <button
       class="btn btn-light"
@@ -231,10 +236,11 @@
 
       @if(step() === steps.length) {
 
-        <button class="btn primary-btn glow">
-
+        <button
+          class="btn primary-btn glow"
+          (click)="createPlaylist()"
+        >
           Create Playlist
-
         </button>
 
       }

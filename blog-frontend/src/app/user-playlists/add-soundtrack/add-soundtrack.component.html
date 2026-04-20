@@ -131,7 +131,7 @@
 
             <input
               class="form-control modern-input"
-              (input)="title.set($any($event.target).value)"
+              (input)="onTitleInput($any($event.target).value)"
             />
 
           </div>
@@ -143,7 +143,7 @@
 
             <input
               class="form-control modern-input"
-              (input)="author.set($any($event.target).value)"
+              (input)="onAuthorInput($any($event.target).value)"
             />
 
           </div>

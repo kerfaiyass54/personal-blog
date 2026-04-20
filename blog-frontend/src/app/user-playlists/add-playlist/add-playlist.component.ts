@@ -1,6 +1,16 @@
-import { Component, computed, signal } from '@angular/core';
+import {
+  Component,
+  computed,
+  signal,
+  OnInit
+} from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import {PlaylistServicesService} from "../service/playlist-services.service";
+import {SoundtrackServicesService} from "../service/soundtrack-services.service";
+
+
 
 @Component({
   selector: 'app-add-playlist',
@@ -9,7 +19,19 @@ import { Router } from '@angular/router';
   templateUrl: './add-playlist.component.html',
   styleUrl: './add-playlist.component.scss'
 })
-export class AddPlaylistComponent {
+export class AddPlaylistComponent implements OnInit {
+
+  constructor(
+    private router: Router,
+    private playlistService: PlaylistServicesService,
+    private soundtrackService: SoundtrackServicesService
+  ) {}
+
+
+
+  email = sessionStorage.getItem('email') || '';
+
+
 
   step = signal(1);
 
@@ -20,7 +42,51 @@ export class AddPlaylistComponent {
     'Review'
   ];
 
-  constructor(private router: Router) {}
+
+
+  animationDirection = signal<'forward' | 'backward'>('forward');
+
+
+
+  title = signal('');
+
+  description = signal('');
+
+
+
+  selectedSoundtracks = signal<string[]>([]);
+
+  searchTerm = signal('');
+
+
+
+  /* SOUNDTRACK DATA FROM BACKEND */
+
+  soundtracks = signal<any[]>([]);
+
+
+
+  ngOnInit(): void {
+
+    this.loadSoundtracks();
+
+  }
+
+
+
+  loadSoundtracks() {
+
+    // this.soundtrackService
+    //   .getAllSoundtracks(this.email)
+    //   .subscribe(res => {
+    //
+    //     this.soundtracks.set(res);
+    //
+    //   });
+
+  }
+
+
 
   cancel() {
 
@@ -30,28 +96,9 @@ export class AddPlaylistComponent {
 
   }
 
-  animationDirection = signal<'forward' | 'backward'>('forward');
-
-  title = signal('');
-
-  description = signal('');
-
-  selectedSoundtracks = signal<string[]>([]);
-
-  searchTerm = signal('');
 
 
-  /* MOCK DATA */
-
-  soundtracks = signal([
-    { id: '1', title: 'Interstellar', author: 'Hans Zimmer' },
-    { id: '2', title: 'Time', author: 'Hans Zimmer' },
-    { id: '3', title: 'Cornfield Chase', author: 'Hans Zimmer' },
-    { id: '4', title: 'Experience', author: 'Ludovico Einaudi' }
-  ]);
-
-
-  /* FILTERED TABLE DATA */
+  /* FILTER TABLE */
 
   filteredSoundtracks = computed(() => {
 
@@ -60,11 +107,15 @@ export class AddPlaylistComponent {
     if (!term) return this.soundtracks();
 
     return this.soundtracks().filter(track =>
+
       track.title.toLowerCase().includes(term) ||
+
       track.author.toLowerCase().includes(term)
+
     );
 
   });
+
 
 
   /* STEP VALIDATION */
@@ -90,6 +141,7 @@ export class AddPlaylistComponent {
   }
 
 
+
   nextStep() {
 
     if (!this.canProceed()) return;
@@ -105,6 +157,7 @@ export class AddPlaylistComponent {
   }
 
 
+
   prevStep() {
 
     if (this.step() > 1) {
@@ -118,6 +171,7 @@ export class AddPlaylistComponent {
   }
 
 
+
   toggleSoundtrack(id: string) {
 
     const list = this.selectedSoundtracks();
@@ -125,17 +179,80 @@ export class AddPlaylistComponent {
     if (list.includes(id)) {
 
       this.selectedSoundtracks.set(
+
         list.filter(x => x !== id)
+
       );
 
-    } else {
+    }
+
+    else {
 
       this.selectedSoundtracks.set([
+
         ...list,
         id
+
       ]);
 
     }
+
+  }
+
+
+
+  /* FINAL PLAYLIST CREATION */
+
+  createPlaylist() {
+
+    const playlistPayload = {
+
+      title: this.title(),
+
+      description: this.description()
+
+    };
+
+
+    this.playlistService
+
+      .createPlaylist(this.email, playlistPayload)
+
+      .subscribe((createdPlaylist: any) => {
+
+        const playlistId = createdPlaylist.id;
+
+
+        /* LINK SOUNDTRACKS */
+
+        this.selectedSoundtracks()
+
+          .forEach(soundtrackId => {
+
+            this.playlistService
+
+              .addSoundtrackToPlaylist(
+
+                this.email,
+
+                playlistId,
+
+                soundtrackId
+
+              )
+
+              .subscribe();
+
+          });
+
+
+        /* NAVIGATE BACK */
+
+        const role = sessionStorage.getItem('role')?.toLowerCase();
+
+        this.router.navigate([`/${role}/playlists`]);
+
+      });
 
   }
 
