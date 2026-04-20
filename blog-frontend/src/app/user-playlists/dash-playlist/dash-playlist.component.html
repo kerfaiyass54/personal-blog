@@ -19,7 +19,7 @@
             <h4>{{ playlist.name }}</h4>
 
             <span class="track-count">
-              {{ playlist.tracks.length }} tracks
+              {{ playlist.tracks?.length || 0 }} tracks
             </span>
 
           </div>
@@ -48,7 +48,7 @@
 
 
 
-  <!-- MODAL -->
+  <!-- PLAYLIST MODAL -->
 
   <div class="modal fade" id="playlistModal">
 
@@ -97,7 +97,7 @@
 
                 <th>Title</th>
 
-                <th>Author</th>
+                <th>Type</th>
 
                 <th>Remove</th>
 
@@ -149,6 +149,8 @@
 
 </div>
 
+
+
 <!-- ADD TRACK MODAL -->
 
 <div
@@ -193,7 +195,7 @@
 
               <th>Select</th>
               <th>Title</th>
-              <th>Author</th>
+              <th>Type</th>
 
             </tr>
 
@@ -218,7 +220,7 @@
 
                   <td>{{ track.title }}</td>
 
-                  <td>{{ track.author }}</td>
+                  <td>{{ track.type }}</td>
 
                 </tr>
 
@@ -263,7 +265,8 @@
 </div>
 
 
-<!-- DELETE CONFIRMATION MODAL -->
+
+<!-- DELETE MODAL -->
 
 <div
   class="modal fade"

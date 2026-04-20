@@ -1,29 +1,109 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {PlaylistServicesService} from "../service/playlist-services.service";
+import {SoundtrackServicesService} from "../service/soundtrack-services.service";
+
 
 @Component({
   selector: 'app-dash-playlist',
   templateUrl: './dash-playlist.component.html',
   styleUrl: './dash-playlist.component.scss'
 })
-export class DashPlaylistComponent {
+export class DashPlaylistComponent implements OnInit {
 
-  trackToDelete: number | null = null;
+  email: string | null = null;
 
-  availableTracks = [
+  playlists: any[] = [];
 
-    { id: 100, title: "Skyline", author: "Artist A" },
-
-    { id: 101, title: "Dreamscape", author: "Artist B" },
-
-    { id: 102, title: "Night Drive", author: "Artist C" },
-
-    { id: 103, title: "Echo Waves", author: "Artist D" },
-
-    { id: 104, title: "Neon Lights", author: "Artist E" }
-
-  ];
+  availableTracks: any[] = [];
 
   selectedTracks: any[] = [];
+
+  selectedPlaylist: any = null;
+
+  trackToDelete: string | null = null;
+
+
+  constructor(
+    private playlistService: PlaylistServicesService,
+    private soundtrackService: SoundtrackServicesService
+  ) {}
+
+
+  ngOnInit(): void {
+
+    this.email = sessionStorage.getItem('email');
+
+    if (!this.email) return;
+
+    this.loadPlaylists();
+
+    this.loadAvailableTracks();
+
+  }
+
+
+  // ================= LOAD PLAYLISTS =================
+
+  loadPlaylists() {
+
+    this.playlistService
+      .getPlaylists(this.email!)
+      .subscribe((res: any) => {
+
+        this.playlists = res.map((playlist: any) => ({
+          id: playlist.id,
+          name: playlist.title,
+          tracks: []
+        }));
+
+      });
+
+  }
+
+
+  // ================= LOAD USER SOUNDTRACKS =================
+
+  loadAvailableTracks() {
+
+    this.soundtrackService
+      .getUserSoundtracks(this.email!)
+      .subscribe((res: any) => {
+
+        this.availableTracks = res;
+
+      });
+
+  }
+
+
+  // ================= OPEN PLAYLIST =================
+
+  openPlaylist(playlist: any) {
+
+    this.selectedPlaylist = playlist;
+
+    this.playlistService
+      .getPlaylistSoundtracks(
+        this.email!,
+        playlist.id,
+        0,
+        50
+      )
+      .subscribe((res: any) => {
+
+        this.selectedPlaylist.tracks =
+          res.content.map((track: any) => ({
+            id: track.id,
+            title: track.title,
+            author: track.type
+          }));
+
+      });
+
+  }
+
+
+  // ================= TRACK SELECTION =================
 
   prepareTrackSelection() {
 
@@ -34,9 +114,10 @@ export class DashPlaylistComponent {
 
   toggleTrack(track: any) {
 
-    const exists = this.selectedTracks.find(
-      t => t.id === track.id
-    );
+    const exists =
+      this.selectedTracks.find(
+        t => t.id === track.id
+      );
 
     if (exists) {
 
@@ -56,7 +137,7 @@ export class DashPlaylistComponent {
   }
 
 
-  isSelected(trackId: number) {
+  isSelected(trackId: string) {
 
     return this.selectedTracks.some(
       t => t.id === trackId
@@ -65,6 +146,8 @@ export class DashPlaylistComponent {
   }
 
 
+  // ================= ADD TRACK TO PLAYLIST =================
+
   confirmTrackSelection() {
 
     if (!this.selectedPlaylist) return;
@@ -72,16 +155,21 @@ export class DashPlaylistComponent {
 
     this.selectedTracks.forEach(track => {
 
-      const alreadyExists =
-        this.selectedPlaylist.tracks.some(
-          (t: any) => t.id === track.id
-        );
+      this.playlistService
+        .addSoundtrackToPlaylist(
+          this.email!,
+          this.selectedPlaylist.id,
+          track.id
+        )
+        .subscribe(() => {
 
-      if (!alreadyExists) {
+          this.selectedPlaylist.tracks.push({
+            id: track.id,
+            title: track.title,
+            author: track.type
+          });
 
-        this.selectedPlaylist.tracks.push(track);
-
-      }
+        });
 
     });
 
@@ -104,92 +192,66 @@ export class DashPlaylistComponent {
 
   }
 
+
   openAddTrackModal() {
 
     this.prepareTrackSelection();
 
-    const modalElement =
+    const modal =
       document.getElementById("addTrackModal");
 
-    if (modalElement) {
+    if (!modal) return;
 
-      const modal =
-        new (window as any).bootstrap.Modal(
-          modalElement,
-          {
-            backdrop: "static",
-            keyboard: false
-          }
-        );
-
-      modal.show();
-
-    }
-
-  }
-
-  playlists = Array.from({ length: 14 }, (_, i) => ({
-    id: i + 1,
-    name: `Playlist ${i + 1}`,
-    tracks: [
-      { id: i * 3 + 1, title: "Song A", author: "Artist X" },
-      { id: i * 3 + 2, title: "Song B", author: "Artist Y" },
-      { id: i * 3 + 3, title: "Song C", author: "Artist Z" }
-    ]
-  }));
-
-
-  selectedPlaylist: any = null;
-
-
-  openPlaylist(playlist: any) {
-
-    this.selectedPlaylist = playlist;
+    new (window as any)
+      .bootstrap
+      .Modal(modal)
+      .show();
 
   }
 
 
+  // ================= DELETE TRACK =================
 
-
-  openDeleteModal(trackId: number) {
+  openDeleteModal(trackId: string) {
 
     this.trackToDelete = trackId;
 
-    const modalElement =
+    const modal =
       document.getElementById("deleteTrackModal");
 
-    if (modalElement) {
+    if (!modal) return;
 
-      const modal =
-        new (window as any).bootstrap.Modal(
-          modalElement,
-          {
-            backdrop: "static",
-            keyboard: false
-          }
-        );
-
-      modal.show();
-
-    }
+    new (window as any)
+      .bootstrap
+      .Modal(modal)
+      .show();
 
   }
-
 
 
   confirmDeleteTrack() {
 
     if (
       !this.selectedPlaylist ||
-      this.trackToDelete === null
+      !this.trackToDelete
     ) return;
 
 
-    this.selectedPlaylist.tracks =
-      this.selectedPlaylist.tracks.filter(
-        (t: any) =>
-          t.id !== this.trackToDelete
-      );
+    this.playlistService
+      .removeSoundtrackFromPlaylist(
+        this.email!,
+        this.selectedPlaylist.id,
+        this.trackToDelete
+      )
+      .subscribe(() => {
+
+        this.selectedPlaylist.tracks =
+          this.selectedPlaylist.tracks.filter(
+            (t: any) =>
+              t.id !== this.trackToDelete
+          );
+
+      });
 
 
     this.trackToDelete = null;
