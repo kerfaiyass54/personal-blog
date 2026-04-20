@@ -1,23 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import {SoundtrackServicesService} from "../service/soundtrack-services.service";
 
 @Component({
   selector: 'app-dash-music',
+  standalone: true,
   templateUrl: './dash-music.component.html',
-  imports: [
-    FormsModule
-  ],
-  styleUrl: './dash-music.component.scss'
+  styleUrl: './dash-music.component.scss',
+  imports: [FormsModule, CommonModule]
 })
-export class DashMusicComponent {
+export class DashMusicComponent implements OnInit {
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private soundtrackService: SoundtrackServicesService
+  ) {}
 
-  songs = [
-    { id: 1, title: 'Track One', author: 'Artist A', link: 'https://youtube.com' },
-    { id: 2, title: 'Track Two', author: 'Artist B', link: 'https://spotify.com' }
-  ];
+  email = sessionStorage.getItem('email') || '';
+
+  songs: any[] = [];
 
   selectedSong: any;
 
@@ -27,6 +30,29 @@ export class DashMusicComponent {
     value: '',
     set: (v: string) => this.search.value = v
   };
+
+
+
+  ngOnInit(): void {
+
+    this.loadSoundtracks();
+
+  }
+
+
+
+  loadSoundtracks() {
+
+    // this.soundtrackService
+    //   .getAllSoundtracks(this.email)
+    //   .subscribe(res => {
+    //
+    //     this.songs = res;
+    //
+    //   });
+
+  }
+
 
 
   goBack() {
@@ -41,11 +67,13 @@ export class DashMusicComponent {
   }
 
 
+
   openSongs(platform: string) {
 
     this.activePlatformValue = platform;
 
   }
+
 
 
   activePlatform() {
@@ -55,11 +83,13 @@ export class DashMusicComponent {
   }
 
 
+
   selectSong(song: any) {
 
     this.selectedSong = song;
 
   }
+
 
 
   listenSong(song: any) {
@@ -69,42 +99,52 @@ export class DashMusicComponent {
   }
 
 
-  updateSong() {
-
-    console.log('updated:', this.selectedSong);
-
-  }
-
 
   deleteSong() {
 
-    this.songs = this.songs.filter(
-      s => s.id !== this.selectedSong.id
-    );
+    this.soundtrackService
+      .deleteSoundtrack(this.email, this.selectedSong.id)
+      .subscribe(() => {
+
+        this.loadSoundtracks();
+
+      });
 
   }
+
 
 
   spotifyCount() {
 
-    return this.songs.length;
+    return this.songs
+      .filter(s => s.platform === 'SPOTIFY')
+      .length;
 
   }
+
 
 
   youtubeCount() {
 
-    return this.songs.length;
+    return this.songs
+      .filter(s => s.platform === 'YOUTUBE')
+      .length;
 
   }
 
 
+
   paginatedSongs() {
 
-    return this.songs.filter(song =>
-      song.title.toLowerCase()
-        .includes(this.search.value.toLowerCase())
-    );
+    return this.songs
+      .filter(song =>
+        song.platform === this.activePlatformValue
+      )
+      .filter(song =>
+        song.title
+          .toLowerCase()
+          .includes(this.search.value.toLowerCase())
+      );
 
   }
 
