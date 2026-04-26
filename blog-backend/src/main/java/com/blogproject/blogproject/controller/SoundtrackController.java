@@ -1,9 +1,12 @@
 package com.blogproject.blogproject.controller;
 
 import com.blogproject.blogproject.dtos.SoundtrackCreateDTO;
+import com.blogproject.blogproject.dtos.SoundtrackDetailsDTO;
 import com.blogproject.blogproject.entities.Soundtrack;
+import com.blogproject.blogproject.enums.SoundtrackType;
 import com.blogproject.blogproject.service.SoundtrackService;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +51,7 @@ public class SoundtrackController {
 
 
     @GetMapping
-    public ResponseEntity<List<Soundtrack>> all(
+    public ResponseEntity<List<SoundtrackDetailsDTO>> all(
             @PathVariable String email
     ) {
 
@@ -82,6 +85,23 @@ public class SoundtrackController {
         );
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<Page<SoundtrackDetailsDTO>> getByType(
+            @PathVariable String email,
+            @RequestParam SoundtrackType type,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return ResponseEntity.ok(
+                soundtrackService.getSoundtracksByType(
+                        email,
+                        type,
+                        page,
+                        size
+                )
+        );
     }
 
 }

@@ -19,6 +19,4 @@ public class SoundtrackSummaryDTO {
 
     private Integer rate;
 
-    private Integer timesPlayed;
-
 }

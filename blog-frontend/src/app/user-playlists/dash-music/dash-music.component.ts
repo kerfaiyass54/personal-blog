@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import {SoundtrackServicesService} from "../service/soundtrack-services.service";
+import { SoundtrackServicesService } from "../service/soundtrack-services.service";
 
 @Component({
   selector: 'app-dash-music',
@@ -22,130 +22,101 @@ export class DashMusicComponent implements OnInit {
 
   songs: any[] = [];
 
-  selectedSong: any;
+  selectedSong: any | null = null;
 
   activePlatformValue = '';
+
+  spotifyTotal = 0;
+  youtubeTotal = 0;
 
   search = {
     value: '',
     set: (v: string) => this.search.value = v
   };
 
-
-
   ngOnInit(): void {
-
-    this.loadSoundtracks();
-
+    this.loadCounts();
   }
 
+  /* ✅ LOAD TOTAL COUNT PER TYPE */
+  loadCounts() {
 
+    this.soundtrackService
+      .getSoundtracksByType(this.email, 'SPOTIFY', 0, 1)
+      .subscribe(res => {
+        this.spotifyTotal = res.totalElements;
+      });
 
-  loadSoundtracks() {
-
-    // this.soundtrackService
-    //   .getAllSoundtracks(this.email)
-    //   .subscribe(res => {
-    //
-    //     this.songs = res;
-    //
-    //   });
-
+    this.soundtrackService
+      .getSoundtracksByType(this.email, 'YOUTUBE', 0, 1)
+      .subscribe(res => {
+        this.youtubeTotal = res.totalElements;
+      });
   }
 
+  /* ✅ LOAD SONGS BY TYPE */
+  loadSongsByType(type: 'SPOTIFY' | 'YOUTUBE') {
 
+    this.soundtrackService
+      .getSoundtracksByType(this.email, type, 0, 100)
+      .subscribe(res => {
+        this.songs = res.content;
+      });
+  }
 
   goBack() {
-
     const role = sessionStorage.getItem('role')?.toLowerCase();
-
-    this.router.navigate(
-      [`/${role}/playlists`],
-      { replaceUrl: true }
-    );
-
+    this.router.navigate([`/${role}/playlists`], { replaceUrl: true });
   }
 
-
-
-  openSongs(platform: string) {
-
+  openSongs(platform: 'SPOTIFY' | 'YOUTUBE') {
     this.activePlatformValue = platform;
-
+    this.loadSongsByType(platform);
   }
-
-
 
   activePlatform() {
-
     return this.activePlatformValue;
-
   }
-
-
 
   selectSong(song: any) {
-
     this.selectedSong = song;
-
   }
-
-
 
   listenSong(song: any) {
-
     window.open(song.link, '_blank');
-
   }
 
-
-
   deleteSong() {
+
+    if (!this.selectedSong) return;
 
     this.soundtrackService
       .deleteSoundtrack(this.email, this.selectedSong.id)
       .subscribe(() => {
 
-        this.loadSoundtracks();
+        this.loadSongsByType(this.activePlatformValue as any);
+        this.loadCounts();
 
       });
-
   }
 
-
-
+  /* ✅ COUNTS FROM BACKEND */
   spotifyCount() {
-
-    return this.songs
-      .filter(s => s.platform === 'SPOTIFY')
-      .length;
-
+    return this.spotifyTotal;
   }
-
-
 
   youtubeCount() {
-
-    return this.songs
-      .filter(s => s.platform === 'YOUTUBE')
-      .length;
-
+    return this.youtubeTotal;
   }
 
-
-
+  /* ✅ FILTER ONLY (NO PLATFORM FILTER NEEDED ANYMORE) */
   paginatedSongs() {
-
     return this.songs
-      .filter(song =>
-        song.platform === this.activePlatformValue
-      )
       .filter(song =>
         song.title
           .toLowerCase()
           .includes(this.search.value.toLowerCase())
       );
-
   }
 
 }
