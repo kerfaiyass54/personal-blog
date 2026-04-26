@@ -1,0 +1,108 @@
+<div class="container playlists-wrapper">
+
+  <div class="white-wrapper shadow-sm fade-in-wrapper">
+
+    <!-- PLAYLIST CARD -->
+    <div class="stat-card playlists-card animated-card">
+
+      <div class="card-header">
+
+        <div class="title-section">
+
+          <div class="icon-box floating-icon">
+            <i class="bi bi-music-note-list"></i>
+          </div>
+
+          <h4>Playlists</h4>
+
+        </div>
+
+        <div class="header-actions">
+
+          <button class="btn action-btn"
+                  [routerLink]="'/' + role + '/dash-playlist'">
+            <i class="bi bi-speedometer2"></i>
+            Dashboard
+          </button>
+
+          <button class="btn action-btn"
+                  [routerLink]="'/' + role + '/add-playlist'">
+            <i class="bi bi-plus-lg"></i>
+            Add Playlist
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="stats">
+
+        <div class="stat animated-stat">
+          <span class="value">{{ playlistsCount }}</span>
+          <span class="label">Created</span>
+        </div>
+
+        <div class="stat animated-stat delay-1">
+          <span class="value">{{ playlistTracksCount }}</span>
+          <span class="label">Tracks</span>
+        </div>
+
+
+      </div>
+
+    </div>
+
+
+    <!-- SOUNDTRACK CARD -->
+    <div class="stat-card soundtracks-card mt-4 animated-card delay-card">
+
+      <div class="card-header">
+
+        <div class="title-section">
+
+          <div class="icon-box floating-icon">
+            <i class="bi bi-vinyl-fill"></i>
+          </div>
+
+          <h4>Soundtracks</h4>
+
+        </div>
+
+        <div class="header-actions">
+
+          <button class="btn action-btn"
+                  [routerLink]="'/' + role + '/dash-music'">
+            <i class="bi bi-speedometer2"></i>
+            Dashboard
+          </button>
+
+          <button class="btn action-btn"
+                  [routerLink]="'/' + role + '/add-music'">
+            <i class="bi bi-plus-lg"></i>
+            Add Soundtrack
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="stats">
+
+        <div class="stat animated-stat">
+          <span class="value">{{ soundtracksCount }}</span>
+          <span class="label">Listed</span>
+        </div>
+
+        <div class="stat animated-stat delay-1">
+          <span class="value">{{ ratedSoundtracksCount }}</span>
+          <span class="label">Rated</span>
+        </div>
+
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

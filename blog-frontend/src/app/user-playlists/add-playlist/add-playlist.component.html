@@ -1,0 +1,252 @@
+<div class="container add-wrapper">
+
+  <div class="card wizard-card">
+
+    <h3 class="title">Create playlist</h3>
+
+
+    <!-- STEPPER -->
+
+    <div class="stepper">
+
+      @for(label of steps; track label; let i = $index) {
+
+        <div
+          class="step"
+          [class.active]="step() >= i + 1"
+        >
+
+          <div class="circle">
+
+            {{ i + 1 }}
+
+          </div>
+
+          <span>{{ label }}</span>
+
+        </div>
+
+
+        @if(i < steps.length - 1) {
+
+          <div
+            class="line"
+            [class.filled]="step() > i + 1"
+          ></div>
+
+        }
+
+      }
+
+    </div>
+
+
+    <!-- STEP CONTENT -->
+
+    <div
+      class="step-content"
+      [class.forward]="animationDirection() === 'forward'"
+      [class.backward]="animationDirection() === 'backward'"
+    >
+
+
+      <!-- STEP 1 -->
+
+      @if(step() === 1) {
+
+        <div class="animated-step">
+
+          <h5>Playlist title</h5>
+
+          <input
+            class="form-control modern-input"
+            [value]="title()"
+            (input)="title.set($any($event.target).value)"
+            placeholder="Enter playlist title"
+          />
+
+        </div>
+
+      }
+
+
+      <!-- STEP 2 -->
+
+      @if(step() === 2) {
+
+        <div class="animated-step">
+
+          <h5>Description</h5>
+
+          <textarea
+            class="form-control modern-input"
+            rows="4"
+            [value]="description()"
+            (input)="description.set($any($event.target).value)"
+          ></textarea>
+
+        </div>
+
+      }
+
+
+      <!-- STEP 3 -->
+
+      @if(step() === 3) {
+
+        <div class="animated-step">
+
+          <h5>Select soundtracks</h5>
+
+
+          <!-- SEARCH -->
+
+          <input
+            class="form-control modern-input search-box"
+            placeholder="Search soundtrack..."
+            (input)="searchTerm.set($any($event.target).value)"
+          />
+
+
+          <!-- TABLE -->
+
+          <table class="soundtrack-table">
+
+            <thead>
+
+            <tr>
+
+              <th></th>
+
+              <th>Title</th>
+
+              <th>Author</th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              @for(track of filteredSoundtracks(); track track.id) {
+
+                <tr
+                  [class.selected-row]="selectedSoundtracks().includes(track.id)"
+                  (click)="toggleSoundtrack(track.id)"
+                >
+
+                  <td>
+
+                    <input
+                      type="checkbox"
+                      [checked]="selectedSoundtracks().includes(track.id)"
+                    />
+
+                  </td>
+
+                  <td>{{ track.title }}</td>
+
+                  <td>{{ track.author }}</td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      }
+
+
+      <!-- STEP 4 -->
+
+      @if(step() === 4) {
+
+        <div class="animated-step">
+
+          <h5>Review playlist</h5>
+
+          <div class="review-box">
+
+            <p>
+              <strong>Title:</strong>
+              {{ title() }}
+            </p>
+
+            <p>
+              <strong>Description:</strong>
+              {{ description() }}
+            </p>
+
+            <p>
+              <strong>Selected soundtracks:</strong>
+              {{ selectedSoundtracks().length }}
+            </p>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+
+    <!-- CANCEL BUTTON -->
+
+    <button
+      class="btn btn-light"
+      (click)="cancel()"
+    >
+      Cancel
+    </button>
+
+
+    <!-- ACTION BUTTONS -->
+
+    <div class="actions">
+
+      @if(step() > 1) {
+
+        <button
+          class="btn btn-light"
+          (click)="prevStep()"
+        >
+          Back
+        </button>
+
+      }
+
+
+      @if(step() < steps.length && canProceed()) {
+
+        <button
+          class="btn primary-btn"
+          (click)="nextStep()"
+        >
+          Next
+        </button>
+
+      }
+
+
+      @if(step() === steps.length) {
+
+        <button
+          class="btn primary-btn glow"
+          (click)="createPlaylist()"
+        >
+          Create Playlist
+        </button>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

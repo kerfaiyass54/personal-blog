@@ -1,0 +1,336 @@
+<div class="playlist-dashboard">
+
+  <div class="playlist-container">
+
+    <h2 class="title">
+      <i class="bi bi-collection-play"></i>
+      Playlists Manager
+    </h2>
+
+
+    <div class="playlist-grid">
+
+      @for(playlist of playlists; track playlist.id) {
+
+        <div class="playlist-card">
+
+          <div class="playlist-info">
+
+            <h4>{{ playlist.name }}</h4>
+
+            <span class="track-count">
+              {{ playlist.tracks?.length || 0 }} tracks
+            </span>
+
+          </div>
+
+
+          <button
+            class="manage-btn"
+            data-bs-toggle="modal"
+            data-bs-target="#playlistModal"
+            (click)="openPlaylist(playlist)"
+          >
+
+            <i class="bi bi-sliders"></i>
+
+            Manage
+
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+
+
+  <!-- PLAYLIST MODAL -->
+
+  <div class="modal fade" id="playlistModal">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+
+      <div class="modal-content">
+
+        <div class="modal-header">
+
+          <h5>
+
+            <i class="bi bi-music-note-list"></i>
+
+            {{ selectedPlaylist?.name }}
+
+          </h5>
+
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+
+        </div>
+
+
+
+        <div class="modal-body">
+
+          <button
+            class="add-btn"
+            (click)="openAddTrackModal()"
+          >
+
+            <i class="bi bi-plus-circle"></i>
+
+            Add soundtrack
+
+          </button>
+
+
+
+          <div class="table-wrapper">
+
+            <table class="tracks-table">
+
+              <thead>
+
+              <tr>
+
+                <th>Title</th>
+
+                <th>Type</th>
+
+                <th>Remove</th>
+
+              </tr>
+
+              </thead>
+
+
+              <tbody>
+
+                @for(track of selectedPlaylist?.tracks; track track.id) {
+
+                  <tr>
+
+                    <td>{{ track.title }}</td>
+
+                    <td>{{ track.author }}</td>
+
+                    <td>
+
+                      <button
+                        class="remove-btn"
+                        (click)="openDeleteModal(track.id)"
+                      >
+
+                        <i class="bi bi-trash"></i>
+
+                      </button>
+
+                    </td>
+
+                  </tr>
+
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ADD TRACK MODAL -->
+
+<div
+  class="modal fade"
+  id="addTrackModal"
+  tabindex="-1"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5>
+
+          <i class="bi bi-plus-circle"></i>
+
+          Select soundtracks
+
+        </h5>
+
+        <button
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+        <div class="table-wrapper">
+
+          <table class="tracks-table">
+
+            <thead>
+
+            <tr>
+
+              <th>Select</th>
+              <th>Title</th>
+              <th>Type</th>
+
+            </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              @for(track of availableTracks; track track.id) {
+
+                <tr>
+
+                  <td>
+
+                    <input
+                      type="checkbox"
+                      [checked]="isSelected(track.id)"
+                      (change)="toggleTrack(track)"
+                    >
+
+                  </td>
+
+                  <td>{{ track.title }}</td>
+
+                  <td>{{ track.type }}</td>
+
+                </tr>
+
+              }
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+
+          Cancel
+
+        </button>
+
+
+        <button
+          class="btn btn-success"
+          (click)="confirmTrackSelection()"
+        >
+
+          Confirm selection
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- DELETE MODAL -->
+
+<div
+  class="modal fade"
+  id="deleteTrackModal"
+  tabindex="-1"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5>
+
+          <i class="bi bi-exclamation-triangle"></i>
+
+          Confirm deletion
+
+        </h5>
+
+        <button
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+      </div>
+
+
+      <div class="modal-body">
+
+        Are you sure you want to remove this soundtrack
+        from the playlist ?
+
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+
+          Cancel
+
+        </button>
+
+
+        <button
+          class="btn btn-danger"
+          (click)="confirmDeleteTrack()"
+        >
+
+          Delete
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

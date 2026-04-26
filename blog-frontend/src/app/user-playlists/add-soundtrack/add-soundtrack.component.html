@@ -1,0 +1,228 @@
+<div class="container add-wrapper">
+
+  <div class="card wizard-card">
+
+    <h3 class="title">Add new soundtrack</h3>
+
+
+    <!-- STEPPER HEADER -->
+
+    <div class="stepper">
+
+      @for(label of steps; track label; let i = $index) {
+
+        <div
+          class="step"
+          [class.active]="step() >= i + 1"
+        >
+
+          <div class="circle">
+
+            {{ i + 1 }}
+
+            <span class="pulse"></span>
+
+          </div>
+
+          <span>{{ label }}</span>
+
+        </div>
+
+
+        @if(i < steps.length - 1) {
+
+          <div
+            class="line"
+            [class.filled]="step() > i + 1"
+          ></div>
+
+        }
+
+      }
+
+    </div>
+
+
+    <!-- STEP CONTENT -->
+
+    <div
+      class="step-content"
+      [class.forward]="animationDirection() === 'forward'"
+      [class.backward]="animationDirection() === 'backward'"
+    >
+
+
+      <!-- STEP 1 TYPE -->
+
+      @if(step() === 1) {
+
+        <div class="animated-step">
+
+          <h5>Select soundtrack type</h5>
+
+          <div class="type-grid">
+
+            <div
+              class="type-card"
+              [class.selected]="selectedType() === 'SPOTIFY'"
+              (click)="selectType('SPOTIFY')"
+            >
+              <i class="bi bi-spotify"></i>
+              Spotify
+            </div>
+
+
+            <div
+              class="type-card"
+              [class.selected]="selectedType() === 'YOUTUBE'"
+              (click)="selectType('YOUTUBE')"
+            >
+              <i class="bi bi-youtube"></i>
+              YouTube
+            </div>
+
+          </div>
+
+        </div>
+
+      }
+
+
+      <!-- STEP 2 LINK -->
+
+      @if(step() === 2) {
+
+        <div class="animated-step">
+
+          <h5>Paste soundtrack link</h5>
+
+          <input
+            class="form-control modern-input"
+            placeholder="Paste URL here..."
+            (input)="onLinkInput($any($event.target).value)"
+          />
+
+          @if(link() && !isValidLink()) {
+
+            <small class="text-danger mt-2 d-block">
+
+              Invalid {{ selectedType() === 'YOUTUBE' ? 'YouTube' : 'Spotify' }} link
+
+            </small>
+
+          }
+
+        </div>
+
+      }
+
+
+      <!-- STEP 3 METADATA -->
+
+      @if(step() === 3) {
+
+        <div class="animated-step">
+
+          <h5>Soundtrack details</h5>
+
+          <div class="form-group">
+
+            <label>Title</label>
+
+            <input
+              class="form-control modern-input"
+              (input)="onTitleInput($any($event.target).value)"
+            />
+
+          </div>
+
+
+          <div class="form-group mt-3">
+
+            <label>Author</label>
+
+            <input
+              class="form-control modern-input"
+              (input)="onAuthorInput($any($event.target).value)"
+            />
+
+          </div>
+
+        </div>
+
+      }
+
+
+      <!-- STEP 4 REVIEW -->
+
+      @if(step() === 4) {
+
+        <div class="animated-step">
+
+          <h5>Review soundtrack</h5>
+
+          <div class="review-box">
+
+            <p><strong>Type:</strong> {{ selectedType() }}</p>
+
+            <p><strong>Title:</strong> {{ title() }}</p>
+
+            <p><strong>Author:</strong> {{ author() }}</p>
+
+            <p><strong>Link:</strong> {{ link() }}</p>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+
+    <!-- ACTIONS -->
+
+    <div class="actions">
+
+      @if(step() > 1) {
+
+        <button
+          class="btn btn-light"
+          (click)="prevStep()"
+        >
+          Back
+        </button>
+
+      }
+
+
+      @if(step() < steps.length) {
+
+        <button
+          class="btn primary-btn"
+          (click)="nextStep()"
+          [disabled]="!canProceed()"
+        >
+          Next
+        </button>
+
+      }
+
+
+      @if(step() === steps.length) {
+
+        <button
+          class="btn success-btn"
+          (click)="submitSoundtrack()"
+          [disabled]="!canProceed()"
+        >
+          Submit Soundtrack
+        </button>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>
