@@ -6,7 +6,8 @@ import {SoundtrackServicesService} from "../service/soundtrack-services.service"
 @Component({
   selector: 'app-dash-playlist',
   templateUrl: './dash-playlist.component.html',
-  styleUrl: './dash-playlist.component.scss'
+  styleUrl: './dash-playlist.component.scss',
+  standalone: true,
 })
 export class DashPlaylistComponent implements OnInit {
 

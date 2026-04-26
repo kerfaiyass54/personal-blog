@@ -9,6 +9,7 @@ import {SoundtrackServicesService} from "./service/soundtrack-services.service";
   imports: [
     RouterLink
   ],
+  standalone: true,
   templateUrl: './user-playlists.component.html',
   styleUrl: './user-playlists.component.scss',
 })

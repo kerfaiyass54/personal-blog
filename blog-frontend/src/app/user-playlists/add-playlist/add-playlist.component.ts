@@ -206,47 +206,14 @@ export class AddPlaylistComponent implements OnInit {
   createPlaylist() {
 
     const playlistPayload = {
-
       title: this.title(),
-
-      description: this.description()
-
+      description: this.description(),
+      soundtrackIds: this.selectedSoundtracks()
     };
 
-
     this.playlistService
-
       .createPlaylist(this.email, playlistPayload)
-
-      .subscribe((createdPlaylist: any) => {
-
-        const playlistId = createdPlaylist.id;
-
-
-        /* LINK SOUNDTRACKS */
-
-        this.selectedSoundtracks()
-
-          .forEach(soundtrackId => {
-
-            this.playlistService
-
-              .addSoundtrackToPlaylist(
-
-                this.email,
-
-                playlistId,
-
-                soundtrackId
-
-              )
-
-              .subscribe();
-
-          });
-
-
-        /* NAVIGATE BACK */
+      .subscribe(() => {
 
         const role = sessionStorage.getItem('role')?.toLowerCase();
 
