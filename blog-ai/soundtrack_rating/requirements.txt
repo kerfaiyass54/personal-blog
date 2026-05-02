@@ -1,0 +1,8 @@
+kafka-python
+joblib
+numpy
+pandas
+scikit-learn
+elasticsearch
+spotipy
+google-api-python-client
