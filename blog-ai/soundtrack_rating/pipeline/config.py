@@ -3,10 +3,7 @@
 # ===============================
 DATA_PATH = "data/dataset.csv"
 
-# Optional: future outputs
-CLEAN_DATA_PATH = "data/clean_data.csv"
-PROCESSED_DATA_PATH = "data/processed_data.csv"
-MODEL_PATH = "models/model.pkl"
+
 
 
 # ===============================
