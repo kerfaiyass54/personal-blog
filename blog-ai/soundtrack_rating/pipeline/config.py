@@ -1,100 +1,42 @@
 # ===============================
 # 📁 FILE PATHS
 # ===============================
-DATA_PATH = "data/dataset.csv"
-
-
-
+DATA_PATH = "../data/dataset.csv"
 
 # ===============================
-# 🎯 TARGET VARIABLE
+# 🎯 TARGET
 # ===============================
-TARGET_COLUMN = "popularity"
+TARGET_COLUMN = "Rating"
 
+# ===============================
+# DROP RAW COLUMNS
+# ===============================
+DROP_COLUMNS = ["Title"]
 
 # ===============================
-# 🧹 COLUMNS TO DROP
+# BASE NUMERICAL FEATURES
 # ===============================
-DROP_COLUMNS = [
-    "Unnamed: 0",
-    "track_id",
-    "track_name",
-    "album_name",
-    "artists"
+BASE_NUMERICAL = [
+    "Year",
+    "Sales",
+    "Streams",
+    "Downloads",
+    "Radio Plays"
 ]
 
-
 # ===============================
-# 🔢 NUMERICAL FEATURES
+# FINAL FEATURES (after FE)
 # ===============================
-NUMERICAL_COLUMNS = [
-    "duration_ms",
-    "danceability",
-    "energy",
-    "loudness",
-    "speechiness",
-    "acousticness",
-    "instrumentalness",
-    "liveness",
-    "valence",
-    "tempo"
+FEATURE_COLUMNS = [
+    "Year",
+    "log_Sales",
+    "log_Radio Plays",
+    "radio_to_sales",
+    "artist_rating_avg"
 ]
 
-
 # ===============================
-# 🔘 BOOLEAN / BINARY FEATURES
-# ===============================
-BINARY_COLUMNS = [
-    "explicit"
-]
-
-
-# ===============================
-# 🏷️ CATEGORICAL FEATURES
-# ===============================
-CATEGORICAL_COLUMNS = [
-    "track_genre"
-]
-
-
-# ===============================
-# ⚙️ OUTLIER HANDLING
-# ===============================
-OUTLIER_COLUMNS = NUMERICAL_COLUMNS  # apply IQR on all numeric features
-IQR_MULTIPLIER = 1.5
-
-
-# ===============================
-# 📊 TRAIN-TEST SPLIT
+# SPLIT
 # ===============================
 TEST_SIZE = 0.2
 RANDOM_STATE = 42
-
-
-# ===============================
-# ⚖️ SCALING
-# ===============================
-SCALER_TYPE = "standard"  # options: standard, minmax
-
-
-# ===============================
-# 🧪 MISSING VALUE STRATEGY
-# ===============================
-DROP_THRESHOLD = 0.8  # drop rows with <80% non-null values
-
-FILL_VALUES = {
-    "track_genre": "unknown",
-    "artists": "unknown"
-}
-
-
-# ===============================
-# 🧠 MODEL CONFIG (for later)
-# ===============================
-MODEL_TYPE = "random_forest"
-
-RF_PARAMS = {
-    "n_estimators": 100,
-    "max_depth": None,
-    "random_state": RANDOM_STATE
-}
