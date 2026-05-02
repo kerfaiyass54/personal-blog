@@ -12,16 +12,9 @@ public class KafkaProducerService {
 
     private final KafkaTemplate<String, SoundtrackDTO> kafkaTemplate;
 
-    public void sendSoundtrack(Soundtrack soundtrack) {
-
-        SoundtrackDTO dto = new SoundtrackDTO(
-                soundtrack.getId(),
-                soundtrack.getTitle(),
-                soundtrack.getLink(),
-                soundtrack.getType().name()
-        );
+    public void sendSoundtrack(SoundtrackDTO soundtrackDTO) {
 
         String TOPIC = "soundtrack-input";
-        kafkaTemplate.send(TOPIC, dto);
+        kafkaTemplate.send(TOPIC, soundtrackDTO);
     }
 }
