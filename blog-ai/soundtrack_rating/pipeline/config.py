@@ -1,7 +1,7 @@
 # ===============================
 # 📁 FILE PATHS
 # ===============================
-DATA_PATH = "../data/dataset.csv"
+DATA_PATH = "data/Song.csv"
 
 # ===============================
 # 🎯 TARGET
