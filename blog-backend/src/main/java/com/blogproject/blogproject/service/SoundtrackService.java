@@ -1,6 +1,7 @@
 package com.blogproject.blogproject.service;
 
 import com.blogproject.blogproject.dtos.SoundtrackCreateDTO;
+import com.blogproject.blogproject.dtos.SoundtrackDTO;
 import com.blogproject.blogproject.dtos.SoundtrackDetailsDTO;
 import com.blogproject.blogproject.entities.Soundtrack;
 import com.blogproject.blogproject.entities.User;
@@ -22,13 +23,17 @@ public class SoundtrackService {
 
     private final SoundtrackRepository soundtrackRepository;
     private final UserRepository userRepository;
+    private final KafkaProducerService kafkaProducer;
+
 
     public SoundtrackService(
             SoundtrackRepository soundtrackRepository,
-            UserRepository userRepository
+            UserRepository userRepository,
+            KafkaProducerService kafkaProducer
     ) {
         this.soundtrackRepository = soundtrackRepository;
         this.userRepository = userRepository;
+        this.kafkaProducer = kafkaProducer;
     }
 
     /* ✅ DTO MAPPER */
@@ -39,6 +44,15 @@ public class SoundtrackService {
         dto.setTitle(s.getTitle());
         dto.setType(s.getType());
         dto.setRate(s.getRate());
+        return dto;
+    }
+
+    public SoundtrackDTO mapToSDTO(Soundtrack s) {
+        SoundtrackDTO dto = new SoundtrackDTO();
+        dto.setId(s.getId());
+        dto.setLink(s.getLink());
+        dto.setTitle(s.getTitle());
+        dto.setType(s.getTitle());
         return dto;
     }
 
@@ -95,7 +109,6 @@ public class SoundtrackService {
         soundtrackRepository.delete(soundtrack);
     }
 
-    /* ✅ PAGINATED + FILTER BY TYPE */
     public Page<SoundtrackDetailsDTO> getSoundtracksByType(
             String email,
             SoundtrackType type,
@@ -113,6 +126,11 @@ public class SoundtrackService {
                 );
 
         return soundtracks.map(this::mapToDTO);
+    }
+
+
+    public void rateSoundtrack(SoundtrackDTO soundtrack) {
+        kafkaProducer.sendSoundtrack(soundtrack);
     }
 
 
