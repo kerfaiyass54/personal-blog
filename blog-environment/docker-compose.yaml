@@ -10,7 +10,7 @@ services:
     container_name: blog-mongodb
     restart: always
     ports:
-      - "27019:27017"
+      - "27020:27017"
     volumes:
       - mongo_data:/data/db
     networks:
@@ -21,7 +21,7 @@ services:
     container_name: blog-mongo-ui
     restart: always
     ports:
-      - "8088:8081"
+      - "8120:8081"
     environment:
       ME_CONFIG_MONGODB_SERVER: mongodb
     depends_on:
@@ -51,7 +51,7 @@ services:
     depends_on:
       - zookeeper
     ports:
-      - "29092:9092"
+      - "29097:9092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
