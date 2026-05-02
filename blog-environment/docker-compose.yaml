@@ -2,6 +2,9 @@ version: "3.9"
 
 services:
 
+  # ===============================
+  # 🟢 MongoDB
+  # ===============================
   mongodb:
     image: mongo:7
     container_name: blog-mongodb
@@ -13,30 +16,107 @@ services:
     networks:
       - blog-network
 
-  backend:
-    build: ./blog-backend
-    container_name: blog-backend
+  mongo-express:
+    image: mongo-express
+    container_name: blog-mongo-ui
+    restart: always
+    ports:
+      - "8088:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb
     depends_on:
       - mongodb
-    ports:
-      - "8083:8083"
+    networks:
+      - blog-network
+
+  # ===============================
+  # 🟡 Zookeeper (Kafka dependency)
+  # ===============================
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: blog-zookeeper
     environment:
-      SPRING_DATA_MONGODB_URI: mongodb://mongodb:27017/blog_database
-    networks:
-      - blog-network
-
-  frontend:
-    build: ./blog-frontend
-    container_name: blog-frontend
-    depends_on:
-      - backend
+      ZOOKEEPER_CLIENT_PORT: 2181
     ports:
-      - "4200:80"
+      - "22181:2181"
     networks:
       - blog-network
 
+  # ===============================
+  # 🔵 Kafka
+  # ===============================
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: blog-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:29092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - blog-network
+
+  # Kafka UI
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: blog-kafka-ui
+    ports:
+      - "8090:8080"
+    environment:
+      KAFKA_CLUSTERS_0_NAME: local
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+    depends_on:
+      - kafka
+    networks:
+      - blog-network
+
+  # ===============================
+  # 🔴 Elasticsearch
+  # ===============================
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    container_name: blog-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - "9205:9200"
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+    networks:
+      - blog-network
+
+  # Elasticsearch UI (Kibana)
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    container_name: blog-kibana
+    ports:
+      - "5605:5601"
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    networks:
+      - blog-network
+
+
+# ===============================
+# 📦 VOLUMES
+# ===============================
 volumes:
   mongo_data:
+  es_data:
 
+
+# ===============================
+# 🌐 NETWORK
+# ===============================
 networks:
   blog-network:
