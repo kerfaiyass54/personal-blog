@@ -1,6 +1,5 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
-from sklearn.model_selection import train_test_split
 
 from pipeline import config
 from pipeline.clean_data import clean_data
@@ -50,18 +49,6 @@ def scale_features(X: pd.DataFrame):
 
 
 # ===============================
-# 🔀 TRAIN-TEST SPLIT
-# ===============================
-def split_data(X, y):
-    return train_test_split(
-        X,
-        y,
-        test_size=config.TEST_SIZE,
-        random_state=config.RANDOM_STATE
-    )
-
-
-# ===============================
 # 🚀 FULL PREPROCESS PIPELINE
 # ===============================
 def preprocess():
@@ -77,11 +64,7 @@ def preprocess():
     # Scale features
     X, scaler = scale_features(X)
 
-    # Split
-    X_train, X_test, y_train, y_test = split_data(X, y)
-
     print("[INFO] Preprocessing completed")
-    print(f"[INFO] Train shape: {X_train.shape}")
-    print(f"[INFO] Test shape: {X_test.shape}")
+    print(f"[INFO] Features shape: {X.shape}")
 
-    return X_train, X_test, y_train, y_test, scaler
+    return X, y, scaler
