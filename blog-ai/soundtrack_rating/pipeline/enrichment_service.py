@@ -81,7 +81,6 @@ for msg in consumer:
             "title": data["title"],
             "link": data["link"],
             "type": data["type"],
-            "author": data["author"],
             "predicted_rating": round(float(prediction), 2)
         }
 

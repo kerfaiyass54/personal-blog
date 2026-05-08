@@ -61,7 +61,7 @@ export class SoundtrackServicesService {
 
   /* ✅ NEW: PAGINATED + FILTER BY TYPE */
   getSoundtracksByType(
-    email: string,
+    email: any,
     type: any,
     page: number = 0,
     size: number = 10
@@ -76,5 +76,16 @@ export class SoundtrackServicesService {
       `${this.baseUrl}/${email}/soundtracks/filter`,
       { params }
     );
+  }
+
+  // ✅ trigger AI rating workflow
+  // ✅ AI rating workflow
+  rateSoundtrack(soundtrack: any, email: any): Observable<any> {
+
+    return this.http.post(
+      `${this.baseUrl}/${email}/soundtracks/rating`,
+      soundtrack
+    );
+
   }
 }

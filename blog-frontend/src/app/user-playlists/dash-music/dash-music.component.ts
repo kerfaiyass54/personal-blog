@@ -29,6 +29,10 @@ export class DashMusicComponent implements OnInit {
   spotifyTotal = 0;
   youtubeTotal = 0;
 
+  loadingRating = false;
+
+  predictedRating: any = null;
+
   search = {
     value: '',
     set: (v: string) => this.search.value = v
@@ -38,7 +42,10 @@ export class DashMusicComponent implements OnInit {
     this.loadCounts();
   }
 
-  /* ✅ LOAD TOTAL COUNT PER TYPE */
+  /* ========================= */
+  /* LOAD COUNTS */
+  /* ========================= */
+
   loadCounts() {
 
     this.soundtrackService
@@ -54,23 +61,46 @@ export class DashMusicComponent implements OnInit {
       });
   }
 
-  /* ✅ LOAD SONGS BY TYPE */
+  /* ========================= */
+  /* LOAD SONGS */
+  /* ========================= */
+
   loadSongsByType(type: 'SPOTIFY' | 'YOUTUBE') {
 
     this.soundtrackService
       .getSoundtracksByType(this.email, type, 0, 100)
       .subscribe(res => {
+
         this.songs = res.content;
+
       });
   }
 
+  /* ========================= */
+  /* NAVIGATION */
+  /* ========================= */
+
   goBack() {
-    const role = sessionStorage.getItem('role')?.toLowerCase();
-    this.router.navigate([`/${role}/playlists`], { replaceUrl: true });
+
+    const role =
+      sessionStorage
+        .getItem('role')
+        ?.toLowerCase();
+
+    this.router.navigate(
+      [`/${role}/playlists`],
+      { replaceUrl: true }
+    );
   }
 
+  /* ========================= */
+  /* OPEN SONGS */
+  /* ========================= */
+
   openSongs(platform: 'SPOTIFY' | 'YOUTUBE') {
+
     this.activePlatformValue = platform;
+
     this.loadSongsByType(platform);
   }
 
@@ -78,29 +108,93 @@ export class DashMusicComponent implements OnInit {
     return this.activePlatformValue;
   }
 
+  /* ========================= */
+  /* SELECT SONG */
+  /* ========================= */
+
   selectSong(song: any) {
+
     this.selectedSong = song;
+
+    this.predictedRating = null;
   }
 
+  /* ========================= */
+  /* LISTEN */
+  /* ========================= */
+
   listenSong(song: any) {
+
+    if (!song) return;
+
     window.open(song.link, '_blank');
   }
+
+  /* ========================= */
+  /* DELETE */
+  /* ========================= */
 
   deleteSong() {
 
     if (!this.selectedSong) return;
 
     this.soundtrackService
-      .deleteSoundtrack(this.email, this.selectedSong.id)
+      .deleteSoundtrack(
+        this.email,
+        this.selectedSong.id
+      )
       .subscribe(() => {
 
-        this.loadSongsByType(this.activePlatformValue as any);
+        this.loadSongsByType(
+          this.activePlatformValue as any
+        );
+
         this.loadCounts();
 
       });
   }
 
-  /* ✅ COUNTS FROM BACKEND */
+  /* ========================= */
+  /* AI RATE SONG */
+  /* ========================= */
+
+  predictRating() {
+
+    if (!this.selectedSong) return;
+
+    this.loadingRating = true;
+
+    const dto = {
+      id: this.selectedSong.id,
+      title: this.selectedSong.title,
+      link: this.selectedSong.link,
+      type: this.selectedSong.type};
+
+    this.soundtrackService
+      .rateSoundtrack(dto,this.email)
+      .subscribe({
+
+        next: (res: any) => {
+
+          this.predictedRating = this.selectedSong.rate;
+
+          this.loadingRating = false;
+        },
+
+        error: () => {
+
+          this.loadingRating = false;
+
+          alert('Rating workflow failed');
+        }
+
+      });
+  }
+
+  /* ========================= */
+  /* COUNTS */
+  /* ========================= */
+
   spotifyCount() {
     return this.spotifyTotal;
   }
@@ -109,14 +203,21 @@ export class DashMusicComponent implements OnInit {
     return this.youtubeTotal;
   }
 
-  /* ✅ FILTER ONLY (NO PLATFORM FILTER NEEDED ANYMORE) */
+  /* ========================= */
+  /* FILTER SONGS */
+  /* ========================= */
+
   paginatedSongs() {
-    return this.songs
-      .filter(song =>
-        song.title
-          .toLowerCase()
-          .includes(this.search.value.toLowerCase())
-      );
+
+    return this.songs.filter(song =>
+
+      song.title
+        .toLowerCase()
+        .includes(
+          this.search.value.toLowerCase()
+        )
+
+    );
   }
 
 }
