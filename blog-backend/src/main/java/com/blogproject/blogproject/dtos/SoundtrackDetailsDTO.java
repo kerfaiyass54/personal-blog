@@ -20,6 +20,8 @@ public class SoundtrackDetailsDTO {
 
     private String title;
 
+    private String author;
+
     private SoundtrackType type;
 
     private Integer rate;

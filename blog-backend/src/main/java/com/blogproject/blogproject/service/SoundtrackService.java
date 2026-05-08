@@ -42,6 +42,7 @@ public class SoundtrackService {
         dto.setId(s.getId());
         dto.setLink(s.getLink());
         dto.setTitle(s.getTitle());
+        dto.setAuthor(s.getAuthor());
         dto.setType(s.getType());
         dto.setRate(s.getRate());
         return dto;

@@ -36,6 +36,10 @@ public class Soundtrack {
     @Indexed(unique = true)
     private String link;
 
+    @NotBlank(message = "Soundtrack author must not be empty")
+    @Indexed(unique = true)
+    private String author;
+
     @NotNull(message = "Soundtrack type must not be null")
     private SoundtrackType type;
 
