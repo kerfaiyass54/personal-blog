@@ -1,20 +1,40 @@
-from sklearn.preprocessing import StandardScaler
-from pipeline.clean_data import clean_data
-from pipeline.feature_engineering import feature_engineering
-from pipeline import config
+import numpy as np
 
-def preprocess():
-    df = clean_data()
+from config import *
 
-    # Feature Engineering
-    df = feature_engineering(df)
 
-    # Select features
-    X = df[config.FEATURE_COLUMNS]
-    y = df[config.TARGET_COLUMN]
+def preprocess_data(df):
 
-    # Scale
-    scaler = StandardScaler()
-    X_scaled = scaler.fit_transform(X)
+    # ===============================
+    # DROP DUPLICATES
+    # ===============================
+    df = df.drop_duplicates()
 
-    return X_scaled, y
+    # ===============================
+    # DROP NULLS
+    # ===============================
+    df = df.dropna()
+
+    # ===============================
+    # FEATURE ENGINEERING
+    # ===============================
+
+    df["log_Sales"] = np.log1p(df["Sales"])
+
+    df["log_Radio Plays"] = np.log1p(df["Radio Plays"])
+
+    df["radio_to_sales"] = (
+        df["Radio Plays"] / (df["Sales"] + 1)
+    )
+
+    artist_avg = (
+        df.groupby("Artist")["Rating"]
+        .mean()
+    )
+
+    df["artist_rating_avg"] = (
+        df["Artist"]
+        .map(artist_avg)
+    )
+
+    return df

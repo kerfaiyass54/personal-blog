@@ -65,27 +65,29 @@ services:
   # 🔵 Kafka
   # ===============================
   kafka:
-    image: confluentinc/cp-kafka:7.5.0
-    container_name: blog-kafka
-
+    image: confluentinc/cp-kafka:7.3.0   # ✅ FIXED VERSION
+    container_name: blog_kafka
     depends_on:
       - zookeeper
-
     ports:
-      - "29097:9092"
-
+      - "9092:9092"
+      - "29093:29093"
     environment:
-      KAFKA_BROKER_ID: 1
 
+      KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
 
-      # Internal listener
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
 
-      # Advertised listener for containers
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29093,PLAINTEXT_HOST://0.0.0.0:9092
+
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://blog_kafka:29093,PLAINTEXT_HOST://localhost:9092
 
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
     networks:
       - blog-network
@@ -107,7 +109,7 @@ services:
 
     environment:
       KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: blog_kafka:29093
 
     networks:
       - blog-network

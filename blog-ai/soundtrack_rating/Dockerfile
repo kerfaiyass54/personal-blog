@@ -1,17 +1,23 @@
 # ===============================
-# 🐍 Base Image
+# 🐍 Python Base Image
 # ===============================
 FROM python:3.11-slim
 
 # ===============================
-# 📁 Set Working Directory
+# 📁 Working Directory
 # ===============================
 WORKDIR /app
 
+
 # ===============================
-# 📦 Install Dependencies
+# 📦 Copy Requirements
 # ===============================
 COPY requirements.txt .
+
+# ===============================
+# 📦 Install Python Dependencies
+# ===============================
+RUN pip install --no-cache-dir --upgrade pip
 
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -21,6 +27,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # ===============================
-# 🚀 Run Combined Service
+# 🌐 Environment Variables
+# ===============================
+ENV PYTHONUNBUFFERED=1
+
+# ===============================
+# 🚀 Start AI Service
 # ===============================
 CMD ["python", "pipeline/enrichment_service.py"]

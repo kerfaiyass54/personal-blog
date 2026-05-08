@@ -1,6 +1,7 @@
 package com.blogproject.blogproject.controller;
 
 import com.blogproject.blogproject.dtos.SoundtrackCreateDTO;
+import com.blogproject.blogproject.dtos.SoundtrackDTO;
 import com.blogproject.blogproject.dtos.SoundtrackDetailsDTO;
 import com.blogproject.blogproject.entities.Soundtrack;
 import com.blogproject.blogproject.enums.SoundtrackType;
@@ -102,6 +103,12 @@ public class SoundtrackController {
                         size
                 )
         );
+    }
+
+    @PostMapping("/rating")
+    public ResponseEntity<Void> rateSoundtrack(@RequestBody SoundtrackDTO soundtrack) {
+        soundtrackService.rateSoundtrack(soundtrack);
+        return ResponseEntity.noContent().build();
     }
 
 }

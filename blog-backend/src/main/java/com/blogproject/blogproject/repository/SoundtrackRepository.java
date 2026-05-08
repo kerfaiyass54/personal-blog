@@ -18,5 +18,7 @@ public interface SoundtrackRepository  extends MongoRepository<Soundtrack,String
 
     Page<Soundtrack> findByUserAndType(User user, SoundtrackType type,  Pageable pageable);
 
+    Soundtrack findSoundtrackById(String id);
+
 
 }

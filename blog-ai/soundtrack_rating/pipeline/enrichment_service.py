@@ -1,66 +1,110 @@
 import json
 import joblib
+
 from kafka import KafkaConsumer, KafkaProducer
-from datetime import datetime
 from elasticsearch import Elasticsearch
+from datetime import datetime
 
 from config import *
 from utils import fetch_features, prepare_features
 
-# Load model
+# ===============================
+# LOAD MODEL
+# ===============================
 model = joblib.load(MODEL_PATH)
 
-# Kafka
+# ===============================
+# KAFKA CONSUMER
+# ===============================
 consumer = KafkaConsumer(
     TOPIC_INPUT,
     bootstrap_servers=KAFKA_BOOTSTRAP,
+    auto_offset_reset="earliest",
+    enable_auto_commit=True,
+    group_id="soundtrack-group",
     value_deserializer=lambda x: json.loads(x.decode("utf-8"))
 )
 
+# ===============================
+# KAFKA PRODUCER
+# ===============================
 producer = KafkaProducer(
     bootstrap_servers=KAFKA_BOOTSTRAP,
     value_serializer=lambda x: json.dumps(x).encode("utf-8")
 )
 
-# Elasticsearch
+# ===============================
+# ELASTICSEARCH
+# ===============================
 es = Elasticsearch(ELASTIC_URL)
 
-print("🚀 Combined Enrichment + Prediction Service Running...")
+print("🚀 AI Service Running...")
 
+# ===============================
+# CONSUME LOOP
+# ===============================
 for msg in consumer:
-    data = msg.value
 
-    print("📥 Received:", data)
+    try:
 
-    # 🔹 Step 1: Enrichment
-    features = fetch_features(data["link"])
+        data = msg.value
 
-    enriched = {
-        **data,
-        **features
-    }
+        print("\n📥 Received:", data)
 
-    # 🔹 Step 2: Prediction
-    X = prepare_features(enriched)
+        # ===============================
+        # ENRICHMENT
+        # ===============================
+        features = fetch_features(data["link"])
 
-    prediction = model.predict(X)[0]
+        enriched = {
+            **data,
+            **features
+        }
 
-    result = {
-        "id": data["id"],
-        "title": data["title"],
-        "link": data["link"],
-        "type": data["type"],
-        "predicted_rating": float(prediction)
-    }
+        print("🧠 Enriched:", enriched)
 
-    # 🔹 Send to Spring Boot
-    producer.send(TOPIC_RATED, result)
+        # ===============================
+        # PREPARE FEATURES
+        # ===============================
+        X = prepare_features(enriched)
 
-    # 🔹 Save to Elasticsearch
-    es.index(index=INDEX_NAME, document={
-        **enriched,
-        "rating": float(prediction),
-        "timestamp": datetime.utcnow()
-    })
+        # ===============================
+        # PREDICT
+        # ===============================
+        prediction = model.predict(X)[0]
 
-    print("✅ Done:", result)
+        # ===============================
+        # RESULT
+        # ===============================
+        result = {
+            "id": data["id"],
+            "title": data["title"],
+            "link": data["link"],
+            "type": data["type"],
+            "predicted_rating": round(float(prediction), 2)
+        }
+
+        # ===============================
+        # SEND TO SPRINGBOOT
+        # ===============================
+        producer.send(TOPIC_RATED, result)
+
+        print("📤 Sent:", result)
+
+        # ===============================
+        # SAVE TO ELASTICSEARCH
+        # ===============================
+        es.index(
+            index=INDEX_NAME,
+            document={
+                **enriched,
+                "predicted_rating": float(prediction),
+                "timestamp": datetime.utcnow()
+            }
+        )
+
+        print("Saved to Elasticsearch")
+
+    except Exception as e:
+
+        print("ERROR:", e)

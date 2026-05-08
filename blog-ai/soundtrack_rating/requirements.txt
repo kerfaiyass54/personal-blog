@@ -1,8 +1,9 @@
-kafka-python
-joblib
-numpy
 pandas
+numpy
 scikit-learn
-elasticsearch
-spotipy
-google-api-python-client
+joblib
+kafka-python
+elasticsearch==8.11.1
+requests
+beautifulsoup4
+yt-dlp

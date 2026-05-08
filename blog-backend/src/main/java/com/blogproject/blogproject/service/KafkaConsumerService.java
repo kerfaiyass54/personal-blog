@@ -25,7 +25,7 @@ public class KafkaConsumerService {
             String id = (String) data.get("id");
             Double rating = Double.valueOf(data.get("predicted_rating").toString());
 
-            Soundtrack soundtrack = repository.findById(id).orElseThrow();
+            Soundtrack soundtrack = repository.findSoundtrackById(id);
 
             soundtrack.setRate(rating.intValue());
 

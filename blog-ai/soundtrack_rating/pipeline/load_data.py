@@ -1,7 +1,14 @@
 import pandas as pd
-from pipeline import config
+
+from config import DATA_PATH
 
 
 def load_data():
-    df = pd.read_csv(config.DATA_PATH)
+
+    df = pd.read_csv(DATA_PATH)
+
+    print("Data Loaded")
+
+    print(df.head())
+
     return df
