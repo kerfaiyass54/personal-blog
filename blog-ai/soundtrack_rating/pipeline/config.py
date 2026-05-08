@@ -51,7 +51,6 @@ YOUTUBE_API_KEY = "YOUR_YOUTUBE_API_KEY"
 # ===============================
 # 🟡 KAFKA
 # ===============================
-KAFKA_BOOTSTRAP = "localhost:29092"
 
 TOPIC_INPUT = "soundtrack-input"
 TOPIC_ENRICHED = "soundtrack-enriched"
@@ -60,7 +59,8 @@ TOPIC_RATED = "soundtrack-rated"
 # ===============================
 # 🔴 ELASTICSEARCH
 # ===============================
-ELASTIC_URL = "http://localhost:9205"
+KAFKA_BOOTSTRAP = "host.docker.internal:29092"
+ELASTIC_URL = "http://host.docker.internal:9205"
 INDEX_NAME = "soundtracks"
 
 # ===============================
