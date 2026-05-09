@@ -1,11 +1,59 @@
-from agents.recommendation_agent import generate_ai_recommendations
-from services.elastic_service import save_recommendations
-from producers.recommendation_producer import send_recommendations
+from repositories.soundtrack_repository import (
+    get_user_soundtracks,
+    get_all_soundtracks
+)
 
-def generate_recommendations(data):
+from services.similarity_service import (
+    extract_preferences
+)
 
-    recommendations = generate_ai_recommendations(data)
+from agents.spotify_agent import (
+    recommend_spotify
+)
 
-    save_recommendations(recommendations)
+from agents.youtube_agent import (
+    recommend_youtube
+)
 
-    send_recommendations(recommendations)
+from agents.hybrid_agent import (
+    merge_recommendations
+)
+
+
+def generate_recommendations(user_id):
+
+    user_tracks = get_user_soundtracks(
+        user_id
+    )
+
+    all_tracks = get_all_soundtracks()
+
+    preferences = extract_preferences(
+        user_tracks
+    )
+
+    spotify_recommendations = recommend_spotify(
+
+        all_tracks,
+        preferences
+    )
+
+    youtube_recommendations = recommend_youtube(
+
+        all_tracks,
+        preferences
+    )
+
+    final_recommendations = merge_recommendations(
+
+        spotify_recommendations,
+        youtube_recommendations
+    )
+
+    return [
+
+        recommendation.to_dict()
+
+        for recommendation
+        in final_recommendations
+    ]

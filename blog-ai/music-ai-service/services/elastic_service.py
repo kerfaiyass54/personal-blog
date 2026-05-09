@@ -1,13 +1,15 @@
-from config.elastic_config import es
-from config.settings import ELASTIC_INDEX
+from repositories.elastic_repository import (
+    save_recommendation
+)
 
-def save_recommendations(recommendations):
+from datetime import datetime
+
+
+def save_all_to_elastic(
+
+    user_id,
+    recommendations
+
+):
 
     for recommendation in recommendations:
-
-        es.index(
-            index=ELASTIC_INDEX,
-            document=recommendation
-        )
-
-    print("Recommendations saved to Elasticsearch")

@@ -1,12 +1,48 @@
-def get_youtube_recommendations(stats):
+from models.recommendation_model import Recommendation
 
-    mood = stats.get("mood", "chill")
+from utils.scoring import calculate_score
 
-    return [
-        {
-            "platform": "YOUTUBE",
-            "title": f"{mood} Mix",
-            "author": "DJ Chill",
-            "link": "https://youtube.com/example"
-        }
-    ]
+
+def recommend_youtube(
+
+    tracks,
+    preferences
+
+):
+
+    recommendations = []
+
+    favorite_authors = preferences["authors"]
+
+    for track in tracks:
+
+        if track.get("type") != "YOUTUBE":
+            continue
+
+        author = track.get(
+            "author",
+            ""
+        ).lower()
+
+        if author in favorite_authors:
+
+            score = (
+                calculate_score(track)
+                + 0.5
+            )
+
+            recommendations.append(
+
+                Recommendation(
+
+                    title=track["title"],
+                    author=track["author"],
+                    link=track["link"],
+                    type=track["type"],
+                    score=score,
+                    source_user=str(track["user"].id)
+                )
+
+            )
+
+    return recommendations

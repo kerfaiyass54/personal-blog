@@ -1,18 +1,48 @@
-def get_spotify_recommendations(stats):
+from models.recommendation_model import Recommendation
 
-    genre = stats.get("favoriteGenre", "pop")
+from utils.scoring import calculate_score
 
-    return [
-        {
-            "platform": "SPOTIFY",
-            "title": f"{genre} Song 1",
-            "author": "Artist A",
-            "link": "https://open.spotify.com/example1"
-        },
-        {
-            "platform": "SPOTIFY",
-            "title": f"{genre} Song 2",
-            "author": "Artist B",
-            "link": "https://open.spotify.com/example2"
-        }
-    ]
+
+def recommend_spotify(
+
+    tracks,
+    preferences
+
+):
+
+    recommendations = []
+
+    favorite_authors = preferences["authors"]
+
+    for track in tracks:
+
+        if track.get("type") != "SPOTIFY":
+            continue
+
+        author = track.get(
+            "author",
+            ""
+        ).lower()
+
+        if author in favorite_authors:
+
+            score = (
+                calculate_score(track)
+                + 0.5
+            )
+
+            recommendations.append(
+
+                Recommendation(
+
+                    title=track["title"],
+                    author=track["author"],
+                    link=track["link"],
+                    type=track["type"],
+                    score=score,
+                    source_user=str(track["user"].id)
+                )
+
+            )
+
+    return recommendations

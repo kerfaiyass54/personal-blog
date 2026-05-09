@@ -1,11 +1,9 @@
-from agents.recommendation_agent import generate_ai_recommendations
-from services.elastic_service import save_recommendations
-from producers.recommendation_producer import send_recommendations
+from consumers.playlist_consumer import (
+    start_playlist_consumer
+)
 
-def generate_recommendations(data):
+print(
+    "Music AI Service Started..."
+)
 
-    recommendations = generate_ai_recommendations(data)
-
-    save_recommendations(recommendations)
-
-    send_recommendations(recommendations)
+start_playlist_consumer()
