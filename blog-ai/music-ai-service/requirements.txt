@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+kafka-python
+pymongo
+elasticsearch
+spotipy
+requests
+pydantic
+python-dotenv
