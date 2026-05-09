@@ -36,11 +36,11 @@ RANDOM_STATE = 42
 TOPIC_INPUT = "soundtrack-input"
 TOPIC_RATED = "soundtrack-rated"
 
-KAFKA_BOOTSTRAP = "blog_kafka:29093"
+KAFKA_BOOTSTRAP = "host.docker.internal:9092"
 # ===============================
 # 🔴 ELASTICSEARCH
 # ===============================
-ELASTIC_URL = "http://blog-elasticsearch:9200"
+ELASTIC_URL = "http://host.docker.internal:9200"
 INDEX_NAME = "soundtracks"
 
 # ===============================

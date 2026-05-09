@@ -10,7 +10,8 @@ producer = KafkaProducer(
 consumer = KafkaConsumer(
     "playlist-events",
     bootstrap_servers=KAFKA_BROKER,
-    auto_offset_reset="latest",
-    group_id="music-ai-group",
+    auto_offset_reset="earliest",
+    enable_auto_commit=True,
+    group_id="soundtrack-group",
     value_deserializer=lambda x: json.loads(x.decode("utf-8"))
 )
