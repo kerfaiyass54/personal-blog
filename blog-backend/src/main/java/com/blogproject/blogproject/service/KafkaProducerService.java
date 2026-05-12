@@ -1,7 +1,6 @@
 package com.blogproject.blogproject.service;
 
 import com.blogproject.blogproject.dtos.SoundtrackDTO;
-import com.blogproject.blogproject.entities.Soundtrack;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
