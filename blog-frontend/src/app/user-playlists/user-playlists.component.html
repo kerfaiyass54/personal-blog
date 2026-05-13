@@ -47,7 +47,6 @@
           <span class="label">Tracks</span>
         </div>
 
-
       </div>
 
     </div>
@@ -98,6 +97,37 @@
           <span class="label">Rated</span>
         </div>
 
+      </div>
+
+    </div>
+
+
+    <!-- RECOMMENDATION CARD -->
+    <div class="stat-card recommendation-card mt-4 animated-card delay-card-2">
+
+      <div class="card-header recommendation-header">
+
+        <div class="title-section">
+
+          <div class="icon-box recommendation-icon floating-icon">
+            <i class="bi bi-stars"></i>
+          </div>
+
+          <div>
+            <h4>Recommendation</h4>
+          </div>
+
+        </div>
+
+        <div class="header-actions">
+
+          <button class="btn recommendation-btn"
+                  [routerLink]="'/' + role + '/recommendation'">
+            <i class="bi bi-search-heart"></i>
+            Check
+          </button>
+
+        </div>
 
       </div>
 
