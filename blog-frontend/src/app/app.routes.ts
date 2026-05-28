@@ -17,6 +17,8 @@ import {AddSoundtrackComponent} from "./user-playlists/add-soundtrack/add-soundt
 import {AddPlaylistComponent} from "./user-playlists/add-playlist/add-playlist.component";
 import {DashMusicComponent} from "./user-playlists/dash-music/dash-music.component";
 import {DashPlaylistComponent} from "./user-playlists/dash-playlist/dash-playlist.component";
+import {RecommendationService} from "./user-playlists/service/recommendation-service.service";
+import {RecommandationsPageComponent} from "./user-playlists/recommandations-page/recommandations-page.component";
 
 
 
@@ -102,6 +104,12 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
         component: DashMusicComponent
+      },
+      {
+        path: 'music-recommend',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: RecommandationsPageComponent
       }
     ]
   },
@@ -162,8 +170,14 @@ export const routes: Routes = [
       {
         path: 'dash-playlist',
         canActivate: [AuthGuard],
-        data: { roles: ['WRITER']},
+        data: { roles: ['READER']},
         component: DashPlaylistComponent
+      },
+      {
+        path: 'music-recommend',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: RecommandationsPageComponent
       }
 
     ]},

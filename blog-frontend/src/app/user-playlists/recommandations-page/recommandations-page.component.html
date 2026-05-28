@@ -1,0 +1,156 @@
+<div class="recommendations-container">
+
+  <!-- HEADER -->
+  <div class="header">
+
+    <div>
+
+      <h1>
+        <i class="bi bi-stars"></i>
+        AI Recommendations
+      </h1>
+
+      <p>
+        Personalized soundtrack suggestions
+      </p>
+
+    </div>
+
+    <button
+      class="refresh-btn"
+      (click)="loadRecommendations()">
+
+      <i class="bi bi-arrow-repeat"></i>
+      Refresh
+
+    </button>
+
+  </div>
+
+
+  <!-- LOADING -->
+  @if (loading) {
+
+    <div class="loading-wrapper">
+
+      <div
+        class="spinner-border text-light">
+      </div>
+
+    </div>
+
+  }
+
+
+  <!-- TABLE -->
+  @if (!loading) {
+
+    <div class="table-wrapper">
+
+      <table class="recommendation-table">
+
+        <thead>
+
+        <tr>
+
+          <th>#</th>
+
+          <th>Title</th>
+
+          <th>Artist</th>
+
+          <th>Source</th>
+
+          <th>Action</th>
+
+        </tr>
+
+        </thead>
+
+      </table>
+
+      <!-- SCROLLABLE BODY -->
+      <div class="table-scroll">
+
+        <table class="recommendation-table">
+
+          <tbody>
+
+            @for (
+              song of recommendations;
+              track $index
+              ) {
+
+              <tr>
+
+                <td>
+
+                  {{ $index + 1 }}
+
+                </td>
+
+                <td class="song-title">
+
+                  {{ song.title }}
+
+                </td>
+
+                <td>
+
+                  {{ song.author }}
+
+                </td>
+
+                <td>
+
+                <span
+                  class="source-badge"
+                  [class.spotify]="song.source === 'SPOTIFY'"
+                  [class.youtube]="song.source === 'YOUTUBE'">
+
+                  {{ song.source }}
+
+                </span>
+
+                </td>
+
+
+                <td>
+
+                  <button
+                    class="open-btn"
+                    (click)="openSource(song)">
+
+                    @if (
+                      song.source === 'YOUTUBE'
+                      ) {
+
+                      <i class="bi bi-youtube"></i>
+
+                    } @else {
+
+                      <i class="bi bi-spotify"></i>
+
+                    }
+
+                    Open
+
+                  </button>
+
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

@@ -1,72 +1,87 @@
 package com.blogproject.blogproject.service;
 
+import com.blogproject.blogproject.dtos.RecommendationRequest;
 import com.blogproject.blogproject.entities.Recommendation;
+import com.blogproject.blogproject.kafka.RecommendationProducer;
+import com.blogproject.blogproject.repository.RecommendationRepository;
 
-import com.blogproject.blogproject.kafka.
-        RecommendationProducer;
-
-import com.blogproject.blogproject.repository.
-        RecommendationRepository;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RecommendationService {
 
     private final RecommendationProducer producer;
 
     private final RecommendationRepository repository;
 
-    public RecommendationService(
-            RecommendationProducer producer,
-            RecommendationRepository repository
-    ) {
-
-        this.producer = producer;
-        this.repository = repository;
-    }
-
-    /* ========================= */
-    /* GENERATE AI RECOMMENDATIONS */
-    /* ========================= */
+    // ----------------------------
+    // SEND REQUEST TO PYTHON AI
+    // ----------------------------
 
     public void generateRecommendations(
-            String email
+            RecommendationRequest request
     ) {
 
-        producer.requestRecommendations(email);
+        producer.requestRecommendations(
+                request
+        );
     }
 
-    /* ========================= */
-    /* GET ALL */
-    /* ========================= */
+    // ----------------------------
+    // SAVE RECOMMENDATION RESULTS
+    // ----------------------------
 
-    public Iterable<Recommendation> all() {
+    public Recommendation save(
+            Recommendation recommendation
+    ) {
+
+        recommendation.setCreatedAt(
+                Instant.now()
+        );
+
+        return repository.save(
+                recommendation
+        );
+    }
+
+    // ----------------------------
+    // GET ALL
+    // ----------------------------
+
+    public List<Recommendation> all() {
 
         return repository.findAll();
     }
 
-    /* ========================= */
-    /* FILTER BY AUTHOR */
-    /* ========================= */
+    // ----------------------------
+    // GET BY EMAIL
+    // ----------------------------
 
-    public List<Recommendation> findByAuthor(
-            String author
+    public List<Recommendation> findByEmail(
+            String email
     ) {
 
-        return repository.findByAuthorContainingIgnoreCase(author);
+        return repository.findByEmail(
+                email
+        );
     }
 
-    /* ========================= */
-    /* FILTER BY TYPE */
-    /* ========================= */
+    // ----------------------------
+    // GET BY USER
+    // ----------------------------
 
-    public List<Recommendation> findByType(
-            String type
+    public List<Recommendation> findByUserId(
+            String userId
     ) {
 
-        return repository.findByPlatform(type);
+        return repository.findByUserId(
+                userId
+        );
     }
 }

@@ -1,8 +1,12 @@
 from pymongo import MongoClient
-from config.settings import MONGO_URI
 
-client = MongoClient(MONGO_URI)
+MONGO_URI = "mongodb://localhost:27017"
 
-db = client["blog_database"]
+DATABASE_NAME = "blog_database"
 
-playlist_collection = db["soundtracks"]
+
+def get_database():
+
+    client = MongoClient(MONGO_URI)
+
+    return client[DATABASE_NAME]

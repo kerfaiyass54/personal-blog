@@ -1,9 +1,8 @@
-fastapi
-uvicorn
+pandas
+numpy
+scikit-learn
 kafka-python
 pymongo
-elasticsearch
-spotipy
-requests
-pydantic
+dnspython
+joblib
 python-dotenv

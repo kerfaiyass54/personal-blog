@@ -1,30 +1,31 @@
-from config.kafka_config import producer
+from config.kafka_config import (
+    create_producer,
+    OUTPUT_TOPIC
+)
 
 
-def send_recommendations(
+class RecommendationProducer:
 
-    user_id,
-    recommendations
+    def __init__(self):
 
-):
+        self.producer = create_producer()
 
-    payload = {
+    def send_recommendations(
+        self,
+        email,
+        recommendations
+    ):
 
-        "userId": user_id,
+        payload = {
+            "email": email,
+            "recommendations": recommendations
+        }
 
-        "recommendations":
-            recommendations
-    }
+        self.producer.send(
+            OUTPUT_TOPIC,
+            value=payload
+        )
 
-    producer.send(
+        self.producer.flush()
 
-        "recommendation_results",
-
-        payload
-    )
-
-    producer.flush()
-
-    print(
-        "Recommendations sent to Kafka"
-    )
+        print("Recommendations sent.")

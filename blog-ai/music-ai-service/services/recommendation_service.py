@@ -1,59 +1,90 @@
-from repositories.soundtrack_repository import (
-    get_user_soundtracks,
-    get_all_soundtracks
-)
+from sklearn.metrics.pairwise import cosine_similarity
 
-from services.similarity_service import (
-    extract_preferences
-)
-
-from agents.spotify_agent import (
-    recommend_spotify
-)
-
-from agents.youtube_agent import (
-    recommend_youtube
-)
-
-from agents.hybrid_agent import (
-    merge_recommendations
-)
+from utils.text_cleaner import clean_text
 
 
-def generate_recommendations(user_id):
+class RecommendationService:
 
-    user_tracks = get_user_soundtracks(
-        user_id
-    )
+    def recommend_for_user_tracks(
+        self,
+        user_tracks,
+        df,
+        matrix,
+        top_k=10
+    ):
 
-    all_tracks = get_all_soundtracks()
+        recommendations = []
 
-    preferences = extract_preferences(
-        user_tracks
-    )
+        already_seen = set()
 
-    spotify_recommendations = recommend_spotify(
+        # -----------------------------------
+        # LOOP USER TRACKS
+        # -----------------------------------
 
-        all_tracks,
-        preferences
-    )
+        for track in user_tracks:
 
-    youtube_recommendations = recommend_youtube(
+            raw_title = track.get("title", "")
 
-        all_tracks,
-        preferences
-    )
+            title = clean_text(raw_title)
 
-    final_recommendations = merge_recommendations(
+            print(f"Searching for: {title}")
 
-        spotify_recommendations,
-        youtube_recommendations
-    )
+            # -----------------------------------
+            # FIND MATCH
+            # -----------------------------------
 
-    return [
+            matched = df[
+                df["title"].str.contains(
+                    title,
+                    case=False,
+                    na=False
+                )
+            ]
 
-        recommendation.to_dict()
+            print(f"Matches found: {len(matched)}")
 
-        for recommendation
-        in final_recommendations
-    ]
+            if matched.empty:
+                continue
+
+            idx = matched.index[0]
+
+            similarity_scores = cosine_similarity(
+                matrix[idx],
+                matrix
+            )
+
+            scores = list(
+                enumerate(similarity_scores[0])
+            )
+
+            scores = sorted(
+                scores,
+                key=lambda x: x[1],
+                reverse=True
+            )
+
+            # -----------------------------------
+            # BUILD RECOMMENDATIONS
+            # -----------------------------------
+
+            for i in scores[1:top_k + 1]:
+
+                item = df.iloc[i[0]]
+
+                key = (
+                    item["title"],
+                    item["author"]
+                )
+
+                if key in already_seen:
+                    continue
+
+                already_seen.add(key)
+
+                recommendations.append({
+                    "title": item["title"],
+                    "author": item["author"],
+                    "source": item["source"]
+                })
+
+        return recommendations[:top_k]

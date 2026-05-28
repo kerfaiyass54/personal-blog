@@ -1,37 +1,32 @@
 package com.blogproject.blogproject.entities;
 
+import com.blogproject.blogproject.dtos.RecommendationItem;
 import lombok.*;
 
 import org.springframework.data.annotation.Id;
-
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
+import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 @Builder
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "recommendations")
-
 public class Recommendation {
 
     @Id
     private String id;
 
+    private String userId;
+
     private String email;
 
-    private String title;
+    private String soundtrackId;
 
-    private String author;
+    private List<RecommendationItem> recommendations;
 
-    private String link;
-
-    private String platform;
-
-    private Double score;
-
-    private String sourceUser;
-
+    private Instant createdAt;
 }

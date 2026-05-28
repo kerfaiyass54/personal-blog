@@ -1,81 +1,76 @@
 package com.blogproject.blogproject.controller;
 
+import com.blogproject.blogproject.dtos.RecommendationRequest;
 import com.blogproject.blogproject.entities.Recommendation;
+import com.blogproject.blogproject.service.RecommendationService;
 
-import com.blogproject.blogproject.service.
-        RecommendationService;
-
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/users/{email}/recommendations")
-@CrossOrigin("*")
+@RequestMapping("/api/recommendations")
+@RequiredArgsConstructor
 public class RecommendationController {
 
     private final RecommendationService service;
 
-    public RecommendationController(
-            RecommendationService service
+    // --------------------------------
+    // GENERATE RECOMMENDATIONS
+    // --------------------------------
+
+    @PostMapping("/generate")
+    public String generate(
+            @RequestBody
+            RecommendationRequest request
     ) {
 
-        this.service = service;
-    }
-
-    /* ========================= */
-    /* GENERATE RECOMMENDATIONS */
-    /* ========================= */
-
-    @PostMapping
-    public ResponseEntity<String> generate(
-            @PathVariable String email
-    ) {
-
-        service.generateRecommendations(email);
-
-        return ResponseEntity.ok(
-                "Recommendation request sent successfully"
+        service.generateRecommendations(
+                request
         );
+
+        return "Recommendation request sent.";
     }
 
-    /* ========================= */
-    /* GET ALL */
-    /* ========================= */
+    // --------------------------------
+    // GET ALL
+    // --------------------------------
 
     @GetMapping
-    public ResponseEntity<Iterable<Recommendation>> all() {
+    public List<Recommendation> all() {
 
-        return ResponseEntity.ok(
-                service.all()
+        return service.all();
+    }
+
+    // --------------------------------
+    // GET BY EMAIL
+    // --------------------------------
+
+    @GetMapping("/email/{email}")
+    public List<Recommendation> byEmail(
+            @PathVariable
+            String email
+    ) {
+
+        return service.findByEmail(
+                email
         );
     }
 
-    /* ========================= */
-    /* FILTER BY AUTHOR */
-    /* ========================= */
+    // --------------------------------
+    // GET BY USER ID
+    // --------------------------------
 
-    @GetMapping("/author/{author}")
-    public ResponseEntity<Iterable<Recommendation>> byAuthor(
-            @PathVariable String author
+    @GetMapping("/user/{userId}")
+    public List<Recommendation> byUser(
+            @PathVariable
+            String userId
     ) {
 
-        return ResponseEntity.ok(
-                service.findByAuthor(author)
-        );
-    }
-
-    /* ========================= */
-    /* FILTER BY TYPE */
-    /* ========================= */
-
-    @GetMapping("/type/{type}")
-    public ResponseEntity<Iterable<Recommendation>> byType(
-            @PathVariable String type
-    ) {
-
-        return ResponseEntity.ok(
-                service.findByType(type)
+        return service.findByUserId(
+                userId
         );
     }
 }

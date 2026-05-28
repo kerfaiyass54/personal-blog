@@ -13,11 +13,7 @@ public interface RecommendationRepository
             String email
     );
 
-    List<Recommendation> findByAuthorContainingIgnoreCase(
-            String author
-    );
-
-    List<Recommendation> findByPlatform(
-            String platform
+    List<Recommendation> findByUserId(
+            String userId
     );
 }

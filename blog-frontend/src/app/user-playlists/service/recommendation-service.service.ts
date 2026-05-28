@@ -1,98 +1,52 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import {
-  HttpClient
-} from '@angular/common/http';
 
-import {
-  Observable
-} from 'rxjs';
+
+// --------------------------------
+// SERVICE
+// --------------------------------
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class RecommendationService {
 
-  private baseUrl =
-    'http://localhost:8083/users';
+  private http = inject(HttpClient);
 
-  constructor(
-    private http: HttpClient
-  ) {}
+  private readonly API =
+    'http://localhost:8083/api/recommendations';
 
-  /* ========================= */
-  /* GENERATE RECOMMENDATIONS */
-  /* ========================= */
+  // --------------------------------
+  // GENERATE RECOMMENDATIONS
+  // POST /generate
+  // --------------------------------
 
   generateRecommendations(
-    email: string
-  ): Observable<string> {
+    request: any
+  ): Observable<any> {
 
     return this.http.post(
-
-      `${this.baseUrl}/${email}/recommendations`,
-
-      {},
-
+      `${this.API}/generate`,
+      request,
       {
         responseType: 'text'
       }
-
     );
   }
 
-  /* ========================= */
-  /* GET ALL */
-  /* ========================= */
+  // --------------------------------
+  // GET BY USER ID
+  // GET /user/{userId}
+  // --------------------------------
 
-  getRecommendations(
-    email: string
+  getRecommendationsByUserId(
+    email: any
   ): Observable<any[]> {
 
     return this.http.get<any[]>(
-
-      `${this.baseUrl}/${email}/recommendations`
-
+      `${this.API}/email/${email}`
     );
   }
-
-  /* ========================= */
-  /* FILTER BY AUTHOR */
-  /* ========================= */
-
-  getRecommendationsByAuthor(
-
-    email: string,
-
-    author: string
-
-  ): Observable<any[]> {
-
-    return this.http.get<any[]>(
-
-      `${this.baseUrl}/${email}/recommendations/author/${author}`
-
-    );
-  }
-
-  /* ========================= */
-  /* FILTER BY TYPE */
-  /* ========================= */
-
-  getRecommendationsByType(
-
-    email: string,
-
-    type: string
-
-  ): Observable<any[]> {
-
-    return this.http.get<any[]>(
-
-      `${this.baseUrl}/${email}/recommendations/type/${type}`
-
-    );
-  }
-
 }

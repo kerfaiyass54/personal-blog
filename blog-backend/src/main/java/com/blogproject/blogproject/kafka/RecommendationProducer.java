@@ -1,27 +1,29 @@
 package com.blogproject.blogproject.kafka;
 
-import com.blogproject.blogproject.dtos.RecommendationRequestDTO;
+import com.blogproject.blogproject.dtos.RecommendationRequest;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.core.KafkaTemplate;
 
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class RecommendationProducer {
 
-    private final KafkaTemplate<String, RecommendationRequestDTO> kafkaTemplate;
+    private final KafkaTemplate<String, RecommendationRequest> kafkaTemplate;
 
-
-    public void requestRecommendations(String userId) {
-
-        RecommendationRequestDTO dto =
-                new RecommendationRequestDTO(userId);
+    public void requestRecommendations(
+            RecommendationRequest request
+    ) {
 
         kafkaTemplate.send(
-                "recommendation_requests",
-                dto
+                "soundtrack-events",
+                request
+        );
+
+        System.out.println(
+                "Recommendation request sent."
         );
     }
 }

@@ -1,9 +1,14 @@
-from consumers.playlist_consumer import (
-    start_playlist_consumer
+from consumers.recommendation_consumer import (
+    RecommendationConsumer
 )
 
-print(
-    "Music AI Service Started..."
-)
 
-start_playlist_consumer()
+def main():
+
+    consumer = RecommendationConsumer()
+
+    consumer.start()
+
+
+if __name__ == "__main__":
+    main()
