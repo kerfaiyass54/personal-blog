@@ -1,1 +1,105 @@
-<p>add-skills works!</p>
+<div class="page">
+
+  <div class="card">
+
+    <div class="stepper">
+
+      <div
+        class="step"
+        [class.active]="currentStep >= 1">
+
+        <div class="circle">1</div>
+        <span>Skill</span>
+
+      </div>
+
+      <div
+        class="line"
+        [class.active]="currentStep >= 2">
+      </div>
+
+      <div
+        class="step"
+        [class.active]="currentStep >= 2">
+
+        <div class="circle">2</div>
+        <span>Field</span>
+
+      </div>
+
+    </div>
+
+    @if(currentStep === 1){
+
+      <div class="content">
+
+        <h2>Add New Skill</h2>
+
+        <input
+          type="text"
+          placeholder="Enter skill name..."
+          [(ngModel)]="skillName">
+
+        <button
+          class="primary-btn"
+          (click)="nextStep()">
+
+          Continue
+        </button>
+
+      </div>
+    }
+
+    @if(currentStep === 2){
+
+      <div class="content">
+
+        <h2>Select Field</h2>
+
+        <div class="chips">
+
+          @for(field of fieldSuggestions; track field){
+
+            <button
+              class="chip"
+              [class.selected]="selectedField === field"
+              (click)="selectedField = field">
+
+              {{ field }}
+
+            </button>
+          }
+
+        </div>
+
+        <input
+          type="text"
+          placeholder="Or type custom field..."
+          [(ngModel)]="selectedField">
+
+        <div class="actions">
+
+          <button
+            class="secondary-btn"
+            (click)="previousStep()">
+
+            Back
+
+          </button>
+
+          <button
+            class="primary-btn"
+            (click)="createSkill()">
+
+            Create Skill
+
+          </button>
+
+        </div>
+
+      </div>
+    }
+
+  </div>
+
+</div>

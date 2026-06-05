@@ -1,1 +1,50 @@
-<p>list-skills works!</p>
+<div class="page">
+
+  <div class="header-card">
+
+    <h1>Skills Library</h1>
+
+    <p>
+      Browse all registered skills in the system.
+    </p>
+
+  </div>
+
+  <div class="skills-container">
+
+    @for(skill of skills; track skill.id; let i = $index) {
+
+      <div
+        class="skill-card"
+        [style.animation-delay.ms]="i * 120">
+
+        <div class="emoji">
+          {{ getFieldEmoji(skill.field) }}
+        </div>
+
+        <div class="content">
+
+          <h3>{{ skill.name }}</h3>
+
+          <span class="field">
+            {{ skill.field }}
+          </span>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>
+
+
+<button
+  class="back-button"
+  (click)="goBack()">
+
+  ← Back to Dashboard
+
+</button>

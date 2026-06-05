@@ -1,33 +1,69 @@
-<div class="stats-container">
+<div class="dashboard">
 
-  @if (loading) {
-    <div class="loading">
-      Loading statistics...
-    </div>
-  }
+  <div class="hero-card">
 
-  @if (!loading && statistics) {
+    <h1>Skills Dashboard</h1>
 
-    <div class="cards-grid">
+    <p>
+      Track, analyze and manage your technical skills.
+    </p>
 
-      <!-- Total Skills Card -->
-      <div class="stat-card total-card">
-        <h3>Total Skills</h3>
-        <p>{{ statistics.totalSkills }}</p>
-      </div>
+  </div>
 
-      <!-- Field Cards -->
-      @for (field of statistics.skillsByField; track field.field) {
+  <div class="total-card">
 
-        <div class="stat-card">
-          <h3>{{ field.field }}</h3>
-          <p>{{ field.count }}</p>
+    <span class="label">
+      Total Skills
+    </span>
+
+    <span class="value">
+      {{ statistics?.totalSkills ?? 0 }}
+    </span>
+
+  </div>
+
+  <div class="top-fields-card">
+
+    <h2>Top Skill Fields</h2>
+
+    @for(field of topFields; track field.field; let i = $index) {
+
+      <div class="field-row">
+
+        <div class="field-name">
+
+          @if(i === 0){
+            🥇
+          }
+
+          @if(i === 1){
+            🥈
+          }
+
+          @if(i === 2){
+            🥉
+          }
+
+          {{ field.field }}
+
         </div>
 
-      }
+        <div class="field-count">
+          {{ field.count }}
+        </div>
 
-    </div>
+      </div>
 
-  }
+    }
+
+  </div>
+
+  <button
+    class="skills-button"
+    (click)="goToSkillsList()">
+
+    View All Skills
+
+  </button>
 
 </div>
