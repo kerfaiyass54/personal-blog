@@ -19,6 +19,8 @@ import {DashMusicComponent} from "./user-playlists/dash-music/dash-music.compone
 import {DashPlaylistComponent} from "./user-playlists/dash-playlist/dash-playlist.component";
 import {RecommendationService} from "./user-playlists/service/recommendation-service.service";
 import {RecommandationsPageComponent} from "./user-playlists/recommandations-page/recommandations-page.component";
+import {CheckSkillsComponent} from "./writer-ui/check-skills/check-skills.component";
+import {AddSkillsComponent} from "./writer-ui/add-skills/add-skills.component";
 
 
 
@@ -110,6 +112,18 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
         component: RecommandationsPageComponent
+      },
+      {
+        path: 'check-skills',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: CheckSkillsComponent
+      },
+      {
+        path: 'add-skills',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: AddSkillsComponent
       }
     ]
   },

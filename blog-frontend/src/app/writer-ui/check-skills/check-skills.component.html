@@ -1,0 +1,33 @@
+<div class="stats-container">
+
+  @if (loading) {
+    <div class="loading">
+      Loading statistics...
+    </div>
+  }
+
+  @if (!loading && statistics) {
+
+    <div class="cards-grid">
+
+      <!-- Total Skills Card -->
+      <div class="stat-card total-card">
+        <h3>Total Skills</h3>
+        <p>{{ statistics.totalSkills }}</p>
+      </div>
+
+      <!-- Field Cards -->
+      @for (field of statistics.skillsByField; track field.field) {
+
+        <div class="stat-card">
+          <h3>{{ field.field }}</h3>
+          <p>{{ field.count }}</p>
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>
