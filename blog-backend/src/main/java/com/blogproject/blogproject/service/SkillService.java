@@ -7,9 +7,11 @@ import com.blogproject.blogproject.dtos.SkillStatisticsDTO;
 import com.blogproject.blogproject.entities.Skill;
 import com.blogproject.blogproject.exceptions.SkillAlreadyExistsException;
 import com.blogproject.blogproject.exceptions.SkillNotFoundException;
+import com.blogproject.blogproject.kafka.SkillProducer;
 import com.blogproject.blogproject.mappers.SkillMapper;
 import com.blogproject.blogproject.repository.SkillRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,21 +23,24 @@ import java.util.stream.Collectors;
 public class SkillService {
 
     private final SkillRepository skillRepository;
+    private final SkillProducer skillProducer;
 
-    
+
     public SkillDTO createSkill(SkillCreateDTO dto) {
 
-        if (skillRepository.existsByNameIgnoreCase(dto.getName())) {
-            throw new SkillAlreadyExistsException(
-                    "Skill already exists: " + dto.getName()
-            );
-        }
+        Skill skill =
+                skillRepository.save(
+                        SkillMapper.toEntity(dto)
+                );
 
-        Skill skill = SkillMapper.toEntity(dto);
+        SkillDTO response =
+                SkillMapper.toDTO(skill);
 
-        Skill savedSkill = skillRepository.save(skill);
+        skillProducer.publishSkillCreated(
+                response
+        );
 
-        return SkillMapper.toDTO(savedSkill);
+        return response;
     }
 
     
