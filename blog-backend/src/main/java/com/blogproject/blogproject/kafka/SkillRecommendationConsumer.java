@@ -20,7 +20,7 @@ public class SkillRecommendationConsumer {
             topics = "recommendation-generated",
             groupId = "recommendation-group",
             containerFactory =
-                    "recommandationKafkaListenerContainerFactory"
+                    "kafkaListenerContainerFactorySkill"
     )
     public void consume(
             SkillRecommendationDTO dto
