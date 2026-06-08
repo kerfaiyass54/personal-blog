@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface SkillRecommendationRepository extends MongoRepository<SkillRecommendation,String> {
 
     Optional<SkillRecommendation> findBySkillName(String skillName);
+
+    Optional<SkillRecommendation> findTopByFieldOrderByIdDesc(String field);
 }
