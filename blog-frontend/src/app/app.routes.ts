@@ -22,6 +22,7 @@ import {RecommandationsPageComponent} from "./user-playlists/recommandations-pag
 import {CheckSkillsComponent} from "./writer-ui/check-skills/check-skills.component";
 import {AddSkillsComponent} from "./writer-ui/add-skills/add-skills.component";
 import {ListSkillsComponent} from "./writer-ui/list-skills/list-skills.component";
+import {SkillRecommandationComponent} from "./writer-ui/skill-recommandation/skill-recommandation.component";
 
 
 
@@ -130,6 +131,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
         component: ListSkillsComponent
+      },{
+        path: 'recommend-skills',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: SkillRecommandationComponent
       }
 
     ]

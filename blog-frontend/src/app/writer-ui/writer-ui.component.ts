@@ -48,7 +48,7 @@ export class WriterUiComponent implements OnInit{
   lessons:any[] = [{id: 0, title: 'Check',link: ''},
     {id: 1, title: 'Add',link: ''}];
   skills:any[] = [{id: 0, title: 'Check',link: '/writer/check-skills'},
-    {id: 1, title: 'Add',link: '/writer/add-skills'}];
+    {id: 1, title: 'Add',link: '/writer/add-skills'},{id: 2, title: 'Recommandation', link: '/writer/recommend-skills'}];
   articles:any[] = [{id: 0, title: 'Check',link: ''},
     {id: 1, title: 'Summaries',link: ''},
     {id: 2, title: 'Plans',link: ''}];
