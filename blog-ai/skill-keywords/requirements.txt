@@ -1,0 +1,11 @@
+pandas
+numpy
+networkx
+rapidfuzz
+sentence-transformers
+scikit-learn
+confluent-kafka
+fastapi
+uvicorn
+pydantic
+openpyxl
