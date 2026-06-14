@@ -1,1 +1,116 @@
-<p>skill-recommandation works!</p>
+<div class="recommendation-page">
+
+  <div class="page-header">
+    <h1>Skill Recommendations</h1>
+    <p>
+      Discover the most relevant skills to learn based on your selected field.
+    </p>
+  </div>
+
+  <div class="recommendation-card">
+
+    <div class="form-grid">
+
+      <div class="field-group">
+        <label for="field">Select a Field</label>
+
+        <select
+          id="field"
+          [(ngModel)]="selectedField"
+          class="field-select"
+        >
+          <option value="">
+            Choose a field...
+          </option>
+
+          @for (field of fieldSuggestions; track field) {
+            <option [value]="field">
+              {{ field }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <button
+        class="check-btn"
+        (click)="loadRecommendations()"
+        [disabled]="loading"
+      >
+        @if (!loading) {
+          <span>Check Recommendations</span>
+        } @else {
+          <span>Loading...</span>
+        }
+      </button>
+
+    </div>
+
+  </div>
+
+  @if (loading) {
+    <div class="results-card">
+
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+
+    </div>
+  }
+
+  @if (errorMessage && !loading) {
+    <div class="results-card">
+
+      <div class="error-message">
+        {{ errorMessage }}
+      </div>
+
+    </div>
+  }
+
+  @if (recommendations.length > 0 && !loading) {
+
+    <div class="results-card">
+
+      <h2>Recommended Skills</h2>
+
+      <div class="skills-grid">
+
+        @for (recommendation of recommendations; track recommendation) {
+
+          <div class="skill-item">
+            {{ recommendation }}
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+  @if (
+    !loading &&
+    !errorMessage &&
+    recommendations.length === 0
+    ) {
+
+    <div class="results-card">
+
+      <div class="empty-state">
+
+        <h3>No Recommendations Yet</h3>
+
+        <p>
+          Select a field above and click
+          <strong>Check Recommendations</strong>
+          to discover suggested skills.
+        </p>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

@@ -2,8 +2,6 @@ package com.blogproject.blogproject.entities;
 
 
 import com.blogproject.blogproject.enums.InterestType;
-import com.blogproject.blogproject.enums.UserRole;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

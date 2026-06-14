@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/recommendations")
+@RequestMapping("/api/skills-recommendations")
 @RequiredArgsConstructor
 public class SkillRecommendationController {
 

@@ -23,6 +23,9 @@ import {CheckSkillsComponent} from "./writer-ui/check-skills/check-skills.compon
 import {AddSkillsComponent} from "./writer-ui/add-skills/add-skills.component";
 import {ListSkillsComponent} from "./writer-ui/list-skills/list-skills.component";
 import {SkillRecommandationComponent} from "./writer-ui/skill-recommandation/skill-recommandation.component";
+import {CheckKeywordsComponent} from "./reader-ui/check-keywords/check-keywords.component";
+import {CheckRecommendedComponent} from "./reader-ui/check-recommended/check-recommended.component";
+import {CheckSkillsReaderComponent} from "./reader-ui/check-skills-reader/check-skills-reader.component";
 
 
 
@@ -201,10 +204,22 @@ export const routes: Routes = [
         component: DashPlaylistComponent
       },
       {
-        path: 'music-recommend',
+        path: 'check-skills',
         canActivate: [AuthGuard],
         data: { roles: ['READER']},
-        component: RecommandationsPageComponent
+        component: CheckSkillsReaderComponent
+      },
+      {
+        path: 'check-keywords',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: CheckKeywordsComponent
+      },
+      {
+        path: 'check-recommended',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: CheckRecommendedComponent
       }
 
     ]},

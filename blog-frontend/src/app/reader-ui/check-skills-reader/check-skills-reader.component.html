@@ -1,0 +1,73 @@
+<div class="page">
+
+  <div class="hero">
+    <h1>Explore Skills</h1>
+    <p>
+      Discover technologies and build your favorite collection.
+    </p>
+
+    <div class="search-wrapper">
+
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search skills..."
+        [value]="searchTerm"
+        (input)="onSearch($event)"
+      />
+
+      @if(searchTerm){
+        <button
+          class="clear-btn"
+          (click)="clearSearch()"
+        >
+          ✕
+        </button>
+      }
+
+    </div>
+  </div>
+
+  @if (loading) {
+
+    <div class="loader-wrapper">
+      <div class="loader"></div>
+    </div>
+
+  }
+
+  @if (!loading) {
+
+    <div class="skills-grid">
+
+      @for (skill of filteredSkills; track skill.id) {
+
+        <div class="skill-card row-card">
+
+          <div class="skill-info">
+
+            <h3>{{ skill.name }}</h3>
+
+            <div class="field-badge">
+              {{ skill.field }}
+            </div>
+
+          </div>
+
+          <button
+            class="favorite-btn"
+            [class.active]="isFavorite(skill.name)"
+            (click)="toggleFavorite(skill)"
+          >
+            {{ isFavorite(skill.name) ? '★' : '☆' }}
+          </button>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>
