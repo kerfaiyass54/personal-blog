@@ -1,73 +1,47 @@
-from fastapi import FastAPI
+from kafkaFiles.consumer import consume
 
-from services.data_loader import DataLoader
-from services.graph_builder import SkillGraphBuilder
-from services.cooccurrence_service import CoOccurrenceService
-from services.skill_repository import SkillRepository
-
+from agents.consumer_agent import ConsumerAgent
+from agents.preprocessing_agent import PreprocessingAgent
 from agents.keyword_agent import KeywordAgent
-from agents.description_agent import DescriptionAgent
+from agents.publisher_agent import PublisherAgent
 
-from kafka.producer import KafkaPublisher
-
-
-app = FastAPI()
-
-
-skills_df = DataLoader.load_skills()
-
-relations_df = DataLoader.load_skill_relations()
-
-graph_builder = SkillGraphBuilder()
-
-graph_builder.build(relations_df)
-
-repo = SkillRepository(
-    skills_df
-)
-
-co = CoOccurrenceService()
-
-job_posts = DataLoader.load_job_posts()
-
-co.counter = co.build(job_posts)
-
-keyword_agent = KeywordAgent(
-    graph_builder,
-    co
-)
-
-description_agent = DescriptionAgent()
-
-publisher = KafkaPublisher()
+consumer_agent = ConsumerAgent()
+preprocessing_agent = PreprocessingAgent()
+keyword_agent = KeywordAgent()
+publisher_agent = PublisherAgent()
 
 
-@app.get("/skill/{skill_name}")
-def enrich(skill_name: str):
+def start_service():
 
-    skill = repo.normalize(
-        skill_name
-    )
+    print("🚀 Skill Keyword Service Started")
+    print("📨 Waiting for skill messages...")
 
-    keywords = (
-        keyword_agent.generate(
-            skill
-        )
-    )
+    while True:
 
-    message = (
-        description_agent.generate(
-            skill,
-            keywords
-        )
-    )
+        try:
 
-    result = {
-        "skill": skill,
-        "keywords": keywords,
-        "message": message
-    }
+            for message in consume():
 
-    publisher.publish(result)
+                print(f"Received: {message}")
 
-    return result
+                message = consumer_agent.run(message)
+
+                skill = preprocessing_agent.run(
+                    message["skill"]
+                )
+
+                result = keyword_agent.run(skill)
+
+                publisher_agent.run(result)
+
+                print(f"Published: {result}")
+
+        except Exception as e:
+
+            print(f"Error: {e}")
+
+            print("Restarting consumer...")
+
+
+if __name__ == "__main__":
+    start_service()
