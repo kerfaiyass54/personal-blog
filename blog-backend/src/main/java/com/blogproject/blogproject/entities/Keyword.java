@@ -19,4 +19,6 @@ public class Keyword {
     @Id
     private String id;
     private String name;
+    private String skillName;
+
 }

@@ -34,9 +34,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/**").permitAll()
                         .requestMatchers("/reset/**").permitAll()
-                        .requestMatchers("/profiles/**").permitAll()
+                        .requestMatchers("/profiles/**").permitAll().requestMatchers("/api/keywords/**").permitAll()
                         .requestMatchers("/sessions/**").permitAll()
-                        .requestMatchers("/socials", "/socials/", "/socials/**").permitAll().requestMatchers("/users/**")
+                        .requestMatchers("/socials", "/socials/", "/socials/**").permitAll().requestMatchers("/users/**").permitAll().requestMatchers("/api/skill-keywords/**")
                         .permitAll().requestMatchers("/api/recommendations/**").permitAll().requestMatchers("/api/skills/**").permitAll().requestMatchers("/api/skills-recommendations/**").permitAll().requestMatchers("/api/favorites/**").permitAll()
                         .anyRequest().authenticated()
                 )

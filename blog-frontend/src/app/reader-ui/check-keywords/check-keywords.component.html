@@ -1,1 +1,164 @@
-<p>check-keywords works!</p>
+<div class="page">
+
+  <div class="glass-card">
+
+    <div class="header">
+
+      <h1>
+        Skill Keyword Explorer
+      </h1>
+
+      <p>
+        Select a skill and discover its related keywords
+      </p>
+
+    </div>
+
+    <div class="form-section">
+
+
+      <div class="select-wrapper">
+        <select
+          [(ngModel)]="selectedSkill"
+          (change)="onSkillChange()"
+        >
+          <option value="">
+            Choose a skill
+          </option>
+
+          @for (skill of skills; track skill.id) {
+
+            <option [value]="skill.name">
+              {{ skill.name }}
+            </option>
+
+          }
+        </select>
+      </div>
+
+      @if (
+        selectedSkill &&
+        generatedKeywords.length > 0
+        ) {
+
+        <div class="search-box">
+
+          <input
+            type="text"
+            placeholder="Search keywords..."
+            [(ngModel)]="keywordSearch"
+          />
+
+        </div>
+
+        <div class="existing-keywords">
+
+          <h3>
+            Existing Keywords
+          </h3>
+
+          <div class="chips">
+
+            @for (
+              keyword of generatedKeywords;
+              track keyword
+              ) {
+
+              <span class="chip existing">
+
+          {{ keyword }}
+
+        </span>
+
+            }
+
+          </div>
+
+        </div>
+
+      }
+
+      <button
+        (click)="checkKeywords()"
+        [disabled]="loading || !selectedSkill"
+      >
+
+        @if (!loading) {
+
+          <span>
+            Generate Keywords
+          </span>
+
+        } @else {
+
+          <span>
+            Processing...
+          </span>
+
+        }
+
+      </button>
+
+    </div>
+
+    @if (keywords.length > 0) {
+
+      <div class="keywords-section">
+
+        <h2>
+          Suggested Keywords
+        </h2>
+
+        <div class="chips">
+
+          @for (
+            keyword of keywords;
+            track keyword
+            ) {
+
+            <span class="chip">
+
+              {{ keyword }}
+
+            </span>
+
+          }
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>
+
+
+@if (keywords.length > 0) {
+
+  <div class="results-card">
+
+    <div class="keywords-section">
+
+      <h2>
+        Keywords for "{{ selectedSkill }}"
+      </h2>
+
+      <div class="chips">
+
+        @for (keyword of keywords; track keyword) {
+
+          <span class="chip">
+            {{ keyword }}
+          </span>
+
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
