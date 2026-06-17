@@ -26,6 +26,10 @@ import {SkillRecommandationComponent} from "./writer-ui/skill-recommandation/ski
 import {CheckKeywordsComponent} from "./reader-ui/check-keywords/check-keywords.component";
 import {CheckRecommendedComponent} from "./reader-ui/check-recommended/check-recommended.component";
 import {CheckSkillsReaderComponent} from "./reader-ui/check-skills-reader/check-skills-reader.component";
+import {CheckArticlesComponent} from "./writer-ui/check-articles/check-articles.component";
+import {AddArticleComponent} from "./writer-ui/add-article/add-article.component";
+import {UpdateArticleComponent} from "./writer-ui/update-article/update-article.component";
+import {ReadArticleComponent} from "./writer-ui/read-article/read-article.component";
 
 
 
@@ -139,6 +143,26 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
         component: SkillRecommandationComponent
+      },{
+        path: 'list-articles',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: CheckArticlesComponent
+      },{
+        path: 'add-article',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: AddArticleComponent
+      },{
+        path: 'update-article/:id',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: UpdateArticleComponent
+      },{
+        path: 'read-article/:id',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: ReadArticleComponent
       }
 
     ]

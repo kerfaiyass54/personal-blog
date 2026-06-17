@@ -1,0 +1,56 @@
+<div class="page">
+
+  @if(loading()){
+
+    <div class="loading-card">
+      <div class="spinner"></div>
+      <h2>Loading article...</h2>
+    </div>
+
+  }
+
+  @if(!loading() && article()){
+
+    <div class="article-container">
+
+      <button
+        class="back-btn"
+        (click)="goBack()">
+        ← Back
+      </button>
+
+      <div class="article-card">
+
+        <div class="header">
+
+          <h1>
+            {{ article()?.title }}
+          </h1>
+
+          <div class="meta">
+
+            <span>
+              Created:
+              {{ article()?.dateInsert | date:'medium' }}
+            </span>
+
+            <span>
+              Updated:
+              {{ article()?.dateUpdate | date:'medium' }}
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="content">
+          {{ article()?.content }}
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

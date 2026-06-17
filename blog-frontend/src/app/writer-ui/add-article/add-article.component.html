@@ -1,0 +1,47 @@
+<div class="container">
+
+  <div class="card">
+
+    <h1>Create Article</h1>
+
+    <div class="field">
+
+      <label>Title</label>
+
+      <input
+        type="text"
+        [value]="title()"
+        (input)="title.set($any($event.target).value)"
+        placeholder="Enter article title..."
+      />
+
+    </div>
+
+    <div class="field">
+
+      <label>Content</label>
+
+      <textarea
+        [value]="content()"
+        (input)="content.set($any($event.target).value)"
+        placeholder="Write your article here..."
+      ></textarea>
+
+    </div>
+
+    <button
+      class="submit-btn"
+      [disabled]="loading()"
+      (click)="submit()">
+
+      @if(!loading()) {
+        Create Article
+      } @else {
+        Creating...
+      }
+
+    </button>
+
+  </div>
+
+</div>

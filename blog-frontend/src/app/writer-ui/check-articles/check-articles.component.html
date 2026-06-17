@@ -1,0 +1,57 @@
+<div class="page">
+
+  <div class="header">
+    <h1>My Articles</h1>
+
+    <button
+      class="add-btn"
+      (click)="onAddArticle()">
+      + Add Article
+    </button>
+  </div>
+
+  <div class="articles-container">
+
+    @for(article of articles; track article.id){
+
+      <div class="article-card" (click)="onReadArticle(article.id)">
+
+        <div class="card-header">
+          <h2>{{ article.title }}</h2>
+        </div>
+
+        <div class="dates">
+          <span>
+            Created:
+            {{ article.dateInsert | date:'medium' }}
+          </span>
+
+          <span>
+            Updated:
+            {{ article.dateUpdate | date:'medium' }}
+          </span>
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="update-btn"
+            (click)="onUpdate(article)">
+            Update
+          </button>
+
+          <button
+            class="delete-btn"
+            (click)="onDelete(article.id)">
+            Delete
+          </button>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

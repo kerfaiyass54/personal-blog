@@ -1,0 +1,65 @@
+<div class="container">
+
+  @if(loading()) {
+
+    <div class="loading">
+      Loading article...
+    </div>
+
+  } @else {
+
+    <div class="card">
+
+      <div class="top-bar">
+
+        <button
+          class="back-btn"
+          (click)="goBack()">
+          ← Back
+        </button>
+
+      </div>
+
+      <h1>Update Article</h1>
+
+      <div class="field">
+
+        <label>Title</label>
+
+        <input
+          type="text"
+          [value]="title()"
+          (input)="title.set($any($event.target).value)"
+        />
+
+      </div>
+
+      <div class="field">
+
+        <label>Content</label>
+
+        <textarea
+          [value]="content()"
+          (input)="content.set($any($event.target).value)">
+        </textarea>
+
+      </div>
+
+      <button
+        class="submit-btn"
+        [disabled]="saving()"
+        (click)="update()">
+
+        @if(!saving()) {
+          Update Article
+        } @else {
+          Updating...
+        }
+
+      </button>
+
+    </div>
+
+  }
+
+</div>
