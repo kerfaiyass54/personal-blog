@@ -35,7 +35,7 @@ public class SecurityConfig {
                         .requestMatchers("/user/**").permitAll()
                         .requestMatchers("/reset/**").permitAll().requestMatchers("/api/articles/**").permitAll()
                         .requestMatchers("/profiles/**").permitAll().requestMatchers("/api/keywords/**").permitAll()
-                        .requestMatchers("/sessions/**").permitAll()
+                        .requestMatchers("/sessions/**").permitAll().requestMatchers("/api/plans/**").permitAll()
                         .requestMatchers("/socials", "/socials/", "/socials/**").permitAll().requestMatchers("/users/**").permitAll().requestMatchers("/api/skill-keywords/**")
                         .permitAll().requestMatchers("/api/recommendations/**").permitAll().requestMatchers("/api/skills/**").permitAll().requestMatchers("/api/skills-recommendations/**").permitAll().requestMatchers("/api/favorites/**").permitAll()
                         .anyRequest().authenticated()
