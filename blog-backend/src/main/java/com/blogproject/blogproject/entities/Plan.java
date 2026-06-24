@@ -1,26 +1,32 @@
 package com.blogproject.blogproject.entities;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.util.List;
 
 @Document(collection = "plans")
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
-@Getter
-@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Plan {
 
     @Id
     private String id;
-    private String content;
-    private Date date;
+
+    private String title;
+
+    private String articleType;
+
+    private String targetAudience;
+
+    private String searchIntent;
+
+    private Integer estimatedWordCount;
+
+    private List<String> seoKeywords;
+
+    private List<OutlineSection> outline;
 }
