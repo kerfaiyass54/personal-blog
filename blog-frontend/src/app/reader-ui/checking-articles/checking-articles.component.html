@@ -1,0 +1,141 @@
+<div class="page">
+
+  <div class="header">
+
+    <h1>Explore Articles</h1>
+
+    <button
+      class="saved-btn"
+      data-bs-toggle="modal"
+      data-bs-target="#savedModal"
+      (click)="loadSavedArticles()">
+
+      Saved Articles
+    </button>
+
+  </div>
+
+  <div class="articles-container">
+
+    @for(article of articles(); track article.id){
+
+      <div class="article-card">
+
+        <h2>
+          {{ article.title }}
+        </h2>
+
+        <div class="dates">
+
+          <span>
+            Created:
+            {{ article.dateInsert | date:'mediumDate' }}
+          </span>
+
+          <span>
+            Updated:
+            {{ article.dateUpdate | date:'mediumDate' }}
+          </span>
+
+        </div>
+
+        <div class="actions">
+
+          <button
+            class="read-btn"
+            (click)="readArticle(article.id)">
+            Read
+          </button>
+
+          <button
+            class="save-btn"
+            (click)="saveArticle(article.id)">
+            Save
+          </button>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>
+
+<!-- Modal -->
+
+<div
+  class="modal fade"
+  id="savedModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1">
+
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h1 class="modal-title fs-5">
+          Saved Articles
+        </h1>
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal">
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <div class="saved-container">
+
+          @if(savedArticles().length === 0){
+
+            <p>No saved articles.</p>
+
+          }
+
+          @for(saved of savedArticles(); track saved.id){
+
+            <div class="saved-card">
+
+              <div>
+                Article ID:
+                {{ saved.articleId }}
+              </div>
+
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="removeSavedArticle(saved.articleId)">
+                Remove
+              </button>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal">
+          Close
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

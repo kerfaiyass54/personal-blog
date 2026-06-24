@@ -1,0 +1,83 @@
+<div class="page">
+
+  <div class="header">
+    <h1>Saved Articles</h1>
+  </div>
+
+  @if(loading()){
+
+    <div class="loading">
+      Loading saved articles...
+    </div>
+
+  } @else {
+
+    @if(savedArticles().length === 0){
+
+      <div class="empty-state">
+
+        <h2>No Saved Articles</h2>
+
+        <p>
+          Articles you save will appear here.
+        </p>
+
+      </div>
+
+    } @else {
+
+      <div class="articles-container">
+
+        @for(article of savedArticles(); track article.id){
+
+          <div class="article-card">
+
+            <div class="card-header">
+
+              <h2>
+                {{ article.title }}
+              </h2>
+
+            </div>
+
+            <div class="dates">
+
+              <span>
+                Created:
+                {{ article.dateInsert | date:'mediumDate' }}
+              </span>
+
+              <span>
+                Updated:
+                {{ article.dateUpdate | date:'mediumDate' }}
+              </span>
+
+            </div>
+
+            <div class="actions">
+
+              <button
+                class="read-btn"
+                (click)="readArticle(article.id)">
+                Read
+              </button>
+
+              <button
+                class="remove-btn"
+                (click)="removeArticle(article.id)">
+                Remove
+              </button>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  }
+
+</div>

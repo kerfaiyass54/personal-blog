@@ -1,1 +1,246 @@
-<p>plan-generate works!</p>
+<div class="page">
+
+  <div class="generator-card">
+
+    <div class="card-header">
+
+      <h1>
+        Generate AI Content Plan
+      </h1>
+
+      <p>
+        Turn a simple title into a
+        professional article outline.
+      </p>
+
+    </div>
+
+    <div class="input-group">
+
+      <label>
+        Article Title
+      </label>
+
+      <input
+        type="text"
+        [ngModel]="title()"
+        (ngModelChange)="title.set($event)"
+        placeholder="Example: How to Learn Python Fast"
+      />
+
+    </div>
+
+    <button
+      class="generate-btn"
+      [disabled]="loading()"
+      (click)="generatePlan()"
+    >
+
+      @if(loading()) {
+
+        <span class="spinner"></span>
+        Generating...
+
+      } @else {
+
+        Generate Plan
+
+      }
+
+    </button>
+
+  </div>
+
+  @if(generatedPlan()) {
+
+    <div class="preview-card">
+
+      <div class="preview-header">
+
+        <h2>
+          {{ title() }}
+        </h2>
+
+        <span>
+        {{ generatedPlan()?.article_type }}
+      </span>
+
+      </div>
+
+      <div class="quick-info">
+
+        <div class="info-box">
+          <small>Words</small>
+          <strong>
+            {{
+              generatedPlan()
+                ?.estimated_word_count
+            }}
+          </strong>
+        </div>
+
+        <div class="info-box">
+          <small>Sections</small>
+          <strong>
+            {{
+              generatedPlan()
+                ?.outline?.length
+            }}
+          </strong>
+        </div>
+
+      </div>
+
+      <div class="outline-list">
+
+        @for(
+          section of generatedPlan()?.outline;
+          track section.heading
+          ) {
+
+          <div class="outline-item">
+
+            <h4>
+              {{ section.heading }}
+            </h4>
+
+            <ul>
+
+              @for(
+                idea of section.ideas.slice(0,3);
+                track idea
+                ) {
+
+                <li>
+                  {{ idea }}
+                </li>
+
+              }
+
+            </ul>
+
+          </div>
+
+        }
+
+      </div>
+
+      <div class="actions">
+
+        <button
+          class="cancel-btn"
+          data-bs-toggle="modal"
+          data-bs-target="#backModal"
+        >
+          Cancel
+        </button>
+
+        <button
+          class="save-btn"
+          data-bs-toggle="modal"
+          data-bs-target="#saveModal"
+        >
+          Save Plan
+        </button>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>
+
+<!-- Save Modal -->
+
+<div
+  class="modal fade"
+  id="saveModal"
+  tabindex="-1"
+>
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5>
+          Save Plan
+        </h5>
+      </div>
+
+      <div class="modal-body">
+
+        Save this generated plan
+        to your workspace?
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-light"
+          data-bs-dismiss="modal"
+        >
+          Cancel
+        </button>
+
+        <button
+          class="btn btn-primary"
+          (click)="savePlan()"
+          data-bs-dismiss="modal"
+        >
+          Save
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- Back Modal -->
+
+<div
+  class="modal fade"
+  id="backModal"
+  tabindex="-1"
+>
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5>
+          Discard Changes
+        </h5>
+      </div>
+
+      <div class="modal-body">
+
+        Generated content will be lost.
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-light"
+          data-bs-dismiss="modal"
+        >
+          Stay
+        </button>
+
+        <button
+          class="btn btn-danger"
+          onclick="history.back()"
+        >
+          Leave
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>

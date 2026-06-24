@@ -1,0 +1,166 @@
+:host {
+  display: block;
+  padding: 2rem;
+}
+
+.page {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.header h1 {
+
+  font-size: 3rem;
+  font-weight: 800;
+
+  margin: 0;
+
+  background: linear-gradient(
+      135deg,
+      #6366f1,
+      #8b5cf6
+  );
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.loading {
+
+  text-align: center;
+
+  font-size: 1.2rem;
+
+  padding: 4rem;
+}
+
+.empty-state {
+
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 4rem;
+
+  text-align: center;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.08);
+}
+
+.empty-state h2 {
+
+  margin-bottom: 1rem;
+
+  font-weight: 700;
+}
+
+.empty-state p {
+  color: #64748b;
+}
+
+.articles-container {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 1.5rem;
+}
+
+.article-card {
+
+  background: white;
+
+  border-radius: 24px;
+
+  padding: 1.5rem;
+
+  box-shadow:
+    0 15px 35px rgba(0,0,0,.08);
+
+  transition: all .3s ease;
+}
+
+.article-card:hover {
+
+  transform: translateY(-4px);
+
+  box-shadow:
+    0 20px 45px rgba(0,0,0,.12);
+}
+
+.card-header h2 {
+
+  margin: 0;
+
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.dates {
+
+  margin-top: 1rem;
+
+  display: flex;
+
+  gap: 2rem;
+
+  color: #64748b;
+
+  flex-wrap: wrap;
+}
+
+.actions {
+
+  margin-top: 1.5rem;
+
+  display: flex;
+
+  gap: 1rem;
+}
+
+.read-btn,
+.remove-btn {
+
+  border: none;
+
+  padding: .9rem 1.3rem;
+
+  border-radius: 12px;
+
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: .3s;
+}
+
+.read-btn {
+
+  background: linear-gradient(
+      135deg,
+      #3b82f6,
+      #2563eb
+  );
+}
+
+.remove-btn {
+
+  background: linear-gradient(
+      135deg,
+      #ef4444,
+      #dc2626
+  );
+}
+
+.read-btn:hover,
+.remove-btn:hover {
+
+  transform: translateY(-2px);
+}

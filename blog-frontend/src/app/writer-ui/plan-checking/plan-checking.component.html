@@ -1,1 +1,249 @@
-<p>plan-checking works!</p>
+<div class="page">
+
+  <div class="header">
+    <h1>Content Plans</h1>
+    <p>
+      Explore all generated AI article plans
+    </p>
+    <div class="header-actions">
+
+      <button
+        class="generate-btn"
+        (click)="goToGeneratePlan()"
+      >
+        <i class="bi bi-stars"></i>
+        Generate New Plan
+      </button>
+
+    </div>
+  </div>
+
+  @if (loading()) {
+
+    <div class="loading-wrapper">
+
+      <div class="loader"></div>
+
+      <span>Loading plans...</span>
+
+    </div>
+
+  } @else {
+
+    @if (plans().length === 0) {
+
+      <div class="empty-state">
+
+        <div class="empty-icon">
+          ✨
+        </div>
+
+        <h2>No Plans Yet</h2>
+
+        <p>
+          Generate your first AI content plan.
+        </p>
+
+      </div>
+
+    } @else {
+
+      <div class="plans-grid">
+
+        @for (
+          plan of plans();
+          track trackById($index, plan)
+          ) {
+
+          <div
+            class="plan-card"
+            (click)="viewPlan(plan)"
+            data-bs-toggle="modal"
+            data-bs-target="#planPreviewModal"
+          >
+
+            <div class="card-glow"></div>
+
+            <div class="card-top">
+
+              <span class="badge">
+                {{ plan.articleType }}
+              </span>
+
+            </div>
+
+            <h2>
+              {{ plan.title }}
+            </h2>
+
+            <div class="stats">
+
+              <div class="stat">
+
+                <span class="label">
+                  Words
+                </span>
+
+                <span class="value">
+                  {{ plan.estimatedWordCount }}
+                </span>
+
+              </div>
+
+              <div class="stat">
+
+                <span class="label">
+                  Sections
+                </span>
+
+                <span class="value">
+                  {{ plan.sectionsCount }}
+                </span>
+
+              </div>
+
+            </div>
+
+            <button class="view-btn">
+              View Plan
+            </button>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  }
+
+</div>
+
+<div
+  class="modal fade"
+  id="planPreviewModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
+
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+
+    <div class="modal-content modern-modal">
+
+      <div class="modal-header border-0">
+
+        <div>
+
+          <h3 class="modal-title">
+            {{ selectedPlan()?.title }}
+          </h3>
+
+          <small>
+            {{ selectedPlan()?.articleType }}
+          </small>
+
+        </div>
+
+        <button
+          type="button"
+          class="btn-close btn-close-white"
+          data-bs-dismiss="modal"
+        ></button>
+
+      </div>
+
+      <div class="modal-body">
+
+        @if(selectedPlan()) {
+
+          <div class="modal-stats">
+
+            <div class="stat-box">
+
+              <span>Words</span>
+
+              <strong>
+                {{ selectedPlan()?.estimatedWordCount }}
+              </strong>
+
+            </div>
+
+            <div class="stat-box">
+
+              <span>Sections</span>
+
+              <strong>
+                {{ selectedPlan()?.outline?.length }}
+              </strong>
+
+            </div>
+
+          </div>
+
+          <div class="outline-preview">
+
+            @for(
+              section of selectedPlan()?.outline;
+              track section.heading
+              ) {
+
+              <div class="outline-card">
+
+                <h5>
+                  {{ section.heading }}
+                </h5>
+
+                <p>
+                  {{ section.purpose }}
+                </p>
+
+                <ul>
+
+                  @for(
+                    idea of section.ideas;
+                    track idea
+                    ) {
+
+                    <li>
+                      {{ idea }}
+                    </li>
+
+                  }
+
+                </ul>
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+      <div class="modal-footer border-0">
+
+        <button
+          class="btn btn-outline-light"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+
+        <button
+          class="btn btn-success"
+          (click)="exportPlan()"
+        >
+          <i class="bi bi-download me-2"></i>
+          Export TXT
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -55,7 +55,9 @@ export class PlanService {
   generatePlan(title: string): Observable<GeneratedPlan> {
     return this.http.post<GeneratedPlan>(
       `${this.AI_API}/generate-plan`,
-      { title }
+      {
+        "title": title
+      }
     );
   }
 

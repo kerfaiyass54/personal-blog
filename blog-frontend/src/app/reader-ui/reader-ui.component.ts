@@ -82,7 +82,7 @@ this.loadPage();      });
     {id: 2, title: 'Quiz',link: ''}];
   skills:any[] = [{id: 0, title: 'Check',link: 'check-skills'},
     {id: 1, title: 'Keywords',link: 'check-keywords'}];
-  articles:any[] = [{id: 0, title: 'Check',link: ''},
+  articles:any[] = [{id: 0, title: 'Check',link: 'check-articles'},
     {id: 1, title: 'Summaries',link: ''}];
 
   loadPage(){

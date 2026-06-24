@@ -30,6 +30,11 @@ import {CheckArticlesComponent} from "./writer-ui/check-articles/check-articles.
 import {AddArticleComponent} from "./writer-ui/add-article/add-article.component";
 import {UpdateArticleComponent} from "./writer-ui/update-article/update-article.component";
 import {ReadArticleComponent} from "./writer-ui/read-article/read-article.component";
+import {SavedArticlesComponent} from "./reader-ui/saved-articles/saved-articles.component";
+import {ReadingArticleComponent} from "./reader-ui/reading-article/reading-article.component";
+import {CheckingArticlesComponent} from "./reader-ui/checking-articles/checking-articles.component";
+import {PlanCheckingComponent} from "./writer-ui/plan-checking/plan-checking.component";
+import {PlanGenerateComponent} from "./writer-ui/plan-generate/plan-generate.component";
 
 
 
@@ -163,6 +168,16 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
         component: ReadArticleComponent
+      },{
+        path: 'check-plans',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: PlanCheckingComponent
+      },{
+        path: 'generate-plan',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: PlanGenerateComponent
       }
 
     ]
@@ -244,7 +259,25 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['READER']},
         component: CheckRecommendedComponent
-      }
+      },
+      {
+        path: 'check-articles',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: CheckingArticlesComponent
+      },
+      {
+        path: 'saved-articles',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: SavedArticlesComponent
+      },{
+        path: 'read-article/:id',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: ReadingArticleComponent
+      },
+
 
     ]},
   { path: '**', component: ErrorNotFoundComponent }
