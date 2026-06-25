@@ -42,6 +42,136 @@
 
     </button>
 
+    <button
+      class="submit-btn mb-3"
+      [disabled]="reviewLoading()"
+      (click)="correctArticle()"
+    >
+
+      @if(!reviewLoading()) {
+        Correct Article
+      } @else {
+        Reviewing...
+      }
+
+    </button>
+
+  </div>
+
+</div>
+
+
+<div
+  class="modal fade"
+  id="correctionsModal"
+  tabindex="-1"
+  aria-hidden="true"
+>
+
+  <div
+    class="modal-dialog modal-xl modal-dialog-scrollable"
+  >
+
+    <div class="modal-content">
+
+      <div class="modal-header">
+
+        <h5 class="modal-title">
+          Article Corrections
+        </h5>
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+        ></button>
+
+      </div>
+
+      <div class="modal-body">
+
+        @if(mistakes().length === 0) {
+
+          <div class="alert alert-success">
+
+            No mistakes found 🎉
+
+          </div>
+
+        } @else {
+
+          @for(
+            mistake of mistakes();
+            track $index
+            ) {
+
+            <div
+              class="card mb-3"
+            >
+
+              <div class="card-body">
+
+                <h6>
+                  Original
+                </h6>
+
+                <p>
+                  {{ mistake.original }}
+                </p>
+
+                <h6>
+                  Correction
+                </h6>
+
+                <p>
+                  {{ mistake.correction }}
+                </p>
+
+                <h6>
+                  Explanation
+                </h6>
+
+                <p>
+                  {{ mistake.explanation }}
+                </p>
+
+                <button
+                  class="btn btn-outline-primary"
+                  (click)="applyCorrection(mistake)"
+                >
+                  Apply This Correction
+                </button>
+
+              </div>
+
+            </div>
+
+          }
+
+        }
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button
+          class="btn btn-success"
+          (click)="applyAllCorrections()"
+        >
+          Apply All
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+
+      </div>
+
+    </div>
+
   </div>
 
 </div>
