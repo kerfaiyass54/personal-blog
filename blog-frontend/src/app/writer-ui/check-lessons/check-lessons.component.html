@@ -1,0 +1,59 @@
+<div class="lesson-dashboard">
+
+  <div class="dashboard-card">
+
+    <div class="dashboard-header">
+      <h2>📚 Available Lessons</h2>
+      <span>{{ lessons.length }} lessons</span>
+    </div>
+
+    <div class="lesson-list">
+
+      @for (lesson of lessons; track lesson.id; let i = $index) {
+
+        <div
+          class="lesson-card"
+          [class.card-purple]="i % 4 === 0"
+          [class.card-blue]="i % 4 === 1"
+          [class.card-orange]="i % 4 === 2"
+          [class.card-pink]="i % 4 === 3">
+
+          <div class="card-top">
+
+            <div class="lesson-icon">
+              📖
+            </div>
+
+            <button class="read-btn">
+              Read Lesson
+            </button>
+
+          </div>
+
+          <div class="card-body">
+
+            <h3>{{ lesson.title }}</h3>
+
+            <div class="lesson-meta">
+              <span>ID {{ lesson.id }}</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      }
+
+      @if (lessons.length === 0) {
+
+        <div class="empty-card">
+          <h3>No lessons available</h3>
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

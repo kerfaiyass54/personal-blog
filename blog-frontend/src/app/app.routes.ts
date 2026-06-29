@@ -35,6 +35,11 @@ import {ReadingArticleComponent} from "./reader-ui/reading-article/reading-artic
 import {CheckingArticlesComponent} from "./reader-ui/checking-articles/checking-articles.component";
 import {PlanCheckingComponent} from "./writer-ui/plan-checking/plan-checking.component";
 import {PlanGenerateComponent} from "./writer-ui/plan-generate/plan-generate.component";
+import {AddLessonsComponent} from "./writer-ui/add-lessons/add-lessons.component";
+import {LessonDetailsComponent} from "./writer-ui/lesson-details/lesson-details.component";
+import {CheckLessonsToReadComponent} from "./reader-ui/check-lessons-to-read/check-lessons-to-read.component";
+import {ReadLessonComponent} from "./reader-ui/read-lesson/read-lesson.component";
+import {CheckLessonsComponent} from "./writer-ui/check-lessons/check-lessons.component";
 
 
 
@@ -178,6 +183,21 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
         component: PlanGenerateComponent
+      },{
+        path: 'check-lessons',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: CheckLessonsComponent
+      },{
+        path: 'add-lessons',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: AddLessonsComponent
+      },{
+        path: 'lesson-details/:id',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: LessonDetailsComponent
       }
 
     ]
@@ -277,6 +297,17 @@ export const routes: Routes = [
         data: { roles: ['READER']},
         component: ReadingArticleComponent
       },
+      {
+        path: 'check-lessons',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: CheckLessonsToReadComponent
+      },{
+        path: 'read-lesson/:id',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: ReadLessonComponent
+      }
 
 
     ]},

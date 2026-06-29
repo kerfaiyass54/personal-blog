@@ -1,0 +1,77 @@
+<div class="add-lesson-page">
+
+  <div class="lesson-card">
+
+    <div class="card-header">
+
+      <div class="icon-container">
+        ✨
+      </div>
+
+      <div>
+        <h1>Create New Lesson</h1>
+        <p>Share knowledge with your readers.</p>
+      </div>
+
+    </div>
+
+    <form
+      class="lesson-form"
+      (ngSubmit)="createLesson()">
+
+      <div class="field">
+
+        <label>
+          Lesson Title
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="lesson.title"
+          name="title"
+          placeholder="Enter lesson title..." />
+
+      </div>
+
+      <div class="field">
+
+        <label>
+          Lesson Content
+        </label>
+
+        <textarea
+          rows="8"
+          [(ngModel)]="lesson.content"
+          name="content"
+          placeholder="Write your lesson content...">
+        </textarea>
+
+      </div>
+
+      <button
+        type="submit"
+        [disabled]="loading">
+
+        @if (!loading) {
+          <span>🚀 Publish Lesson</span>
+        }
+
+        @if (loading) {
+          <span>Creating...</span>
+        }
+
+      </button>
+
+    </form>
+
+    @if (successMessage) {
+
+      <div class="success-box">
+        {{ successMessage }}
+      </div>
+
+    }
+
+  </div>
+
+</div>

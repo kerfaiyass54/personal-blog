@@ -1,0 +1,73 @@
+<div class="lesson-page">
+
+  @if (loading) {
+
+    <div class="loading-card">
+
+      <div class="loader"></div>
+
+      <h3>Loading lesson...</h3>
+
+    </div>
+
+  }
+
+  @if (error) {
+
+    <div class="error-card">
+
+      <div class="emoji">⚠️</div>
+
+      <h2>Lesson not found</h2>
+
+      <p>The requested lesson could not be loaded.</p>
+
+    </div>
+
+  }
+
+  @if (!loading && lesson) {
+
+    <div class="lesson-container">
+
+      <div class="lesson-header">
+
+        <div class="header-icon">
+          📚
+        </div>
+
+        <div>
+
+          <span class="badge">
+            Lesson
+          </span>
+
+          <h1>
+            {{ lesson.title }}
+          </h1>
+
+          <div class="meta">
+
+            <span>
+              {{ formatDate(lesson.dateInsert) }}
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="lesson-content">
+
+        <p>
+          {{ lesson.content }}
+        </p>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>
