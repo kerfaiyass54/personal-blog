@@ -1,1 +1,84 @@
-<p>read-lesson works!</p>
+<div class="reader-container">
+
+  @if (loading) {
+
+    <div class="loading-card">
+
+      <div class="loader"></div>
+
+      <h2>Loading lesson...</h2>
+
+    </div>
+
+  }
+
+  @if (!loading && lesson) {
+
+    <div class="lesson-card">
+
+      <div class="lesson-header">
+
+        <div class="lesson-badge">
+          📚 Reading Mode
+        </div>
+
+        <h1>
+          {{ lesson.title }}
+        </h1>
+
+      </div>
+
+      <div class="progress-card">
+
+        <div class="progress-top">
+
+          <span>
+            Reading Progress
+          </span>
+
+          <strong>
+            {{ progress }}%
+          </strong>
+
+        </div>
+
+        <input
+          type="range"
+          min="0"
+          max="100"
+          [(ngModel)]="progress"
+          (change)="updateProgress()">
+
+        <div class="progress-buttons">
+
+          <button
+            class="save-btn"
+            (click)="updateProgress()">
+
+            Save Progress
+
+          </button>
+
+          <button
+            class="complete-btn"
+            (click)="markCompleted()">
+
+            Mark Completed
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="lesson-content">
+
+        {{ lesson.content }}
+
+      </div>
+
+    </div>
+
+  }
+
+</div>
