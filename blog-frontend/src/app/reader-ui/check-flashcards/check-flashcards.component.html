@@ -1,0 +1,150 @@
+<div class="page">
+
+  <div class="header">
+
+    <div>
+
+      <div class="badge">
+        AI FLASHCARDS
+      </div>
+
+      <h1>
+        Flashcards Library
+      </h1>
+
+      <p>
+        Browse generated flashcards
+      </p>
+
+    </div>
+
+    <div class="counter">
+
+      {{ flashcards.length }}
+
+      <span>
+        Cards
+      </span>
+
+    </div>
+
+  </div>
+
+  @if (loading) {
+
+    <div class="loading-container">
+
+      <div class="loader"></div>
+
+      <h3>
+        Loading flashcards...
+      </h3>
+
+    </div>
+
+  }
+
+  @if (!loading) {
+
+    <div class="cards-grid">
+
+      @for (
+        card of flashcards;
+        track card.id
+        ) {
+
+        <div
+          class="flashcard-preview"
+          (click)="openCard(card)">
+
+          <div class="flashcard-glow"></div>
+
+          <div class="lesson-title">
+
+            {{ card.lessonTitle }}
+
+          </div>
+
+          <div class="keyword">
+
+            {{ card.term }}
+
+          </div>
+
+          <div class="open-text">
+
+            Click to view
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>
+
+<div
+  class="modal fade"
+  id="flashcardModal"
+  tabindex="-1">
+
+  <div
+    class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content modern-modal">
+
+      @if (selectedFlashcard) {
+
+        <div class="modal-header border-0">
+
+          <h4>
+
+            {{ selectedFlashcard.lessonTitle }}
+
+          </h4>
+
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal">
+          </button>
+
+        </div>
+
+        <div class="modal-body">
+
+          <div class="flashcard-full">
+
+            <div class="flashcard-type">
+
+              {{ selectedFlashcard.type }}
+
+            </div>
+
+            <div class="flashcard-key">
+
+              {{ selectedFlashcard.term }}
+
+            </div>
+
+            <div class="flashcard-value">
+
+              {{ selectedFlashcard.value }}
+
+            </div>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

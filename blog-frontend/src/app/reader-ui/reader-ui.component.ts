@@ -78,7 +78,7 @@ this.loadPage();      });
   }
 
   lessons:any[] = [{id: 0, title: 'Check',link: '/reader/check-lessons'},
-    {id: 1, title: 'Quiz',link: ''}];
+    {id: 1, title: 'Quiz',link: ''},{id: 2, title: 'Flashcards',link: '/reader/check-flashcards'}];
   skills:any[] = [{id: 0, title: 'Check',link: 'check-skills'},
     {id: 1, title: 'Keywords',link: 'check-keywords'}];
   articles:any[] = [{id: 0, title: 'Check',link: 'check-articles'},

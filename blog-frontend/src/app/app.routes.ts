@@ -40,6 +40,7 @@ import {LessonDetailsComponent} from "./writer-ui/lesson-details/lesson-details.
 import {CheckLessonsToReadComponent} from "./reader-ui/check-lessons-to-read/check-lessons-to-read.component";
 import {ReadLessonComponent} from "./reader-ui/read-lesson/read-lesson.component";
 import {CheckLessonsComponent} from "./writer-ui/check-lessons/check-lessons.component";
+import {CheckFlashcardsComponent} from "./writer-ui/check-flashcards/check-flashcards.component";
 
 
 
@@ -189,6 +190,11 @@ export const routes: Routes = [
         data: { roles: ['WRITER']},
         component: CheckLessonsComponent
       },{
+        path: 'check-flashcards',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: CheckFlashcardsComponent
+      },{
         path: 'add-lessons',
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
@@ -307,6 +313,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['READER']},
         component: ReadLessonComponent
+      },{
+        path: 'check-flashcards',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: CheckFlashcardsComponent
       }
 
 
