@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+google-genai
+kafka-python
+pydantic
+pydantic-settings
+python-dotenv
