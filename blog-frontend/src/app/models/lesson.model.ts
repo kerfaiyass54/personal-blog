@@ -14,3 +14,13 @@ export interface UpdateLessonRequest {
   title: string;
   content: string;
 }
+
+export interface Lesson {
+  id: string;
+
+  title: string;
+
+  content: string;
+
+  dateInsert?: string;
+}

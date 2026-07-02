@@ -136,6 +136,182 @@
   white-space: pre-wrap;
 }
 
+.actions {
+
+  display: flex;
+
+  justify-content: center;
+
+  margin-top: 30px;
+}
+
+.generate-btn {
+
+  border: none;
+
+  padding: 16px 30px;
+
+  border-radius: 18px;
+
+  color: white;
+
+  font-weight: 700;
+
+  background:
+    linear-gradient(
+        135deg,
+        #7f39fb,
+        #5e60ff
+    );
+
+  cursor: pointer;
+
+  transition: .35s;
+
+  box-shadow:
+    0 15px 30px
+    rgba(127,57,251,.35);
+}
+
+.generate-btn:hover {
+
+  transform:
+    translateY(-4px)
+    scale(1.02);
+
+  box-shadow:
+    0 20px 40px
+    rgba(127,57,251,.45);
+}
+
+.generate-btn:disabled {
+  opacity: .6;
+}
+
+.flashcard-modal {
+
+  border: none;
+
+  border-radius: 30px;
+
+  overflow: hidden;
+
+  background:
+    rgba(255,255,255,.95);
+
+  backdrop-filter:
+    blur(18px);
+
+  box-shadow:
+    0 40px 80px rgba(0,0,0,.2);
+}
+
+.flashcards-scroll {
+
+  max-height: 350px;
+
+  overflow-y: auto;
+
+  padding-right: 8px;
+}
+
+.flashcard-card {
+
+  padding: 20px;
+
+  margin-bottom: 15px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+        135deg,
+        rgba(127,57,251,.08),
+        rgba(94,96,255,.08)
+    );
+
+  border:
+    1px solid
+    rgba(127,57,251,.12);
+
+  animation:
+    cardAppear .4s ease;
+
+  transition: .3s;
+}
+
+.flashcard-card:hover {
+
+  transform:
+    translateY(-4px);
+
+  box-shadow:
+    0 15px 25px rgba(0,0,0,.08);
+}
+
+.card-type {
+
+  color: #7f39fb;
+
+  font-size: .75rem;
+
+  font-weight: 700;
+
+  text-transform: uppercase;
+
+  margin-bottom: 8px;
+}
+
+.card-term {
+
+  font-size: 1.15rem;
+
+  font-weight: 700;
+
+  color: #222;
+
+  margin-bottom: 8px;
+}
+
+.card-value {
+
+  color: #555;
+
+  line-height: 1.7;
+}
+
+.save-btn {
+
+  border: none;
+
+  padding: 12px 24px;
+
+  border-radius: 14px;
+
+  color: white;
+
+  font-weight: 700;
+
+  background:
+    linear-gradient(
+        135deg,
+        #00c853,
+        #00e676
+    );
+
+  transition: .3s;
+}
+
+.save-btn:hover {
+
+  transform:
+    translateY(-3px);
+
+  box-shadow:
+    0 15px 25px
+    rgba(0,200,83,.35);
+}
+
 .loading-card,
 .error-card {
 
@@ -171,12 +347,10 @@
 }
 
 .emoji {
-
   font-size: 3rem;
 }
 
 @keyframes spin {
-
   to {
     transform: rotate(360deg);
   }
@@ -210,6 +384,19 @@
   }
 
   100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardAppear {
+
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
     transform: translateY(0);
   }
 }

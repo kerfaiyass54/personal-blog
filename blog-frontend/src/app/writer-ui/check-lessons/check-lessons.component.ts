@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 
 import { LessonResponse } from '../../models/lesson.model';
 import {LessonService} from "../services/lesson.service";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-check-lessons',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './check-lessons.component.html',
   styleUrl: './check-lessons.component.scss',
 })

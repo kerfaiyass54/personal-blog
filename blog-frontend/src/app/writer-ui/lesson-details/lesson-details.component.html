@@ -64,10 +64,122 @@
           {{ lesson.content }}
         </p>
 
+        <div class="actions">
+
+          <button
+            class="generate-btn"
+            (click)="generateFlashcards()"
+            [disabled]="generating">
+
+            @if (!generating) {
+              ✨ Generate Flashcards
+            }
+
+            @if (generating) {
+              Generating...
+            }
+
+          </button>
+
+        </div>
+
       </div>
 
     </div>
 
   }
+
+</div>
+
+<div
+  class="modal fade"
+  id="flashcardsModal"
+  data-bs-backdrop="static"
+  tabindex="-1">
+
+  <div
+    class="modal-dialog modal-dialog-centered modal-lg">
+
+    <div class="modal-content flashcard-modal">
+
+      <div class="modal-header border-0">
+
+        <h4 class="modal-title">
+          ✨ Generated Flashcards
+        </h4>
+
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal">
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <div class="flashcards-scroll">
+
+          @for (
+            card of flashcards;
+            track card.term
+            ) {
+
+            @if (lesson && card.lessonId === lesson.id) {
+
+              <div class="flashcard-card">
+
+                <div class="card-type">
+                  {{ card.type }}
+                </div>
+
+                <div class="card-term">
+                  {{ card.term }}
+                </div>
+
+                <div class="card-value">
+                  {{ card.value }}
+                </div>
+
+              </div>
+
+            }
+
+          }
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer border-0">
+
+        <button
+          class="btn btn-light"
+          data-bs-dismiss="modal">
+
+          Close
+
+        </button>
+
+        <button
+          class="save-btn"
+          (click)="saveFlashcards()"
+          [disabled]="saving">
+
+          @if (!saving) {
+            💾 Save Flashcards
+          }
+
+          @if (saving) {
+            Saving...
+          }
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
 
 </div>
