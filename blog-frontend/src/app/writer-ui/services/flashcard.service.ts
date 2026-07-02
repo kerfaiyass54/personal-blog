@@ -25,6 +25,14 @@ export class FlashcardService {
     );
   }
 
+  getAllFlashcards():
+    Observable<Flashcard[]> {
+
+    return this.http.get<Flashcard[]>(
+      `${this.apiUrl}/all`
+    );
+  }
+
   saveGeneratedFlashcards():
     Observable<ApiResponse> {
 
