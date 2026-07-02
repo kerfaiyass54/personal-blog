@@ -54,4 +54,8 @@ public class FlashcardService {
                 lessonId
         );
     }
+
+    public List<Flashcard> getAllFlashcards() {
+        return repository.findAll();
+    }
 }

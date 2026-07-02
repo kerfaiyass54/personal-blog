@@ -54,4 +54,12 @@ public class FlashcardController {
                 flashcards
         );
     }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<Flashcard>> getAllFlashcards() {
+
+        return ResponseEntity.ok(
+                service.getAllFlashcards()
+        );
+    }
 }
