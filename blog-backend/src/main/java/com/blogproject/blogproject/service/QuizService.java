@@ -195,7 +195,7 @@ public class QuizService {
 
         UserQuizResult result =
                 UserQuizResult.builder()
-                        .userId(
+                        .userEmail(
                                 request.getUserId()
                         )
                         .quizId(
@@ -245,7 +245,7 @@ public class QuizService {
             String userId
     ) {
 
-        return userQuizResultRepository.findByUserId(
+        return userQuizResultRepository.findByUserEmail(
                 userId
         );
     }

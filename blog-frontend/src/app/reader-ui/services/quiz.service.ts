@@ -9,16 +9,20 @@ import {
 } from 'rxjs';
 
 import {
-  Quiz
-} from '../../models/quiz.model';
-
-import {
   Question
 } from '../../models/question.model';
 
 import {
   QuizGenerated
 } from '../../models/quiz-generated.model';
+
+import {
+  QuizGenerationRequest
+} from '../../models/quiz-generation-request.model';
+
+import {
+  QuizGenerationResponse
+} from '../../models/quiz-generation-response.model';
 
 import {
   SubmitQuizRequest
@@ -32,14 +36,6 @@ import {
   UserQuizResult
 } from '../../models/user-quiz-result.model';
 
-import {
-  QuizGenerationRequest
-} from '../../models/quiz-generation-request.model';
-
-import {
-  QuizGenerationResponse
-} from '../../models/quiz-generation-response.model';
-
 @Injectable({
   providedIn: 'root'
 })
@@ -48,15 +44,21 @@ export class QuizService {
   private readonly http =
     inject(HttpClient);
 
+  /**
+   * Spring Boot API
+   */
   private readonly API =
     'http://localhost:8083/api/quizzes';
 
+  /**
+   * Python AI Generator
+   */
   private readonly PYTHON_API =
     'http://localhost:8000';
 
-  // =========================
-  // PYTHON AI GENERATION
-  // =========================
+  // ====================================================
+  // PYTHON
+  // ====================================================
 
   generateQuiz(
     request: QuizGenerationRequest
@@ -70,9 +72,9 @@ export class QuizService {
     );
   }
 
-  // =========================
-  // SPRING BOOT
-  // =========================
+  // ====================================================
+  // GENERATED QUIZZES FROM KAFKA CACHE
+  // ====================================================
 
   getGeneratedQuizzes():
     Observable<QuizGenerated[]> {
@@ -84,6 +86,10 @@ export class QuizService {
     );
   }
 
+  /**
+   * Saves all quizzes currently received from Kafka
+   * into MongoDB
+   */
   saveGeneratedQuizzes():
     Observable<string> {
 
@@ -96,15 +102,9 @@ export class QuizService {
     );
   }
 
-  getAllQuizzes():
-    Observable<Quiz[]> {
-
-    return this.http.get<
-      Quiz[]
-    >(
-      this.API
-    );
-  }
+  // ====================================================
+  // QUIZ QUESTIONS
+  // ====================================================
 
   getQuizQuestions(
     quizId: string
@@ -117,6 +117,15 @@ export class QuizService {
     );
   }
 
+  // ====================================================
+  // USER SUBMISSION
+  // ====================================================
+
+  /**
+   * Calculates score
+   * Saves UserQuizResult
+   * Returns correction
+   */
   submitQuiz(
     request: SubmitQuizRequest
   ): Observable<QuizResult> {
@@ -129,14 +138,18 @@ export class QuizService {
     );
   }
 
+  // ====================================================
+  // USER HISTORY
+  // ====================================================
+
   getUserResults(
-    userId: string
+    userEmail: string
   ): Observable<UserQuizResult[]> {
 
     return this.http.get<
       UserQuizResult[]
     >(
-      `${this.API}/results/${userId}`
+      `${this.API}/results/${userEmail}`
     );
   }
 }

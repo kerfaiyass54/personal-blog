@@ -16,7 +16,9 @@ import {
   FormsModule
 } from '@angular/forms';
 
-import { LessonResponse } from '../../models/lesson.model';
+import {
+  LessonResponse
+} from '../../models/lesson.model';
 
 import {
   LessonService
@@ -26,12 +28,17 @@ import {
   LessonReadingService
 } from '../services/lesson-reading.service';
 
-
+import {
+  QuizService
+} from '../services/quiz.service';
 
 import {
   QuizGenerationResponse
 } from '../../models/quiz-generation-response.model';
-import {QuizService} from "../services/quiz.service";
+
+import {
+  QuizResult
+} from '../../models/quiz-result.model';
 
 declare const bootstrap: any;
 
@@ -43,7 +50,7 @@ declare const bootstrap: any;
     FormsModule
   ],
   templateUrl: './read-lesson.component.html',
-  styleUrl: './read-lesson.component.scss',
+  styleUrl: './read-lesson.component.scss'
 })
 export class ReadLessonComponent implements OnInit {
 
@@ -69,15 +76,13 @@ export class ReadLessonComponent implements OnInit {
 
   generatingQuiz = false;
 
-  savingQuiz = false;
+  submittingQuiz = false;
 
-  generatedQuiz?: QuizGenerationResponse;
+  quizGenerated?: QuizGenerationResponse;
 
-  answers: string[] = [];
+  quizResult?: QuizResult;
 
-  score = 0;
-
-  percentage = 0;
+  answers: Record<number, string> = {};
 
   ngOnInit(): void {
 
@@ -116,14 +121,21 @@ export class ReadLessonComponent implements OnInit {
 
   createReading(): void {
 
-    if (!this.lesson || !this.emailUser) {
+    if (
+      !this.lesson ||
+      !this.emailUser
+    ) {
       return;
     }
 
     this.lessonReadingService
       .createReading({
-        lessonId: this.lesson.id,
-        emailUser: this.emailUser
+
+        lessonId:
+        this.lesson.id,
+
+        emailUser:
+        this.emailUser
       })
       .subscribe({
 
@@ -137,16 +149,23 @@ export class ReadLessonComponent implements OnInit {
 
   updateProgress(): void {
 
-    if (!this.lesson || !this.emailUser) {
+    if (
+      !this.lesson ||
+      !this.emailUser
+    ) {
       return;
     }
 
     this.lessonReadingService
       .updateProgress(
+
         this.lesson.id,
+
         this.emailUser,
+
         {
-          progress: this.progress
+          progress:
+          this.progress
         }
       )
       .subscribe();
@@ -169,23 +188,31 @@ export class ReadLessonComponent implements OnInit {
 
     this.quizService
       .generateQuiz({
-        lessonId: this.lesson.id,
-        title: this.lesson.title,
-        content: this.lesson.content,
-        numberOfQuestions: 5
+
+        lessonId:
+        this.lesson.id,
+
+        title:
+        this.lesson.title,
+
+        content:
+        this.lesson.content,
+
+        numberOfQuestions:
+          5
+
       })
       .subscribe({
 
         next: quiz => {
 
-          this.generatedQuiz = quiz;
+          this.quizGenerated =
+            quiz;
 
-          this.answers =
-            new Array(
-              quiz.questions.length
-            );
+          this.answers = {};
 
-          this.generatingQuiz = false;
+          this.generatingQuiz =
+            false;
 
           const modal =
             new bootstrap.Modal(
@@ -201,79 +228,87 @@ export class ReadLessonComponent implements OnInit {
 
           console.error(err);
 
-          this.generatingQuiz = false;
+          this.generatingQuiz =
+            false;
         }
       });
   }
 
   submitQuiz(): void {
 
-    if (!this.generatedQuiz) {
-      return;
-    }
-
-    this.score = 0;
-
-    this.generatedQuiz.questions
-      .forEach((question, index) => {
-
-        if (
-          this.answers[index] ===
-          question.answer
-        ) {
-
-          this.score++;
-        }
-      });
-
-    this.percentage =
-      Math.round(
-        (this.score /
-          this.generatedQuiz.questions.length)
-        * 100
-      );
-
-    bootstrap.Modal
-      .getInstance(
-        document.getElementById(
-          'quizModal'
-        )
-      )
-      ?.hide();
-
-    const resultModal =
-      new bootstrap.Modal(
-        document.getElementById(
-          'resultModal'
-        )
-      );
-
-    resultModal.show();
+    // if (!this.quizGenerated) {
+    //   return;
+    // }
+    //
+    // this.submittingQuiz = true;
+    //
+    // this.quizService
+    //   .submitQuiz({
+    //
+    //     quizId:
+    //     this.quizGenerated.quizId,
+    //
+    //     userId:
+    //     this.emailUser,
+    //
+    //     answers:
+    //       this.quizGenerated.questions.map(
+    //         (question, index) => ({
+    //
+    //           questionId:
+    //           question.id,
+    //
+    //           selectedAnswer:
+    //             this.answers[index] ?? ''
+    //
+    //         })
+    //       )
+    //   })
+    //   .subscribe({
+    //
+    //     next: result => {
+    //
+    //       this.quizResult =
+    //         result;
+    //
+    //       this.submittingQuiz =
+    //         false;
+    //
+    //       bootstrap
+    //         .Modal
+    //         .getInstance(
+    //           document.getElementById(
+    //             'quizModal'
+    //           )
+    //         )
+    //         ?.hide();
+    //
+    //       const resultModal =
+    //         new bootstrap.Modal(
+    //           document.getElementById(
+    //             'resultModal'
+    //           )
+    //         );
+    //
+    //       resultModal.show();
+    //     },
+    //
+    //     error: err => {
+    //
+    //       console.error(err);
+    //
+    //       this.submittingQuiz =
+    //         false;
+    //     }
+    //   });
   }
 
-  saveQuiz(): void {
+  formatDate(
+    date: string
+  ): string {
 
-    this.savingQuiz = true;
-
-    this.quizService
-      .saveGeneratedQuizzes()
-      .subscribe({
-
-        next: () => {
-
-          this.savingQuiz = false;
-
-          alert(
-            'Quiz saved successfully'
-          );
-        },
-
-        error: err => {
-
-          console.error(err);
-
-          this.savingQuiz = false;
-        }
-      });
+    return new Date(
+      date
+    ).toLocaleDateString();
   }
 }

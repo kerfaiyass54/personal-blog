@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserQuizResultRepository
         extends MongoRepository<UserQuizResult,String> {
 
-    List<UserQuizResult> findByUserId(
+    List<UserQuizResult> findByUserEmail(
             String userId
     );
 

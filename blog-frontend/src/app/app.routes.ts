@@ -41,6 +41,7 @@ import {CheckLessonsToReadComponent} from "./reader-ui/check-lessons-to-read/che
 import {ReadLessonComponent} from "./reader-ui/read-lesson/read-lesson.component";
 import {CheckLessonsComponent} from "./writer-ui/check-lessons/check-lessons.component";
 import {CheckFlashcardsComponent} from "./writer-ui/check-flashcards/check-flashcards.component";
+import {CheckQuizzesComponent} from "./reader-ui/check-quizzes/check-quizzes.component";
 
 
 
@@ -318,6 +319,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['READER']},
         component: CheckFlashcardsComponent
+      },{
+        path: 'check-quizzes',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: CheckQuizzesComponent
       }
 
 

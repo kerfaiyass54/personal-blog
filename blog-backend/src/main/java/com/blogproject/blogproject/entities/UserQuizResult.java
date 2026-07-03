@@ -17,7 +17,7 @@ public class UserQuizResult {
     @Id
     private String id;
 
-    private String userId;
+    private String userEmail;
 
     private String quizId;
 

@@ -1,1 +1,238 @@
-<p>check-quizzes works!</p>
+<div class="quiz-page">
+
+  <div class="header-section">
+
+    <div class="header-icon">
+      🧠
+    </div>
+
+    <div>
+
+      <h1>
+        My Quiz Results
+      </h1>
+
+      <p>
+        Track your progress and review previous quizzes
+      </p>
+
+    </div>
+
+  </div>
+
+  @if (loading) {
+
+    <div class="loading-container">
+
+      <div class="loader"></div>
+
+      <h3>Loading quizzes...</h3>
+
+    </div>
+
+  }
+
+  @if (!loading) {
+
+    <div class="stats-card">
+
+      <div class="stat-number">
+        {{ results.length }}
+      </div>
+
+      <div class="stat-label">
+        Completed Quizzes
+      </div>
+
+    </div>
+
+    <div class="cards-list">
+
+      @for (
+        result of results;
+        track result.id
+        ) {
+
+        <div
+          class="quiz-card"
+          (click)="openResult(result)">
+
+          <div class="quiz-card-left">
+
+            <div class="score-badge">
+
+              {{ result.scorePercentage | number:'1.0-0' }}%
+
+            </div>
+
+          </div>
+
+          <div class="quiz-card-content">
+
+            <h3>
+              Lesson {{ result.lessonId }}
+            </h3>
+
+            <p>
+
+              Correct Answers
+
+              <strong>
+                {{ result.correctAnswers }}
+              </strong>
+
+              /
+
+              {{ result.totalQuestions }}
+
+            </p>
+
+            <span class="status-chip">
+
+              {{ getGrade(result.scorePercentage) }}
+
+            </span>
+
+          </div>
+
+          <div class="open-icon">
+            →
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>
+
+<!-- MODAL -->
+
+<div
+  class="modal fade"
+  id="quizResultModal"
+  tabindex="-1">
+
+  <div
+    class="modal-dialog modal-xl modal-dialog-centered">
+
+    <div class="modal-content modern-modal">
+
+      <div class="modal-header border-0">
+
+        <h3>
+          Quiz Result Details
+        </h3>
+
+        <button
+          class="btn-close"
+          data-bs-dismiss="modal">
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        @if (selectedResult) {
+
+          <div class="result-header">
+
+            <div class="big-score">
+
+              {{ selectedResult.scorePercentage | number:'1.0-0' }}%
+
+            </div>
+
+            <div>
+
+              <h2>
+
+                {{ selectedResult.correctAnswers }}
+
+                /
+
+                {{ selectedResult.totalQuestions }}
+
+                Correct
+
+              </h2>
+
+              <p>
+
+                {{ getGrade(selectedResult.scorePercentage) }}
+
+              </p>
+
+            </div>
+
+          </div>
+
+          <div class="answers-list">
+
+            @for (
+              answer of selectedResult.answers;
+              track answer.questionId
+              ) {
+
+              <div
+                class="answer-card">
+
+                <div
+                  class="answer-indicator"
+                  [class.correct]="answer.correct"
+                  [class.wrong]="!answer.correct">
+
+                  @if (answer.correct) {
+                    ✓
+                  } @else {
+                    ✗
+                  }
+
+                </div>
+
+                <div class="answer-data">
+
+                  <h5>
+                    {{ answer.questionContent }}
+                  </h5>
+
+                  <p>
+
+                    <strong>
+                      Your Answer:
+                    </strong>
+
+                    {{ answer.selectedAnswer }}
+
+                  </p>
+
+                  <p>
+
+                    <strong>
+                      Correct Answer:
+                    </strong>
+
+                    {{ answer.correctAnswer }}
+
+                  </p>
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
