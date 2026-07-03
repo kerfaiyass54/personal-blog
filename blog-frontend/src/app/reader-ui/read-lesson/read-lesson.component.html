@@ -82,3 +82,221 @@
   }
 
 </div>
+
+<div class="quiz-action-section">
+
+  <button
+    class="generate-quiz-btn"
+    (click)="generateQuiz()"
+    [disabled]="generatingQuiz">
+
+    @if (!generatingQuiz) {
+      🧠 Generate Lesson Quiz
+    }
+
+    @if (generatingQuiz) {
+      Generating Quiz...
+    }
+
+  </button>
+
+</div>
+
+<!-- QUIZ MODAL -->
+
+<div
+  class="modal fade"
+  id="quizModal"
+  tabindex="-1">
+
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+
+    <div class="modal-content quiz-modal">
+
+      <div class="modal-header border-0">
+
+        <div>
+
+          <span class="quiz-chip">
+            AI Generated Quiz
+          </span>
+
+          <h3>
+            {{ generatedQuiz?.lessonTitle }}
+          </h3>
+
+        </div>
+
+        <button
+          class="btn-close"
+          data-bs-dismiss="modal">
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <div class="questions-scroll">
+
+          @if (generatedQuiz) {
+
+            @for (
+              question of generatedQuiz.questions;
+              track question.content;
+              let i = $index
+              ) {
+
+              <div class="question-card">
+
+                <div class="question-number">
+
+                  Question {{ i + 1 }}
+
+                </div>
+
+                <h5>
+                  {{ question.content }}
+                </h5>
+
+                <div class="answers">
+
+                  @for (
+                    possibility of question.possibilities;
+                    track possibility
+                    ) {
+
+                    <label class="answer-option">
+
+                      <input
+                        type="radio"
+                        [name]="'question-' + i"
+                        [value]="possibility"
+                        [(ngModel)]="answers[i]">
+
+                      <span>
+                        {{ possibility }}
+                      </span>
+
+                    </label>
+
+                  }
+
+                </div>
+
+                <div class="hint-box">
+
+                  💡 {{ question.hint }}
+
+                </div>
+
+              </div>
+
+            }
+
+          }
+
+        </div>
+
+      </div>
+
+      <div class="modal-footer border-0">
+
+        <button
+          class="btn btn-light"
+          data-bs-dismiss="modal">
+
+          Close
+
+        </button>
+
+        <button
+          class="submit-quiz-btn"
+          (click)="submitQuiz()">
+
+          Submit Quiz
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- RESULT MODAL -->
+
+<div
+  class="modal fade"
+  id="resultModal"
+  tabindex="-1">
+
+  <div class="modal-dialog modal-dialog-centered">
+
+    <div class="modal-content result-modal">
+
+      <div class="modal-body">
+
+        <div class="result-circle">
+
+          {{ percentage }}%
+
+        </div>
+
+        <h2>
+          Quiz Completed
+        </h2>
+
+        <p>
+
+          You answered
+
+          <strong>
+            {{ score }}
+          </strong>
+
+          out of
+
+          <strong>
+            {{ generatedQuiz?.questions?.length }}
+          </strong>
+
+          correctly.
+
+        </p>
+
+        <div class="result-actions">
+
+          <button
+            class="btn btn-light"
+            data-bs-dismiss="modal">
+
+            Close
+
+          </button>
+
+          <button
+            class="save-quiz-btn"
+            (click)="saveQuiz()"
+            [disabled]="savingQuiz">
+
+            @if (!savingQuiz) {
+              💾 Save Quiz
+            }
+
+            @if (savingQuiz) {
+              Saving...
+            }
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

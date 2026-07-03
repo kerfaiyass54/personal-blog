@@ -32,6 +32,14 @@ import {
   UserQuizResult
 } from '../../models/user-quiz-result.model';
 
+import {
+  QuizGenerationRequest
+} from '../../models/quiz-generation-request.model';
+
+import {
+  QuizGenerationResponse
+} from '../../models/quiz-generation-response.model';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -41,7 +49,30 @@ export class QuizService {
     inject(HttpClient);
 
   private readonly API =
-    'http://localhost:8080/api/quizzes';
+    'http://localhost:8083/api/quizzes';
+
+  private readonly PYTHON_API =
+    'http://localhost:8000';
+
+  // =========================
+  // PYTHON AI GENERATION
+  // =========================
+
+  generateQuiz(
+    request: QuizGenerationRequest
+  ): Observable<QuizGenerationResponse> {
+
+    return this.http.post<
+      QuizGenerationResponse
+    >(
+      `${this.PYTHON_API}/quiz/generate`,
+      request
+    );
+  }
+
+  // =========================
+  // SPRING BOOT
+  // =========================
 
   getGeneratedQuizzes():
     Observable<QuizGenerated[]> {
