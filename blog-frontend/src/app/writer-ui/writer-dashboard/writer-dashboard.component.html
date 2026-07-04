@@ -1,0 +1,58 @@
+<div class="dashboard-container">
+
+  <div class="dashboard-header">
+    <h1>Writer Analytics</h1>
+    <p>Overview of your platform statistics</p>
+  </div>
+
+  @if(loading){
+
+    <div class="loader-container">
+      <div class="loader"></div>
+    </div>
+
+  } @else {
+
+    <div class="stats-grid">
+
+      <div class="stat-card skills">
+        <div class="icon">🎯</div>
+        <h3>Skills</h3>
+        <span>{{ stats?.skills }}</span>
+      </div>
+
+      <div class="stat-card articles">
+        <div class="icon">📝</div>
+        <h3>Articles</h3>
+        <span>{{ stats?.articles }}</span>
+      </div>
+
+      <div class="stat-card lessons">
+        <div class="icon">📚</div>
+        <h3>Lessons</h3>
+        <span>{{ stats?.lessons }}</span>
+      </div>
+
+      <div class="stat-card favorites">
+        <div class="icon">❤️</div>
+        <h3>Favorite Skills</h3>
+        <span>{{ stats?.favoriteSkills }}</span>
+      </div>
+
+      <div class="stat-card readers">
+        <div class="icon">👥</div>
+        <h3>Readers</h3>
+        <span>{{ stats?.readers }}</span>
+      </div>
+
+      <div class="stat-card quizzes">
+        <div class="icon">🧠</div>
+        <h3>Quizzes</h3>
+        <span>{{ stats?.quizzes }}</span>
+      </div>
+
+    </div>
+
+  }
+
+</div>

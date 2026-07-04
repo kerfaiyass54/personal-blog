@@ -42,6 +42,8 @@ import {ReadLessonComponent} from "./reader-ui/read-lesson/read-lesson.component
 import {CheckLessonsComponent} from "./writer-ui/check-lessons/check-lessons.component";
 import {CheckFlashcardsComponent} from "./writer-ui/check-flashcards/check-flashcards.component";
 import {CheckQuizzesComponent} from "./reader-ui/check-quizzes/check-quizzes.component";
+import {WriterDashboardComponent} from "./writer-ui/writer-dashboard/writer-dashboard.component";
+import {ReaderDashboardComponent} from "./reader-ui/reader-dashboard/reader-dashboard.component";
 
 
 
@@ -205,6 +207,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['WRITER']},
         component: LessonDetailsComponent
+      },{
+        path: 'dashboard',
+        canActivate: [AuthGuard],
+        data: { roles: ['WRITER']},
+        component: WriterDashboardComponent
       }
 
     ]
@@ -324,6 +331,11 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         data: { roles: ['READER']},
         component: CheckQuizzesComponent
+      },{
+        path: 'dashboard',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: ReaderDashboardComponent
       }
 
 

@@ -34,8 +34,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/**").permitAll().requestMatchers("/api/lesson-readings/**").permitAll().requestMatchers("/api/flashcards/**").permitAll()
                         .requestMatchers("/reset/**").permitAll().requestMatchers("/api/articles/**").permitAll().requestMatchers("/api/lessons/**").permitAll()
-                        .requestMatchers("/profiles/**").permitAll().requestMatchers("/api/keywords/**").permitAll()
-                        .requestMatchers("/sessions/**").permitAll().requestMatchers("/api/plans/**").permitAll().requestMatchers("/api/quizzes/**").permitAll()
+                        .requestMatchers("/profiles/**").permitAll().requestMatchers("/api/keywords/**").permitAll().requestMatchers("/api/writer/statistics/**").permitAll()
+                        .requestMatchers("/sessions/**").permitAll().requestMatchers("/api/plans/**").permitAll().requestMatchers("/api/quizzes/**").permitAll().requestMatchers("/api/reader/statistics/**").permitAll()
                         .requestMatchers("/socials", "/socials/", "/socials/**").permitAll().requestMatchers("/users/**").permitAll().requestMatchers("/api/skill-keywords/**")
                         .permitAll().requestMatchers("/api/recommendations/**").permitAll().requestMatchers("/api/skills/**").permitAll().requestMatchers("/api/skills-recommendations/**").permitAll().requestMatchers("/api/favorites/**").permitAll()
                         .anyRequest().authenticated()

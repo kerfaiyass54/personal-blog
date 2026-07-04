@@ -16,4 +16,7 @@ public interface UserQuizResultRepository
     List<UserQuizResult> findByQuizId(
             String quizId
     );
+
+    long countByUserEmail(String userEmail);
+
 }

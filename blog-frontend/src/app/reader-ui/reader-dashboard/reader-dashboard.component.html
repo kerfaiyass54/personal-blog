@@ -1,0 +1,40 @@
+<div class="dashboard-container">
+
+  <div class="dashboard-header">
+    <h1>Reader Analytics</h1>
+    <p>Track your learning journey</p>
+  </div>
+
+  @if (loading) {
+
+    <div class="loader-container">
+      <div class="loader"></div>
+    </div>
+
+  } @else {
+
+    <div class="stats-grid">
+
+      <div class="stat-card favorite">
+        <div class="icon">❤️</div>
+        <h3>Favorite Skills</h3>
+        <span>{{ stats?.favoriteSkills ?? 0 }}</span>
+      </div>
+
+      <div class="stat-card lessons">
+        <div class="icon">📚</div>
+        <h3>Read Lessons</h3>
+        <span>{{ stats?.readLessons ?? 0 }}</span>
+      </div>
+
+      <div class="stat-card quizzes">
+        <div class="icon">🧠</div>
+        <h3>Submitted Quizzes</h3>
+        <span>{{ stats?.submittedQuizzes ?? 0 }}</span>
+      </div>
+
+    </div>
+
+  }
+
+</div>
