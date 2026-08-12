@@ -3,6 +3,7 @@ import {
   Input,
   AfterViewInit,
   ElementRef, Output, EventEmitter,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule} from "@angular/forms";
@@ -12,6 +13,7 @@ import {FormsModule} from "@angular/forms";
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './table.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements AfterViewInit {

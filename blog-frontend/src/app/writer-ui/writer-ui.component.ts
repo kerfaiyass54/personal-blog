@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
 import {LoaderComponent} from "../components/loader/loader.component";
@@ -14,6 +14,7 @@ import {filter} from "rxjs/operators";
     RouterOutlet
   ],
     templateUrl: './writer-ui.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './writer-ui.component.scss'
 })
 export class WriterUiComponent implements OnInit{

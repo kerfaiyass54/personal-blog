@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
@@ -14,6 +14,7 @@ import {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './saved-articles.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './saved-articles.component.scss',
 })
 export class SavedArticlesComponent implements OnInit {

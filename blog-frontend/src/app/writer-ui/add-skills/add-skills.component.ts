@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -12,6 +12,7 @@ import {SkillService} from "../services/skill.service";
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-skills.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './add-skills.component.scss',
 })
 export class AddSkillsComponent {

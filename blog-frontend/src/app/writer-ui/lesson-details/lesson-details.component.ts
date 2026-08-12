@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
@@ -16,6 +16,7 @@ declare const bootstrap: any;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './lesson-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './lesson-details.component.scss'
 })
 export class LessonDetailsComponent implements OnInit {

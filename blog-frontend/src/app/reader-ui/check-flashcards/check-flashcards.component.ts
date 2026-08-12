@@ -1,7 +1,8 @@
 import {
   Component,
   OnInit,
-  inject
+  inject,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import {
@@ -18,6 +19,7 @@ declare const bootstrap: any;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './check-flashcards.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './check-flashcards.component.scss'
 })
 export class CheckFlashcardsComponent implements OnInit {

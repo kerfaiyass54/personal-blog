@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArticlesService, ArticleDisplayDTO } from '../services/articles.service';
 import {Router} from "@angular/router";
@@ -8,6 +8,7 @@ import {Router} from "@angular/router";
   standalone: true,
   imports: [CommonModule],
   templateUrl: './check-articles.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './check-articles.component.scss',
 })
 export class CheckArticlesComponent implements OnInit {

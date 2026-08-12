@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SkillRecommendationService } from '../services/skill-recommendation.service';
@@ -8,6 +8,7 @@ import { SkillRecommendationService } from '../services/skill-recommendation.ser
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './skill-recommandation.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './skill-recommandation.component.scss',
 })
 export class SkillRecommandationComponent {

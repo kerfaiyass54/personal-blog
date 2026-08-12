@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {LoginServiceService} from "../shared/services/login-service.service";
@@ -10,6 +10,7 @@ import {ToastrService} from "ngx-toastr";
     standalone: true,
 imports: [ReactiveFormsModule],
     templateUrl: './signup-screen.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './signup-screen.component.scss'
 })
 export class SignupScreenComponent implements OnInit{

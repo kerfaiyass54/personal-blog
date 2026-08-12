@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +12,7 @@ import {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './reading-article.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './reading-article.component.scss',
 })
 export class ReadingArticleComponent implements OnInit {

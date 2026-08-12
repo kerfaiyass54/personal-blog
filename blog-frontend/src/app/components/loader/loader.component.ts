@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
   selector: 'app-loader',
@@ -6,6 +6,7 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: './loader.component.html',
   imports: [
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./loader.component.scss']
 })
 export class LoaderComponent{

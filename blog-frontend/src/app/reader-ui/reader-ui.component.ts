@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {RouterOutlet, Router, NavigationEnd} from "@angular/router";
@@ -14,6 +14,7 @@ import {LoaderComponent} from "../components/loader/loader.component";
     LoaderComponent,
   ],
   templateUrl: './reader-ui.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './reader-ui.component.scss'
 })
 export class ReaderUiComponent implements OnInit{

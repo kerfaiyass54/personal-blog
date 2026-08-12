@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Nationality } from '../../shared/models/Nationality';
@@ -15,6 +15,7 @@ import {ToastrService} from "ngx-toastr";
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './profile-adding.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './profile-adding.component.scss',
 })
 export class ProfileAddingComponent {

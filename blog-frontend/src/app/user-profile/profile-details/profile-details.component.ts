@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserProfile } from '../../shared/models/UserProfile';
@@ -16,6 +16,7 @@ declare var bootstrap: any;
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './profile-details.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './profile-details.component.scss',
 })
 export class ProfileDetailsComponent implements OnInit {

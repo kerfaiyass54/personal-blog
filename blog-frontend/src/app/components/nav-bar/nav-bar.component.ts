@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {LoginServiceService} from "../../shared/services/login-service.service";
 import {ToastrService} from "ngx-toastr";
@@ -11,6 +11,7 @@ import {LoaderComponent} from "../loader/loader.component";
     standalone: true,
   imports: [RouterLink, LoaderComponent],
     templateUrl: './nav-bar.component.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     styleUrl: './nav-bar.component.scss'
 })
 export class NavBarComponent implements OnInit{

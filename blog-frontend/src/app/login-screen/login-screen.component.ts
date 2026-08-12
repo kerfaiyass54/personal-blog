@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
@@ -17,6 +17,7 @@ interface JwtPayload {
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './login-screen.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './login-screen.component.scss',
 })
 export class LoginScreenComponent implements OnInit {

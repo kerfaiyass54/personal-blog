@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {PlanService, PlanSummary} from "../services/plan.service";
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './plan-checking.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './plan-checking.component.scss',
 })
 export class PlanCheckingComponent implements OnInit {

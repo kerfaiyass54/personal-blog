@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -13,6 +13,7 @@ import {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './checking-articles.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './checking-articles.component.scss',
 })
 export class CheckingArticlesComponent implements OnInit {

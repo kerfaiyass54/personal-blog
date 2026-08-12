@@ -1,4 +1,4 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {SoundtrackServicesService} from "../service/soundtrack-services.service";
 
@@ -7,6 +7,7 @@ import {SoundtrackServicesService} from "../service/soundtrack-services.service"
   standalone: true,
   imports: [FormsModule],
   templateUrl: './add-soundtrack.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './add-soundtrack.component.scss'
 })
 export class AddSoundtrackComponent {

@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -12,6 +12,7 @@ declare const bootstrap: any;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './add-article.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './add-article.component.scss',
 })
 export class AddArticleComponent {

@@ -1,6 +1,7 @@
 import {
   Component,
-  OnInit
+  OnInit,
+  ChangeDetectionStrategy
 } from '@angular/core';
 
 import {
@@ -19,6 +20,7 @@ import {
   ],
   templateUrl:
     './recommandations-page.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl:
     './recommandations-page.component.scss'
 })

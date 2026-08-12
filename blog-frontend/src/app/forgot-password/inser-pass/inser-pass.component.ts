@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {LoginServiceService} from "../../shared/services/login-service.service";
@@ -12,6 +12,7 @@ import {Router, RouterLink} from "@angular/router";
     RouterLink
   ],
   templateUrl: './inser-pass.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './inser-pass.component.scss',
 })
 export class InserPassComponent {

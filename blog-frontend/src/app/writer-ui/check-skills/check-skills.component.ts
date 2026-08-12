@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -11,6 +11,7 @@ import {SkillService} from "../services/skill.service";
   standalone: true,
   imports: [CommonModule],
   templateUrl: './check-skills.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './check-skills.component.scss'
 })
 export class CheckSkillsComponent implements OnInit {

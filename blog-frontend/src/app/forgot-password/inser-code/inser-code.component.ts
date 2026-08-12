@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output, ChangeDetectionStrategy} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {ResetPassService} from "../service/reset-pass.service";
@@ -11,6 +11,7 @@ import {ToastrService} from "ngx-toastr";
     RouterLink
   ],
   templateUrl: './inser-code.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './inser-code.component.scss',
 })
 export class InserCodeComponent implements OnInit{
