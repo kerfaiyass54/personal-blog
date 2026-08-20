@@ -22,7 +22,7 @@ public class RecommendationController {
     // --------------------------------
 
     @PostMapping
-    public String generate(
+    public String generateRecommandation(
             @RequestBody
             RecommendationRequest request
     ) {
@@ -39,7 +39,7 @@ public class RecommendationController {
     // --------------------------------
 
     @GetMapping
-    public List<Recommendation> all() {
+    public List<Recommendation> getAllRecommendations() {
 
         return service.all();
     }
@@ -49,7 +49,7 @@ public class RecommendationController {
     // --------------------------------
 
     @GetMapping("/email/{email}")
-    public List<Recommendation> byEmail(
+    public List<Recommendation> getRecommendationsByEmail(
             @PathVariable
             String email
     ) {
@@ -64,7 +64,7 @@ public class RecommendationController {
     // --------------------------------
 
     @GetMapping("/user/{userId}")
-    public List<Recommendation> byUser(
+    public List<Recommendation> getRecommendationsByUser(
             @PathVariable
             String userId
     ) {

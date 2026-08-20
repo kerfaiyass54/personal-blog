@@ -16,7 +16,7 @@ public class KeywordController {
     private final KeywordService keywordService;
 
     @GetMapping("/{skill}")
-    public SkillKeywordsDTO getKeywords(
+    public SkillKeywordsDTO getSkillKeywords(
             @PathVariable String skill
     ) {
 

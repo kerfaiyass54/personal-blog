@@ -31,7 +31,7 @@ public class LessonReadingController {
     }
 
     @PutMapping("/{lessonId}/progress")
-    public ResponseEntity<LessonReadingResponse> updateProgress(
+    public ResponseEntity<LessonReadingResponse> updateReadingProgress(
             @PathVariable String lessonId,
             @RequestParam String emailUser,
             @RequestBody UpdateProgressRequest request) {

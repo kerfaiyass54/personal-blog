@@ -18,7 +18,7 @@ public class FlashcardController {
     private final FlashcardService service;
 
     @GetMapping("/generated")
-    public ResponseEntity<List<FlashcardDto>> getGenerated() {
+    public ResponseEntity<List<FlashcardDto>> getGeneratedFlashcards() {
 
         List<FlashcardDto> flashcards =
                 service.getGeneratedFlashcards();
@@ -29,7 +29,7 @@ public class FlashcardController {
     }
 
     @PostMapping
-    public ResponseEntity<String> saveGenerated() {
+    public ResponseEntity<String> saveGeneratedFlashcards() {
 
         service.saveGeneratedFlashcards();
 

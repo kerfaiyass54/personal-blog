@@ -26,7 +26,7 @@ public class PlaylistController {
 
 
     @GetMapping("/total")
-    public ResponseEntity<Integer> total(
+    public ResponseEntity<Integer> getTotalPlaylists(
             @PathVariable String email
     ) {
 
@@ -48,7 +48,7 @@ public class PlaylistController {
 
 
     @GetMapping
-    public ResponseEntity<List<PlaylistDetailsDTO>> all(
+    public ResponseEntity<List<PlaylistDetailsDTO>> getAllPlaylists(
             @PathVariable String email
     ) {
 
@@ -59,7 +59,7 @@ public class PlaylistController {
 
 
     @PostMapping
-    public ResponseEntity<Playlist> create(
+    public ResponseEntity<Playlist> createPlaylist(
             @PathVariable String email,
             @RequestBody PlaylistCreateDTO dto
     ) {
@@ -71,7 +71,7 @@ public class PlaylistController {
 
 
     @DeleteMapping("/{playlistId}")
-    public ResponseEntity<Void> delete(
+    public ResponseEntity<Void> deletePlaylist(
             @PathVariable String email,
             @PathVariable String playlistId
     ) {
@@ -86,7 +86,7 @@ public class PlaylistController {
 
 
     @GetMapping("/{playlistId}/soundtracks")
-    public ResponseEntity<Page<SoundtrackDetailsDTO>> soundtracks(
+    public ResponseEntity<Page<SoundtrackDetailsDTO>> getPlaylistSoundtracks(
             @PathVariable String email,
             @PathVariable String playlistId,
             @RequestParam(defaultValue = "0") int page,
@@ -105,7 +105,7 @@ public class PlaylistController {
 
 
     @PostMapping("/{playlistId}/soundtracks/{soundtrackId}")
-    public ResponseEntity<?> addTrack(
+    public ResponseEntity<?> addTrackToPlaylist(
             @PathVariable String email,
             @PathVariable String playlistId,
             @PathVariable String soundtrackId
@@ -122,7 +122,7 @@ public class PlaylistController {
 
 
     @DeleteMapping("/{playlistId}/soundtracks/{soundtrackId}")
-    public ResponseEntity<?> removeTrack(
+    public ResponseEntity<?> removeTrackFromPlaylist(
             @PathVariable String email,
             @PathVariable String playlistId,
             @PathVariable String soundtrackId

@@ -60,7 +60,7 @@ public class QuizController {
 
     @PostMapping("/result")
     public ResponseEntity<QuizResultDTO>
-    submitQuiz(
+    submitQuizResult(
             @RequestBody
             SubmitQuizRequest request
     ) {

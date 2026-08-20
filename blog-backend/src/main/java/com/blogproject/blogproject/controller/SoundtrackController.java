@@ -30,7 +30,7 @@ public class SoundtrackController {
 
 
     @GetMapping("/total")
-    public ResponseEntity<Integer> total(
+    public ResponseEntity<Integer> getTotalSoundtracks(
             @PathVariable String email
     ) {
 
@@ -41,7 +41,7 @@ public class SoundtrackController {
 
 
     @GetMapping("/rated")
-    public ResponseEntity<Integer> rated(
+    public ResponseEntity<Integer> getRatedSoundtracks(
             @PathVariable String email
     ) {
 
@@ -52,7 +52,7 @@ public class SoundtrackController {
 
 
     @GetMapping
-    public ResponseEntity<List<SoundtrackDetailsDTO>> all(
+    public ResponseEntity<List<SoundtrackDetailsDTO>> getAllSoundtracks(
             @PathVariable String email
     ) {
 
@@ -63,7 +63,7 @@ public class SoundtrackController {
 
 
     @PostMapping
-    public ResponseEntity<Soundtrack> create(
+    public ResponseEntity<Soundtrack> createSoundtrack(
             @PathVariable String email,
             @RequestBody SoundtrackCreateDTO dto
     ) {
@@ -75,7 +75,7 @@ public class SoundtrackController {
 
 
     @DeleteMapping("/{soundtrackId}")
-    public ResponseEntity<Void> delete(
+    public ResponseEntity<Void> deleteSoundtrack(
             @PathVariable String email,
             @PathVariable String soundtrackId
     ) {
@@ -89,7 +89,7 @@ public class SoundtrackController {
     }
 
     @GetMapping("/type")
-    public ResponseEntity<Page<SoundtrackDetailsDTO>> getByType(
+    public ResponseEntity<Page<SoundtrackDetailsDTO>> getSoundtracksByType(
             @PathVariable String email,
             @RequestParam SoundtrackType type,
             @RequestParam(defaultValue = "0") int page,
