@@ -14,7 +14,7 @@ public class SkillKeywordController {
     private final SkillKeywordPublisherService
             publisherService;
 
-    @PostMapping("/publish/{skill}")
+    @PostMapping("/{skill}")
     public String publishSkills(@PathVariable String skill) {
 
         publisherService.publishSkill(skill);

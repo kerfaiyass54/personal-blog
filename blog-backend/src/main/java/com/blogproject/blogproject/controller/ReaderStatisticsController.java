@@ -18,7 +18,7 @@ public class ReaderStatisticsController {
     /**
      * PB-104
      */
-    @GetMapping("/favorite-skills/{email}")
+    @GetMapping("/skills/{email}")
     public ResponseEntity<Long> getFavoriteSkillsCount(
             @PathVariable String email) {
 
@@ -30,7 +30,7 @@ public class ReaderStatisticsController {
     /**
      * PB-106
      */
-    @GetMapping("/read-lessons/{email}")
+    @GetMapping("/lessons/{email}")
     public ResponseEntity<Long> getReadLessonsCount(
             @PathVariable String email) {
 
@@ -42,7 +42,7 @@ public class ReaderStatisticsController {
     /**
      * PB-103
      */
-    @GetMapping("/submitted-quizzes/{email}")
+    @GetMapping("/quizzes/{email}")
     public ResponseEntity<Long> getSubmittedQuizzesCount(
             @PathVariable String email) {
 

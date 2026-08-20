@@ -88,7 +88,7 @@ public class SoundtrackController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/filter")
+    @GetMapping("/type")
     public ResponseEntity<Page<SoundtrackDetailsDTO>> getByType(
             @PathVariable String email,
             @RequestParam SoundtrackType type,

@@ -34,7 +34,7 @@ public class QuizController {
         );
     }
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<String>
     saveGeneratedQuizzes() {
 
@@ -58,7 +58,7 @@ public class QuizController {
         );
     }
 
-    @PostMapping("/submit")
+    @PostMapping("/result")
     public ResponseEntity<QuizResultDTO>
     submitQuiz(
             @RequestBody

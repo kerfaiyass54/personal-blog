@@ -28,7 +28,7 @@ public class FlashcardController {
         );
     }
 
-    @PostMapping("/save")
+    @PostMapping
     public ResponseEntity<String> saveGenerated() {
 
         service.saveGeneratedFlashcards();
@@ -55,7 +55,7 @@ public class FlashcardController {
         );
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Flashcard>> getAllFlashcards() {
 
         return ResponseEntity.ok(

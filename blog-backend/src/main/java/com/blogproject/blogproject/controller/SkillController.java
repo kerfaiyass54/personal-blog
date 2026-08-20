@@ -71,7 +71,7 @@ public class SkillController {
     /**
      * PB-54: Check if a skill exists
      */
-    @GetMapping("/exists")
+    @GetMapping("/skill-check")
     public ResponseEntity<Boolean> skillExists(
             @RequestParam String name) {
 

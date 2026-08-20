@@ -21,7 +21,7 @@ public class RecommendationController {
     // GENERATE RECOMMENDATIONS
     // --------------------------------
 
-    @PostMapping("/generate")
+    @PostMapping
     public String generate(
             @RequestBody
             RecommendationRequest request
