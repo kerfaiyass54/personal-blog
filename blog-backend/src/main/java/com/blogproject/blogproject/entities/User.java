@@ -3,31 +3,36 @@ package com.blogproject.blogproject.entities;
 import com.blogproject.blogproject.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.time.Instant;
-import java.util.List;
 
 @Document(collection = "users")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class User {
 
     @Id
     private String id;
 
     @NotBlank(message = "Name cannot be empty")
-    @Size(min = 2, max = 50, message = "Name must be between 2 and 50 characters")
+    @Size(
+            min = 2,
+            max = 50,
+            message = "Name must be between 2 and 50 characters"
+    )
     private String name;
 
     @NotBlank(message = "Email cannot be empty")
@@ -36,20 +41,14 @@ public class User {
     private String email;
 
     @NotBlank(message = "Password cannot be empty")
-    @Size(min = 8, message = "Password must contain at least 8 characters")
+    @Size(
+            min = 8,
+            message = "Password must contain at least 8 characters"
+    )
     private String password;
 
-    @NotBlank(message = "Role cannot be empty")
-    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Role is required")
     private UserRole role;
 
     private Instant passwordChangedAt;
-
-    @DBRef
-    @Indexed(unique = true)
-    private Profile profile;
-
-    @DBRef
-    private List<SocialMedia> socialMediaList;
-
 }

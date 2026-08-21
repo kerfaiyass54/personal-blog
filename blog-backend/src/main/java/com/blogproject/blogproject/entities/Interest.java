@@ -1,46 +1,45 @@
 package com.blogproject.blogproject.entities;
 
-
 import com.blogproject.blogproject.enums.InterestType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-
 @Document(collection = "interests")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Interest {
 
     @Id
     private String id;
 
-
     @NotBlank(message = "Name cannot be empty")
-    @NotNull
+    @Size(
+            min = 2,
+            max = 50,
+            message = "Name must be between 2 and 50 characters"
+    )
     @Indexed(unique = true)
-    @Size(min = 10, max = 50, message = "Name must be between 2 and 50 characters")
     private String name;
 
-    @NotBlank(message = "Interest cannot be empty")
-    @Enumerated(EnumType.STRING)
-    private InterestType  interestType;
+    @NotNull(message = "Interest type is required")
+    private InterestType interestType;
 
+    @Size(max = 500, message = "Description cannot exceed 500 characters")
     private String description;
 
-    @DBRef
-    private List<Profile> profiles;
+    private List<String> profileIds;
 }

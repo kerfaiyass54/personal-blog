@@ -1,25 +1,27 @@
 package com.blogproject.blogproject.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.Instant;
 
 @Document(collection = "explains")
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Explain {
 
     @Id
     private String id;
+
     private String content;
-    private Date insertDate;
+
+    @CreatedDate
+    private Instant insertDate;
 }

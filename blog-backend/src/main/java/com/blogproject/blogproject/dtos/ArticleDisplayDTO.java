@@ -17,6 +17,5 @@ public class ArticleDisplayDTO {
     private String id;
     private String title;
     private String content;
-    private Date dateInsert;
-    private Date dateUpdate;
+
 }

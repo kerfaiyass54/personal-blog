@@ -29,8 +29,7 @@ public class ArticleService {
 
         article.setTitle(dto.getTitle());
         article.setContent(dto.getContent());
-        article.setDateInsert(new Date());
-        article.setDateUpdate(new Date());
+
 
         Article savedArticle = articleRepository.save(article);
 
@@ -74,7 +73,6 @@ public class ArticleService {
 
         article.setTitle(dto.getTitle());
         article.setContent(dto.getContent());
-        article.setDateUpdate(new Date());
 
         Article updatedArticle = articleRepository.save(article);
 
@@ -105,9 +103,7 @@ public class ArticleService {
         return new ArticleDisplayDTO(
                 article.getId(),
                 article.getTitle(),
-                article.getContent(),
-                article.getDateInsert(),
-                article.getDateUpdate()
+                article.getContent()
         );
     }
 }
