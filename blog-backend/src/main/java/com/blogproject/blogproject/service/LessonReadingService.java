@@ -26,7 +26,6 @@ public class LessonReadingService {
         reading.setEmailUser(request.getEmailUser());
         reading.setProgress(0);
         reading.setRead(false);
-        reading.setDateLastRead(new Date());
 
         LessonReading saved =
                 lessonReadingRepository.save(reading);
@@ -49,7 +48,6 @@ public class LessonReadingService {
                                 new RuntimeException("Reading not found"));
 
         reading.setProgress(request.getProgress());
-        reading.setDateLastRead(new Date());
 
         if (request.getProgress() >= 100) {
             reading.setRead(true);
@@ -88,7 +86,6 @@ public class LessonReadingService {
                 reading.getId(),
                 reading.getLessonId(),
                 reading.getEmailUser(),
-                reading.getDateLastRead(),
                 reading.getProgress(),
                 reading.getRead()
         );

@@ -195,7 +195,7 @@ public class QuizService {
 
         UserQuizResult result =
                 UserQuizResult.builder()
-                        .userEmail(
+                        .userId(
                                 request.getUserId()
                         )
                         .quizId(
@@ -212,9 +212,6 @@ public class QuizService {
                         )
                         .scorePercentage(
                                 percentage
-                        )
-                        .completedAt(
-                                LocalDateTime.now()
                         )
                         .answers(
                                 savedAnswers

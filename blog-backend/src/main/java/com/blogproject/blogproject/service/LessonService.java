@@ -24,7 +24,6 @@ public class LessonService {
         Lesson lesson = new Lesson();
         lesson.setTitle(request.getTitle());
         lesson.setContent(request.getContent());
-        lesson.setDateInsert(new Date());
 
         Lesson saved = lessonRepository.save(lesson);
 
@@ -67,8 +66,7 @@ public class LessonService {
         return new LessonResponse(
                 lesson.getId(),
                 lesson.getTitle(),
-                lesson.getContent(),
-                lesson.getDateInsert()
+                lesson.getContent()
         );
     }
 }

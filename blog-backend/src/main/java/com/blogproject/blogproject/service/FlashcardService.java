@@ -18,13 +18,13 @@ public class FlashcardService {
 
     public List<FlashcardDto> getGeneratedFlashcards() {
 
-        return cacheService.getAll();
+        return cacheService.getAllFlashcards();
     }
 
     public void saveGeneratedFlashcards() {
 
         List<FlashcardDto> generated =
-                cacheService.getAll();
+                cacheService.getAllFlashcards();
 
         List<Flashcard> flashcards =
                 generated.stream()
@@ -43,7 +43,7 @@ public class FlashcardService {
                 flashcards
         );
 
-        cacheService.clear();
+        cacheService.clearFlashcards();
     }
 
     public List<Flashcard> getLessonFlashcards(

@@ -20,11 +20,11 @@ public class FlashcardCacheService {
         );
     }
 
-    public List<FlashcardDto> getAll() {
+    public List<FlashcardDto> getAllFlashcards() {
         return generatedFlashcards;
     }
 
-    public void clear() {
+    public void clearFlashcards() {
         generatedFlashcards.clear();
     }
 }

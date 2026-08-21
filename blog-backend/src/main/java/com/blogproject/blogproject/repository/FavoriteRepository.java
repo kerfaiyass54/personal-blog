@@ -11,11 +11,17 @@ import java.util.Optional;
 
 public interface FavoriteRepository extends MongoRepository<Favorite, String> {
 
-    List<Favorite> findByUser(User user);
+    List<Favorite> findByUserId(String userId);
 
-    Optional<Favorite> findByUserAndSkill(User user, Skill skill);
+    boolean existsByUserIdAndSkillId(
+            String userId,
+            String skillId
+    );
 
-    boolean existsByUserAndSkill(User user, Skill skill);
+    Optional<Favorite> findByUserIdAndSkillId(
+            String userId,
+            String skillId
+    );
 
     @Query(value = "{ 'user.email' : ?0 }", count = true)
     long countFavoritesByUserEmail(String email);

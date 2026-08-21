@@ -15,8 +15,6 @@ public class LessonReadingResponse {
 
     private String emailUser;
 
-    private Date dateLastRead;
-
     private Integer progress;
 
     private Boolean read;

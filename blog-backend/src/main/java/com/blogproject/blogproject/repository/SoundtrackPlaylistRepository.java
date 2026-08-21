@@ -10,13 +10,35 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface SoundtrackPlaylistRepository extends MongoRepository<SoundtrackPlaylist,String> {
+    Page<SoundtrackPlaylist> findByPlaylistId(
+            String playlistId,
+            Pageable pageable
+    );
 
-    Page<SoundtrackPlaylist> findSoundtrackPlaylistsByPlaylist(Playlist playlist, Pageable pageable);
+    Optional<SoundtrackPlaylist> findByPlaylistIdAndSoundtrackId(
+            String playlistId,
+            String soundtrackId
+    );
 
-    SoundtrackPlaylist findSoundtrackPlaylistByPlaylistAndSoundtrack(Playlist playlist, Soundtrack soundtrack);
+    boolean existsByPlaylistIdAndSoundtrackId(
+            String playlistId,
+            String soundtrackId
+    );
 
+    long countByPlaylistIdIn(
+            List<String> playlistIds
+    );
+
+    long countByPlaylistId(
+            String playlistId
+    );
+
+    void deleteByPlaylistId(
+            String playlistId
+    );
 
 }

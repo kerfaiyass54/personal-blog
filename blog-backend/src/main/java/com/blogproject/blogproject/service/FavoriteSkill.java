@@ -9,30 +9,35 @@ import com.blogproject.blogproject.repository.SkillRepository;
 import com.blogproject.blogproject.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class FavoriteSkill {
 
     private final FavoriteRepository favoriteRepository;
     private final UserRepository userRepository;
     private final SkillRepository skillRepository;
 
+    @Transactional(readOnly = true)
     public List<FavoriteDTO> getFavoriteSkills(String userEmail) {
 
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return favoriteRepository.findByUser(user)
+        return favoriteRepository.findByUserId(user.getId())
                 .stream()
                 .map(favorite -> {
-                    FavoriteDTO dto = new FavoriteDTO();
-                    dto.setId(favorite.getId());
-                    dto.setUserEmail(user.getEmail());
-                    dto.setSkillName(favorite.getSkill().getName());
-                    return dto;
+
+                    Skill skill = skillRepository.findById(favorite.getSkillId())
+                            .orElseThrow(() ->
+                                    new RuntimeException("Skill not found")
+                            );
+
+                    return toDTO(favorite, user, skill);
                 })
                 .toList();
     }
@@ -45,22 +50,21 @@ public class FavoriteSkill {
         Skill skill = skillRepository.findById(skillId)
                 .orElseThrow(() -> new RuntimeException("Skill not found"));
 
-        if (favoriteRepository.existsByUserAndSkill(user, skill)) {
+        if (favoriteRepository.existsByUserIdAndSkillId(
+                user.getId(),
+                skill.getId()
+        )) {
             throw new RuntimeException("Skill already in favorites");
         }
 
-        Favorite favorite = new Favorite();
-        favorite.setUser(user);
-        favorite.setSkill(skill);
+        Favorite favorite = Favorite.builder()
+                .userId(user.getId())
+                .skillId(skill.getId())
+                .build();
 
         Favorite saved = favoriteRepository.save(favorite);
 
-        FavoriteDTO dto = new FavoriteDTO();
-        dto.setId(saved.getId());
-        dto.setUserEmail(user.getEmail());
-        dto.setSkillName(skill.getName());
-
-        return dto;
+        return toDTO(saved, user, skill);
     }
 
     public void removeFavoriteSkill(String userEmail, String skillId) {
@@ -68,13 +72,29 @@ public class FavoriteSkill {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Skill skill = skillRepository.findById(skillId)
+        skillRepository.findById(skillId)
                 .orElseThrow(() -> new RuntimeException("Skill not found"));
 
         Favorite favorite = favoriteRepository
-                .findByUserAndSkill(user, skill)
-                .orElseThrow(() -> new RuntimeException("Favorite not found"));
+                .findByUserIdAndSkillId(user.getId(), skillId)
+                .orElseThrow(() ->
+                        new RuntimeException("Favorite not found")
+                );
 
         favoriteRepository.delete(favorite);
+    }
+
+    private FavoriteDTO toDTO(
+            Favorite favorite,
+            User user,
+            Skill skill
+    ) {
+        FavoriteDTO dto = new FavoriteDTO();
+
+        dto.setId(favorite.getId());
+        dto.setUserEmail(user.getEmail());
+        dto.setSkillName(skill.getName());
+
+        return dto;
     }
 }

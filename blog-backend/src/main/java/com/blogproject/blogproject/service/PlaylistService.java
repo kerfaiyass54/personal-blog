@@ -3,43 +3,42 @@ package com.blogproject.blogproject.service;
 import com.blogproject.blogproject.dtos.PlaylistCreateDTO;
 import com.blogproject.blogproject.dtos.PlaylistDetailsDTO;
 import com.blogproject.blogproject.dtos.SoundtrackDetailsDTO;
-import com.blogproject.blogproject.entities.*;
-import com.blogproject.blogproject.repository.*;
-
+import com.blogproject.blogproject.entities.Playlist;
+import com.blogproject.blogproject.entities.Soundtrack;
+import com.blogproject.blogproject.entities.SoundtrackPlaylist;
+import com.blogproject.blogproject.entities.User;
+import com.blogproject.blogproject.repository.PlaylistRepository;
+import com.blogproject.blogproject.repository.SoundtrackPlaylistRepository;
+import com.blogproject.blogproject.repository.SoundtrackRepository;
+import com.blogproject.blogproject.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class PlaylistService {
 
     private final PlaylistRepository playlistRepository;
-
     private final SoundtrackPlaylistRepository soundtrackPlaylistRepository;
-
     private final SoundtrackRepository soundtrackRepository;
-
     private final UserRepository userRepository;
 
 
-    public PlaylistService(
-            PlaylistRepository playlistRepository,
-            SoundtrackPlaylistRepository soundtrackPlaylistRepository,
-            SoundtrackRepository soundtrackRepository,
-            UserRepository userRepository
-    ) {
-
-        this.playlistRepository = playlistRepository;
-        this.soundtrackPlaylistRepository = soundtrackPlaylistRepository;
-        this.soundtrackRepository = soundtrackRepository;
-        this.userRepository = userRepository;
-    }
-
+    // =========================================================
+    // MAPPING
+    // =========================================================
 
     public PlaylistDetailsDTO mapPlaylist(Playlist playlist) {
 
@@ -54,46 +53,116 @@ public class PlaylistService {
     }
 
 
+    private SoundtrackDetailsDTO mapSoundtrack(Soundtrack soundtrack) {
+
+        SoundtrackDetailsDTO dto = new SoundtrackDetailsDTO();
+
+        dto.setId(soundtrack.getId());
+        dto.setLink(soundtrack.getLink());
+        dto.setTitle(soundtrack.getTitle());
+        dto.setType(soundtrack.getType());
+        dto.setRate(soundtrack.getRate());
+
+        return dto;
+    }
+
+
+    // =========================================================
+    // USER
+    // =========================================================
+
+    private User getUserByEmail(String email) {
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+    }
+
+
+    // =========================================================
+    // PLAYLIST AUTHORIZATION
+    // =========================================================
+
+    private Playlist getAuthorizedPlaylist(
+            String email,
+            String playlistId
+    ) {
+
+        User user = getUserByEmail(email);
+
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(() ->
+                        new RuntimeException("Playlist not found"));
+
+        if (!playlist.getUserId().equals(user.getId())) {
+            throw new RuntimeException("Unauthorized access");
+        }
+
+        return playlist;
+    }
+
+
+    // =========================================================
+    // PLAYLIST COUNT
+    // =========================================================
+
+    @Transactional(readOnly = true)
     public Integer getPlaylistsCount(String email) {
 
-        User user =
-                userRepository.findByEmail(email)
-                        .orElseThrow(() ->
-                                new RuntimeException("User not found"));
+        User user = getUserByEmail(email);
 
-        return playlistRepository.findByUser(user).size();
+        return Math.toIntExact(
+                playlistRepository.countByUserId(user.getId())
+        );
     }
 
 
+    // =========================================================
+    // NUMBER OF TRACKS
+    // =========================================================
+
+    @Transactional(readOnly = true)
     public Integer getInsertedTracksNumber(String email) {
 
-        User user =
-                userRepository.findByEmail(email)
-                        .orElseThrow(() ->
-                                new RuntimeException("User not found"));
+        User user = getUserByEmail(email);
 
-        return playlistRepository.findByUser(user)
-                .stream()
-                .mapToInt(p -> p.getSoundtracks().size())
-                .sum();
+        List<String> playlistIds =
+                playlistRepository.findIdsByUserId(user.getId());
+
+        if (playlistIds.isEmpty()) {
+            return 0;
+        }
+
+        return Math.toIntExact(
+                soundtrackPlaylistRepository.countByPlaylistIdIn(
+                        playlistIds
+                )
+        );
     }
 
 
+    // =========================================================
+    // GET PLAYLISTS
+    // =========================================================
+
+    @Transactional(readOnly = true)
     public List<PlaylistDetailsDTO> getPlaylists(String email) {
 
-        User user =
-                userRepository.findByEmail(email)
-                        .orElseThrow(() ->
-                                new RuntimeException("User not found"));
+        User user = getUserByEmail(email);
 
         return playlistRepository
-                .findByUser(user)
+                .findByUserId(user.getId())
                 .stream()
                 .map(this::mapPlaylist)
                 .toList();
     }
 
 
+    // =========================================================
+    // GET SOUNDTRACKS FOR PLAYLIST
+    // =========================================================
+
+    @Transactional(readOnly = true)
     public Page<SoundtrackDetailsDTO> getSoundTracksForPlaylist(
             String email,
             String playlistId,
@@ -101,71 +170,61 @@ public class PlaylistService {
             int size
     ) {
 
-        Playlist playlist =
-                playlistRepository.findById(playlistId)
-                        .orElseThrow(() ->
-                                new RuntimeException("Playlist not found"));
+        getAuthorizedPlaylist(email, playlistId);
 
-        if (!playlist.getUser().getEmail().equals(email)) {
+        PageRequest pageRequest =
+                PageRequest.of(page, size);
 
-            throw new RuntimeException("Unauthorized access");
-        }
-
-        Page<SoundtrackPlaylist> soundtrackPlaylists =
+        Page<SoundtrackPlaylist> relationships =
                 soundtrackPlaylistRepository
-                        .findSoundtrackPlaylistsByPlaylist(
-                                playlist,
-                                PageRequest.of(page, size)
+                        .findByPlaylistId(
+                                playlistId,
+                                pageRequest
                         );
 
-        return soundtrackPlaylists.map(sp -> {
-
-            Soundtrack s = sp.getSoundtrack();
-
-            SoundtrackDetailsDTO dto =
-                    new SoundtrackDetailsDTO();
-
-            dto.setId(s.getId());
-            dto.setLink(s.getLink());
-            dto.setTitle(s.getTitle());
-            dto.setType(s.getType());
-            dto.setRate(s.getRate());
-
-            return dto;
-        });
-    }
-
-
-    public void removeSoundtrack(
-            String email,
-            String soundtrackId,
-            String playlistId
-    ) {
-
-        Playlist playlist =
-                playlistRepository.findById(playlistId)
-                        .orElseThrow(() ->
-                                new RuntimeException("Playlist not found"));
-
-        if (!playlist.getUser().getEmail().equals(email)) {
-
-            throw new RuntimeException("Unauthorized access");
+        if (relationships.isEmpty()) {
+            return Page.empty(pageRequest);
         }
 
-        Soundtrack soundtrack =
-                soundtrackRepository.findById(soundtrackId)
-                        .orElseThrow(() ->
-                                new RuntimeException("Soundtrack not found"));
+        List<String> soundtrackIds =
+                relationships
+                        .getContent()
+                        .stream()
+                        .map(SoundtrackPlaylist::getSoundtrackId)
+                        .toList();
 
-        soundtrackPlaylistRepository.delete(
-                soundtrackPlaylistRepository
-                        .findSoundtrackPlaylistByPlaylistAndSoundtrack(
-                                playlist,
-                                soundtrack
-                        )
+        List<Soundtrack> soundtracks =
+                soundtrackRepository.findAllById(soundtrackIds);
+
+        /*
+         * findAllById() does not guarantee the same order as
+         * soundtrackIds, so create a map and rebuild the original order.
+         */
+        Map<String, Soundtrack> soundtrackMap =
+                soundtracks.stream()
+                        .collect(Collectors.toMap(
+                                Soundtrack::getId,
+                                Function.identity()
+                        ));
+
+        List<SoundtrackDetailsDTO> content =
+                soundtrackIds.stream()
+                        .map(soundtrackMap::get)
+                        .filter(java.util.Objects::nonNull)
+                        .map(this::mapSoundtrack)
+                        .toList();
+
+        return new PageImpl<>(
+                content,
+                pageRequest,
+                relationships.getTotalElements()
         );
     }
 
+
+    // =========================================================
+    // ADD SOUNDTRACK
+    // =========================================================
 
     public SoundtrackPlaylist addSoundtrackToPlaylist(
             String email,
@@ -173,83 +232,123 @@ public class PlaylistService {
             String playlistId
     ) {
 
-        Playlist playlist =
-                playlistRepository.findById(playlistId)
-                        .orElseThrow(() ->
-                                new RuntimeException("Playlist not found"));
-
-        if (!playlist.getUser().getEmail().equals(email)) {
-
-            throw new RuntimeException("Unauthorized access");
-        }
+        getAuthorizedPlaylist(email, playlistId);
 
         Soundtrack soundtrack =
                 soundtrackRepository.findById(soundtrackId)
                         .orElseThrow(() ->
-                                new RuntimeException("Soundtrack not found"));
+                                new RuntimeException(
+                                        "Soundtrack not found"
+                                ));
 
-        SoundtrackPlaylist sp =
-                new SoundtrackPlaylist();
+        if (soundtrackPlaylistRepository
+                .existsByPlaylistIdAndSoundtrackId(
+                        playlistId,
+                        soundtrackId
+                )) {
 
-        sp.setPlaylist(playlist);
+            throw new RuntimeException(
+                    "Soundtrack is already in this playlist"
+            );
+        }
 
-        sp.setSoundtrack(soundtrack);
+        SoundtrackPlaylist relationship =
+                SoundtrackPlaylist.builder()
+                        .playlistId(playlistId)
+                        .soundtrackId(soundtrack.getId())
+                        .build();
 
-        return soundtrackPlaylistRepository.save(sp);
+        return soundtrackPlaylistRepository.save(relationship);
     }
 
 
-    public void deletePlaylist(
+    // =========================================================
+    // REMOVE SOUNDTRACK
+    // =========================================================
+
+    public void removeSoundtrack(
             String email,
+            String soundtrackId,
             String playlistId
     ) {
 
-        Playlist playlist =
-                playlistRepository.findById(playlistId)
+        getAuthorizedPlaylist(email, playlistId);
+
+        soundtrackRepository.findById(soundtrackId)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Soundtrack not found"
+                        ));
+
+        SoundtrackPlaylist relationship =
+                soundtrackPlaylistRepository
+                        .findByPlaylistIdAndSoundtrackId(
+                                playlistId,
+                                soundtrackId
+                        )
                         .orElseThrow(() ->
-                                new RuntimeException("Playlist not found"));
+                                new RuntimeException(
+                                        "Soundtrack is not in this playlist"
+                                ));
 
-        if (!playlist.getUser().getEmail().equals(email)) {
-
-            throw new RuntimeException("Unauthorized access");
-        }
-
-        playlistRepository.delete(playlist);
+        soundtrackPlaylistRepository.delete(relationship);
     }
 
+
+    // =========================================================
+    // CREATE PLAYLIST
+    // =========================================================
 
     public Playlist createPlaylist(
             String email,
             PlaylistCreateDTO dto
     ) {
 
-        User user =
-                userRepository.findByEmail(email)
-                        .orElseThrow(() ->
-                                new RuntimeException("User not found"));
+        User user = getUserByEmail(email);
 
         Playlist playlist =
-                new Playlist();
-
-        playlist.setTitle(dto.getTitle());
-
-        playlist.setDescription(dto.getDescription());
-
-        playlist.setUser(user);
+                Playlist.builder()
+                        .title(dto.getTitle())
+                        .description(dto.getDescription())
+                        .userId(user.getId())
+                        .build();
 
         Playlist saved =
                 playlistRepository.save(playlist);
 
-        for (String soundtrackId : dto.getSoundtrackIds()) {
+        if (dto.getSoundtrackIds() != null) {
 
-            addSoundtrackToPlaylist(
-                    email,
-                    soundtrackId,
-                    saved.getId()
-            );
+            for (String soundtrackId : dto.getSoundtrackIds()) {
+
+                addSoundtrackToPlaylist(
+                        email,
+                        soundtrackId,
+                        saved.getId()
+                );
+            }
         }
 
         return saved;
     }
 
+
+    // =========================================================
+    // DELETE PLAYLIST
+    // =========================================================
+
+    public void deletePlaylist(
+            String email,
+            String playlistId
+    ) {
+
+        getAuthorizedPlaylist(email, playlistId);
+
+        /*
+         * Delete the relationship documents first.
+         */
+        soundtrackPlaylistRepository
+                .deleteByPlaylistId(playlistId);
+
+        playlistRepository.deleteById(playlistId);
+    }
 }

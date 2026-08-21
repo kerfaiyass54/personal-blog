@@ -14,9 +14,22 @@ import java.util.List;
 @Repository
 public interface SoundtrackRepository  extends MongoRepository<Soundtrack,String> {
 
-    List<Soundtrack> findByUser(User user);
+    long countByUserId(String userId);
 
-    Page<Soundtrack> findByUserAndType(User user, SoundtrackType type,  Pageable pageable);
+    long countByUserIdAndRateGreaterThan(
+            String userId,
+            int rate
+    );
+
+    java.util.List<Soundtrack> findByUserId(
+            String userId
+    );
+
+    Page<Soundtrack> findByUserIdAndType(
+            String userId,
+            SoundtrackType type,
+            Pageable pageable
+    );
 
     Soundtrack findSoundtrackById(String id);
 

@@ -15,5 +15,4 @@ public class LessonResponse {
 
     private String content;
 
-    private Date dateInsert;
 }

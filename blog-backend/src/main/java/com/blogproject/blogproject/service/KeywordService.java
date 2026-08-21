@@ -16,7 +16,7 @@ public class KeywordService {
 
     private final KeywordRepository repository;
 
-    public void save(
+    public void saveKeyword(
             String keywordName,
             String skillName
     ) {

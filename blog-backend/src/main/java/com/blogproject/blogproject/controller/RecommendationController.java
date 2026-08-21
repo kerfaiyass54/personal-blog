@@ -3,9 +3,9 @@ package com.blogproject.blogproject.controller;
 import com.blogproject.blogproject.dtos.RecommendationRequest;
 import com.blogproject.blogproject.entities.Recommendation;
 import com.blogproject.blogproject.service.RecommendationService;
-
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,62 +15,65 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecommendationController {
 
-    private final RecommendationService service;
+    private final RecommendationService recommendationService;
 
-    // --------------------------------
-    // GENERATE RECOMMENDATIONS
-    // --------------------------------
+
+    // =========================================================
+    // REQUEST RECOMMENDATIONS
+    // =========================================================
 
     @PostMapping
-    public String generateRecommandation(
-            @RequestBody
-            RecommendationRequest request
+    public ResponseEntity<String> requestRecommendations(
+            @Valid @RequestBody RecommendationRequest request
     ) {
 
-        service.generateRecommendations(
-                request
-        );
+        recommendationService.requestRecommendations(request);
 
-        return "Recommendation request sent.";
+        return ResponseEntity.ok(
+                "Recommendation request sent."
+        );
     }
 
-    // --------------------------------
-    // GET ALL
-    // --------------------------------
+
+    // =========================================================
+    // GET ALL RECOMMENDATIONS
+    // =========================================================
 
     @GetMapping
-    public List<Recommendation> getAllRecommendations() {
+    public ResponseEntity<List<Recommendation>> findAllRecommendations() {
 
-        return service.all();
-    }
-
-    // --------------------------------
-    // GET BY EMAIL
-    // --------------------------------
-
-    @GetMapping("/email/{email}")
-    public List<Recommendation> getRecommendationsByEmail(
-            @PathVariable
-            String email
-    ) {
-
-        return service.findByEmail(
-                email
+        return ResponseEntity.ok(
+                recommendationService.findAll()
         );
     }
 
-    // --------------------------------
-    // GET BY USER ID
-    // --------------------------------
 
-    @GetMapping("/user/{userId}")
-    public List<Recommendation> getRecommendationsByUser(
-            @PathVariable
-            String userId
+    // =========================================================
+    // GET RECOMMENDATIONS BY EMAIL
+    // =========================================================
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<List<Recommendation>> findRecommendationsByEmail(
+            @PathVariable String email
     ) {
 
-        return service.findByUserId(
-                userId
+        return ResponseEntity.ok(
+                recommendationService.findRecommendationsByEmail(email)
+        );
+    }
+
+
+    // =========================================================
+    // GET RECOMMENDATIONS BY USER ID
+    // =========================================================
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Recommendation>> findRecommendationsByUserId(
+            @PathVariable String userId
+    ) {
+
+        return ResponseEntity.ok(
+                recommendationService.findRecommendationsByUserId(userId)
         );
     }
 }

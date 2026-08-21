@@ -33,7 +33,6 @@ public class SocialMedia {
     private String name;
 
     @NotBlank(message = "Link cannot be empty")
-    @Size(max = 500, message = "Link cannot exceed 500 characters")
     private String link;
 
     @Size(

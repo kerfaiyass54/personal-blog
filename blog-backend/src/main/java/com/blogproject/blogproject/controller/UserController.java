@@ -52,7 +52,7 @@ public class UserController {
 
     @GetMapping("/email")
     public ResponseEntity<Boolean> existEmail(@RequestParam String emailToTest) {
-        boolean emailIsExisted = userService.checkEmailExist(emailToTest);
+        boolean emailIsExisted = userService.emailExists(emailToTest);
         return new ResponseEntity<>(emailIsExisted, HttpStatus.OK);
     }
 
@@ -71,7 +71,7 @@ public class UserController {
 
     @GetMapping("/profile/{username}")
     public ResponseEntity<Boolean>  checkUserProfile(@PathVariable String username) {
-        boolean hasItProfile = userService.hasItProfile(username);
+        boolean hasItProfile = userService.hasProfile(username);
         return new ResponseEntity<>(hasItProfile, HttpStatus.OK);
     }
 

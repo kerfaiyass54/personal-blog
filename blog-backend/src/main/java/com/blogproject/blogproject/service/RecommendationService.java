@@ -4,84 +4,91 @@ import com.blogproject.blogproject.dtos.RecommendationRequest;
 import com.blogproject.blogproject.entities.Recommendation;
 import com.blogproject.blogproject.kafka.RecommendationProducer;
 import com.blogproject.blogproject.repository.RecommendationRepository;
-
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class RecommendationService {
 
-    private final RecommendationProducer producer;
+    private final RecommendationProducer recommendationProducer;
+    private final RecommendationRepository recommendationRepository;
 
-    private final RecommendationRepository repository;
 
-    // ----------------------------
-    // SEND REQUEST TO PYTHON AI
-    // ----------------------------
+    // =========================================================
+    // REQUEST RECOMMENDATIONS
+    // =========================================================
 
-    public void generateRecommendations(
+    /**
+     * Sends a recommendation request to the AI service through Kafka.
+     */
+    public void requestRecommendations(
             RecommendationRequest request
     ) {
 
-        producer.requestRecommendations(
-                request
-        );
+        recommendationProducer.requestRecommendations(request);
     }
 
-    // ----------------------------
-    // SAVE RECOMMENDATION RESULTS
-    // ----------------------------
 
-    public Recommendation save(
+    // =========================================================
+    // SAVE RECOMMENDATION
+    // =========================================================
+
+    /**
+     * Saves the recommendation result received from the AI service.
+     */
+    public Recommendation saveRecommendation(
             Recommendation recommendation
     ) {
 
-        recommendation.setCreatedAt(
-                Instant.now()
-        );
+        if (recommendation.getCreatedAt() == null) {
+            recommendation.setCreatedAt(Instant.now());
+        }
 
-        return repository.save(
-                recommendation
-        );
+        return recommendationRepository.save(recommendation);
     }
 
-    // ----------------------------
-    // GET ALL
-    // ----------------------------
 
-    public List<Recommendation> all() {
+    // =========================================================
+    // FIND ALL
+    // =========================================================
 
-        return repository.findAll();
+    @Transactional(readOnly = true)
+    public List<Recommendation> findAll() {
+
+        return recommendationRepository.findAll();
     }
 
-    // ----------------------------
-    // GET BY EMAIL
-    // ----------------------------
 
-    public List<Recommendation> findByEmail(
+    // =========================================================
+    // FIND BY EMAIL
+    // =========================================================
+
+    @Transactional(readOnly = true)
+    public List<Recommendation> findRecommendationsByEmail(
             String email
     ) {
 
-        return repository.findByEmail(
-                email
-        );
+        return recommendationRepository
+                .findByEmail(email);
     }
 
-    // ----------------------------
-    // GET BY USER
-    // ----------------------------
 
-    public List<Recommendation> findByUserId(
+    // =========================================================
+    // FIND BY USER ID
+    // =========================================================
+
+    @Transactional(readOnly = true)
+    public List<Recommendation> findRecommendationsByUserId(
             String userId
     ) {
 
-        return repository.findByUserId(
-                userId
-        );
+        return recommendationRepository
+                .findByUserId(userId);
     }
 }

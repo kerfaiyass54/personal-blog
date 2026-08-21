@@ -1,6 +1,5 @@
 package com.blogproject.blogproject.service;
 
-
 import com.blogproject.blogproject.dtos.SocialMediaCreation;
 import com.blogproject.blogproject.dtos.SocialMediaDTO;
 import com.blogproject.blogproject.entities.SocialMedia;
@@ -8,94 +7,266 @@ import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.enums.SocialMediaType;
 import com.blogproject.blogproject.repository.SocialMediaRepository;
 import com.blogproject.blogproject.repository.UserRepository;
-import com.blogproject.blogproject.util.ConvertListToPage;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class SocialMediaService {
 
     private final SocialMediaRepository socialMediaRepository;
-
     private final UserRepository userRepository;
 
-    public SocialMediaService(SocialMediaRepository socialMediaRepository, UserRepository userRepository) {
-        this.socialMediaRepository = socialMediaRepository;
-        this.userRepository = userRepository;
+
+    // =========================================================
+    // MAPPING
+    // =========================================================
+
+    private SocialMediaDTO mapToDTO(
+            SocialMedia socialMedia,
+            User user
+    ) {
+
+        SocialMediaDTO dto = new SocialMediaDTO();
+
+        dto.setId(socialMedia.getId());
+        dto.setName(socialMedia.getName());
+        dto.setLink(socialMedia.getLink());
+        dto.setDescription(socialMedia.getDescription());
+        dto.setSocialMediaType(socialMedia.getType());
+
+        dto.setUserName(user.getName());
+        dto.setUserEmail(user.getEmail());
+
+        return dto;
     }
 
-    public SocialMediaDTO convertToDTO(SocialMedia socialMedia) {
-        SocialMediaDTO socialMediaDTO = new SocialMediaDTO();
-        socialMediaDTO.setName(socialMedia.getName());
-        socialMediaDTO.setLink(socialMedia.getLink());
-        socialMediaDTO.setDescription(socialMedia.getDescription());
-        socialMediaDTO.setId(socialMedia.getId());
-        socialMediaDTO.setUserName(socialMedia.getUser().getName());
-        socialMediaDTO.setUserEmail(socialMedia.getUser().getEmail());
-        socialMediaDTO.setSocialMediaType(socialMedia.getType());
-        return socialMediaDTO;
+
+    // =========================================================
+    // USER
+    // =========================================================
+
+    private User getUserByEmail(String email) {
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
     }
 
 
-    public SocialMediaDTO saveSocialMedia(SocialMediaCreation  socialMediaCreation, String email) {
-        SocialMedia socialMedia = new SocialMedia();
-        socialMedia.setName(socialMediaCreation.getName());
-        socialMedia.setLink(socialMediaCreation.getLink());
-        socialMedia.setDescription(socialMediaCreation.getDescription());
-        User user = userRepository.findUserByEmail(email);
-        socialMedia.setUser(user);
-        socialMedia.setType(socialMediaCreation.getSocialMediaType());
-        SocialMedia socialMedia1 = socialMediaRepository.save(socialMedia);
-        return convertToDTO(socialMedia1);
-    }
+    // =========================================================
+    // CREATE
+    // =========================================================
 
-    public SocialMediaDTO getSocialMediaById(String id) {
-        Optional<SocialMedia> socialMedia = socialMediaRepository.findById(id);
-        return socialMedia.map(this::convertToDTO).orElse(null);
-    }
+    public SocialMediaDTO saveSocialMedia(
+            SocialMediaCreation creation,
+            String email
+    ) {
 
-    public Page<SocialMediaDTO> getSocialMediaByPage(int page, int size, String email) {
-        User user = userRepository.findUserByEmail(email);
-        Pageable pageable = PageRequest.of(page, size);
-        List<SocialMediaDTO> socialMedia = user.getSocialMediaList().stream().map(this::convertToDTO).toList();
-        return ConvertListToPage.convertListToPage(socialMedia, pageable);
-    }
+        User user = getUserByEmail(email);
 
-    public void deleteSocialMediaById(String id) {
-        socialMediaRepository.deleteById(id);
-    }
-
-    public void updateSocialMediaById(String id, SocialMediaDTO socialMediaDTO) {
-        Optional<SocialMedia> socialMedia = socialMediaRepository.findById(id);
-        if (socialMedia.isPresent()) {
-            socialMedia.get().setName(socialMediaDTO.getName());
-            socialMedia.get().setLink(socialMediaDTO.getLink());
-            socialMedia.get().setDescription(socialMediaDTO.getDescription());
-            socialMediaRepository.save(socialMedia.get());
+        if (socialMediaRepository.existsByLink(creation.getLink())) {
+            throw new RuntimeException(
+                    "This social media link is already used"
+            );
         }
+
+        SocialMedia socialMedia =
+                SocialMedia.builder()
+                        .name(creation.getName())
+                        .link(creation.getLink())
+                        .description(creation.getDescription())
+                        .type(creation.getSocialMediaType())
+                        .userId(user.getId())
+                        .build();
+
+        SocialMedia saved =
+                socialMediaRepository.save(socialMedia);
+
+        return mapToDTO(saved, user);
     }
 
-    public boolean isLinkUsed(String link) {
-        return socialMediaRepository.findSocialMediaByLink(link) != null;
+
+    // =========================================================
+    // GET BY ID
+    // =========================================================
+
+    @Transactional(readOnly = true)
+    public SocialMediaDTO getSocialMediaById(
+            String id
+    ) {
+
+        SocialMedia socialMedia =
+                socialMediaRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Social media not found"
+                                ));
+
+        User user =
+                userRepository.findById(socialMedia.getUserId())
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "User not found"
+                                ));
+
+        return mapToDTO(socialMedia, user);
     }
 
-    public Page<SocialMediaDTO> getSocialMediaByType(int page, int size, SocialMediaType socialMediaType, String email) {
-        List<SocialMediaDTO> socialMediaDTOS = userRepository.findUserByEmail(email).getSocialMediaList().stream().map(this::convertToDTO).toList();
-        List<SocialMediaDTO> socialMediaDTOList = new ArrayList<>();
-        for(SocialMediaDTO socialMediaDTO : socialMediaDTOS) {
-            if (socialMediaDTO.getSocialMediaType().equals(socialMediaType)) {
-                socialMediaDTOList.add(socialMediaDTO);
-            }
+
+    // =========================================================
+    // GET BY PAGE
+    // =========================================================
+
+    @Transactional(readOnly = true)
+    public Page<SocialMediaDTO> getSocialMediaByPage(
+            int page,
+            int size,
+            String email
+    ) {
+
+        User user = getUserByEmail(email);
+
+        Pageable pageable =
+                PageRequest.of(page, size);
+
+        return socialMediaRepository
+                .findByUserId(
+                        user.getId(),
+                        pageable
+                )
+                .map(socialMedia ->
+                        mapToDTO(socialMedia, user)
+                );
+    }
+
+
+    // =========================================================
+    // GET BY TYPE
+    // =========================================================
+
+    @Transactional(readOnly = true)
+    public Page<SocialMediaDTO> getSocialMediaByType(
+            int page,
+            int size,
+            SocialMediaType type,
+            String email
+    ) {
+
+        User user = getUserByEmail(email);
+
+        Pageable pageable =
+                PageRequest.of(page, size);
+
+        return socialMediaRepository
+                .findByUserIdAndType(
+                        user.getId(),
+                        type,
+                        pageable
+                )
+                .map(socialMedia ->
+                        mapToDTO(socialMedia, user)
+                );
+    }
+
+
+    // =========================================================
+    // UPDATE
+    // =========================================================
+
+    public SocialMediaDTO updateSocialMediaById(
+            String id,
+            SocialMediaDTO dto,
+            String email
+    ) {
+
+        User user = getUserByEmail(email);
+
+        SocialMedia socialMedia =
+                socialMediaRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Social media not found"
+                                ));
+
+        /*
+         * Make sure the user can only modify
+         * his own social media.
+         */
+        if (!socialMedia.getUserId().equals(user.getId())) {
+            throw new RuntimeException(
+                    "Unauthorized access"
+            );
         }
-        Pageable pageable = PageRequest.of(page, size);
-        return ConvertListToPage.convertListToPage(socialMediaDTOList, pageable);
+
+        /*
+         * If the link changes, make sure the new
+         * link isn't already used.
+         */
+        if (!socialMedia.getLink().equals(dto.getLink())
+                && socialMediaRepository.existsByLink(dto.getLink())) {
+
+            throw new RuntimeException(
+                    "This social media link is already used"
+            );
+        }
+
+        socialMedia.setName(dto.getName());
+        socialMedia.setLink(dto.getLink());
+        socialMedia.setDescription(dto.getDescription());
+        socialMedia.setType(dto.getSocialMediaType());
+
+        SocialMedia updated =
+                socialMediaRepository.save(socialMedia);
+
+        return mapToDTO(updated, user);
+    }
+
+
+    // =========================================================
+    // DELETE
+    // =========================================================
+
+    public void deleteSocialMediaById(
+            String id,
+            String email
+    ) {
+
+        User user = getUserByEmail(email);
+
+        SocialMedia socialMedia =
+                socialMediaRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Social media not found"
+                                ));
+
+        if (!socialMedia.getUserId().equals(user.getId())) {
+            throw new RuntimeException(
+                    "Unauthorized access"
+            );
+        }
+
+        socialMediaRepository.delete(socialMedia);
+    }
+
+
+    // =========================================================
+    // CHECK LINK
+    // =========================================================
+
+    @Transactional(readOnly = true)
+    public boolean isLinkUsed(
+            String link
+    ) {
+
+        return socialMediaRepository.existsByLink(link);
     }
 }

@@ -51,4 +51,7 @@ public class User {
     private UserRole role;
 
     private Instant passwordChangedAt;
+
+    @Indexed(unique = true, sparse = true)
+    private String profileId;
 }

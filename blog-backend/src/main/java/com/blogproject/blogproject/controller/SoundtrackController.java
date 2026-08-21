@@ -30,7 +30,7 @@ public class SoundtrackController {
 
 
     @GetMapping("/total")
-    public ResponseEntity<Integer> getTotalSoundtracks(
+    public ResponseEntity<Long> getTotalSoundtracks(
             @PathVariable String email
     ) {
 
@@ -41,7 +41,7 @@ public class SoundtrackController {
 
 
     @GetMapping("/rated")
-    public ResponseEntity<Integer> getRatedSoundtracks(
+    public ResponseEntity<Long> getRatedSoundtracks(
             @PathVariable String email
     ) {
 
@@ -63,7 +63,7 @@ public class SoundtrackController {
 
 
     @PostMapping
-    public ResponseEntity<Soundtrack> createSoundtrack(
+    public ResponseEntity<SoundtrackDetailsDTO> createSoundtrack(
             @PathVariable String email,
             @RequestBody SoundtrackCreateDTO dto
     ) {

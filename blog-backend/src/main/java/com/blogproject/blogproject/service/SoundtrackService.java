@@ -8,131 +8,209 @@ import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.enums.SoundtrackType;
 import com.blogproject.blogproject.repository.SoundtrackRepository;
 import com.blogproject.blogproject.repository.UserRepository;
-
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
+@Transactional
 public class SoundtrackService {
 
     private final SoundtrackRepository soundtrackRepository;
     private final UserRepository userRepository;
-    private final KafkaProducerService kafkaProducer;
+    private final KafkaProducerService kafkaProducerService;
 
 
-    public SoundtrackService(
-            SoundtrackRepository soundtrackRepository,
-            UserRepository userRepository,
-            KafkaProducerService kafkaProducer
+    // =========================================================
+    // MAPPERS
+    // =========================================================
+
+    private SoundtrackDetailsDTO mapToDetailsDTO(
+            Soundtrack soundtrack
     ) {
-        this.soundtrackRepository = soundtrackRepository;
-        this.userRepository = userRepository;
-        this.kafkaProducer = kafkaProducer;
-    }
 
-    /* ✅ DTO MAPPER */
-    public SoundtrackDetailsDTO mapToDTO(Soundtrack s) {
-        SoundtrackDetailsDTO dto = new SoundtrackDetailsDTO();
-        dto.setId(s.getId());
-        dto.setLink(s.getLink());
-        dto.setTitle(s.getTitle());
-        dto.setAuthor(s.getAuthor());
-        dto.setType(s.getType());
-        dto.setRate(s.getRate());
+        SoundtrackDetailsDTO dto =
+                new SoundtrackDetailsDTO();
+
+        dto.setId(soundtrack.getId());
+        dto.setLink(soundtrack.getLink());
+        dto.setTitle(soundtrack.getTitle());
+        dto.setAuthor(soundtrack.getAuthor());
+        dto.setType(soundtrack.getType());
+        dto.setRate(soundtrack.getRate());
+
         return dto;
     }
 
-    public SoundtrackDTO mapToSDTO(Soundtrack s) {
-        SoundtrackDTO dto = new SoundtrackDTO();
-        dto.setId(s.getId());
-        dto.setLink(s.getLink());
-        dto.setTitle(s.getTitle());
-        dto.setType(s.getTitle());
-        return dto;
+
+
+
+
+    // =========================================================
+    // USER
+    // =========================================================
+
+    private User getUserByEmail(String email) {
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "User not found"
+                        ));
     }
 
-    public Integer getTotalSoundtracks(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return soundtrackRepository.findByUser(user).size();
+    // =========================================================
+    // TOTAL SOUNDTRACKS
+    // =========================================================
+
+    @Transactional(readOnly = true)
+    public long getTotalSoundtracks(
+            String email
+    ) {
+
+        User user = getUserByEmail(email);
+
+        return soundtrackRepository.countByUserId(
+                user.getId()
+        );
     }
 
-    public Integer getRatedSoundtracks(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        return (int) soundtrackRepository
-                .findByUser(user)
+    // =========================================================
+    // RATED SOUNDTRACKS
+    // =========================================================
+
+    @Transactional(readOnly = true)
+    public long getRatedSoundtracks(
+            String email
+    ) {
+
+        User user = getUserByEmail(email);
+
+        return soundtrackRepository
+                .countByUserIdAndRateGreaterThan(
+                        user.getId(),
+                        0
+                );
+    }
+
+
+    // =========================================================
+    // GET USER SOUNDTRACKS
+    // =========================================================
+
+    @Transactional(readOnly = true)
+    public List<SoundtrackDetailsDTO> getUserSoundtracks(
+            String email
+    ) {
+
+        User user = getUserByEmail(email);
+
+        return soundtrackRepository
+                .findByUserId(user.getId())
                 .stream()
-                .filter(track -> track.getRate() != null && track.getRate() != 0)
-                .count();
-    }
-
-    /* ✅ RETURN DTO LIST */
-    public List<SoundtrackDetailsDTO> getUserSoundtracks(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        return soundtrackRepository.findByUser(user)
-                .stream()
-                .map(this::mapToDTO)
+                .map(this::mapToDetailsDTO)
                 .toList();
     }
 
-    public Soundtrack addSoundtrack(String email, SoundtrackCreateDTO dto) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Soundtrack soundtrack = new Soundtrack();
-        soundtrack.setTitle(dto.getTitle());
-        soundtrack.setType(dto.getType());
-        soundtrack.setLink(dto.getLink());
-        soundtrack.setUser(user);
+    // =========================================================
+    // CREATE SOUNDTRACK
+    // =========================================================
 
-        return soundtrackRepository.save(soundtrack);
+    public SoundtrackDetailsDTO addSoundtrack(
+            String email,
+            SoundtrackCreateDTO dto
+    ) {
+
+        User user = getUserByEmail(email);
+
+        Soundtrack soundtrack =
+                Soundtrack.builder()
+                        .title(dto.getTitle())
+                        .type(dto.getType())
+                        .link(dto.getLink())
+                        .userId(user.getId())
+                        .rate(0)
+                        .build();
+
+        Soundtrack saved =
+                soundtrackRepository.save(soundtrack);
+
+        return mapToDetailsDTO(saved);
     }
 
-    public void removeSoundtrack(String email, String soundtrackId) {
-        Soundtrack soundtrack = soundtrackRepository.findById(soundtrackId)
-                .orElseThrow(() -> new RuntimeException("Soundtrack not found"));
 
-        if (!soundtrack.getUser().getEmail().equals(email)) {
-            throw new RuntimeException("Unauthorized access");
+    // =========================================================
+    // DELETE SOUNDTRACK
+    // =========================================================
+
+    public void removeSoundtrack(
+            String email,
+            String soundtrackId
+    ) {
+
+        User user = getUserByEmail(email);
+
+        Soundtrack soundtrack =
+                soundtrackRepository.findById(soundtrackId)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Soundtrack not found"
+                                ));
+
+        if (!user.getId().equals(soundtrack.getUserId())) {
+            throw new RuntimeException(
+                    "Unauthorized access"
+            );
         }
 
         soundtrackRepository.delete(soundtrack);
     }
 
+
+    // =========================================================
+    // GET SOUNDTRACKS BY TYPE
+    // =========================================================
+
+    @Transactional(readOnly = true)
     public Page<SoundtrackDetailsDTO> getSoundtracksByType(
             String email,
             SoundtrackType type,
             int page,
             int size
     ) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        Page<Soundtrack> soundtracks =
-                soundtrackRepository.findByUserAndType(
-                        user,
+        User user = getUserByEmail(email);
+
+        return soundtrackRepository
+                .findByUserIdAndType(
+                        user.getId(),
                         type,
                         PageRequest.of(page, size)
-                );
-
-        return soundtracks.map(this::mapToDTO);
+                )
+                .map(this::mapToDetailsDTO);
     }
 
 
-    public void rateSoundtrack(SoundtrackDTO soundtrack) {
-        kafkaProducer.sendSoundtrack(soundtrack);
+    // =========================================================
+    // SEND RATING REQUEST
+    // =========================================================
+
+    public void rateSoundtrack(
+            SoundtrackDTO soundtrack
+    ) {
+
+        kafkaProducerService.sendSoundtrack(
+                soundtrack
+        );
     }
-
-
 }
