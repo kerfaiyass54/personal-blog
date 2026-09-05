@@ -2,13 +2,13 @@ package com.blogproject.blogproject.service;
 
 import com.blogproject.blogproject.dtos.UserDTO;
 import com.blogproject.blogproject.dtos.UserLogin;
+import com.blogproject.blogproject.dtos.UserResponseDTO;
 import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.enums.UserRole;
 import com.blogproject.blogproject.repository.UserRepository;
 import com.blogproject.blogproject.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +28,7 @@ public class UserService {
     // REGISTER
     // =========================================================
 
-    public User register(UserDTO userDTO) {
+    public UserResponseDTO register(UserDTO userDTO) {
 
         if (userRepository.existsByEmail(userDTO.getEmail())) {
             throw new RuntimeException(
@@ -52,7 +52,16 @@ public class UserService {
                 .role(role)
                 .build();
 
-        return userRepository.save(user);
+        User savedUser = userRepository.save(user);
+
+        return UserResponseDTO.builder()
+                .id(savedUser.getId())
+                .name(savedUser.getName())
+                .email(savedUser.getEmail())
+                .role(savedUser.getRole())
+                .passwordChangedAt(savedUser.getPasswordChangedAt())
+                .profileId(savedUser.getProfileId())
+                .build();
     }
 
 
@@ -64,12 +73,14 @@ public class UserService {
     public String login(UserLogin userLogin) {
 
         User user =
-                userRepository.findByEmail(
-                        userLogin.getEmail()
-                ).orElseThrow(() ->
-                        new RuntimeException(
-                                "Invalid username or password"
-                        ));
+                userRepository
+                        .findByEmail(userLogin.getEmail())
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Invalid username or password"
+                                )
+                        );
+
 
         boolean passwordMatches =
                 passwordEncoder.matches(
@@ -77,14 +88,25 @@ public class UserService {
                         user.getPassword()
                 );
 
+
         if (!passwordMatches) {
+
             throw new RuntimeException(
                     "Invalid username or password"
             );
         }
 
+
+        // =====================================================
+        // IMPORTANT
+        // =====================================================
+        // The JWT subject is the EMAIL.
+        //
+        // This allows us to identify the authenticated user
+        // during protected operations such as password changes.
+
         return jwtUtil.generateToken(
-                user.getName(),
+                user.getEmail(),
                 user.getRole()
         );
     }
@@ -113,7 +135,8 @@ public class UserService {
             String rawPassword
     ) {
 
-        return userRepository.findByEmail(email)
+        return userRepository
+                .findByEmail(email)
                 .map(user ->
                         passwordEncoder.matches(
                                 rawPassword,
@@ -133,7 +156,8 @@ public class UserService {
             String email
     ) {
 
-        return userRepository.findByEmail(email)
+        return userRepository
+                .findByEmail(email)
                 .map(User::getRole)
                 .orElse(null);
     }
@@ -145,23 +169,100 @@ public class UserService {
 
     public void changePassword(
             String email,
+            String currentPassword,
             String newPassword
     ) {
 
+        // -----------------------------------------------------
+        // FIND AUTHENTICATED USER
+        // -----------------------------------------------------
+
         User user =
-                userRepository.findByEmail(email)
+                userRepository
+                        .findByEmail(email)
                         .orElseThrow(() ->
                                 new RuntimeException(
                                         "User not found"
-                                ));
+                                )
+                        );
+
+
+        // -----------------------------------------------------
+        // VERIFY CURRENT PASSWORD
+        // -----------------------------------------------------
+
+        boolean currentPasswordMatches =
+                passwordEncoder.matches(
+                        currentPassword,
+                        user.getPassword()
+                );
+
+
+        if (!currentPasswordMatches) {
+
+            throw new RuntimeException(
+                    "Current password is incorrect"
+            );
+        }
+
+
+        // -----------------------------------------------------
+        // VALIDATE NEW PASSWORD
+        // -----------------------------------------------------
+
+        if (newPassword == null ||
+                newPassword.isBlank()) {
+
+            throw new RuntimeException(
+                    "New password cannot be empty"
+            );
+        }
+
+
+        if (newPassword.length() < 8) {
+
+            throw new RuntimeException(
+                    "New password must contain at least 8 characters"
+            );
+        }
+
+
+        // -----------------------------------------------------
+        // PREVENT SAME PASSWORD
+        // -----------------------------------------------------
+
+        if (passwordEncoder.matches(
+                newPassword,
+                user.getPassword()
+        )) {
+
+            throw new RuntimeException(
+                    "New password must be different from current password"
+            );
+        }
+
+
+        // -----------------------------------------------------
+        // HASH NEW PASSWORD
+        // -----------------------------------------------------
 
         user.setPassword(
                 passwordEncoder.encode(newPassword)
         );
 
+
+        // -----------------------------------------------------
+        // UPDATE PASSWORD CHANGE TIMESTAMP
+        // -----------------------------------------------------
+
         user.setPasswordChangedAt(
                 java.time.Instant.now()
         );
+
+
+        // -----------------------------------------------------
+        // SAVE USER
+        // -----------------------------------------------------
 
         userRepository.save(user);
     }
@@ -194,11 +295,9 @@ public class UserService {
             String email
     ) {
 
-        return userRepository.findByEmail(email)
+        return userRepository
+                .findByEmail(email)
                 .map(User::getName)
                 .orElse(null);
     }
-
-    @Indexed(unique = true, sparse = true)
-    private String profileId;
 }
