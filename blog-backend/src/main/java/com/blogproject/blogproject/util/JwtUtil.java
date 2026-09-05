@@ -5,23 +5,37 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
-    private final static String jwtSecret = "mySuperSecretKeyForJwtMySuperSecretKeyForJwt"; // 256-bit
-    private final static int jwtExpirationMs = 86400000; // 1 day
-    private final static Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
+
+    private final Key key;
+    private final long jwtExpirationMs;
+
+    public JwtUtil(
+            @Value("${JWT_SECRET}") String jwtSecret,
+            @Value("${JWT_EXPIRATION_MS:86400000}") long jwtExpirationMs
+    ) {
+        this.key = Keys.hmacShaKeyFor(
+                jwtSecret.getBytes(StandardCharsets.UTF_8)
+        );
+        this.jwtExpirationMs = jwtExpirationMs;
+    }
 
     public String generateToken(String username, UserRole role) {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .setExpiration(
+                        new Date(System.currentTimeMillis() + jwtExpirationMs)
+                )
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -35,23 +49,25 @@ public class JwtUtil {
                 .getIssuedAt();
     }
 
-
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
+            Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token);
+
             return true;
-        } catch (JwtException e) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
     public String getUsername(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build()
-                .parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
     }
-
-
-
-
-
 }
