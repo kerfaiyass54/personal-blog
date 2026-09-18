@@ -1,7 +1,12 @@
 <div class="dashboard-container">
 
   <div class="dashboard-header">
-    <h1>Writer Analytics</h1>
+    <span class="section-kicker"><i class="bi bi-stars"></i> Performance overview</span>
+    <h1 aria-label="Writer Analytics">
+      <span>Writer</span>
+      <strong>Analytics</strong>
+    </h1>
+    <div class="title-line" aria-hidden="true"></div>
     <p>Overview of your platform statistics</p>
   </div>
 
@@ -15,41 +20,47 @@
 
     <div class="stats-grid">
 
-      <div class="stat-card skills">
+      <article class="stat-card skills" aria-label="Skills statistic">
         <div class="icon">🎯</div>
         <h3>Skills</h3>
-        <span>{{ stats?.skills }}</span>
-      </div>
+        <strong class="metric-value">{{ stats?.skills ?? 0 }}</strong>
+        <span class="metric-caption">Technical skills</span>
+      </article>
 
-      <div class="stat-card articles">
+      <article class="stat-card articles" aria-label="Articles statistic">
         <div class="icon">📝</div>
         <h3>Articles</h3>
-        <span>{{ stats?.articles }}</span>
-      </div>
+        <strong class="metric-value">{{ stats?.articles ?? 0 }}</strong>
+        <span class="metric-caption">Published articles</span>
+      </article>
 
-      <div class="stat-card lessons">
+      <article class="stat-card lessons" aria-label="Lessons statistic">
         <div class="icon">📚</div>
         <h3>Lessons</h3>
-        <span>{{ stats?.lessons }}</span>
-      </div>
+        <strong class="metric-value">{{ stats?.lessons ?? 0 }}</strong>
+        <span class="metric-caption">Learning resources</span>
+      </article>
 
-      <div class="stat-card favorites">
+      <article class="stat-card favorites" aria-label="Favorite skills statistic">
         <div class="icon">❤️</div>
         <h3>Favorite Skills</h3>
-        <span>{{ stats?.favoriteSkills }}</span>
-      </div>
+        <strong class="metric-value">{{ stats?.favoriteSkills ?? 0 }}</strong>
+        <span class="metric-caption">Saved by readers</span>
+      </article>
 
-      <div class="stat-card readers">
+      <article class="stat-card readers" aria-label="Readers statistic">
         <div class="icon">👥</div>
         <h3>Readers</h3>
-        <span>{{ stats?.readers }}</span>
-      </div>
+        <strong class="metric-value">{{ stats?.readers ?? 0 }}</strong>
+        <span class="metric-caption">Active readers</span>
+      </article>
 
-      <div class="stat-card quizzes">
+      <article class="stat-card quizzes" aria-label="Quizzes statistic">
         <div class="icon">🧠</div>
         <h3>Quizzes</h3>
-        <span>{{ stats?.quizzes }}</span>
-      </div>
+        <strong class="metric-value">{{ stats?.quizzes ?? 0 }}</strong>
+        <span class="metric-caption">Knowledge checks</span>
+      </article>
 
     </div>
 
