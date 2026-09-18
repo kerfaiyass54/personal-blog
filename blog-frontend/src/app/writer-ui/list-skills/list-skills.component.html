@@ -1,20 +1,17 @@
-<div class="page">
+<main class="page" aria-labelledby="skills-library-title">
 
   <div class="header-card">
-
-    <h1>Skills Library</h1>
-
-    <p>
-      Browse all registered skills in the system.
-    </p>
-
+    <span class="section-kicker"><i class="bi bi-collection-fill"></i> Knowledge library</span>
+    <h1 id="skills-library-title"><span>Skills</span> <strong>Library</strong></h1>
+    <div class="title-line" aria-hidden="true"></div>
+    <p>Browse all registered skills in the system.</p>
   </div>
 
-  <div class="skills-container">
+  <section class="skills-container" aria-label="Registered skills">
 
     @for(skill of skills; track skill.id; let i = $index) {
 
-      <div
+      <article
         class="skill-card"
         [style.animation-delay.ms]="i * 120">
 
@@ -23,28 +20,31 @@
         </div>
 
         <div class="content">
-
           <h3>{{ skill.name }}</h3>
-
           <span class="field">
             {{ skill.field }}
           </span>
-
         </div>
 
-      </div>
+        <i class="bi bi-arrow-up-right card-arrow" aria-hidden="true"></i>
+      </article>
 
+    } @empty {
+      <div class="empty-state">
+        <i class="bi bi-inbox" aria-hidden="true"></i>
+        <p>No skills have been registered yet.</p>
+      </div>
     }
 
-  </div>
+  </section>
 
-</div>
+</main>
 
 
 <button
   class="back-button"
+  type="button"
   (click)="goBack()">
-
-  ← Back to Dashboard
-
+  <i class="bi bi-arrow-left" aria-hidden="true"></i>
+  <span>Back to Dashboard</span>
 </button>
