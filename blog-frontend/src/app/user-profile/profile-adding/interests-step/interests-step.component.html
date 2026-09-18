@@ -1,0 +1,13 @@
+<div class="step-content">
+  <span class="step-kicker">Step 03 / Interests</span>
+  <h2 class="step-title">What energizes you?</h2>
+  <p class="step-sub">Choose the interests that feel most like you.</p>
+  <div class="interests-grid">
+    @for (interest of interests; track interest.label) {
+      <button type="button" class="interest-chip" [class.selected]="isSelected(interest)" (click)="toggle(interest)">
+        <span>{{ interest.icon }}</span>{{ interest.label }}
+      </button>
+    }
+  </div>
+  <p class="selection-count">{{ selected().length }} selected</p>
+</div>

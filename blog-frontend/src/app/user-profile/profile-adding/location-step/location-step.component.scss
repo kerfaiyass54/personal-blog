@@ -1,0 +1,19 @@
+:host { display:block; }
+.step-content { animation: content-in .45s cubic-bezier(.22,.68,0,1.1) both; }
+.step-kicker { display:block; margin-bottom:.6rem; color:#53d6e8; font-size:.68rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+.step-title { margin:0 0 .45rem; color:#f7f7ff; font-size:clamp(1.65rem,4vw,2.2rem); letter-spacing:-.04em; }
+.step-sub { margin:0 0 1.7rem; color:#a7a8c5; font-size:.92rem; }
+.step-content label { display:grid; gap:.5rem; margin-bottom:1rem; color:#b7b8d2; font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; }
+.step-content input { width:100%; box-sizing:border-box; padding:.85rem 1rem; color:#f8f8ff; border:1px solid rgba(255,255,255,.13); border-radius:.75rem; outline:0; background:rgba(255,255,255,.055); font:inherit; font-size:.9rem; font-weight:400; letter-spacing:normal; text-transform:none; transition:border-color .25s, background .25s, box-shadow .25s, transform .25s; }
+.step-content input:focus { border-color:#8b7cff; background:rgba(139,124,255,.1); box-shadow:0 0 0 4px rgba(139,124,255,.14); transform:translateY(-1px); }
+.step-content input::placeholder { color:#767995; }
+.location-field { position:relative; }
+.country-dropdown { position:absolute; z-index:3; top:calc(100% + 4.1rem); left:0; right:0; overflow:hidden; border:1px solid rgba(255,255,255,.12); border-radius:.8rem; background:#20234b; box-shadow:0 1rem 2rem rgba(0,0,0,.25); }
+.country-dropdown button { display:flex; align-items:center; gap:.55rem; width:100%; padding:.7rem .8rem; color:#f8f8ff; border:0; background:transparent; cursor:pointer; text-align:left; }
+.country-dropdown button:hover { background:rgba(139,124,255,.2); }
+.country-dropdown small { margin-left:auto; color:#a7a8c5; }
+.empty-result { display:block; padding:.8rem; color:#a7a8c5; text-align:center; }
+.selected-country { display:flex; align-items:center; gap:.6rem; margin-top:.55rem; padding:.7rem .8rem; color:#f8f8ff; border:1px solid rgba(139,124,255,.3); border-radius:.7rem; background:rgba(139,124,255,.13); }
+.selected-country button { margin-left:auto; color:#a7a8c5; border:0; background:transparent; cursor:pointer; }
+@keyframes content-in { from { opacity:0; transform:translateX(1rem); } to { opacity:1; transform:none; } }
+@media (prefers-reduced-motion:reduce) { .step-content, .country-dropdown { animation:none; } .step-content input { transition:none; } }

@@ -1,0 +1,24 @@
+<div class="step-content">
+  <span class="step-kicker">Step 02 / Location</span>
+  <h2 class="step-title">Where are you based?</h2>
+  <p class="step-sub">Add a location so your profile feels complete.</p>
+  <label class="location-field">Nationality
+    <input [ngModel]="search()" (ngModelChange)="searchChange.emit($event)" placeholder="Search country..." autocomplete="off" />
+    @if (search() && !selected()) {
+      <span class="country-dropdown">
+        @for (nationality of filtered(); track nationality.code) {
+          <button type="button" (click)="selectedChange.emit(nationality)">
+            <span [class]="nationality.flagClass" class="flag-icon"></span>{{ nationality.label }} <small>{{ nationality.code }}</small>
+          </button>
+        } @empty { <span class="empty-result">No countries found</span> }
+      </span>
+    }
+    @if (selected(); as nationality) {
+      <span class="selected-country">
+        <span [class]="nationality.flagClass" class="flag-icon"></span>{{ nationality.label }}
+        <button type="button" (click)="cleared.emit()" aria-label="Clear nationality"><i class="bi bi-x"></i></button>
+      </span>
+    }
+  </label>
+  <label>City <input [ngModel]="city()" (ngModelChange)="cityChange.emit($event)" placeholder="e.g. Tunis" /></label>
+</div>

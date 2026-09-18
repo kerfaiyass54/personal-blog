@@ -1,0 +1,11 @@
+<div class="step-content">
+  <span class="step-kicker">Step 01 / Personal</span>
+  <h2 class="step-title">Start with the basics</h2>
+  <p class="step-sub">These details help shape your profile identity.</p>
+  <div class="form-row">
+    <label>First name <input [ngModel]="firstName()" (ngModelChange)="firstNameChange.emit($event)" placeholder="e.g. Yasmine" /></label>
+    <label>Last name <input [ngModel]="lastName()" (ngModelChange)="lastNameChange.emit($event)" placeholder="e.g. Bensalem" /></label>
+  </div>
+  <label>Job title <input [ngModel]="job()" (ngModelChange)="jobChange.emit($event)" placeholder="e.g. Full-Stack Developer" /></label>
+  <label>Date of birth <input type="date" [ngModel]="birthDate()" (ngModelChange)="birthDateChange.emit($event)" /></label>
+</div>

@@ -748,3 +748,34 @@ th.over { border-bottom: 3px solid #4f46e5; }
     box-shadow: 0 6px 18px rgba(79,70,229,.35);
   }
 }
+:host {
+  display: block;
+  --brand: #8b7cff;
+  --brand-light: rgba(139,124,255,.16);
+  --text-primary: #f7f7ff;
+  --text-secondary: #a7a8c5;
+  --text-muted: #8587a8;
+  --surface: rgba(20,22,48,.82);
+  --border: rgba(255,255,255,.1);
+}
+
+.page-wrapper { min-height:auto; padding:0; background:transparent; }
+.profile-card { overflow:hidden; border:1px solid var(--border); border-radius:1.5rem; background:var(--surface); box-shadow:0 1.5rem 4rem rgba(0,0,0,.2); }
+.card-header { height:160px; }
+.header-bg { background:linear-gradient(120deg,#312b78,#624dd1 50%,#198da5); }
+.card-identity { padding-top:4.5rem; }
+.full-name, .tile-value, .section-title { color:var(--text-primary); }
+.job-title { color:#c9c4ff; background:var(--brand-light); }
+.divider { border-color:var(--border); }
+.info-tile:hover { background:rgba(139,124,255,.1); }
+.tile-label, .tile-sub { color:var(--text-muted); }
+.interests-section { background:transparent; }
+.interest-chip { color:#dcdcff; border-color:rgba(139,124,255,.25); background:var(--brand-light); }
+.interest-chip:hover { background:rgba(139,124,255,.26); }
+.edit-modal { color:var(--text-primary); border:1px solid var(--border); background:#171a38; }
+.edit-modal-body, .edit-modal-footer { background:#171a38; }
+.edit-label, .section-label { color:var(--text-secondary); }
+.edit-input { color:var(--text-primary); border-color:var(--border); background:rgba(255,255,255,.06); }
+.edit-input:focus { color:var(--text-primary); border-color:var(--brand); background:rgba(255,255,255,.08); box-shadow:0 0 0 3px rgba(139,124,255,.16); }
+.picker-chip { color:#dcdcff; border-color:var(--border); background:rgba(255,255,255,.05); }
+.picker-chip.picked { color:#fff; border-color:var(--brand); background:var(--brand-light); }

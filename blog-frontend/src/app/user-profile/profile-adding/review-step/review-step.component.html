@@ -1,0 +1,16 @@
+<div class="step-content">
+  <span class="step-kicker">Step 04 / Review</span>
+  <h2 class="step-title">Ready to make it yours?</h2>
+  <p class="step-sub">Take one last look before creating your profile.</p>
+  <div class="review-hero">
+    <div class="review-avatar">{{ initials() }}</div>
+    <strong>{{ firstName() }} {{ lastName() }}</strong>
+    <span>{{ job() }}</span>
+  </div>
+  <div class="review-grid">
+    <div><small>Birthday</small><strong>{{ formattedDate() }} · {{ age() }} yrs</strong></div>
+    <div><small>Location</small><strong>{{ city() }}</strong></div>
+    @if (nationality(); as country) { <div><small>Nationality</small><strong><span [class]="country.flagClass" class="flag-icon"></span>{{ country.label }}</strong></div> }
+  </div>
+  <div class="review-interests"><small>Interests</small><div>@for (interest of interests(); track interest.label) { <span>{{ interest.icon }} {{ interest.label }}</span> }</div></div>
+</div>

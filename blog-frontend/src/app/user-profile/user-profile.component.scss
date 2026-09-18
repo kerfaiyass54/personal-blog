@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  min-height: 100%;
+  color: #f7f7ff;
+}
+
+.profile-page {
+  min-height: 100%;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  background:
+    radial-gradient(circle at 10% 0%, rgba(111, 92, 255, .2), transparent 28rem),
+    radial-gradient(circle at 90% 85%, rgba(53, 193, 213, .14), transparent 24rem),
+    #0b0d20;
+}
+
+.profile-page :is(.page-wrapper, .profile-card) {
+  background: transparent;
+  box-shadow: none;
+}
