@@ -1,12 +1,20 @@
-<div class="page">
+<main class="page" aria-labelledby="add-skill-title">
 
-  <div class="card">
+  <section class="card">
 
-    <div class="stepper">
+    <div class="intro">
+      <span class="section-kicker"><i class="bi bi-stars"></i> Skills workspace</span>
+      <h1 id="add-skill-title"><span>Add</span> <strong>New Skill</strong></h1>
+      <div class="title-line" aria-hidden="true"></div>
+      <p>Build your skills library one focused step at a time.</p>
+    </div>
+
+    <div class="stepper" aria-label="Skill creation progress">
 
       <div
         class="step"
-        [class.active]="currentStep >= 1">
+        [class.active]="currentStep >= 1"
+        [class.complete]="currentStep > 1">
 
         <div class="circle">1</div>
         <span>Skill</span>
@@ -33,18 +41,26 @@
 
       <div class="content">
 
-        <h2>Add New Skill</h2>
+        <div class="content-heading">
+          <span class="step-label">Step 1 of 2</span>
+          <h2 id="skill-name-heading">Name your skill</h2>
+          <p>Choose a clear name that will be easy to recognize later.</p>
+        </div>
 
         <input
+          id="skill-name"
           type="text"
           placeholder="Enter skill name..."
-          [(ngModel)]="skillName">
+          [(ngModel)]="skillName"
+          aria-labelledby="skill-name-heading"
+          (keyup.enter)="nextStep()">
 
         <button
           class="primary-btn"
+          type="button"
           (click)="nextStep()">
-
-          Continue
+          <span>Continue</span>
+          <i class="bi bi-arrow-right" aria-hidden="true"></i>
         </button>
 
       </div>
@@ -54,15 +70,21 @@
 
       <div class="content">
 
-        <h2>Select Field</h2>
+        <div class="content-heading">
+          <span class="step-label">Step 2 of 2</span>
+          <h2 id="skill-field-heading">Choose a field</h2>
+          <p>Use a suggestion or define your own category.</p>
+        </div>
 
-        <div class="chips">
+        <div class="chips" aria-label="Suggested fields">
 
           @for(field of fieldSuggestions; track field){
 
             <button
               class="chip"
+              type="button"
               [class.selected]="selectedField === field"
+              [attr.aria-pressed]="selectedField === field"
               (click)="selectedField = field">
 
               {{ field }}
@@ -73,26 +95,34 @@
         </div>
 
         <input
+          id="skill-field"
           type="text"
           placeholder="Or type custom field..."
-          [(ngModel)]="selectedField">
+          [(ngModel)]="selectedField"
+          aria-labelledby="skill-field-heading">
 
         <div class="actions">
 
           <button
             class="secondary-btn"
+            type="button"
             (click)="previousStep()">
-
+            <i class="bi bi-arrow-left" aria-hidden="true"></i>
             Back
-
           </button>
 
           <button
             class="primary-btn"
+            type="button"
+            [disabled]="isSaving"
             (click)="createSkill()">
-
-            Create Skill
-
+            @if (isSaving) {
+              <span class="button-loader" aria-hidden="true"></span>
+              <span>Creating...</span>
+            } @else {
+              <span>Create Skill</span>
+              <i class="bi bi-check2" aria-hidden="true"></i>
+            }
           </button>
 
         </div>
@@ -100,6 +130,6 @@
       </div>
     }
 
-  </div>
+  </section>
 
-</div>
+</main>

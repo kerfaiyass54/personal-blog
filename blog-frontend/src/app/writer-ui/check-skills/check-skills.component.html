@@ -1,69 +1,48 @@
-<div class="dashboard">
+<section class="dashboard" aria-labelledby="skills-title">
 
   <div class="hero-card">
-
-    <h1>Skills Dashboard</h1>
-
-    <p>
-      Track, analyze and manage your technical skills.
-    </p>
-
+    <span class="section-kicker"><i class="bi bi-bar-chart-line-fill"></i> Skills intelligence</span>
+    <h1 id="skills-title"><span>Skills</span> <strong>Dashboard</strong></h1>
+    <div class="title-line" aria-hidden="true"></div>
+    <p>Track, analyze and manage your technical skills.</p>
   </div>
 
-  <div class="total-card">
+  <article class="total-card" aria-label="Total skills">
+    <div class="card-copy">
+      <span class="card-eyebrow">Library size</span>
+      <span class="label">Total Skills</span>
+      <span class="card-hint">Across all technical fields</span>
+    </div>
+    <strong class="value">{{ statistics?.totalSkills ?? 0 }}</strong>
+  </article>
 
-    <span class="label">
-      Total Skills
-    </span>
-
-    <span class="value">
-      {{ statistics?.totalSkills ?? 0 }}
-    </span>
-
-  </div>
-
-  <div class="top-fields-card">
-
-    <h2>Top Skill Fields</h2>
-
-    @for(field of topFields; track field.field; let i = $index) {
-
-      <div class="field-row">
-
-        <div class="field-name">
-
-          @if(i === 0){
-            🥇
-          }
-
-          @if(i === 1){
-            🥈
-          }
-
-          @if(i === 2){
-            🥉
-          }
-
-          {{ field.field }}
-
-        </div>
-
-        <div class="field-count">
-          {{ field.count }}
-        </div>
-
+  <article class="top-fields-card">
+    <div class="section-heading">
+      <div>
+        <span class="card-eyebrow">Where you create</span>
+        <h2>Top Skill Fields</h2>
       </div>
-
+      <i class="bi bi-grid-1x2-fill" aria-hidden="true"></i>
+    </div>
+    @for(field of topFields; track field.field; let i = $index) {
+      <div class="field-row" [style.--row-index]="i">
+        <div class="field-name">
+          <span class="rank" aria-hidden="true">{{ i + 1 }}</span>
+          <span>{{ field.field }}</span>
+        </div>
+        <strong class="field-count">{{ field.count }}</strong>
+      </div>
+    } @empty {
+      <p class="empty-state">No skill field data is available yet.</p>
     }
-
-  </div>
+  </article>
 
   <button
     class="skills-button"
+    type="button"
     (click)="goToSkillsList()">
-
-    View All Skills
-
+    <span>View All Skills</span>
+    <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
   </button>
 
-</div>
+</section>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -20,8 +20,10 @@ export class AddSkillsComponent {
 
   private readonly skillService = inject(SkillService);
   private readonly toastr = inject(ToastrService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   currentStep = 1;
+  isSaving = false;
 
   skillName = '';
   selectedField = '';
@@ -101,41 +103,55 @@ export class AddSkillsComponent {
 
   createSkill(): void {
 
-    if (!this.selectedField.trim()) {
-      this.toastr.warning('Please select a field');
+    if (!this.selectedField.trim() || this.isSaving) {
+      if (!this.selectedField.trim()) {
+        this.toastr.warning('Please select a field');
+      }
+      return;
+    }
+
+    if (!this.skillName.trim()) {
+      this.toastr.warning('Please enter a skill name');
+      this.currentStep = 1;
+      this.cdr.markForCheck();
       return;
     }
 
     const payload: SkillCreate = {
       name: this.skillName.trim(),
-      field: this.selectedField
+      field: this.selectedField.trim()
     };
+
+    this.isSaving = true;
+    this.cdr.markForCheck();
 
     this.skillService.createSkill(payload).subscribe({
       next: () => {
-
         this.toastr.success(
           'Skill created successfully',
           'Success'
         );
 
         this.resetForm();
+        this.isSaving = false;
+        this.cdr.markForCheck();
       },
 
       error: (error) => {
-
         console.error(error);
 
         this.toastr.error(
           'Failed to create skill',
           'Error'
         );
+
+        this.isSaving = false;
+        this.cdr.markForCheck();
       }
     });
   }
 
   private resetForm(): void {
-
     this.skillName = '';
     this.selectedField = '';
     this.currentStep = 1;

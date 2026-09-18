@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Skill } from '../../models/skill.model';
@@ -18,6 +18,7 @@ export class ListSkillsComponent implements OnInit {
 
   private readonly skillService = inject(SkillService);
   private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
 
 
   skills: Skill[] = [];
@@ -34,8 +35,12 @@ export class ListSkillsComponent implements OnInit {
     this.skillService.getAllSkills().subscribe({
       next: (skills) => {
         this.skills = skills;
+        this.cdr.markForCheck();
       },
-      error: console.error
+      error: (error) => {
+        console.error(error);
+        this.cdr.markForCheck();
+      }
     });
   }
 
