@@ -1,0 +1,8 @@
+[
+  { _id: "question-mongodb-document", quizId: "quiz-mongodb-basics", content: "What is the main unit stored in a MongoDB collection?", answer: "Document", hint: "It is similar to a JSON object.", possibilities: ["Table", "Document", "Worksheet", "Class"] },
+  { _id: "question-mongodb-index", quizId: "quiz-mongodb-basics", content: "What improves query performance for selected fields?", answer: "Index", hint: "It is created with createIndex.", possibilities: ["Index", "Trigger", "View", "Transaction"] },
+  { _id: "question-spring-controller", quizId: "quiz-spring-rest", content: "Which Spring component handles HTTP requests?", answer: "Controller", hint: "It is commonly annotated with @RestController.", possibilities: ["Repository", "Controller", "Entity", "Mapper"] },
+  { _id: "question-spring-dto", quizId: "quiz-spring-rest", content: "What transfers data between application layers?", answer: "DTO", hint: "The name means Data Transfer Object.", possibilities: ["DTO", "Index", "Bean", "Filter"] },
+  { _id: "question-typescript-interface", quizId: "quiz-typescript-types", content: "What describes an object shape at compile time?", answer: "Interface", hint: "It defines property names and types.", possibilities: ["Interface", "Promise", "Module", "Decorator"] },
+  { _id: "question-typescript-union", quizId: "quiz-typescript-types", content: "Which type allows a value to be one of several types?", answer: "Union", hint: "It uses the | operator.", possibilities: ["Union", "Tuple", "Enum", "Namespace"] }
+].forEach((doc) => db.questions.replaceOne({ _id: doc._id }, doc, { upsert: true }));
