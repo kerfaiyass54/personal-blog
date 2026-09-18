@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,7 +18,8 @@ import {KeywordService} from "../services/keyword.service";
     FormsModule
   ],
   templateUrl: './check-keywords.component.html',
-  styleUrl: './check-keywords.component.scss'
+  styleUrl: './check-keywords.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckKeywordsComponent implements OnInit {
 

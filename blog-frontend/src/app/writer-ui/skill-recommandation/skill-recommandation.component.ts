@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -9,6 +10,7 @@ import { SkillRecommendationService } from '../services/skill-recommendation.ser
   imports: [CommonModule, FormsModule],
   templateUrl: './skill-recommandation.component.html',
   styleUrl: './skill-recommandation.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SkillRecommandationComponent {
   private recommendationService = inject(SkillRecommendationService);

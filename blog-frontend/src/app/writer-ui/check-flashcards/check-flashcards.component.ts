@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import {
   Component,
   OnInit,
@@ -18,7 +19,8 @@ declare const bootstrap: any;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './check-flashcards.component.html',
-  styleUrl: './check-flashcards.component.scss'
+  styleUrl: './check-flashcards.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckFlashcardsComponent implements OnInit {
 

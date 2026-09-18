@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,6 +12,7 @@ import {Router} from "@angular/router";
   imports: [CommonModule],
   templateUrl: './list-skills.component.html',
   styleUrl: './list-skills.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListSkillsComponent implements OnInit {
 

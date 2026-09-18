@@ -1,9 +1,11 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, Input, Output, EventEmitter, computed } from '@angular/core';
 
 @Component({
   selector: 'app-paginated-table',
   standalone: true,
-  templateUrl: './paginated-table.component.html'
+  templateUrl: './paginated-table.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PaginatedTableComponent {
   @Input({ required: true }) pageNumber!: number;

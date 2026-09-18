@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RouterLink} from "@angular/router";
@@ -12,6 +13,7 @@ import {ToastrService} from "ngx-toastr";
   ],
   templateUrl: './inser-code.component.html',
   styleUrl: './inser-code.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InserCodeComponent implements OnInit{
 

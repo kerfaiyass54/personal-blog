@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
 import {LoaderComponent} from "../components/loader/loader.component";
@@ -14,9 +15,12 @@ import {filter} from "rxjs/operators";
     RouterOutlet
   ],
     templateUrl: './writer-ui.component.html',
-    styleUrl: './writer-ui.component.scss'
+    styleUrl: './writer-ui.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WriterUiComponent implements OnInit{
+
+  private readonly cdr = inject(ChangeDetectorRef);
 
 
   loading = false;
@@ -32,7 +36,9 @@ export class WriterUiComponent implements OnInit{
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.currentUrl = event.urlAfterRedirects;
-        this.loadPage();      });
+        this.loadPage();
+        this.cdr.markForCheck();
+      });
     if((sessionStorage.getItem("sessionId") == null) ){
       this.keepSession(sessionStorage.getItem("email"));
     }
@@ -42,6 +48,7 @@ export class WriterUiComponent implements OnInit{
     this.loading = true;
     setTimeout(() => {
       this.loading = false;
+      this.cdr.markForCheck();
     }, 500);
   }
 

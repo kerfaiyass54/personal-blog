@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import {
   Component,
   OnInit,
@@ -50,7 +51,8 @@ declare const bootstrap: any;
     FormsModule
   ],
   templateUrl: './read-lesson.component.html',
-  styleUrl: './read-lesson.component.scss'
+  styleUrl: './read-lesson.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReadLessonComponent implements OnInit {
 

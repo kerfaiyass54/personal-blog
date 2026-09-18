@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
   standalone: true,
   templateUrl: './add-social.component.html',
   styleUrl: './add-social.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddSocialComponent {
 

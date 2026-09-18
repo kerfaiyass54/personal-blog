@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {Component, OnInit, inject} from '@angular/core';
 import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {RouterOutlet, Router, NavigationEnd} from "@angular/router";
@@ -14,9 +15,12 @@ import {LoaderComponent} from "../components/loader/loader.component";
     LoaderComponent,
   ],
   templateUrl: './reader-ui.component.html',
-  styleUrl: './reader-ui.component.scss'
+  styleUrl: './reader-ui.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReaderUiComponent implements OnInit{
+
+  private readonly cdr = inject(ChangeDetectorRef);
 
   currentUrl: string = '';
   loading = false;
@@ -35,7 +39,9 @@ export class ReaderUiComponent implements OnInit{
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         this.currentUrl = event.urlAfterRedirects;
-this.loadPage();      });
+        this.loadPage();
+        this.cdr.markForCheck();
+      });
 
     if((sessionStorage.getItem("sessionId") == null) ){
       this.keepSession(sessionStorage.getItem("email"));
@@ -88,6 +94,7 @@ this.loadPage();      });
     this.loading = true;
     setTimeout(() => {
       this.loading = false;
+      this.cdr.markForCheck();
     }, 300);
   }
 }

@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +11,7 @@ import { ArticlesService, ArticleDisplayDTO } from '../services/articles.service
   imports: [CommonModule],
   templateUrl: './read-article.component.html',
   styleUrl: './read-article.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReadArticleComponent implements OnInit {
 

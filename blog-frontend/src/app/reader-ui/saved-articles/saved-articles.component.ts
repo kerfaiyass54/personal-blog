@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -15,6 +16,7 @@ import {
   imports: [CommonModule],
   templateUrl: './saved-articles.component.html',
   styleUrl: './saved-articles.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SavedArticlesComponent implements OnInit {
 

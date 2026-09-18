@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
@@ -13,6 +14,7 @@ import {ButtonComponent} from "../components/button/button.component";
   ],
   templateUrl: './session-details.component.html',
   styleUrl: './session-details.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SessionDetailsComponent implements OnInit{
 

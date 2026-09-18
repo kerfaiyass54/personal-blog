@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,6 +12,7 @@ import {RouterLink} from "@angular/router";
   imports: [CommonModule, RouterLink],
   templateUrl: './check-lessons.component.html',
   styleUrl: './check-lessons.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckLessonsComponent implements OnInit {
 

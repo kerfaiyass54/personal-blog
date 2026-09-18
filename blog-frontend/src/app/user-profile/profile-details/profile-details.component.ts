@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -17,6 +18,7 @@ declare var bootstrap: any;
   imports: [CommonModule, FormsModule],
   templateUrl: './profile-details.component.html',
   styleUrl: './profile-details.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileDetailsComponent implements OnInit {
 

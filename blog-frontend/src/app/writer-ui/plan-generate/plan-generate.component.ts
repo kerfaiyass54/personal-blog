@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import {
   Component,
   inject,
@@ -18,6 +19,7 @@ import {GeneratedPlan, Plan, PlanService} from "../services/plan.service";
   ],
   templateUrl: './plan-generate.component.html',
   styleUrl: './plan-generate.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanGenerateComponent {
 

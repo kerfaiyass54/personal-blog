@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -14,6 +15,7 @@ import {LessonReadingService} from "../services/lesson-reading.service";
   imports: [CommonModule],
   templateUrl: './check-lessons-to-read.component.html',
   styleUrl: './check-lessons-to-read.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckLessonsToReadComponent implements OnInit {
 

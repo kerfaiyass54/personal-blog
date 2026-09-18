@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
@@ -13,6 +14,7 @@ import {Router, RouterLink} from "@angular/router";
   ],
   templateUrl: './inser-pass.component.html',
   styleUrl: './inser-pass.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InserPassComponent {
 

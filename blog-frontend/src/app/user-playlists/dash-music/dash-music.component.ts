@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from "@angular/forms";
@@ -9,7 +10,8 @@ import { SoundtrackServicesService } from "../service/soundtrack-services.servic
   standalone: true,
   templateUrl: './dash-music.component.html',
   styleUrl: './dash-music.component.scss',
-  imports: [FormsModule, CommonModule]
+  imports: [FormsModule, CommonModule],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashMusicComponent implements OnInit {
 
