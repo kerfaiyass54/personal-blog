@@ -2,8 +2,7 @@ import {
   Component,
   computed,
   signal,
-  OnInit,
-  ChangeDetectionStrategy
+  OnInit
 } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
@@ -18,7 +17,6 @@ import {SoundtrackServicesService} from "../service/soundtrack-services.service"
   standalone: true,
   imports: [FormsModule],
   templateUrl: './add-playlist.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './add-playlist.component.scss'
 })
 export class AddPlaylistComponent implements OnInit {

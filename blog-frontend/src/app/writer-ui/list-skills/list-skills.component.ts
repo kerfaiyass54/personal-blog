@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { Skill } from '../../models/skill.model';
@@ -10,7 +10,6 @@ import {Router} from "@angular/router";
   standalone: true,
   imports: [CommonModule],
   templateUrl: './list-skills.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './list-skills.component.scss',
 })
 export class ListSkillsComponent implements OnInit {

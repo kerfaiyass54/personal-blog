@@ -6,6 +6,7 @@ import {
   inject
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 import {SkillService} from "../../writer-ui/services/skill.service";
 import {FavoriteDTO, FavoriteService} from "../services/favorite.service";
 import {Skill} from "../../models/skill.model";
@@ -24,6 +25,7 @@ export class CheckSkillsReaderComponent implements OnInit {
 
   private readonly skillService = inject(SkillService);
   private readonly favoriteService = inject(FavoriteService);
+  private readonly toastr = inject(ToastrService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   skills: Skill[] = [];
@@ -83,6 +85,7 @@ export class CheckSkillsReaderComponent implements OnInit {
       },
       error: () => {
         this.loading = false;
+        this.toastr.error('Failed to load skills');
         this.cdr.detectChanges();
       }
     });
@@ -108,10 +111,16 @@ export class CheckSkillsReaderComponent implements OnInit {
             fav => fav.skillName !== skill.name
           );
 
+          this.toastr.info(
+            `${skill.name} removed from favorites`
+          );
+
           this.cdr.detectChanges();
         },
         error: () => {
-
+          this.toastr.error(
+            'Failed to remove favorite'
+          );
         }
       });
 
@@ -129,12 +138,16 @@ export class CheckSkillsReaderComponent implements OnInit {
           favorite
         ];
 
-
+        this.toastr.success(
+          `${skill.name} added to favorites`
+        );
 
         this.cdr.detectChanges();
       },
       error: () => {
-
+        this.toastr.error(
+          'Failed to add favorite'
+        );
       }
     });
   }

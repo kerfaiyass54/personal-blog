@@ -1,8 +1,9 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { jwtDecode } from 'jwt-decode';
 import { LoginServiceService } from '../shared/services/login-service.service';
+import { ToastrService } from 'ngx-toastr';
 
 interface JwtPayload {
   sub: string;
@@ -16,7 +17,6 @@ interface JwtPayload {
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './login-screen.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './login-screen.component.scss',
 })
 export class LoginScreenComponent implements OnInit {
@@ -28,6 +28,7 @@ export class LoginScreenComponent implements OnInit {
     private fb: FormBuilder,
     private loginService: LoginServiceService,
     private router: Router,
+    private toastrService: ToastrService,
   ) {
     this.loginForm = this.fb.group({
       email:    new FormControl('', [Validators.required, Validators.email]),
@@ -63,6 +64,7 @@ export class LoginScreenComponent implements OnInit {
         sessionStorage.setItem('role',     res.role);
         sessionStorage.setItem('email',    user.email);
 
+        this.toastrService.success('WELCOME', 'Login passed');
 
         // Navigate by role
         if (res.role === 'WRITER') {
@@ -82,12 +84,15 @@ export class LoginScreenComponent implements OnInit {
   private verifyUser(user: { email: string; password: string }): void {
     this.loginService.existEmail(user.email).subscribe((emailExists) => {
       if (!emailExists) {
+        this.toastrService.error('Email does not exist', 'ERROR');
         return;
       }
 
       this.loginService.checkPassword(user.email, user.password).subscribe((passwordValid) => {
         if (!passwordValid) {
+          this.toastrService.error('Wrong password', 'ERROR');
         } else {
+          this.toastrService.success('Login passed', 'WELCOME');
         }
       });
     });

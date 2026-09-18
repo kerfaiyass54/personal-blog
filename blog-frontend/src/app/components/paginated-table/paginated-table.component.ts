@@ -1,9 +1,8 @@
-import { Component, Input, Output, EventEmitter, computed, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, computed } from '@angular/core';
 
 @Component({
   selector: 'app-paginated-table',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './paginated-table.component.html'
 })
 export class PaginatedTableComponent {

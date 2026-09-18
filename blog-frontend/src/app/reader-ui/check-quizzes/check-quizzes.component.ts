@@ -1,8 +1,7 @@
 import {
   Component,
   OnInit,
-  inject,
-  ChangeDetectionStrategy
+  inject
 } from '@angular/core';
 
 import {
@@ -26,7 +25,6 @@ declare const bootstrap: any;
     CommonModule
   ],
   templateUrl: './check-quizzes.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './check-quizzes.component.scss'
 })
 export class CheckQuizzesComponent

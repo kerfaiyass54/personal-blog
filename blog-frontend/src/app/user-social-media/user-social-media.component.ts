@@ -2,8 +2,7 @@ import {
   Component,
   OnInit,
   ChangeDetectorRef,
-  inject,
-  ChangeDetectionStrategy
+  inject
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -21,7 +20,6 @@ declare var bootstrap: any;
   standalone: true,
   imports: [CommonModule, FormsModule, SmartTableComponent],
   templateUrl: './user-social-media.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./user-social-media.component.scss'],
 })
 export class UserSocialMediaComponent implements OnInit {
