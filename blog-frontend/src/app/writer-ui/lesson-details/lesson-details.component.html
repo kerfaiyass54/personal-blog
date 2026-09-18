@@ -1,10 +1,10 @@
-<div class="lesson-page">
+<main class="page" aria-labelledby="lesson-title">
 
   @if (loading) {
 
-    <div class="loading-card">
+    <div class="loading-card" role="status">
 
-      <div class="loader"></div>
+      <div class="loader" aria-hidden="true"></div>
 
       <h3>Loading lesson...</h3>
 
@@ -14,9 +14,9 @@
 
   @if (error) {
 
-    <div class="error-card">
+    <div class="error-card" role="alert">
 
-      <div class="emoji">⚠️</div>
+      <div class="emoji" aria-hidden="true"><i class="bi bi-exclamation-triangle"></i></div>
 
       <h2>Lesson not found</h2>
 
@@ -28,37 +28,35 @@
 
   @if (!loading && lesson) {
 
-    <div class="lesson-container">
+    <article class="lesson-container">
 
       <div class="lesson-header">
 
-        <div class="header-icon">
-          📚
-        </div>
+        <div class="header-icon"><i class="bi bi-book-half"></i></div>
 
         <div>
 
-          <span class="badge">
-            Lesson
-          </span>
+          <span class="section-kicker"><i class="bi bi-journal-bookmark"></i> Learning workspace</span>
 
-          <h1>
+          <h1 id="lesson-title">
             {{ lesson.title }}
           </h1>
+          <div class="title-line" aria-hidden="true"></div>
 
           <div class="meta">
-
-            <span>
-              {{ formatDate(lesson.dateInsert) }}
+            <span><i class="bi bi-calendar3"></i>
+              Published {{ formatDate(lesson.dateInsert) }}
             </span>
-
+            <span><i class="bi bi-book"></i>
+              Lesson content
+            </span>
           </div>
 
         </div>
 
       </div>
 
-      <div class="lesson-content">
+      <section class="lesson-content" aria-label="Lesson content">
 
         <p>
           {{ lesson.content }}
@@ -68,34 +66,38 @@
 
           <button
             class="generate-btn"
+            type="button"
             (click)="generateFlashcards()"
             [disabled]="generating">
 
             @if (!generating) {
-              ✨ Generate Flashcards
+              <i class="bi bi-stars" aria-hidden="true"></i>
+              <span>Generate flashcards</span>
             }
 
             @if (generating) {
-              Generating...
+              <span class="button-loader" aria-hidden="true"></span>
+              <span>Generating...</span>
             }
 
           </button>
 
         </div>
 
-      </div>
+      </section>
 
-    </div>
+    </article>
 
   }
 
-</div>
+</main>
 
 <div
   class="modal fade"
   id="flashcardsModal"
   data-bs-backdrop="static"
-  tabindex="-1">
+  tabindex="-1"
+  aria-labelledby="flashcards-modal-title">
 
   <div
     class="modal-dialog modal-dialog-centered modal-lg">
@@ -104,9 +106,10 @@
 
       <div class="modal-header border-0">
 
-        <h4 class="modal-title">
-          ✨ Generated Flashcards
-        </h4>
+        <div>
+          <span class="modal-kicker"><i class="bi bi-stars"></i> AI learning assistant</span>
+          <h2 id="flashcards-modal-title" class="modal-title">Generated flashcards</h2>
+        </div>
 
         <button
           type="button"
@@ -120,28 +123,25 @@
 
         <div class="flashcards-scroll">
 
-          @for (
-            card of flashcards;
-            track card.term
-            ) {
+          @for (card of flashcards; track card.term; let i = $index) {
 
             @if (lesson && card.lessonId === lesson.id) {
 
-              <div class="flashcard-card">
+              <article class="flashcard-card" [style.animation-delay.ms]="i * 70">
 
-                <div class="card-type">
+                <span class="card-type">
                   {{ card.type }}
-                </div>
+                </span>
 
-                <div class="card-term">
+                <h3 class="card-term">
                   {{ card.term }}
-                </div>
+                </h3>
 
-                <div class="card-value">
+                <p class="card-value">
                   {{ card.value }}
-                </div>
+                </p>
 
-              </div>
+              </article>
 
             }
 
@@ -154,24 +154,28 @@
       <div class="modal-footer border-0">
 
         <button
-          class="btn btn-light"
+          class="modal-close-btn"
+          type="button"
           data-bs-dismiss="modal">
 
-          Close
+          <span>Close</span>
 
         </button>
 
         <button
           class="save-btn"
+          type="button"
           (click)="saveFlashcards()"
           [disabled]="saving">
 
           @if (!saving) {
-            💾 Save Flashcards
+            <i class="bi bi-bookmark-check" aria-hidden="true"></i>
+            <span>Save flashcards</span>
           }
 
           @if (saving) {
-            Saving...
+            <span class="button-loader" aria-hidden="true"></span>
+            <span>Saving...</span>
           }
 
         </button>

@@ -1,26 +1,21 @@
-<div class="page">
+<main class="page" aria-labelledby="flashcards-title">
 
   <div class="header">
 
     <div>
 
-      <div class="badge">
-        AI FLASHCARDS
-      </div>
+      <span class="section-kicker"><i class="bi bi-stars"></i> Learning workspace</span>
 
-      <h1>
-        Flashcards Library
-      </h1>
+      <h1 id="flashcards-title"><span>Flashcards</span> <strong>Library</strong></h1>
+      <div class="title-line" aria-hidden="true"></div>
 
-      <p>
-        Browse generated flashcards
-      </p>
+      <p>Review generated flashcards and reinforce your lessons.</p>
 
     </div>
 
     <div class="counter">
 
-      {{ flashcards.length }}
+      <strong>{{ flashcards.length }}</strong>
 
       <span>
         Cards
@@ -34,7 +29,7 @@
 
     <div class="loading-container">
 
-      <div class="loader"></div>
+      <div class="loader" aria-hidden="true"></div>
 
       <h3>
         Loading flashcards...
@@ -46,24 +41,24 @@
 
   @if (!loading) {
 
-    <div class="cards-grid">
+    <section class="cards-grid" aria-label="Flashcards">
 
       @for (
         card of flashcards;
         track card.id
         ) {
 
-        <div
+        <article
           class="flashcard-preview"
-          (click)="openCard(card)">
+          [style.animation-delay.ms]="$index * 80"
+          tabindex="0"
+          (click)="openCard(card)"
+          (keyup.enter)="openCard(card)"
+          (keyup.space)="openCard(card); $event.preventDefault()">
 
           <div class="flashcard-glow"></div>
 
-          <div class="lesson-title">
-
-            {{ card.lessonTitle }}
-
-          </div>
+          <span class="lesson-title"><i class="bi bi-book-half"></i> {{ card.lessonTitle }}</span>
 
           <div class="keyword">
 
@@ -71,26 +66,23 @@
 
           </div>
 
-          <div class="open-text">
+          <span class="open-text">Click to reveal <i class="bi bi-arrow-up-right"></i></span>
 
-            Click to view
-
-          </div>
-
-        </div>
+        </article>
 
       }
 
-    </div>
+    </section>
 
   }
 
-</div>
+</main>
 
 <div
   class="modal fade"
   id="flashcardModal"
-  tabindex="-1">
+  tabindex="-1"
+  aria-labelledby="flashcard-modal-title">
 
   <div
     class="modal-dialog modal-dialog-centered">
@@ -101,11 +93,10 @@
 
         <div class="modal-header border-0">
 
-          <h4>
-
+          <span class="modal-kicker"><i class="bi bi-lightbulb"></i> Flashcard preview</span>
+          <h2 id="flashcard-modal-title">
             {{ selectedFlashcard.lessonTitle }}
-
-          </h4>
+          </h2>
 
           <button
             type="button"
@@ -119,23 +110,17 @@
 
           <div class="flashcard-full">
 
-            <div class="flashcard-type">
-
+            <span class="flashcard-type">
               {{ selectedFlashcard.type }}
+            </span>
 
-            </div>
-
-            <div class="flashcard-key">
-
+            <h3 class="flashcard-key">
               {{ selectedFlashcard.term }}
+            </h3>
 
-            </div>
-
-            <div class="flashcard-value">
-
+            <p class="flashcard-value">
               {{ selectedFlashcard.value }}
-
-            </div>
+            </p>
 
           </div>
 

@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import {GeneratedPlan, Plan, PlanService} from "../services/plan.service";
 
 
@@ -24,6 +25,7 @@ import {GeneratedPlan, Plan, PlanService} from "../services/plan.service";
 export class PlanGenerateComponent {
 
   private planService = inject(PlanService);
+  private router = inject(Router);
 
   title = signal('');
 
@@ -87,5 +89,9 @@ export class PlanGenerateComponent {
 
         }
       });
+  }
+
+  goBack(): void {
+    this.router.navigate(['/writer/check-plans']);
   }
 }

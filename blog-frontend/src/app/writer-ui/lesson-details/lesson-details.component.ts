@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
@@ -26,6 +26,7 @@ export class LessonDetailsComponent implements OnInit {
   private readonly lessonService = inject(LessonService);
   private readonly aiService = inject(AiFlashcardService);
   private readonly flashcardService = inject(FlashcardService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   lesson?: LessonResponse;
 
@@ -52,11 +53,13 @@ export class LessonDetailsComponent implements OnInit {
         next: lesson => {
           this.lesson = lesson;
           this.loading = false;
+          this.cdr.markForCheck();
         },
         error: err => {
           console.error(err);
           this.error = true;
           this.loading = false;
+          this.cdr.markForCheck();
         }
       });
   }
@@ -89,6 +92,7 @@ export class LessonDetailsComponent implements OnInit {
                 this.flashcards = cards;
 
                 this.generating = false;
+                this.cdr.markForCheck();
 
                 const modal =
                   new bootstrap.Modal(
@@ -103,6 +107,7 @@ export class LessonDetailsComponent implements OnInit {
               error: err => {
                 console.error(err);
                 this.generating = false;
+                this.cdr.markForCheck();
               }
             });
 
@@ -113,6 +118,7 @@ export class LessonDetailsComponent implements OnInit {
       error: err => {
         console.error(err);
         this.generating = false;
+        this.cdr.markForCheck();
       }
     });
   }
@@ -128,6 +134,7 @@ export class LessonDetailsComponent implements OnInit {
         next: () => {
 
           this.saving = false;
+          this.cdr.markForCheck();
 
           const modalEl =
             document.getElementById(
@@ -145,6 +152,7 @@ export class LessonDetailsComponent implements OnInit {
         error: err => {
           console.error(err);
           this.saving = false;
+          this.cdr.markForCheck();
         }
       });
   }

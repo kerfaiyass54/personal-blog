@@ -1,76 +1,77 @@
-<div class="page">
+<main class="page" aria-labelledby="generate-plan-title">
 
-  <div class="generator-card">
+  <section class="generator-card">
 
-    <div class="card-header">
-
-      <h1>
-        Generate AI Content Plan
-      </h1>
-
-      <p>
-        Turn a simple title into a
-        professional article outline.
-      </p>
-
-    </div>
+    <header class="card-header">
+      <span class="section-kicker"><i class="bi bi-stars"></i> Planning studio</span>
+      <h1 id="generate-plan-title"><span>Generate</span> <strong>Content Plan</strong></h1>
+      <div class="title-line" aria-hidden="true"></div>
+      <p>Turn a simple article idea into a focused, professional outline.</p>
+    </header>
 
     <div class="input-group">
 
-      <label>
-        Article Title
-      </label>
+      <label for="plan-title">What do you want to write about?</label>
 
       <input
+        id="plan-title"
         type="text"
         [ngModel]="title()"
         (ngModelChange)="title.set($event)"
-        placeholder="Example: How to Learn Python Fast"
+        placeholder="Example: How to learn Python fast"
+        (keyup.enter)="generatePlan()"
       />
 
     </div>
 
     <button
       class="generate-btn"
+      type="button"
       [disabled]="loading()"
       (click)="generatePlan()"
     >
 
       @if(loading()) {
 
-        <span class="spinner"></span>
-        Generating...
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Generating plan...</span>
 
       } @else {
 
-        Generate Plan
+        <i class="bi bi-magic" aria-hidden="true"></i>
+        <span>Generate plan</span>
 
       }
 
     </button>
 
-  </div>
+  </section>
 
   @if(generatedPlan()) {
 
-    <div class="preview-card">
+    <section class="preview-card" aria-labelledby="plan-preview-title">
 
       <div class="preview-header">
 
-        <h2>
+        <div>
+          <span class="section-kicker"><i class="bi bi-layout-text-window-reverse"></i> Generated outline</span>
+          <h2 id="plan-preview-title">
           {{ title() }}
-        </h2>
+          </h2>
+        </div>
 
-        <span>
-        {{ generatedPlan()?.article_type }}
-      </span>
+        <span class="type-badge">
+          <i class="bi bi-bookmark-star" aria-hidden="true"></i>
+          {{ generatedPlan()?.article_type }}
+        </span>
 
       </div>
 
       <div class="quick-info">
 
         <div class="info-box">
-          <small>Words</small>
+          <i class="bi bi-text-paragraph" aria-hidden="true"></i>
+          <small>Estimated words</small>
           <strong>
             {{
               generatedPlan()
@@ -80,7 +81,8 @@
         </div>
 
         <div class="info-box">
-          <small>Sections</small>
+          <i class="bi bi-list-nested" aria-hidden="true"></i>
+          <small>Outline sections</small>
           <strong>
             {{
               generatedPlan()
@@ -95,23 +97,26 @@
 
         @for(
           section of generatedPlan()?.outline;
-          track section.heading
-          ) {
+        track section.heading;
+        let i = $index
+        ) {
 
-          <div class="outline-item">
+          <article class="outline-item" [style.animation-delay.ms]="i * 80">
 
-            <h4>
+            <div class="outline-heading">
+              <span class="section-number">{{ i + 1 | number:'2.0' }}</span>
+              <h3>
               {{ section.heading }}
-            </h4>
+              </h3>
+            </div>
+
+            <p>{{ section.purpose }}</p>
 
             <ul>
-
-              @for(
-                idea of section.ideas.slice(0,3);
-                track idea
-                ) {
+              @for(idea of section.ideas.slice(0, 3); track idea) {
 
                 <li>
+                  <i class="bi bi-arrow-return-right" aria-hidden="true"></i>
                   {{ idea }}
                 </li>
 
@@ -119,7 +124,7 @@
 
             </ul>
 
-          </div>
+          </article>
 
         }
 
@@ -129,27 +134,31 @@
 
         <button
           class="cancel-btn"
+          type="button"
           data-bs-toggle="modal"
           data-bs-target="#backModal"
         >
-          Cancel
+          <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          <span>Discard</span>
         </button>
 
         <button
           class="save-btn"
+          type="button"
           data-bs-toggle="modal"
           data-bs-target="#saveModal"
         >
-          Save Plan
+          <i class="bi bi-bookmark-plus" aria-hidden="true"></i>
+          <span>Save plan</span>
         </button>
 
       </div>
 
-    </div>
+    </section>
 
   }
 
-</div>
+</main>
 
 <!-- Save Modal -->
 
@@ -158,38 +167,37 @@
   id="saveModal"
   tabindex="-1"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
 
-    <div class="modal-content">
+    <div class="modal-content plan-modal">
 
       <div class="modal-header">
-        <h5>
-          Save Plan
-        </h5>
+        <div class="modal-icon save-icon"><i class="bi bi-bookmark-plus"></i></div>
+        <h2>Save this plan?</h2>
       </div>
 
       <div class="modal-body">
-
-        Save this generated plan
-        to your workspace?
-
+        Your generated outline will be added to your planning workspace.
       </div>
 
       <div class="modal-footer">
 
         <button
-          class="btn btn-light"
+          class="modal-cancel"
+          type="button"
           data-bs-dismiss="modal"
         >
-          Cancel
+          Keep editing
         </button>
 
         <button
-          class="btn btn-primary"
+          class="modal-confirm"
+          type="button"
           (click)="savePlan()"
           data-bs-dismiss="modal"
         >
-          Save
+          <i class="bi bi-check2"></i>
+          Save plan
         </button>
 
       </div>
@@ -206,36 +214,38 @@
   id="backModal"
   tabindex="-1"
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog modal-dialog-centered">
 
-    <div class="modal-content">
+    <div class="modal-content plan-modal">
 
       <div class="modal-header">
-        <h5>
-          Discard Changes
-        </h5>
+        <div class="modal-icon discard-icon"><i class="bi bi-exclamation-lg"></i></div>
+        <h2>Discard this plan?</h2>
       </div>
 
       <div class="modal-body">
 
-        Generated content will be lost.
+        Your generated outline will be lost if you leave this page.
 
       </div>
 
       <div class="modal-footer">
 
         <button
-          class="btn btn-light"
+          class="modal-cancel"
+          type="button"
           data-bs-dismiss="modal"
         >
-          Stay
+          Keep plan
         </button>
 
         <button
-          class="btn btn-danger"
-          onclick="history.back()"
+          class="modal-danger"
+          type="button"
+          (click)="goBack()"
         >
-          Leave
+          <i class="bi bi-box-arrow-left"></i>
+          Leave page
         </button>
 
       </div>
