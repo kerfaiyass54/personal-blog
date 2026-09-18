@@ -1,65 +1,80 @@
-<div class="container">
+<main class="page" aria-labelledby="update-article-title">
 
   @if(loading()) {
 
-    <div class="loading">
-      Loading article...
+    <div class="loading-card" role="status">
+      <span class="loader" aria-hidden="true"></span>
+      <span>Loading article...</span>
     </div>
 
   } @else {
 
-    <div class="card">
+    <section class="editor-card">
 
-      <div class="top-bar">
+      <header class="editor-header">
+        <div>
+          <span class="section-kicker"><i class="bi bi-pencil-square"></i> Writing workspace</span>
+          <h1 id="update-article-title"><span>Edit</span> <strong>Article</strong></h1>
+          <div class="title-line" aria-hidden="true"></div>
+          <p>Refine your story and keep every detail moving forward.</p>
+        </div>
+        <div class="header-actions">
+          <button class="back-btn" type="button" (click)="goBack()">
+            <i class="bi bi-arrow-left" aria-hidden="true"></i>
+            <span>Back to article</span>
+          </button>
+          <div class="draft-badge"><i class="bi bi-pencil"></i> Editing draft</div>
+        </div>
+      </header>
 
-        <button
-          class="back-btn"
-          (click)="goBack()">
-          ← Back
-        </button>
+      <div class="field title-field">
 
-      </div>
-
-      <h1>Update Article</h1>
-
-      <div class="field">
-
-        <label>Title</label>
+        <label for="article-title">Article title</label>
 
         <input
+          id="article-title"
           type="text"
           [value]="title()"
           (input)="title.set($any($event.target).value)"
+          placeholder="Give your article a memorable title..."
         />
 
       </div>
 
       <div class="field">
 
-        <label>Content</label>
+        <div class="label-row">
+          <label for="article-content">Content</label>
+          <span>{{ content().length }} characters</span>
+        </div>
 
         <textarea
+          id="article-content"
           [value]="content()"
-          (input)="content.set($any($event.target).value)">
-        </textarea>
+          (input)="content.set($any($event.target).value)"
+          placeholder="Edit your article here..."></textarea>
 
       </div>
 
-      <button
-        class="submit-btn"
-        [disabled]="saving()"
-        (click)="update()">
+      <footer class="editor-footer">
+        <span class="writing-tip"><i class="bi bi-lightbulb"></i> Tip: keep your title focused and your opening clear.</span>
+        <button
+          class="submit-btn"
+          type="button"
+          [disabled]="saving()"
+          (click)="update()">
+          @if(!saving()) {
+            <i class="bi bi-check2" aria-hidden="true"></i>
+            <span>Save changes</span>
+          } @else {
+            <span class="button-loader" aria-hidden="true"></span>
+            <span>Saving...</span>
+          }
+        </button>
+      </footer>
 
-        @if(!saving()) {
-          Update Article
-        } @else {
-          Updating...
-        }
-
-      </button>
-
-    </div>
+    </section>
 
   }
 
-</div>
+</main>

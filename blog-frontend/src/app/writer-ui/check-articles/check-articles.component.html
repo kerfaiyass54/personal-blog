@@ -1,33 +1,49 @@
-<div class="page">
+<main class="page" aria-labelledby="articles-title">
 
-  <div class="header">
-    <h1>My Articles</h1>
+  <header class="header">
+    <div class="heading">
+      <span class="section-kicker"><i class="bi bi-journal-richtext"></i> Content workspace</span>
+      <h1 id="articles-title"><span>My</span> <strong>Articles</strong></h1>
+      <div class="title-line" aria-hidden="true"></div>
+      <p>Review, refine, and manage your published writing.</p>
+    </div>
 
     <button
       class="add-btn"
+      type="button"
       (click)="onAddArticle()">
-      + Add Article
+      <i class="bi bi-plus-lg" aria-hidden="true"></i>
+      <span>Add Article</span>
     </button>
-  </div>
+  </header>
 
-  <div class="articles-container">
+  <section class="articles-container" aria-label="Your articles">
 
-    @for(article of articles; track article.id){
+    @for(article of articles; track article.id; let i = $index){
 
-      <div class="article-card" (click)="onReadArticle(article.id)">
+      <article
+        class="article-card"
+        [style.animation-delay.ms]="i * 90"
+        tabindex="0"
+        (click)="onReadArticle(article.id)"
+        (keyup.enter)="onReadArticle(article.id)"
+        (keyup.space)="onReadArticle(article.id); $event.preventDefault()">
 
         <div class="card-header">
+          <span class="article-label"><i class="bi bi-file-earmark-text"></i> Article</span>
           <h2>{{ article.title }}</h2>
         </div>
 
         <div class="dates">
           <span>
-            Created:
+            <i class="bi bi-calendar-plus" aria-hidden="true"></i>
+            <span>Created</span>
             {{ article.dateInsert | date:'medium' }}
           </span>
 
           <span>
-            Updated:
+            <i class="bi bi-clock-history" aria-hidden="true"></i>
+            <span>Updated</span>
             {{ article.dateUpdate | date:'medium' }}
           </span>
         </div>
@@ -36,22 +52,72 @@
 
           <button
             class="update-btn"
-            (click)="onUpdate(article)">
-            Update
+            type="button"
+            (click)="onUpdate(article); $event.stopPropagation()">
+            <i class="bi bi-pencil-square" aria-hidden="true"></i>
+            <span>Update</span>
           </button>
 
           <button
             class="delete-btn"
-            (click)="onDelete(article.id)">
-            Delete
+            type="button"
+            (click)="onDelete(article); $event.stopPropagation()">
+            <i class="bi bi-trash3" aria-hidden="true"></i>
+            <span>Delete</span>
           </button>
 
         </div>
 
-      </div>
+      </article>
 
+    } @empty {
+      <div class="empty-state">
+        <i class="bi bi-journal-x" aria-hidden="true"></i>
+        <h2>No articles yet</h2>
+        <p>Start your collection by creating your first article.</p>
+        <button class="empty-action" type="button" (click)="onAddArticle()">
+          <i class="bi bi-plus-lg" aria-hidden="true"></i>
+          Add your first article
+        </button>
+      </div>
     }
 
-  </div>
+  </section>
 
-</div>
+</main>
+
+@if (articleToDelete(); as article) {
+  <div class="delete-backdrop" role="presentation" (click)="closeDeleteDialog()">
+    <section
+      class="delete-dialog"
+      role="alertdialog"
+      aria-modal="true"
+      aria-labelledby="delete-dialog-title"
+      aria-describedby="delete-dialog-description"
+      (click)="$event.stopPropagation()">
+      <div class="delete-icon" aria-hidden="true">
+        <i class="bi bi-trash3"></i>
+      </div>
+
+      <h2 id="delete-dialog-title">Delete article?</h2>
+      <p id="delete-dialog-description">
+        This will permanently remove <strong>{{ article.title }}</strong>.
+      </p>
+
+      <div class="delete-actions">
+        <button class="cancel-delete" type="button" [disabled]="deleting()" (click)="closeDeleteDialog()">
+          Keep article
+        </button>
+        <button class="confirm-delete" type="button" [disabled]="deleting()" (click)="confirmDelete()">
+          @if (deleting()) {
+            <span class="delete-loader" aria-hidden="true"></span>
+            <span>Deleting...</span>
+          } @else {
+            <i class="bi bi-trash3" aria-hidden="true"></i>
+            <span>Delete permanently</span>
+          }
+        </button>
+      </div>
+    </section>
+  </div>
+}

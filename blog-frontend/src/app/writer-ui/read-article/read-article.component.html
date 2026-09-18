@@ -1,9 +1,9 @@
-<div class="page">
+<main class="page" aria-labelledby="article-title">
 
   @if(loading()){
 
-    <div class="loading-card">
-      <div class="spinner"></div>
+    <div class="loading-card" role="status">
+      <span class="spinner" aria-hidden="true"></span>
       <h2>Loading article...</h2>
     </div>
 
@@ -15,42 +15,55 @@
 
       <button
         class="back-btn"
+        type="button"
         (click)="goBack()">
-        ← Back
+        <i class="bi bi-arrow-left" aria-hidden="true"></i>
+        <span>Back to articles</span>
       </button>
 
-      <div class="article-card">
+      <article class="article-card">
 
-        <div class="header">
+        <header class="header">
+          <span class="section-kicker"><i class="bi bi-book-half"></i> Article reader</span>
 
-          <h1>
+          <h1 id="article-title">
             {{ article()?.title }}
           </h1>
 
           <div class="meta">
 
             <span>
-              Created:
+              <i class="bi bi-calendar-plus" aria-hidden="true"></i>
+              <strong>Created</strong>
               {{ article()?.dateInsert | date:'medium' }}
             </span>
 
             <span>
-              Updated:
+              <i class="bi bi-clock-history" aria-hidden="true"></i>
+              <strong>Updated</strong>
               {{ article()?.dateUpdate | date:'medium' }}
             </span>
 
           </div>
 
-        </div>
+        </header>
 
-        <div class="content">
+        <div class="content" role="article">
           {{ article()?.content }}
         </div>
 
-      </div>
+        <footer class="article-footer">
+          <span><i class="bi bi-check2-circle" aria-hidden="true"></i> End of article</span>
+          <button class="footer-back-btn" type="button" (click)="goBack()">
+            Browse all articles
+            <i class="bi bi-arrow-right" aria-hidden="true"></i>
+          </button>
+        </footer>
+
+      </article>
 
     </div>
 
   }
 
-</div>
+</main>
