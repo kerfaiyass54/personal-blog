@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -10,7 +11,8 @@ import {ToastrService} from "ngx-toastr";
     standalone: true,
 imports: [ReactiveFormsModule],
     templateUrl: './signup-screen.component.html',
-    styleUrl: './signup-screen.component.scss'
+    styleUrl: './signup-screen.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SignupScreenComponent implements OnInit{
 

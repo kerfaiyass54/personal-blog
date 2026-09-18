@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import {
   Component,
   OnInit
@@ -20,7 +21,8 @@ import {
   templateUrl:
     './recommandations-page.component.html',
   styleUrl:
-    './recommandations-page.component.scss'
+    './recommandations-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class RecommandationsPageComponent

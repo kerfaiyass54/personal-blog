@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,6 +14,7 @@ import {SkillService} from "../services/skill.service";
   imports: [CommonModule, FormsModule],
   templateUrl: './add-skills.component.html',
   styleUrl: './add-skills.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddSkillsComponent {
 

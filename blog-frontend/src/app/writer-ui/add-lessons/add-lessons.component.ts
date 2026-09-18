@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,6 +15,7 @@ import {LessonService} from "../services/lesson.service";
   ],
   templateUrl: './add-lessons.component.html',
   styleUrl: './add-lessons.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddLessonsComponent {
 

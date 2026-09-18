@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ReaderDashboardStatistics, ReaderStatisticsService} from "../services/reader-statistics.service";
@@ -9,6 +10,7 @@ import {ReaderDashboardStatistics, ReaderStatisticsService} from "../services/re
   imports: [CommonModule],
   templateUrl: './reader-dashboard.component.html',
   styleUrl: './reader-dashboard.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReaderDashboardComponent implements OnInit {
 

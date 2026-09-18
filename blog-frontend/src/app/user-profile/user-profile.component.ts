@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {ProfileService} from "./service/profile.service";
@@ -13,6 +14,7 @@ import {LoginServiceService} from "../shared/services/login-service.service";
   imports: [CommonModule, ProfileAddingComponent, ProfileDetailsComponent],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserProfileComponent implements OnInit{
 

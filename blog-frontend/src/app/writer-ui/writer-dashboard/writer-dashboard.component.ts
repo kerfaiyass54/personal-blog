@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {DashboardStatistics, WriterStatisticsService} from "../services/writer-statistics.service";
@@ -9,6 +10,7 @@ import {DashboardStatistics, WriterStatisticsService} from "../services/writer-s
   imports: [CommonModule],
   templateUrl: './writer-dashboard.component.html',
   styleUrl: './writer-dashboard.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WriterDashboardComponent implements OnInit {
   private statisticsService = inject(WriterStatisticsService);

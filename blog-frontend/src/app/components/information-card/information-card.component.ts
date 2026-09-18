@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import {Component, Input} from '@angular/core';
 
 @Component({
@@ -5,6 +6,7 @@ import {Component, Input} from '@angular/core';
   imports: [],
   templateUrl: './information-card.component.html',
   styleUrl: './information-card.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InformationCardComponent {
   @Input() title!: string;

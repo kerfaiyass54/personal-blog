@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import {InserCodeComponent} from "./inser-code/inser-code.component";
 import {InserPassComponent} from "./inser-pass/inser-pass.component";
@@ -10,6 +11,7 @@ import {InserPassComponent} from "./inser-pass/inser-pass.component";
   ],
   templateUrl: './forgot-password.component.html',
   styleUrl: './forgot-password.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ForgotPasswordComponent {
 

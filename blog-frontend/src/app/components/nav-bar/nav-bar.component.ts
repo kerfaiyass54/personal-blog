@@ -1,4 +1,4 @@
-import {Component, input, OnInit, signal} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, input, OnInit, signal } from '@angular/core';
 import {TitleCasePipe} from '@angular/common';
 import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {LoginServiceService} from "../../shared/services/login-service.service";
@@ -12,9 +12,12 @@ import {LoaderComponent} from "../loader/loader.component";
     standalone: true,
   imports: [RouterLink, RouterLinkActive, TitleCasePipe, LoaderComponent],
     templateUrl: './nav-bar.component.html',
-    styleUrl: './nav-bar.component.scss'
+    styleUrl: './nav-bar.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavBarComponent implements OnInit {
+
+  private readonly cdr = inject(ChangeDetectorRef);
 
   constructor(private loginService: LoginServiceService, private route: Router, private toastrService: ToastrService) {
   }
@@ -51,6 +54,7 @@ export class NavBarComponent implements OnInit {
     this.loading.set(true);
     setTimeout(() => {
       this.loading.set(false);
+      this.cdr.markForCheck();
     }, 300);
   }
 

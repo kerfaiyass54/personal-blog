@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArticlesService, ArticleDisplayDTO } from '../services/articles.service';
@@ -9,6 +10,7 @@ import {Router} from "@angular/router";
   imports: [CommonModule],
   templateUrl: './check-articles.component.html',
   styleUrl: './check-articles.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckArticlesComponent implements OnInit {
 

@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import {ButtonComponent} from "../components/button/button.component";
 import { Location } from '@angular/common';
@@ -10,7 +11,8 @@ import { Location } from '@angular/common';
     ButtonComponent
   ],
     templateUrl: './error-not-found.component.html',
-    styleUrl: './error-not-found.component.scss'
+    styleUrl: './error-not-found.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ErrorNotFoundComponent {
 

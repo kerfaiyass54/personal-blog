@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {PlanService, PlanSummary} from "../services/plan.service";
@@ -11,6 +12,7 @@ import { Router } from '@angular/router';
   imports: [CommonModule],
   templateUrl: './plan-checking.component.html',
   styleUrl: './plan-checking.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PlanCheckingComponent implements OnInit {
 

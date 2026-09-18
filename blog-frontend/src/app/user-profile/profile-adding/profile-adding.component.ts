@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -16,6 +17,7 @@ import {ToastrService} from "ngx-toastr";
   imports: [CommonModule, FormsModule],
   templateUrl: './profile-adding.component.html',
   styleUrl: './profile-adding.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileAddingComponent {
 

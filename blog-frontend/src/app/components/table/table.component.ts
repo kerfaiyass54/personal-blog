@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import {
   Component,
   Input,
@@ -13,6 +14,7 @@ import {FormsModule} from "@angular/forms";
   imports: [CommonModule, FormsModule],
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TableComponent implements AfterViewInit {
   @Input() title = '';

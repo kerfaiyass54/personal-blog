@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import {
   Component,
   computed,
@@ -17,7 +18,8 @@ import {SoundtrackServicesService} from "../service/soundtrack-services.service"
   standalone: true,
   imports: [FormsModule],
   templateUrl: './add-playlist.component.html',
-  styleUrl: './add-playlist.component.scss'
+  styleUrl: './add-playlist.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddPlaylistComponent implements OnInit {
 

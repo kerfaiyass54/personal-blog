@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import {PlaylistServicesService} from "../service/playlist-services.service";
 import {SoundtrackServicesService} from "../service/soundtrack-services.service";
@@ -8,6 +9,7 @@ import {SoundtrackServicesService} from "../service/soundtrack-services.service"
   templateUrl: './dash-playlist.component.html',
   styleUrl: './dash-playlist.component.scss',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashPlaylistComponent implements OnInit {
 

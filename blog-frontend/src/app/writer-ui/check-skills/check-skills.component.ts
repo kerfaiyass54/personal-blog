@@ -1,4 +1,5 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -11,12 +12,14 @@ import {SkillService} from "../services/skill.service";
   standalone: true,
   imports: [CommonModule],
   templateUrl: './check-skills.component.html',
-  styleUrl: './check-skills.component.scss'
+  styleUrl: './check-skills.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckSkillsComponent implements OnInit {
 
   private readonly skillService = inject(SkillService);
   private readonly router = inject(Router);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   statistics?: SkillStatistics;
 
@@ -36,8 +39,12 @@ export class CheckSkillsComponent implements OnInit {
         this.topFields = [...stats.skillsByField]
           .sort((a, b) => b.count - a.count)
           .slice(0, 3);
+        this.cdr.markForCheck();
       },
-      error: console.error
+      error: (error) => {
+        console.error(error);
+        this.cdr.markForCheck();
+      }
     });
   }
 

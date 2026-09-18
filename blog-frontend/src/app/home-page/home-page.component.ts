@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import {LoginServiceService} from "../shared/services/login-service.service";
 import { Router } from '@angular/router';
@@ -7,7 +8,8 @@ import { Router } from '@angular/router';
     standalone: true,
 imports: [],
     templateUrl: './home-page.component.html',
-    styleUrl: './home-page.component.scss'
+    styleUrl: './home-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomePageComponent implements OnInit{
 

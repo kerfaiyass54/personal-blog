@@ -1,3 +1,4 @@
+import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -14,6 +15,7 @@ import {
   imports: [CommonModule],
   templateUrl: './checking-articles.component.html',
   styleUrl: './checking-articles.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckingArticlesComponent implements OnInit {
 
