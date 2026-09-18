@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArticlesService, ArticleDisplayDTO } from '../services/articles.service';
@@ -16,7 +16,11 @@ export class CheckArticlesComponent implements OnInit {
 
   articles: ArticleDisplayDTO[] = [];
 
-  constructor(private articlesService: ArticlesService, private router: Router) {}
+  constructor(
+    private articlesService: ArticlesService,
+    private router: Router,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadArticles();
@@ -26,9 +30,11 @@ export class CheckArticlesComponent implements OnInit {
     this.articlesService.getAllArticles().subscribe({
       next: (data) => {
         this.articles = data;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error(err);
+        this.cdr.markForCheck();
       }
     });
   }
@@ -56,6 +62,7 @@ this.router.navigate(['/writer/add-article']);  }
       },
       error: (err) => {
         console.error(err);
+        this.cdr.markForCheck();
       }
     });
   }
