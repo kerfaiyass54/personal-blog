@@ -33,7 +33,7 @@ export class UpdateArticleComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) {
-      this.router.navigate(['/articles']);
+      this.router.navigate(['/writer/list-articles']);
       return;
     }
 
@@ -55,7 +55,7 @@ export class UpdateArticleComponent implements OnInit {
           'Error'
         );
 
-        this.router.navigate(['/articles']);
+        this.router.navigate(['/writer/list-articles']);
       }
     });
   }

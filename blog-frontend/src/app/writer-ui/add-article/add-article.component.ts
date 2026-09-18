@@ -31,6 +31,10 @@ export class AddArticleComponent {
 
   loading = signal(false);
 
+  goBack(): void {
+    this.router.navigate(['/writer/list-articles']);
+  }
+
   correctArticle(): void {
 
     if (!this.content().trim()) {

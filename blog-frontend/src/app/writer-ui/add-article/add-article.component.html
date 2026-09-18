@@ -1,89 +1,115 @@
-<div class="container">
+<main class="page" aria-labelledby="create-article-title">
 
-  <div class="card">
+  <section class="editor-card">
 
-    <h1>Create Article</h1>
+    <header class="editor-header">
+      <div>
+        <span class="section-kicker"><i class="bi bi-pencil-square"></i> Writing workspace</span>
+        <h1 id="create-article-title"><span>Create</span> <strong>Article</strong></h1>
+        <div class="title-line" aria-hidden="true"></div>
+        <p>Turn your ideas into a clear, engaging story.</p>
+      </div>
+      <div class="header-actions">
+        <button class="back-btn" type="button" (click)="goBack()">
+          <i class="bi bi-arrow-left" aria-hidden="true"></i>
+          <span>Back to articles</span>
+        </button>
+        <div class="draft-badge"><i class="bi bi-cloud-check"></i> Draft editor</div>
+      </div>
+    </header>
 
-    <div class="field">
+    <div class="field title-field">
 
-      <label>Title</label>
+      <label for="article-title">Article title</label>
 
       <input
+        id="article-title"
         type="text"
         [value]="title()"
         (input)="title.set($any($event.target).value)"
-        placeholder="Enter article title..."
+        placeholder="Give your article a memorable title..."
       />
 
     </div>
 
     <div class="field">
 
-      <label>Content</label>
+      <div class="label-row">
+        <label for="article-content">Content</label>
+        <span>{{ content().length }} characters</span>
+      </div>
 
       <textarea
+        id="article-content"
         [value]="content()"
         (input)="content.set($any($event.target).value)"
-        placeholder="Write your article here..."
+        placeholder="Start writing your article here..."
       ></textarea>
 
     </div>
 
-    <button
-      class="submit-btn"
-      [disabled]="loading()"
-      (click)="submit()">
+    <div class="editor-footer">
+      <span class="writing-tip"><i class="bi bi-lightbulb"></i> Tip: start with the main idea, then add supporting details.</span>
+      <div class="actions">
+        <button
+          class="review-btn"
+          type="button"
+          [disabled]="reviewLoading()"
+          (click)="correctArticle()">
+          @if(!reviewLoading()) {
+            <i class="bi bi-magic" aria-hidden="true"></i>
+            <span>Review writing</span>
+          } @else {
+            <span class="button-loader" aria-hidden="true"></span>
+            <span>Reviewing...</span>
+          }
+        </button>
 
-      @if(!loading()) {
-        Create Article
-      } @else {
-        Creating...
-      }
+        <button
+          class="submit-btn"
+          type="button"
+          [disabled]="loading()"
+          (click)="submit()">
+          @if(!loading()) {
+            <i class="bi bi-send" aria-hidden="true"></i>
+            <span>Publish article</span>
+          } @else {
+            <span class="button-loader" aria-hidden="true"></span>
+            <span>Publishing...</span>
+          }
+        </button>
+      </div>
+    </div>
 
-    </button>
+  </section>
 
-    <button
-      class="submit-btn mb-3"
-      [disabled]="reviewLoading()"
-      (click)="correctArticle()"
-    >
-
-      @if(!reviewLoading()) {
-        Correct Article
-      } @else {
-        Reviewing...
-      }
-
-    </button>
-
-  </div>
-
-</div>
+</main>
 
 
 <div
   class="modal fade"
   id="correctionsModal"
+  aria-labelledby="corrections-title"
   tabindex="-1"
   aria-hidden="true"
 >
 
-  <div
-    class="modal-dialog modal-xl modal-dialog-scrollable"
-  >
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
 
-    <div class="modal-content">
+    <div class="modal-content corrections-dialog">
 
       <div class="modal-header">
 
-        <h5 class="modal-title">
-          Article Corrections
-        </h5>
+        <div>
+          <span class="modal-kicker"><i class="bi bi-stars"></i> Writing assistant</span>
+          <h2 id="corrections-title" class="modal-title">Article corrections</h2>
+        </div>
 
         <button
           type="button"
-          class="btn-close"
+          class="btn-close modal-close"
           data-bs-dismiss="modal"
+          aria-label="Close corrections"
         ></button>
 
       </div>
@@ -92,59 +118,50 @@
 
         @if(mistakes().length === 0) {
 
-          <div class="alert alert-success">
-
-            No mistakes found 🎉
-
+          <div class="success-state">
+            <i class="bi bi-check-circle" aria-hidden="true"></i>
+            <h3>Your article looks good</h3>
+            <p>No writing mistakes were found.</p>
           </div>
 
         } @else {
 
           @for(
             mistake of mistakes();
-            track $index
-            ) {
+          track $index;
+          let i = $index
+          ) {
 
-            <div
-              class="card mb-3"
-            >
+          <article class="mistake-card" [style.animation-delay.ms]="i * 70">
 
-              <div class="card-body">
+              <div class="mistake-body">
 
-                <h6>
-                  Original
-                </h6>
+                <div class="correction-block original">
+                  <span>Original</span>
+                  <p>{{ mistake.original }}</p>
+                </div>
 
-                <p>
-                  {{ mistake.original }}
-                </p>
-
-                <h6>
-                  Correction
-                </h6>
-
-                <p>
-                  {{ mistake.correction }}
-                </p>
-
-                <h6>
-                  Explanation
-                </h6>
-
-                <p>
-                  {{ mistake.explanation }}
-                </p>
+                <div class="correction-block correction">
+                  <span>Correction</span>
+                  <p>{{ mistake.correction }}</p>
+                </div>
 
                 <button
-                  class="btn btn-outline-primary"
+                  class="apply-btn"
+                  type="button"
                   (click)="applyCorrection(mistake)"
                 >
-                  Apply This Correction
+                  <i class="bi bi-check2" aria-hidden="true"></i>
+                  Apply correction
                 </button>
 
+                <div class="correction-block explanation">
+                  <span>Why it matters</span>
+                  <p>{{ mistake.explanation }}</p>
+                </div>
               </div>
 
-            </div>
+            </article>
 
           }
 
@@ -155,14 +172,17 @@
       <div class="modal-footer">
 
         <button
-          class="btn btn-success"
+          class="apply-all-btn"
+          type="button"
           (click)="applyAllCorrections()"
         >
-          Apply All
+          <i class="bi bi-check2-all" aria-hidden="true"></i>
+          Apply all
         </button>
 
         <button
-          class="btn btn-secondary"
+          class="close-btn"
+          type="button"
           data-bs-dismiss="modal"
         >
           Close

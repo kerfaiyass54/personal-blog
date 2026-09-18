@@ -292,6 +292,121 @@
 .empty-state h2 { margin: 0 0 6px; color: #fff; font-size: 1.2rem; }
 .empty-state p { margin: 0 0 18px; font-size: .88rem; }
 
+.delete-backdrop {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(7, 2, 28, .72);
+  backdrop-filter: blur(8px);
+  animation: backdrop-enter .2s ease both;
+}
+
+.delete-dialog {
+  width: min(100%, 430px);
+  box-sizing: border-box;
+  padding: 28px;
+  border: 1px solid rgba(255, 137, 137, .25);
+  border-radius: 24px;
+  background: linear-gradient(145deg, rgba(39, 20, 58, .98), rgba(17, 10, 38, .98));
+  box-shadow: 0 28px 80px rgba(0, 0, 0, .5), inset 0 1px rgba(255, 255, 255, .1);
+  text-align: center;
+  animation: dialog-enter .3s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+.delete-icon {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 15px;
+  place-items: center;
+  border: 1px solid rgba(255, 125, 125, .3);
+  border-radius: 17px;
+  color: #ff9b9b;
+  background: rgba(239, 68, 68, .14);
+  box-shadow: 0 0 25px rgba(239, 68, 68, .15);
+  font-size: 1.35rem;
+}
+
+.delete-dialog h2 {
+  margin: 0 0 9px;
+  color: #fff;
+  font-size: 1.35rem;
+}
+
+.delete-dialog p {
+  margin: 0 auto 23px;
+  max-width: 340px;
+  color: rgba(231, 225, 255, .66);
+  font-size: .88rem;
+  line-height: 1.55;
+}
+
+.delete-dialog p strong {
+  color: #fff;
+  font-weight: 700;
+}
+
+.delete-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.cancel-delete,
+.confirm-delete {
+  display: inline-flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 43px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 9px 12px;
+  cursor: pointer;
+  font: inherit;
+  font-size: .76rem;
+  font-weight: 700;
+  transition: transform .2s ease, filter .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.cancel-delete {
+  border-color: rgba(255, 255, 255, .16);
+  color: #fff;
+  background: rgba(255, 255, 255, .08);
+}
+
+.confirm-delete {
+  color: #fff;
+  background: linear-gradient(105deg, #ef4444, #b91c1c);
+  box-shadow: 0 10px 22px rgba(185, 28, 28, .25);
+}
+
+.cancel-delete:hover:not(:disabled),
+.confirm-delete:hover:not(:disabled),
+.cancel-delete:focus-visible,
+.confirm-delete:focus-visible {
+  outline: none;
+  filter: brightness(1.1);
+  transform: translateY(-2px);
+}
+
+.cancel-delete:hover:not(:disabled) { background: rgba(255, 255, 255, .15); }
+.confirm-delete:hover:not(:disabled) { box-shadow: 0 14px 28px rgba(185, 28, 28, .4); }
+.cancel-delete:disabled,
+.confirm-delete:disabled { cursor: wait; opacity: .65; }
+
+.delete-loader {
+  width: 13px;
+  height: 13px;
+  border: 2px solid rgba(255, 255, 255, .35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
 @media (max-width: 760px) {
   .header { align-items: start; flex-direction: column; }
   .add-btn { width: 100%; }
@@ -314,7 +429,10 @@
   .heading h1 strong,
   .title-line,
   .heading p,
-  .article-card {
+  .article-card,
+  .delete-backdrop,
+  .delete-dialog,
+  .delete-loader {
     animation: none;
     transition: none;
   }
@@ -328,3 +446,6 @@
 @keyframes line-in { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
 @keyframes sparkle { 0%, 100% { transform: scale(1) rotate(0); opacity: .75; } 50% { transform: scale(1.2) rotate(12deg); opacity: 1; } }
 @keyframes ambient-float { from { transform: translate3d(-16px, -10px, 0) scale(.9); } to { transform: translate3d(18px, 14px, 0) scale(1.1); } }
+@keyframes backdrop-enter { from { opacity: 0; } to { opacity: 1; } }
+@keyframes dialog-enter { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes spin { to { transform: rotate(360deg); } }

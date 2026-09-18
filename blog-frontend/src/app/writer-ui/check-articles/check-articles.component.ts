@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ArticlesService, ArticleDisplayDTO } from '../services/articles.service';
 import {Router} from "@angular/router";
@@ -15,6 +15,8 @@ import {Router} from "@angular/router";
 export class CheckArticlesComponent implements OnInit {
 
   articles: ArticleDisplayDTO[] = [];
+  readonly articleToDelete = signal<ArticleDisplayDTO | null>(null);
+  readonly deleting = signal(false);
 
   constructor(
     private articlesService: ArticlesService,
@@ -50,18 +52,33 @@ this.router.navigate(['/writer/add-article']);  }
     this.router.navigate(['/writer/read-article', articleId]);
   }
 
-  onDelete(articleId: string): void {
+  onDelete(article: ArticleDisplayDTO): void {
+    this.articleToDelete.set(article);
+  }
 
-    if (!confirm('Delete this article?')) {
+  closeDeleteDialog(): void {
+    if (!this.deleting()) {
+      this.articleToDelete.set(null);
+    }
+  }
+
+  confirmDelete(): void {
+    const article = this.articleToDelete();
+
+    if (!article || this.deleting()) {
       return;
     }
 
-    this.articlesService.deleteArticle(articleId).subscribe({
+    this.deleting.set(true);
+    this.articlesService.deleteArticle(article.id).subscribe({
       next: () => {
+        this.deleting.set(false);
+        this.articleToDelete.set(null);
         this.loadArticles();
       },
       error: (err) => {
         console.error(err);
+        this.deleting.set(false);
         this.cdr.markForCheck();
       }
     });
