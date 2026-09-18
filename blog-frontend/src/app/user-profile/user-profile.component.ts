@@ -12,7 +12,7 @@ import {LoginServiceService} from "../shared/services/login-service.service";
   standalone: true,
   imports: [CommonModule, ProfileAddingComponent, ProfileDetailsComponent],
   templateUrl: './user-profile.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './user-profile.component.scss',
 })
 export class UserProfileComponent implements OnInit{

@@ -7,7 +7,7 @@ import {RouterLink} from "@angular/router";
     RouterLink
   ],
   templateUrl: './button.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './button.component.scss',
 })
 export class ButtonComponent {

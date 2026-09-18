@@ -7,7 +7,7 @@ import {SoundtrackServicesService} from "../service/soundtrack-services.service"
   selector: 'app-dash-playlist',
   templateUrl: './dash-playlist.component.html',
   styleUrl: './dash-playlist.component.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
 export class DashPlaylistComponent implements OnInit {

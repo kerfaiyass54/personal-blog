@@ -18,7 +18,7 @@ import {SoundtrackServicesService} from "../service/soundtrack-services.service"
   standalone: true,
   imports: [FormsModule],
   templateUrl: './add-playlist.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './add-playlist.component.scss'
 })
 export class AddPlaylistComponent implements OnInit {

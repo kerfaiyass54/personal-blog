@@ -7,7 +7,7 @@ import {SoundtrackServicesService} from "../service/soundtrack-services.service"
   standalone: true,
   imports: [FormsModule],
   templateUrl: './add-soundtrack.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './add-soundtrack.component.scss'
 })
 export class AddSoundtrackComponent {

@@ -14,7 +14,7 @@ import {filter} from "rxjs/operators";
     RouterOutlet
   ],
     templateUrl: './writer-ui.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './writer-ui.component.scss'
 })
 export class WriterUiComponent implements OnInit{

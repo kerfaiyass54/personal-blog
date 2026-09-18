@@ -16,7 +16,7 @@ declare const bootstrap: any;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './lesson-details.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './lesson-details.component.scss'
 })
 export class LessonDetailsComponent implements OnInit {

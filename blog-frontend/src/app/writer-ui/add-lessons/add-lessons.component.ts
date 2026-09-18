@@ -13,7 +13,7 @@ import {LessonService} from "../services/lesson.service";
     FormsModule
   ],
   templateUrl: './add-lessons.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './add-lessons.component.scss',
 })
 export class AddLessonsComponent {

@@ -8,7 +8,7 @@ import {ReaderDashboardStatistics, ReaderStatisticsService} from "../services/re
   standalone: true,
   imports: [CommonModule],
   templateUrl: './reader-dashboard.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './reader-dashboard.component.scss',
 })
 export class ReaderDashboardComponent implements OnInit {

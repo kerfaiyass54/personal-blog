@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {LoginServiceService} from "../shared/services/login-service.service";
-import {ToastrService} from "ngx-toastr";
+
 
 
 @Component({
@@ -10,7 +10,7 @@ import {ToastrService} from "ngx-toastr";
     standalone: true,
 imports: [ReactiveFormsModule],
     templateUrl: './signup-screen.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './signup-screen.component.scss'
 })
 export class SignupScreenComponent implements OnInit{
@@ -20,7 +20,7 @@ export class SignupScreenComponent implements OnInit{
 
   constructor(private fb: FormBuilder,
               private loginService: LoginServiceService,
-              private router: Router, private toastrService: ToastrService) {
+              private router: Router) {
 
     this.signUpForm = this.fb.group({
       name: new FormControl("",[Validators.required]),
@@ -42,7 +42,6 @@ export class SignupScreenComponent implements OnInit{
       this.loginService.existEmail(item.email).subscribe(
         (val)=>{
           if(val){
-            this.toastrService.error("ERROR","This email already exists!");
           }
           else{
             this.loginService.register(user).subscribe(
@@ -65,7 +64,6 @@ export class SignupScreenComponent implements OnInit{
       )
     }
     else{
-      this.toastrService.error("ERROR","This email already exists!");
 
     }
   }

@@ -8,7 +8,7 @@ import {DashboardStatistics, WriterStatisticsService} from "../services/writer-s
   standalone: true,
   imports: [CommonModule],
   templateUrl: './writer-dashboard.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './writer-dashboard.component.scss',
 })
 export class WriterDashboardComponent implements OnInit {

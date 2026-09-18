@@ -13,7 +13,7 @@ import {LessonReadingService} from "../services/lesson-reading.service";
   standalone: true,
   imports: [CommonModule],
   templateUrl: './check-lessons-to-read.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './check-lessons-to-read.component.scss',
 })
 export class CheckLessonsToReadComponent implements OnInit {

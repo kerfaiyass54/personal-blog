@@ -3,7 +3,7 @@ import { Component, Input, Output, EventEmitter, computed, ChangeDetectionStrate
 @Component({
   selector: 'app-paginated-table',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './paginated-table.component.html'
 })
 export class PaginatedTableComponent {

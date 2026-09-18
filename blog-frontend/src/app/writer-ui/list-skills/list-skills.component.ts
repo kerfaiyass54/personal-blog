@@ -10,7 +10,7 @@ import {Router} from "@angular/router";
   standalone: true,
   imports: [CommonModule],
   templateUrl: './list-skills.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './list-skills.component.scss',
 })
 export class ListSkillsComponent implements OnInit {

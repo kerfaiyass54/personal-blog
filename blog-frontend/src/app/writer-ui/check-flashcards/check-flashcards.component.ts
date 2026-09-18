@@ -19,7 +19,7 @@ declare const bootstrap: any;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './check-flashcards.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './check-flashcards.component.scss'
 })
 export class CheckFlashcardsComponent implements OnInit {

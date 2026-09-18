@@ -8,7 +8,7 @@ import {Router} from "@angular/router";
   standalone: true,
   imports: [CommonModule],
   templateUrl: './check-articles.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './check-articles.component.scss',
 })
 export class CheckArticlesComponent implements OnInit {

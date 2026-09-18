@@ -21,7 +21,7 @@ declare var bootstrap: any;
   standalone: true,
   imports: [CommonModule, FormsModule, SmartTableComponent],
   templateUrl: './user-social-media.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./user-social-media.component.scss'],
 })
 export class UserSocialMediaComponent implements OnInit {

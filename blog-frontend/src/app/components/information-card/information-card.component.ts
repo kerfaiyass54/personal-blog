@@ -4,7 +4,7 @@ import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
   selector: 'app-information-card',
   imports: [],
   templateUrl: './information-card.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './information-card.component.scss',
 })
 export class InformationCardComponent {

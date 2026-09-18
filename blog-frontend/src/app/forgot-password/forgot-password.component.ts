@@ -9,7 +9,7 @@ import {InserPassComponent} from "./inser-pass/inser-pass.component";
     InserPassComponent
   ],
   templateUrl: './forgot-password.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './forgot-password.component.scss',
 })
 export class ForgotPasswordComponent {

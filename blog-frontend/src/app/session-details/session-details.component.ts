@@ -12,7 +12,7 @@ import {ButtonComponent} from "../components/button/button.component";
 
   ],
   templateUrl: './session-details.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './session-details.component.scss',
 })
 export class SessionDetailsComponent implements OnInit{

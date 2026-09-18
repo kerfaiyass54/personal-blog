@@ -2,7 +2,6 @@ import {Component, EventEmitter, OnInit, Output, ChangeDetectionStrategy} from '
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {RouterLink} from "@angular/router";
 import {ResetPassService} from "../service/reset-pass.service";
-import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-inser-code',
@@ -11,7 +10,7 @@ import {ToastrService} from "ngx-toastr";
     RouterLink
   ],
   templateUrl: './inser-code.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './inser-code.component.scss',
 })
 export class InserCodeComponent implements OnInit{
@@ -29,7 +28,7 @@ export class InserCodeComponent implements OnInit{
   });
 
   constructor(
-    private fb: FormBuilder,private toastr: ToastrService,
+    private fb: FormBuilder,
     private resetService: ResetPassService
   ) {}
 
@@ -65,12 +64,12 @@ export class InserCodeComponent implements OnInit{
 
   sendCode(){
     this.codeSent = true;
-    this.toastr.success("Code sent", "SUCCESS");
+
     this.email = this.form.value.email;
     this.resetService.sendEmail(this.form.value.email).subscribe(
       ()=>{
         this.codeSent = true;
-        this.toastr.success("Code sent", "SUCCESS");
+
       }
     );
   }

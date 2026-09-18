@@ -9,7 +9,7 @@ import { SoundtrackServicesService } from "../service/soundtrack-services.servic
   standalone: true,
   templateUrl: './dash-music.component.html',
   styleUrl: './dash-music.component.scss',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [FormsModule, CommonModule]
 })
 export class DashMusicComponent implements OnInit {

@@ -6,7 +6,7 @@ import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
   templateUrl: './loader.component.html',
   imports: [
   ],
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./loader.component.scss']
 })
 export class LoaderComponent{

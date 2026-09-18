@@ -10,7 +10,7 @@ import { SoundtrackServicesService } from "./service/soundtrack-services.service
     RouterLink
   ],
   templateUrl: './user-playlists.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './user-playlists.component.scss',
 })
 export class UserPlaylistsComponent implements OnInit {

@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
     standalone: true,
 imports: [],
     templateUrl: './home-page.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './home-page.component.scss'
 })
 export class HomePageComponent implements OnInit{

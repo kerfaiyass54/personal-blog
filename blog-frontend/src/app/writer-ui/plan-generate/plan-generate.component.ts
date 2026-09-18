@@ -18,7 +18,7 @@ import {GeneratedPlan, Plan, PlanService} from "../services/plan.service";
     FormsModule,
   ],
   templateUrl: './plan-generate.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './plan-generate.component.scss',
 })
 export class PlanGenerateComponent {

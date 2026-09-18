@@ -8,14 +8,14 @@ import { ProfileService } from '../service/profile.service';
 import { ProfileAddDTO } from '../../models/ProfileAddDTO';
 import { getAllInterests } from '../../shared/utils/interests.utils';
 import { LoginServiceService } from '../../shared/services/login-service.service';
-import {ToastrService} from "ngx-toastr";
+
 
 @Component({
   selector: 'app-profile-adding',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './profile-adding.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './profile-adding.component.scss',
 })
 export class ProfileAddingComponent {
@@ -52,7 +52,7 @@ export class ProfileAddingComponent {
 
   constructor(
     private profileService: ProfileService,
-    private loginService: LoginServiceService, private toasterService:ToastrService
+    private loginService: LoginServiceService
   ) {}
 
   // ── Computed ─────────────────────────────────────────
@@ -158,7 +158,6 @@ export class ProfileAddingComponent {
         this.profileService.addProfile(dto, username).subscribe({
           next: () => {
             window.location.reload();
-            this.toasterService.success("SUCCESS","Profile added");
           },
           error: (e) => console.error(e),
         });

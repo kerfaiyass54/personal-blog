@@ -17,7 +17,7 @@ import {KeywordService} from "../services/keyword.service";
     FormsModule
   ],
   templateUrl: './check-keywords.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './check-keywords.component.scss'
 })
 export class CheckKeywordsComponent implements OnInit {

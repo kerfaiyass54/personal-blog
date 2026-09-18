@@ -1,7 +1,6 @@
 import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {LoginServiceService} from "../../shared/services/login-service.service";
-import {ToastrService} from "ngx-toastr";
 import {LoaderComponent} from "../loader/loader.component";
 
 
@@ -11,12 +10,12 @@ import {LoaderComponent} from "../loader/loader.component";
     standalone: true,
   imports: [RouterLink, LoaderComponent],
     templateUrl: './nav-bar.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './nav-bar.component.scss'
 })
 export class NavBarComponent implements OnInit{
 
-  constructor(private loginService: LoginServiceService, private route: Router, private toastrService: ToastrService) {
+  constructor(private loginService: LoginServiceService, private route: Router) {
   }
 
   @Input() articles: any[] = [];
@@ -38,7 +37,6 @@ export class NavBarComponent implements OnInit{
     this.route.navigate(['/login']);
     window.location.reload();
     sessionStorage.clear();
-    this.toastrService.success("LOGOUT","You're out now!");
   }
 
   loadPage(){

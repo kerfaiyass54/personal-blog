@@ -7,7 +7,7 @@ import { RouterOutlet } from '@angular/router';
     standalone: true,
 imports: [RouterOutlet],
     templateUrl: './app.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit{

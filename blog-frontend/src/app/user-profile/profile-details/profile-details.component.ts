@@ -16,7 +16,7 @@ declare var bootstrap: any;
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './profile-details.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './profile-details.component.scss',
 })
 export class ProfileDetailsComponent implements OnInit {

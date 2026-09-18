@@ -13,7 +13,7 @@ import {FormsModule} from "@angular/forms";
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './table.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements AfterViewInit {

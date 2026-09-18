@@ -11,12 +11,12 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^22.1.1",
-    "@angular/cdk": "^21.0.5",
+    "@angular/cdk": "^22.1.7",
     "@angular/common": "^22.1.1",
     "@angular/compiler": "^22.1.1",
     "@angular/core": "^22.1.1",
     "@angular/forms": "^22.1.1",
-    "@angular/material": "^21.0.5",
+    "@angular/material": "^22.1.7",
     "@angular/platform-browser": "^22.1.1",
     "@angular/platform-browser-dynamic": "^22.1.1",
     "@angular/router": "^22.1.1",
@@ -26,7 +26,7 @@
     "country-flag-icons": "^1.6.15",
     "i18n-iso-countries": "^7.14.0",
     "jwt-decode": "^4.0.0",
-    "ngx-toastr": "^19.1.0",
+    "ngx-toaster-next": "^22.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.1"

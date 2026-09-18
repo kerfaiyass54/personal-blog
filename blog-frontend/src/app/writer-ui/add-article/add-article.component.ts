@@ -1,7 +1,6 @@
 import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
 import { ArticlesService } from '../services/articles.service';
 import {Mistake, ReviewService} from "../services/review.service";
 declare const bootstrap: any;
@@ -12,13 +11,13 @@ declare const bootstrap: any;
   standalone: true,
   imports: [CommonModule],
   templateUrl: './add-article.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './add-article.component.scss',
 })
 export class AddArticleComponent {
 
   private readonly articlesService = inject(ArticlesService);
-  private readonly toastr = inject(ToastrService);
+
   private readonly router = inject(Router);
   private readonly reviewService =
     inject(ReviewService);
@@ -34,9 +33,6 @@ export class AddArticleComponent {
 
     if (!this.content().trim()) {
 
-      this.toastr.warning(
-        'Content is required'
-      );
 
       return;
     }
@@ -69,9 +65,7 @@ export class AddArticleComponent {
 
           this.reviewLoading.set(false);
 
-          this.toastr.error(
-            'Unable to review article'
-          );
+
         }
       });
   }
@@ -104,9 +98,7 @@ export class AddArticleComponent {
         )
     );
 
-    this.toastr.success(
-      'Correction applied'
-    );
+
   }
 
   applyAllCorrections(): void {
@@ -138,20 +130,16 @@ export class AddArticleComponent {
 
     this.mistakes.set([]);
 
-    this.toastr.success(
-      'All corrections applied'
-    );
+
   }
 
   submit(): void {
 
     if (!this.title().trim()) {
-      this.toastr.warning('Title is required');
       return;
     }
 
     if (!this.content().trim()) {
-      this.toastr.warning('Content is required');
       return;
     }
 
@@ -163,10 +151,6 @@ export class AddArticleComponent {
     }).subscribe({
       next: () => {
 
-        this.toastr.success(
-          'Article created successfully',
-          'Success'
-        );
 
         this.loading.set(false);
       },
@@ -175,10 +159,7 @@ export class AddArticleComponent {
 
         this.loading.set(false);
 
-        this.toastr.error(
-          'Unable to create article',
-          'Error'
-        );
+
       }
     });
   }

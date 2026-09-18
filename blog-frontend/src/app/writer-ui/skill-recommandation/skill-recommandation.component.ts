@@ -8,7 +8,7 @@ import { SkillRecommendationService } from '../services/skill-recommendation.ser
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './skill-recommandation.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './skill-recommandation.component.scss',
 })
 export class SkillRecommandationComponent {

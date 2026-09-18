@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
+
 import { ArticlesService } from '../services/articles.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { ArticlesService } from '../services/articles.service';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './update-article.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './update-article.component.scss',
 })
 export class UpdateArticleComponent implements OnInit {
@@ -17,7 +17,7 @@ export class UpdateArticleComponent implements OnInit {
   private readonly articlesService = inject(ArticlesService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly toastr = inject(ToastrService);
+
 
   articleId = '';
 
@@ -49,10 +49,7 @@ export class UpdateArticleComponent implements OnInit {
 
       error: () => {
 
-        this.toastr.error(
-          'Unable to load article',
-          'Error'
-        );
+
 
         this.router.navigate(['/articles']);
       }
@@ -62,12 +59,10 @@ export class UpdateArticleComponent implements OnInit {
   update(): void {
 
     if (!this.title().trim()) {
-      this.toastr.warning('Title is required');
       return;
     }
 
     if (!this.content().trim()) {
-      this.toastr.warning('Content is required');
       return;
     }
 
@@ -85,10 +80,7 @@ export class UpdateArticleComponent implements OnInit {
 
         this.saving.set(false);
 
-        this.toastr.success(
-          'Article updated successfully',
-          'Success'
-        );
+
 
         this.router.navigate(['/writer/read-article', this.articleId]);
       },
@@ -97,10 +89,8 @@ export class UpdateArticleComponent implements OnInit {
 
         this.saving.set(false);
 
-        this.toastr.error(
-          'Unable to update article',
-          'Error'
-        );
+
+
       }
     });
   }

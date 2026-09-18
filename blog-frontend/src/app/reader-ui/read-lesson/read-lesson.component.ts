@@ -51,7 +51,7 @@ declare const bootstrap: any;
     FormsModule
   ],
   templateUrl: './read-lesson.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './read-lesson.component.scss'
 })
 export class ReadLessonComponent implements OnInit {

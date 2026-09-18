@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
     TableComponent
   ],
   templateUrl: './login-history.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './login-history.component.scss',
 })
 export class LoginHistoryComponent implements OnInit{

@@ -10,7 +10,7 @@ import {RouterLink} from "@angular/router";
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './check-lessons.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './check-lessons.component.scss',
 })
 export class CheckLessonsComponent implements OnInit {

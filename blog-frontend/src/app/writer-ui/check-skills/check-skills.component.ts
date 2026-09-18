@@ -11,7 +11,7 @@ import {SkillService} from "../services/skill.service";
   standalone: true,
   imports: [CommonModule],
   templateUrl: './check-skills.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './check-skills.component.scss'
 })
 export class CheckSkillsComponent implements OnInit {

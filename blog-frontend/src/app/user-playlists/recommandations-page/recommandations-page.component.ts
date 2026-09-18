@@ -20,7 +20,7 @@ import {
   ],
   templateUrl:
     './recommandations-page.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl:
     './recommandations-page.component.scss'
 })

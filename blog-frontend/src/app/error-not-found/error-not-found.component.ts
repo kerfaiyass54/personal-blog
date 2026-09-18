@@ -10,7 +10,7 @@ import { Location } from '@angular/common';
     ButtonComponent
   ],
     templateUrl: './error-not-found.component.html',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './error-not-found.component.scss'
 })
 export class ErrorNotFoundComponent {

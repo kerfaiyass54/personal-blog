@@ -14,7 +14,7 @@ import {LoaderComponent} from "../components/loader/loader.component";
     LoaderComponent,
   ],
   templateUrl: './reader-ui.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './reader-ui.component.scss'
 })
 export class ReaderUiComponent implements OnInit{

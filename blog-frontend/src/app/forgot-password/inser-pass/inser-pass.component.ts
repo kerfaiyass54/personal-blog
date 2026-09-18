@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
 import {LoginServiceService} from "../../shared/services/login-service.service";
 import {Router, RouterLink} from "@angular/router";
 
@@ -12,12 +11,12 @@ import {Router, RouterLink} from "@angular/router";
     RouterLink
   ],
   templateUrl: './inser-pass.component.html',
-  changeDetection: ChangeDetectionStrategy.Eager,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './inser-pass.component.scss',
 })
 export class InserPassComponent {
 
-  constructor(private fb: FormBuilder,private toastrService: ToastrService,
+  constructor(private fb: FormBuilder,
     private loginService: LoginServiceService, private route: Router) {}
 
   form = this.fb.nonNullable.group({
@@ -29,13 +28,11 @@ export class InserPassComponent {
     if(this.form.value.password == this.form.value.confirm){
       this.loginService.changePassword(this.form.value.email,this.form.value.password).subscribe(
         ()=>{
-          this.toastrService.success("Password resetted with success","SUCCESS");
           this.route.navigate(['/login']);
         }
       );
     }
     else{
-      this.toastrService.error("Passwords not matched","ERROR");
     }
   }
 
