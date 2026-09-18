@@ -242,7 +242,7 @@ public class QuizService {
             String userId
     ) {
 
-        return userQuizResultRepository.findByUserEmail(
+        return userQuizResultRepository.findByUserId(
                 userId
         );
     }
