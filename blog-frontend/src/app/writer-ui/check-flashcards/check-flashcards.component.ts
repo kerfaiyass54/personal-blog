@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import {
   Component,
   OnInit,
@@ -26,6 +26,7 @@ export class CheckFlashcardsComponent implements OnInit {
 
   private readonly flashcardService =
     inject(FlashcardService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   flashcards: Flashcard[] = [];
 
@@ -51,6 +52,7 @@ export class CheckFlashcardsComponent implements OnInit {
           this.flashcards = cards;
 
           this.loading = false;
+          this.cdr.markForCheck();
         },
 
         error: err => {
@@ -61,6 +63,7 @@ export class CheckFlashcardsComponent implements OnInit {
           );
 
           this.loading = false;
+          this.cdr.markForCheck();
         }
       });
   }

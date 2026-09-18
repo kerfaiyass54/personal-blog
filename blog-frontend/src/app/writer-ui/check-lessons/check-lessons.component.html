@@ -1,18 +1,27 @@
-<div class="lesson-dashboard">
+<main class="page" aria-labelledby="lessons-title">
 
-  <div class="dashboard-card">
+  <section class="dashboard-card">
 
-    <div class="dashboard-header">
-      <h2>📚 Available Lessons</h2>
-      <span>{{ lessons.length }} lessons</span>
-    </div>
+    <header class="dashboard-header">
+      <div>
+        <span class="section-kicker"><i class="bi bi-journal-bookmark"></i> Learning workspace</span>
+        <h1 id="lessons-title"><span>Available</span> <strong>Lessons</strong></h1>
+        <div class="title-line" aria-hidden="true"></div>
+        <p>Browse your published lessons and keep learning momentum moving.</p>
+      </div>
+      <span class="lesson-count"><i class="bi bi-collection"></i> {{ lessons.length }} lessons</span>
+    </header>
 
-    <div class="lesson-list">
+    <section class="lesson-list" aria-label="Available lessons">
 
       @for (lesson of lessons; track lesson.id; let i = $index) {
 
-        <div
+        <article
           class="lesson-card"
+          [style.animation-delay.ms]="i * 80"
+          tabindex="0"
+          [routerLink]="'/writer/lesson-details/' + lesson.id"
+          (keyup.enter)="null"
           [class.card-purple]="i % 4 === 0"
           [class.card-blue]="i % 4 === 1"
           [class.card-orange]="i % 4 === 2"
@@ -20,12 +29,11 @@
 
           <div class="card-top">
 
-            <div class="lesson-icon">
-              📖
-            </div>
+            <div class="lesson-icon"><i class="bi bi-book-half"></i></div>
 
-            <button class="read-btn" [routerLink]="'/writer/lesson-details/' + lesson.id">
-              Read Lesson
+            <button class="read-btn" type="button" [routerLink]="'/writer/lesson-details/' + lesson.id">
+              <span>Read lesson</span>
+              <i class="bi bi-arrow-up-right" aria-hidden="true"></i>
             </button>
 
           </div>
@@ -34,26 +42,26 @@
 
             <h3>{{ lesson.title }}</h3>
 
-            <div class="lesson-meta">
-              <span>ID {{ lesson.id }}</span>
-            </div>
+            <div class="lesson-meta"><i class="bi bi-bookmark"></i> Lesson {{ i + 1 }}</div>
 
           </div>
 
-        </div>
+        </article>
 
       }
 
       @if (lessons.length === 0) {
 
         <div class="empty-card">
-          <h3>No lessons available</h3>
+          <i class="bi bi-journal-x" aria-hidden="true"></i>
+          <h2>No lessons available</h2>
+          <p>Create a lesson to start building your learning library.</p>
         </div>
 
       }
 
-    </div>
+    </section>
 
-  </div>
+  </section>
 
-</div>
+</main>

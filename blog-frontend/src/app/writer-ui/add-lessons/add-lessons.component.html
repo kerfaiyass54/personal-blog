@@ -1,18 +1,15 @@
-<div class="add-lesson-page">
+<main class="page" aria-labelledby="create-lesson-title">
 
-  <div class="lesson-card">
+  <section class="lesson-card">
 
     <div class="card-header">
-
-      <div class="icon-container">
-        ✨
-      </div>
-
+      <div class="icon-container"><i class="bi bi-journal-plus"></i></div>
       <div>
-        <h1>Create New Lesson</h1>
+        <span class="section-kicker">Learning workspace</span>
+        <h1 id="create-lesson-title"><span>Create</span> <strong>Lesson</strong></h1>
+        <div class="title-line" aria-hidden="true"></div>
         <p>Share knowledge with your readers.</p>
       </div>
-
     </div>
 
     <form
@@ -21,11 +18,10 @@
 
       <div class="field">
 
-        <label>
-          Lesson Title
-        </label>
+        <label for="lesson-title">Lesson title</label>
 
         <input
+          id="lesson-title"
           type="text"
           [(ngModel)]="lesson.title"
           name="title"
@@ -35,11 +31,13 @@
 
       <div class="field">
 
-        <label>
-          Lesson Content
-        </label>
+        <div class="label-row">
+          <label for="lesson-content">Lesson content</label>
+          <span>{{ lesson.content.length }} characters</span>
+        </div>
 
         <textarea
+          id="lesson-content"
           rows="8"
           [(ngModel)]="lesson.content"
           name="content"
@@ -53,10 +51,12 @@
         [disabled]="loading">
 
         @if (!loading) {
-          <span>🚀 Publish Lesson</span>
+          <i class="bi bi-send" aria-hidden="true"></i>
+          <span>Publish lesson</span>
         }
 
         @if (loading) {
+          <span class="loader" aria-hidden="true"></span>
           <span>Creating...</span>
         }
 
@@ -66,12 +66,13 @@
 
     @if (successMessage) {
 
-      <div class="success-box">
+      <div class="success-box" role="status">
+        <i class="bi bi-check-circle" aria-hidden="true"></i>
         {{ successMessage }}
       </div>
 
     }
 
-  </div>
+  </section>
 
-</div>
+</main>

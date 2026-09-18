@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -17,6 +17,7 @@ import {RouterLink} from "@angular/router";
 export class CheckLessonsComponent implements OnInit {
 
   private readonly lessonService = inject(LessonService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   lessons: LessonResponse[] = [];
   loading = true;
@@ -30,10 +31,12 @@ export class CheckLessonsComponent implements OnInit {
       next: (data) => {
         this.lessons = data;
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         console.error(err);
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }
