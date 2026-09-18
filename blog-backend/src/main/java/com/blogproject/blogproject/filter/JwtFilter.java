@@ -1,5 +1,6 @@
 package com.blogproject.blogproject.filter;
 
+import com.blogproject.blogproject.config.PublicEndpoints;
 import com.blogproject.blogproject.entities.User;
 import com.blogproject.blogproject.repository.UserRepository;
 import com.blogproject.blogproject.util.JwtUtil;
@@ -8,6 +9,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -18,70 +20,182 @@ import java.util.Date;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
-
     private final UserRepository userRepository;
+    private final PublicEndpoints publicEndpoints;
 
-    public JwtFilter(JwtUtil jwtUtil,  UserRepository userRepository) {
+    private final AntPathMatcher pathMatcher =
+            new AntPathMatcher();
+
+
+    public JwtFilter(
+            JwtUtil jwtUtil,
+            UserRepository userRepository,
+            PublicEndpoints publicEndpoints
+    ) {
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
-    }
-
-    @Override
-    protected boolean shouldNotFilter(HttpServletRequest request) {
-        String path = request.getRequestURI();
-
-        return path.startsWith("/user/") ||path.startsWith("/api/flashcards/") || path.startsWith("/api/lessons") || path.startsWith("/api/plans") || path.startsWith("/api/articles") || path.startsWith("/api/favorites/") || path.startsWith("/api/skill-keywords/")  || path.startsWith("/api/keywords/")                || path.startsWith("/reset") || path.startsWith("/profiles") || path.startsWith("/api/skills") || path.startsWith("/api/skills-recommendations")
-
-              || path.startsWith("/api/writer/statistics/") || path.startsWith("/api/reader/statistics/") || path.startsWith("/api/quizzes/")  || path.startsWith("/sessions/") || path.startsWith("/api/lesson-readings") || path.startsWith("/socials/") || path.startsWith("/socials") || path.startsWith("/users") || path.startsWith("/api/recommendations") ;
+        this.publicEndpoints = publicEndpoints;
     }
 
 
+    // =========================================================
+    // SKIP JWT FOR PUBLIC ENDPOINTS
+    // =========================================================
+
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    FilterChain filterChain)
+    protected boolean shouldNotFilter(
+            HttpServletRequest request
+    ) {
+
+        String path =
+                request.getRequestURI();
+
+        return publicEndpoints
+                .getPatterns()
+                .stream()
+                .anyMatch(pattern ->
+                        pathMatcher.match(
+                                pattern,
+                                path
+                        )
+                );
+    }
+
+
+    // =========================================================
+    // JWT FILTER
+    // =========================================================
+
+    @Override
+    protected void doFilterInternal(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain filterChain
+    )
             throws ServletException, IOException {
 
-        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-            filterChain.doFilter(request, response);
+
+        // -----------------------------------------------------
+        // OPTIONS / CORS PREFLIGHT
+        // -----------------------------------------------------
+
+        if ("OPTIONS".equalsIgnoreCase(
+                request.getMethod()
+        )) {
+
+            filterChain.doFilter(
+                    request,
+                    response
+            );
+
             return;
         }
 
-        String authHeader = request.getHeader("Authorization");
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Missing JWT");
+        // -----------------------------------------------------
+        // GET AUTHORIZATION HEADER
+        // -----------------------------------------------------
+
+        String authHeader =
+                request.getHeader("Authorization");
+
+
+        if (authHeader == null ||
+                !authHeader.startsWith("Bearer ")) {
+
+            response.sendError(
+                    HttpServletResponse.SC_UNAUTHORIZED,
+                    "Missing JWT"
+            );
+
             return;
         }
 
-        String token = authHeader.substring(7);
 
-        String email = jwtUtil.getUsername(token);
+        // -----------------------------------------------------
+        // EXTRACT TOKEN
+        // -----------------------------------------------------
+
+        String token =
+                authHeader.substring(7);
 
 
-
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-
-        Date issuedAtDate = jwtUtil.getIssuedAt(token);
-        Instant tokenIssuedAt = issuedAtDate.toInstant();
-
-        if (user.getPasswordChangedAt() != null &&
-                tokenIssuedAt.isBefore(user.getPasswordChangedAt())) {
-
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-                    "Password changed. Please login again.");
-            return;
-        }
+        // -----------------------------------------------------
+        // VALIDATE TOKEN FIRST
+        // -----------------------------------------------------
 
         if (!jwtUtil.validateToken(token)) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT");
+
+            response.sendError(
+                    HttpServletResponse.SC_UNAUTHORIZED,
+                    "Invalid JWT"
+            );
+
             return;
         }
 
-        filterChain.doFilter(request, response);
+
+        // -----------------------------------------------------
+        // GET EMAIL FROM JWT
+        // -----------------------------------------------------
+
+        String email =
+                jwtUtil.getEmail(token);
+
+
+        // -----------------------------------------------------
+        // FIND USER
+        // -----------------------------------------------------
+
+        User user =
+                userRepository
+                        .findByEmail(email)
+                        .orElse(null);
+
+
+        if (user == null) {
+
+            response.sendError(
+                    HttpServletResponse.SC_UNAUTHORIZED,
+                    "User not found"
+            );
+
+            return;
+        }
+
+
+        // -----------------------------------------------------
+        // CHECK PASSWORD CHANGE
+        // -----------------------------------------------------
+
+        Date issuedAtDate =
+                jwtUtil.getIssuedAt(token);
+
+        Instant tokenIssuedAt =
+                issuedAtDate.toInstant();
+
+
+        if (user.getPasswordChangedAt() != null &&
+                tokenIssuedAt.isBefore(
+                        user.getPasswordChangedAt()
+                )) {
+
+            response.sendError(
+                    HttpServletResponse.SC_UNAUTHORIZED,
+                    "Password changed. Please login again."
+            );
+
+            return;
+        }
+
+
+        // -----------------------------------------------------
+        // CONTINUE
+        // -----------------------------------------------------
+
+        filterChain.doFilter(
+                request,
+                response
+        );
     }
 }
-
-

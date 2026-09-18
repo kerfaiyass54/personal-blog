@@ -20,49 +20,142 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+    private final PublicEndpoints publicEndpoints;
 
-    public SecurityConfig(JwtUtil jwtUtil, UserRepository userRepository) {
+    public SecurityConfig(
+            JwtUtil jwtUtil,
+            UserRepository userRepository,
+            PublicEndpoints publicEndpoints
+    ) {
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
+        this.publicEndpoints = publicEndpoints;
     }
 
+
+    // =========================================================
+    // SECURITY FILTER CHAIN
+    // =========================================================
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http
+    ) throws Exception {
+
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/user/**").permitAll().requestMatchers("/api/lesson-readings/**").permitAll().requestMatchers("/api/flashcards/**").permitAll()
-                        .requestMatchers("/reset/**").permitAll().requestMatchers("/api/articles/**").permitAll().requestMatchers("/api/lessons/**").permitAll()
-                        .requestMatchers("/profiles/**").permitAll().requestMatchers("/api/keywords/**").permitAll().requestMatchers("/api/writer/statistics/**").permitAll()
-                        .requestMatchers("/sessions/**").permitAll().requestMatchers("/api/plans/**").permitAll().requestMatchers("/api/quizzes/**").permitAll().requestMatchers("/api/reader/statistics/**").permitAll()
-                        .requestMatchers("/socials", "/socials/", "/socials/**").permitAll().requestMatchers("/users/**").permitAll().requestMatchers("/api/skill-keywords/**")
-                        .permitAll().requestMatchers("/api/recommendations/**").permitAll().requestMatchers("/api/skills/**").permitAll().requestMatchers("/api/skills-recommendations/**").permitAll().requestMatchers("/api/favorites/**").permitAll()
-                        .anyRequest().authenticated()
+                // -------------------------------------------------
+                // CORS
+                // -------------------------------------------------
+
+                .cors(cors ->
+                        cors.configurationSource(
+                                corsConfigurationSource()
+                        )
                 )
+
+                // -------------------------------------------------
+                // CSRF
+                // -------------------------------------------------
+
+                .csrf(csrf ->
+                        csrf.disable()
+                )
+
+                // -------------------------------------------------
+                // AUTHORIZATION
+                // -------------------------------------------------
+
+                .authorizeHttpRequests(auth ->
+                        auth
+                                .requestMatchers(
+                                        publicEndpoints
+                                                .getPatterns()
+                                                .toArray(new String[0])
+                                )
+                                .permitAll()
+
+                                .anyRequest()
+                                .authenticated()
+                )
+
+                // -------------------------------------------------
+                // SESSION
+                // -------------------------------------------------
+
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                        session.sessionCreationPolicy(
+                                SessionCreationPolicy.STATELESS
+                        )
                 )
-                .addFilterBefore(jwtFilter(), UsernamePasswordAuthenticationFilter.class);
+
+                // -------------------------------------------------
+                // JWT FILTER
+                // -------------------------------------------------
+
+                .addFilterBefore(
+                        jwtFilter(),
+                        UsernamePasswordAuthenticationFilter.class
+                );
+
 
         return http.build();
     }
 
+
+    // =========================================================
+    // CORS
+    // =========================================================
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("*"));
+
+        CorsConfiguration config =
+                new CorsConfiguration();
+
+        config.setAllowedOriginPatterns(
+                List.of("*")
+        );
+
+        config.setAllowedMethods(
+                List.of(
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "PATCH",
+                        "DELETE",
+                        "OPTIONS"
+                )
+        );
+
+        config.setAllowedHeaders(
+                List.of("*")
+        );
+
         config.setAllowCredentials(false);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", config);
+
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+
+        source.registerCorsConfiguration(
+                "/**",
+                config
+        );
+
         return source;
     }
 
+
+    // =========================================================
+    // JWT FILTER
+    // =========================================================
+
     @Bean
     public JwtFilter jwtFilter() {
-        return new JwtFilter(jwtUtil, userRepository);
+        return new JwtFilter(
+                jwtUtil,
+                userRepository,
+                publicEndpoints
+        );
     }
 }

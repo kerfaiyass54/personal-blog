@@ -45,7 +45,7 @@ public class RecommendationKafkaConsumer {
                             )
                             .build();
 
-            recommendationService.save(
+            recommendationService.saveRecommendation(
                     recommendation
             );
 

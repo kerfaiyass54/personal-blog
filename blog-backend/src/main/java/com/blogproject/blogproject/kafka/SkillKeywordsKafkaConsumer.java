@@ -36,7 +36,7 @@ public class SkillKeywordsKafkaConsumer {
 
             result.getKeywords()
                     .forEach(keyword ->
-                            keywordService.save(
+                            keywordService.saveKeyword(
                                     keyword,
                                     result.getSkill()
                             )
