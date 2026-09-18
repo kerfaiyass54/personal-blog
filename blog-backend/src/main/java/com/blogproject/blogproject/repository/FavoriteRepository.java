@@ -1,8 +1,6 @@
 package com.blogproject.blogproject.repository;
 
 import com.blogproject.blogproject.entities.Favorite;
-import com.blogproject.blogproject.entities.Skill;
-import com.blogproject.blogproject.entities.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 

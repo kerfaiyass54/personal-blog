@@ -18,48 +18,48 @@ public class ReaderStatisticsController {
     /**
      * PB-104
      */
-    @GetMapping("/skills/{email}")
+    @GetMapping("/skills/{id}")
     public ResponseEntity<Long> getFavoriteSkillsCount(
-            @PathVariable String email) {
+            @PathVariable String id) {
 
         return ResponseEntity.ok(
-                readerStatisticsService.getFavoriteSkillsCount(email)
+                readerStatisticsService.getFavoriteSkillsCount(id)
         );
     }
 
     /**
      * PB-106
      */
-    @GetMapping("/lessons/{email}")
+    @GetMapping("/lessons/{id}")
     public ResponseEntity<Long> getReadLessonsCount(
-            @PathVariable String email) {
+            @PathVariable String id) {
 
         return ResponseEntity.ok(
-                readerStatisticsService.getReadLessonsCount(email)
+                readerStatisticsService.getReadLessonsCount(id)
         );
     }
 
     /**
      * PB-103
      */
-    @GetMapping("/quizzes/{email}")
+    @GetMapping("/quizzes/{id}")
     public ResponseEntity<Long> getSubmittedQuizzesCount(
-            @PathVariable String email) {
+            @PathVariable String id) {
 
         return ResponseEntity.ok(
-                readerStatisticsService.getSubmittedQuizzesCount(email)
+                readerStatisticsService.getSubmittedQuizzesCount(id)
         );
     }
 
     /**
      * Dashboard
      */
-    @GetMapping("/dashboard/{email}")
+    @GetMapping("/dashboard/{id}")
     public ResponseEntity<Map<String, Long>> getDashboardStatistics(
-            @PathVariable String email) {
+            @PathVariable String id) {
 
         return ResponseEntity.ok(
-                readerStatisticsService.getAllStatistics(email)
+                readerStatisticsService.getAllStatistics(id)
         );
     }
 }

@@ -13,7 +13,7 @@ public interface SessionsRepository extends MongoRepository<Session, String> {
 
     List<Session> findSessionsByEmail(String email);
 
-    List<Session> findSessionsByEmailAndAlert(String email, ActivityType alert);
+    List<Session> findSessionsByEmailAndActivityType(String email, ActivityType alert);
 
     Session findSessionByTime(Instant time);
 
