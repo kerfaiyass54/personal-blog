@@ -219,7 +219,7 @@ public class SessionService {
     ) {
 
         return sessionsRepository
-                .findSessionsByEmailAndAlert(
+                .findSessionsByEmailAndActivityType(
                         email,
                         ActivityType.ALERT_LOGIN
                 )

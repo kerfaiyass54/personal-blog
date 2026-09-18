@@ -1,8 +1,7 @@
 package com.blogproject.blogproject.repository;
 
 
-import com.blogproject.blogproject.entities.Playlist;
-import com.blogproject.blogproject.entities.Soundtrack;
+
 import com.blogproject.blogproject.entities.SoundtrackPlaylist;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

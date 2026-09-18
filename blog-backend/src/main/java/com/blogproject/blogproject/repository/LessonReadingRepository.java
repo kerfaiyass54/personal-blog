@@ -17,6 +17,6 @@ public interface LessonReadingRepository extends MongoRepository<LessonReading, 
 
     List<LessonReading> findByEmailUserAndReadTrue(String emailUser);
 
-    long countByEmailUserAndReadTrue(String emailUser);
+    Long countByEmailUserAndReadTrue(String emailUser);
 
 }
