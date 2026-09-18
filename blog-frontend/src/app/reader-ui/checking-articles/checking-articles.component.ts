@@ -1,6 +1,7 @@
-import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import {
   ReaderService,
   ArticleDisplayDTO,
@@ -12,13 +13,13 @@ import {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './checking-articles.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './checking-articles.component.scss',
 })
 export class CheckingArticlesComponent implements OnInit {
 
   private readonly readerService = inject(ReaderService);
   private readonly router = inject(Router);
+  private readonly toastr = inject(ToastrService);
 
   articles = signal<ArticleDisplayDTO[]>([]);
   savedArticles = signal<SavedDTO[]>([]);
@@ -69,13 +70,18 @@ export class CheckingArticlesComponent implements OnInit {
 
         next: () => {
 
+          this.toastr.success(
+            'Article saved successfully'
+          );
 
           this.loadSavedArticles();
         },
 
         error: () => {
 
-
+          this.toastr.warning(
+            'Article already saved'
+          );
         }
       });
   }
@@ -93,7 +99,9 @@ export class CheckingArticlesComponent implements OnInit {
 
         next: () => {
 
-
+          this.toastr.success(
+            'Removed from saved'
+          );
 
           this.loadSavedArticles();
         }

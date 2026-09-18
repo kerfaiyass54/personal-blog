@@ -2,7 +2,6 @@ import {
   Component,
   inject,
   signal,
-  ChangeDetectionStrategy
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -18,7 +17,6 @@ import {GeneratedPlan, Plan, PlanService} from "../services/plan.service";
     FormsModule,
   ],
   templateUrl: './plan-generate.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './plan-generate.component.scss',
 })
 export class PlanGenerateComponent {

@@ -1,6 +1,8 @@
-import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
-import {Router, RouterLink} from "@angular/router";
+import {Component, input, OnInit, signal} from '@angular/core';
+import {TitleCasePipe} from '@angular/common';
+import {Router, RouterLink, RouterLinkActive} from "@angular/router";
 import {LoginServiceService} from "../../shared/services/login-service.service";
+import {ToastrService} from "ngx-toastr";
 import {LoaderComponent} from "../loader/loader.component";
 
 
@@ -8,41 +10,47 @@ import {LoaderComponent} from "../loader/loader.component";
 @Component({
     selector: 'app-nav-bar',
     standalone: true,
-  imports: [RouterLink, LoaderComponent],
+  imports: [RouterLink, RouterLinkActive, TitleCasePipe, LoaderComponent],
     templateUrl: './nav-bar.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     styleUrl: './nav-bar.component.scss'
 })
-export class NavBarComponent implements OnInit{
+export class NavBarComponent implements OnInit {
 
-  constructor(private loginService: LoginServiceService, private route: Router) {
+  constructor(private loginService: LoginServiceService, private route: Router, private toastrService: ToastrService) {
   }
 
-  @Input() articles: any[] = [];
-  @Input() skill: any[] = [];
-  @Input() lesson: any[] = [];
-  @Input() role: string = '';
-  id: any = '';
-  loading = true;
-
-
+  readonly articles = input<any[]>([]);
+  readonly skill = input<any[]>([]);
+  readonly lesson = input<any[]>([]);
+  readonly role = input('');
+  readonly activeSection = signal<string | null>(null);
+  readonly mobileOpen = signal(false);
+  readonly loading = signal(true);
 
   ngOnInit() {
     this.loadPage();
   }
 
+  toggleSection(section: string): void {
+    this.activeSection.update(active => active === section ? null : section);
+  }
+
+  closeMobileMenu(): void {
+    this.mobileOpen.set(false);
+  }
+
   logout(){
-    this.id = sessionStorage.getItem('sessionId');
     this.loginService.logout();
-    this.route.navigate(['/login']);
-    window.location.reload();
     sessionStorage.clear();
+    this.closeMobileMenu();
+    this.route.navigate(['/login']);
+    this.toastrService.success("LOGOUT","You're out now!");
   }
 
   loadPage(){
-    this.loading = true;
+    this.loading.set(true);
     setTimeout(() => {
-      this.loading = false;
+      this.loading.set(false);
     }, 300);
   }
 

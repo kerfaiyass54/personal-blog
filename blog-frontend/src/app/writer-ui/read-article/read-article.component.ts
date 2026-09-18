@@ -1,7 +1,7 @@
-import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-
+import { ToastrService } from 'ngx-toastr';
 import { ArticlesService, ArticleDisplayDTO } from '../services/articles.service';
 
 @Component({
@@ -9,14 +9,13 @@ import { ArticlesService, ArticleDisplayDTO } from '../services/articles.service
   standalone: true,
   imports: [CommonModule],
   templateUrl: './read-article.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './read-article.component.scss',
 })
 export class ReadArticleComponent implements OnInit {
 
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-
+  private readonly toastr = inject(ToastrService);
   private readonly articlesService = inject(ArticlesService);
 
   article = signal<ArticleDisplayDTO | null>(null);
@@ -42,7 +41,10 @@ export class ReadArticleComponent implements OnInit {
 
         this.loading.set(false);
 
-
+        this.toastr.error(
+          'Unable to load article',
+          'Error'
+        );
 
         this.router.navigate(['/writer/list-articles']);
       }

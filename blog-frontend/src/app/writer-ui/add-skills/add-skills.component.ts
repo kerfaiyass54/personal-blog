@@ -1,7 +1,8 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+import { ToastrService } from 'ngx-toastr';
 
 import { SkillCreate } from '../../models/skill-create.model';
 import {SkillService} from "../services/skill.service";
@@ -11,12 +12,12 @@ import {SkillService} from "../services/skill.service";
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './add-skills.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './add-skills.component.scss',
 })
 export class AddSkillsComponent {
 
   private readonly skillService = inject(SkillService);
+  private readonly toastr = inject(ToastrService);
 
   currentStep = 1;
 
@@ -41,6 +42,7 @@ export class AddSkillsComponent {
   nextStep(): void {
 
     if (!this.skillName.trim()) {
+      this.toastr.warning('Please enter a skill name');
       return;
     }
 
@@ -98,6 +100,7 @@ export class AddSkillsComponent {
   createSkill(): void {
 
     if (!this.selectedField.trim()) {
+      this.toastr.warning('Please select a field');
       return;
     }
 
@@ -109,6 +112,10 @@ export class AddSkillsComponent {
     this.skillService.createSkill(payload).subscribe({
       next: () => {
 
+        this.toastr.success(
+          'Skill created successfully',
+          'Success'
+        );
 
         this.resetForm();
       },
@@ -117,6 +124,10 @@ export class AddSkillsComponent {
 
         console.error(error);
 
+        this.toastr.error(
+          'Failed to create skill',
+          'Error'
+        );
       }
     });
   }

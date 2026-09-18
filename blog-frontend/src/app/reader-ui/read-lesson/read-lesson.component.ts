@@ -1,8 +1,7 @@
 import {
   Component,
   OnInit,
-  inject,
-  ChangeDetectionStrategy
+  inject
 } from '@angular/core';
 
 import {
@@ -51,7 +50,6 @@ declare const bootstrap: any;
     FormsModule
   ],
   templateUrl: './read-lesson.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './read-lesson.component.scss'
 })
 export class ReadLessonComponent implements OnInit {

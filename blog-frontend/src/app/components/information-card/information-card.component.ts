@@ -1,10 +1,9 @@
-import {Component, Input, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 @Component({
   selector: 'app-information-card',
   imports: [],
   templateUrl: './information-card.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './information-card.component.scss',
 })
 export class InformationCardComponent {

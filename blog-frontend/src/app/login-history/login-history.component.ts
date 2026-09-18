@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {TableComponent} from "../components/table/table.component";
 import {Router} from "@angular/router";
@@ -9,7 +9,6 @@ import {Router} from "@angular/router";
     TableComponent
   ],
   templateUrl: './login-history.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './login-history.component.scss',
 })
 export class LoginHistoryComponent implements OnInit{

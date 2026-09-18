@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { PlaylistServicesService } from "./service/playlist-services.service";
 import { SoundtrackServicesService } from "./service/soundtrack-services.service";
@@ -10,7 +10,6 @@ import { SoundtrackServicesService } from "./service/soundtrack-services.service
     RouterLink
   ],
   templateUrl: './user-playlists.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './user-playlists.component.scss',
 })
 export class UserPlaylistsComponent implements OnInit {

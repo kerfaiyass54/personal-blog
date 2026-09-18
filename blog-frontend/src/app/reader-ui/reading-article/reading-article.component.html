@@ -38,12 +38,12 @@
 
             <span>
               Created:
-              {{ $safeNavigationMigration(article()?.dateInsert) | date:'medium' }}
+              {{ article()?.dateInsert | date:'medium' }}
             </span>
 
             <span>
               Updated:
-              {{ $safeNavigationMigration(article()?.dateUpdate) | date:'medium' }}
+              {{ article()?.dateUpdate | date:'medium' }}
             </span>
 
           </div>

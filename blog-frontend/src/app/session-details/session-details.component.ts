@@ -1,4 +1,4 @@
-import {Component, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {InformationCardComponent} from "../components/information-card/information-card.component";
@@ -12,7 +12,6 @@ import {ButtonComponent} from "../components/button/button.component";
 
   ],
   templateUrl: './session-details.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrl: './session-details.component.scss',
 })
 export class SessionDetailsComponent implements OnInit{

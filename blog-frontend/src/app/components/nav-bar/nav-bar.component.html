@@ -1,36 +1,49 @@
-@if(loading){
+@if (loading()) {
   <app-loader></app-loader>
 }
 
-@else{
+@else {
+  <button class="menu-toggle" type="button" aria-label="Open navigation" [attr.aria-expanded]="mobileOpen()" (click)="mobileOpen.set(true)">
+    <i class="bi bi-list"></i>
+  </button>
+  @if (mobileOpen()) {
+    <button class="sidebar-backdrop" type="button" aria-label="Close navigation" (click)="closeMobileMenu()"></button>
+  }
 
-  <aside class="sidebar">
-    <header></header>
+  <aside class="sidebar" [class.is-open]="mobileOpen()">
+    <header class="sidebar-header">
+      <div class="brand-mark"><i class="bi bi-stars"></i></div>
+      <div>
+        <span class="eyebrow">Personal blog</span>
+        <strong>{{ role() | titlecase }} space</strong>
+      </div>
+      <button class="mobile-close" type="button" aria-label="Close navigation" (click)="closeMobileMenu()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </header>
     <ul>
-      <li [routerLink]="'/'+ role + '/dashboard'">
-        <input type="radio" id="dashboard" name="sidebar">
-        <label for="dashboard">
+      <li>
+        <a class="nav-item" [routerLink]="'/' + role() + '/dashboard'" routerLinkActive="is-active" (click)="closeMobileMenu()">
           <i class="bi bi-speedometer2"></i>
           <p>Dashboard</p>
-        </label>
+        </a>
       </li>
 
       <!-- Skills -->
-      <li>
-        <input type="radio" id="settings" name="sidebar">
-        <label for="settings">
+      <li class="nav-group" [class.is-expanded]="activeSection() === 'skills'">
+        <button class="nav-item nav-trigger" type="button" [attr.aria-expanded]="activeSection() === 'skills'" (click)="toggleSection('skills')">
           <i class="bi-gear"></i>
           <p>Skills</p>
-          <i class="bi-chevron-down"></i>
-        </label>
+          <i class="bi-chevron-down chevron"></i>
+        </button>
 
         <div class="sub-menu">
           <ul>
-            @for (s of skill; track s.id) {
+            @for (s of skill(); track s.id) {
               <li>
-                <button type="button" class="link-title" [routerLink]="s.link">
+                <a class="link-title" [routerLink]="s.link" routerLinkActive="is-active" (click)="closeMobileMenu()">
                   {{ s.title }}
-                </button>
+                </a>
               </li>
             }
           </ul>
@@ -38,21 +51,20 @@
       </li>
 
       <!-- Articles -->
-      <li>
-        <input type="radio" id="create" name="sidebar">
-        <label for="create">
+      <li class="nav-group" [class.is-expanded]="activeSection() === 'articles'">
+        <button class="nav-item nav-trigger" type="button" [attr.aria-expanded]="activeSection() === 'articles'" (click)="toggleSection('articles')">
           <i class="bi-folder-plus"></i>
           <p>Articles</p>
-          <i class="bi-chevron-down"></i>
-        </label>
+          <i class="bi-chevron-down chevron"></i>
+        </button>
 
         <div class="sub-menu">
           <ul>
-            @for (a of articles; track a.id) {
+            @for (a of articles(); track a.id) {
               <li>
-                <button type="button" class="link-title" [routerLink]="a.link">
+                <a class="link-title" [routerLink]="a.link" routerLinkActive="is-active" (click)="closeMobileMenu()">
                   {{ a.title }}
-                </button>
+                </a>
               </li>
             }
           </ul>
@@ -60,21 +72,20 @@
       </li>
 
       <!-- Lessons -->
-      <li>
-        <input type="radio" id="lessons" name="sidebar">
-        <label for="lessons">
+      <li class="nav-group" [class.is-expanded]="activeSection() === 'lessons'">
+        <button class="nav-item nav-trigger" type="button" [attr.aria-expanded]="activeSection() === 'lessons'" (click)="toggleSection('lessons')">
           <i class="bi-journal-text"></i>
           <p>Lessons</p>
-          <i class="bi-chevron-down"></i>
-        </label>
+          <i class="bi-chevron-down chevron"></i>
+        </button>
 
         <div class="sub-menu">
           <ul>
-            @for (l of lesson; track l.id) {
+            @for (l of lesson(); track l.id) {
               <li>
-                <button type="button" class="link-title" [routerLink]="l.link">
+                <a class="link-title" [routerLink]="l.link" routerLinkActive="is-active" (click)="closeMobileMenu()">
                   {{ l.title }}
-                </button>
+                </a>
               </li>
             }
           </ul>
@@ -82,46 +93,41 @@
       </li>
 
       <!-- Profile -->
-      <li [routerLink]="'/' + role + '/profile'">
-        <input type="radio" id="profile" name="sidebar">
-        <label for="profile">
+      <li>
+        <a class="nav-item" [routerLink]="'/' + role() + '/profile'" routerLinkActive="is-active" (click)="closeMobileMenu()">
           <i class="bi-person"></i>
           <p>Profile</p>
-        </label>
+        </a>
       </li>
 
-      <li [routerLink]="'/' + role + '/social'">
-        <input type="radio" id="social" name="sidebar">
-        <label for="social">
+      <li>
+        <a class="nav-item" [routerLink]="'/' + role() + '/social'" routerLinkActive="is-active" (click)="closeMobileMenu()">
           <i class="bi-megaphone"></i>
           <p>Social media</p>
-        </label>
+        </a>
       </li>
 
-      <li [routerLink]="'/' + role + '/playlists'">
-        <input type="radio" id="playlists" name="sidebar">
-        <label for="playlists">
+      <li>
+        <a class="nav-item" [routerLink]="'/' + role() + '/playlists'" routerLinkActive="is-active" (click)="closeMobileMenu()">
           <i class="bi-music-note"></i>
           <p>Soundtracks</p>
-        </label>
+        </a>
       </li>
 
       <!-- Login History -->
-      <li [routerLink]="'/' + role + '/user-history'">
-        <input type="radio" id="login" name="sidebar">
-        <label for="login">
+      <li>
+        <a class="nav-item" [routerLink]="'/' + role() + '/user-history'" routerLinkActive="is-active" (click)="closeMobileMenu()">
           <i class="bi-alarm"></i>
           <p>Login history</p>
-        </label>
+        </a>
       </li>
 
       <!-- Signout -->
-      <li class="signout" data-bs-toggle="modal" data-bs-target="#signoutModal">
-        <input type="radio" id="out" name="sidebar">
-        <label for="out">
+      <li class="signout">
+        <button class="nav-item" type="button" data-bs-toggle="modal" data-bs-target="#signoutModal" (click)="closeMobileMenu()">
           <i class="bi-airplane"></i>
           <p>Sign out</p>
-        </label>
+        </button>
       </li>
 
     </ul>
