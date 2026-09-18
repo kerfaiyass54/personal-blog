@@ -1,6 +1,9 @@
 .container {
   display: flex;
-  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 /* Sidebar */
@@ -14,9 +17,15 @@
 
 /* Main content */
 .content {
-  margin-top: 50px;
-  margin-left: 220px;
-  width: 100%;
+  width: calc(100% - 318px);
+  margin: 28px 24px 0 318px;
   position: relative;
   overflow-x: hidden;
+}
+
+@media (max-width: 900px) {
+  .content {
+    width: 100%;
+    margin: 72px 16px 0;
+  }
 }
