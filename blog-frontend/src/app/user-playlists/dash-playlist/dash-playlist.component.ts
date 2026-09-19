@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import {PlaylistServicesService} from "../service/playlist-services.service";
 import {SoundtrackServicesService} from "../service/soundtrack-services.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -28,8 +29,14 @@ export class DashPlaylistComponent implements OnInit {
 
   constructor(
     private playlistService: PlaylistServicesService,
-    private soundtrackService: SoundtrackServicesService
+    private soundtrackService: SoundtrackServicesService,
+    private router: Router
   ) {}
+
+  goBack(): void {
+    const role = sessionStorage.getItem('role')?.toLowerCase();
+    this.router.navigate([`/${role}/playlists`], { replaceUrl: true });
+  }
 
 
   ngOnInit(): void {

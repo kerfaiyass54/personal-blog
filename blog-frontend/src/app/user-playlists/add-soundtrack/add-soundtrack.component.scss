@@ -505,6 +505,78 @@
   @keyframes sound-orb { 0%,100% { transform:translate(0); } 50% { transform:translate(-1rem,1rem); } }
   @media (prefers-reduced-motion:reduce) { .wizard-card,.animated-step,.sound-orb { animation:none; } }
 
+  .add-wrapper,
+  .wizard-card {
+    animation: soundtrack-form-enter .6s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  .wizard-card {
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  }
+
+  .wizard-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 1.8rem 3.5rem rgba(0,0,0,.24);
+  }
+
+  .animated-step {
+    animation: soundtrack-step-enter .4s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  .modern-input,
+  .type-card,
+  .btn-light,
+  .primary-btn,
+  .success-btn {
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+
+  .modern-input:focus { transform: translateY(-1px); }
+  .type-card:hover { transform: translateY(-4px); }
+  .type-card.selected { box-shadow: 0 .8rem 1.6rem rgba(91,75,220,.24); }
+
+  .btn-light:hover,
+  .primary-btn:hover:not(:disabled),
+  .success-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 .7rem 1.4rem rgba(0,0,0,.18);
+  }
+
+  .modern-input:focus-visible,
+  .type-card:focus-visible,
+  .btn-light:focus-visible,
+  .primary-btn:focus-visible,
+  .success-btn:focus-visible {
+    outline: 3px solid rgba(139,124,255,.45);
+    outline-offset: 3px;
+  }
+
+  @keyframes soundtrack-form-enter {
+    from { opacity: 0; transform: translateY(1rem); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes soundtrack-step-enter {
+    from { opacity: 0; transform: translateX(.75rem); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .add-wrapper,
+    .wizard-card,
+    .animated-step,
+    .modern-input,
+    .type-card,
+    .btn-light,
+    .primary-btn,
+    .success-btn { animation: none; transition: none; }
+    .wizard-card:hover,
+    .type-card:hover,
+    .btn-light:hover,
+    .primary-btn:hover:not(:disabled),
+    .success-btn:hover:not(:disabled) { transform: none; }
+  }
+
   .type-grid {
 
     flex-direction: column;
