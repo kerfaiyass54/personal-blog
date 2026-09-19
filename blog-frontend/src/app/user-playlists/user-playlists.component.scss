@@ -398,6 +398,99 @@
     padding: 20px;
   }
 
+  /* Deep glass music workspace */
+  :host { display:block; color:#f7f7ff; }
+  .playlists-wrapper { max-width: 980px; margin: 0 auto; padding: clamp(1rem,4vw,3rem); }
+  .white-wrapper, .container { background: transparent; padding: 0; }
+  .stat-card {
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 1.35rem;
+    background: linear-gradient(135deg, rgba(139,124,255,.22), rgba(26,30,68,.82));
+    box-shadow: 0 1.5rem 3rem rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.08);
+    backdrop-filter: blur(16px);
+  }
+  .soundtracks-card { background: linear-gradient(135deg, rgba(37,193,215,.2), rgba(19,36,67,.84)); }
+  .recommendation-card { background: linear-gradient(135deg, rgba(255,135,104,.25), rgba(67,27,65,.85)); }
+  .card-header { background: transparent; }
+  .title-section h4 { margin:0; color:#fff; font-size:1.3rem; letter-spacing:-.03em; }
+  .action-btn, .recommendation-btn { border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.1); }
+  .action-btn:hover, .recommendation-btn:hover { background:rgba(255,255,255,.2); }
+  .icon-box { box-shadow:0 .6rem 1.5rem rgba(0,0,0,.2); }
+  .value { color:#fff; }
+  .label { color:#c4c5df; }
+  @media (prefers-reduced-motion: reduce) { .fade-in-wrapper, .floating-icon, .animated-stat { animation:none; } .stat-card, .stat { transition:none; } }
+
+  /* Interaction polish - keeps the shared page background in control. */
+  .playlists-wrapper {
+    animation: playlists-enter .6s cubic-bezier(.22,1,.36,1) both;
+  }
+
+  .stat-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,.12);
+    transform: translateZ(0);
+    transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  }
+
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border-radius: inherit;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
+    opacity: .7;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,255,255,.26);
+    box-shadow: 0 1.5rem 3rem rgba(0,0,0,.22);
+  }
+
+  .action-btn,
+  .recommendation-btn {
+    transform: translateZ(0);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+
+  .action-btn:hover,
+  .recommendation-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 .7rem 1.4rem rgba(0,0,0,.18);
+  }
+
+  .action-btn:focus-visible,
+  .recommendation-btn:focus-visible {
+    outline: 3px solid rgba(139,124,255,.5);
+    outline-offset: 3px;
+  }
+
+  .value {
+    display: inline-block;
+    transition: transform .3s ease;
+  }
+
+  .stat:hover .value { transform: scale(1.08); }
+
+  @keyframes playlists-enter {
+    from { opacity: 0; transform: translateY(1rem); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .playlists-wrapper,
+    .stat-card,
+    .value,
+    .action-btn,
+    .recommendation-btn { animation: none; transition: none; }
+    .stat-card:hover,
+    .action-btn:hover,
+    .recommendation-btn:hover,
+    .stat:hover .value { transform: none; }
+  }
+
   .action-btn,
   .recommendation-btn {
     width: 100%;

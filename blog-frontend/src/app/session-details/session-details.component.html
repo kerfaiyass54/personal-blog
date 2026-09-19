@@ -2,21 +2,31 @@
   <div class="card">
 
     <div class="card-header">
-      <h1 class="text-center">
-        Your login at: {{ time }}
-      </h1>
+      @if (loading) {
+        <div class="loading-state">Loading session details...</div>
+      } @else if (loadError) {
+        <div class="error-state">{{ loadError }}</div>
+      } @else {
+        <p class="eyebrow">LOGIN SESSION</p>
+        <h1 class="text-center">
+          Your login at <span>{{ time }}</span>
+        </h1>
 
-      @if (alert.length > 0) {
+      @if (alert === 'ALERT_LOGIN') {
         <h2 class="text-center alert-login">
-          This can be a suspicious login
+          <span class="status-dot"></span>
+          Suspicious login detected
         </h2>
       } @else {
         <h2 class="text-center good-login">
-          There is no alert
+          <span class="status-dot"></span>
+          Login verified
         </h2>
+      }
       }
     </div>
 
+    @if (!loading && !loadError) {
     <div class="card-body grid">
 
       <app-information-card
@@ -48,6 +58,7 @@
       </app-button>
 
     </div>
+    }
 
   </div>
 </div>

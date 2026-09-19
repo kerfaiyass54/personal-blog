@@ -1,11 +1,10 @@
 .container-fluid {
-  min-height: 70vh;
+  min-height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
-  background: linear-gradient(to bottom right, #f8fafc, #eef3f8);
-  animation: fade-up 0.4s ease;
+  padding: clamp(1rem, 4vw, 3rem);
+  animation: details-in .55s ease both;
 }
 
 /* CARD */
@@ -15,22 +14,42 @@
   max-width: 700px;
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border: none;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  border: 1px solid #e5e7eb;
+  border-radius: 1.4rem;
+  box-shadow: 0 1.8rem 5rem rgba(15,23,42,.14), 0 1px 2px rgba(15,23,42,.06);
   overflow: hidden;
+  animation: card-in .65s .08s ease both;
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 2.2rem 6rem rgba(15,23,42,.2), 0 1px 2px rgba(15,23,42,.08);
 }
 
 .card-header {
-  padding: 1.5rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
   text-align: center;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .card-header h1 {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: #495057;
+  margin: .25rem 0 1rem;
+  font-size: clamp(1.2rem, 3vw, 1.65rem);
+  font-weight: 600;
+  color: #111827;
+}
+
+.card-header h1 span {
+  color: #4f46e5;
+}
+
+.eyebrow {
+  margin: 0;
+  color: #6366f1;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .16em;
 }
 
 /* STATUS BADGES */
@@ -42,16 +61,27 @@
   border-radius: 999px;
   font-size: 0.9rem;
   font-weight: 500;
+  animation: badge-in .45s .25s ease both;
 }
 
 .alert-login {
-  background: #fee2e2;
+  background: rgba(220, 38, 38, .14);
   color: #dc2626;
 }
 
 .good-login {
-  background: #dcfce7;
-  color: #16a34a;
+  background: rgba(22, 163, 74, .14);
+  color: #15803d;
+}
+
+.status-dot {
+  display: inline-block;
+  width: .5rem;
+  height: .5rem;
+  margin-right: .4rem;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 1rem currentColor;
 }
 
 /* BODY */
@@ -61,4 +91,49 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1.5rem;
+}
+
+.card-footer {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem 2rem 2rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.card-footer app-button { flex: 1; }
+
+.loading-state,
+.error-state {
+  padding: 3rem 2rem;
+  color: #4b5563;
+  text-align: center;
+}
+
+.error-state { color: #dc2626; }
+
+@keyframes details-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(1.2rem) scale(.98); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes badge-in {
+  from { opacity: 0; transform: translateY(.35rem); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (max-width: 600px) {
+  .card-footer { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container-fluid,
+  .card,
+  .alert-login,
+  .good-login { animation: none; transition: none; }
+  .card:hover { transform: none; }
 }

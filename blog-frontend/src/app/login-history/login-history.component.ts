@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import {Component, OnInit} from '@angular/core';
 import {SessionsManagementService} from "../shared/services/sessions-management.service";
 import {TableComponent} from "../components/table/table.component";
@@ -37,7 +37,11 @@ export class LoginHistoryComponent implements OnInit{
 
 
 
-  constructor(private sessionsService: SessionsManagementService, private route: Router) {
+  constructor(
+    private sessionsService: SessionsManagementService,
+    private route: Router,
+    private cdr: ChangeDetectorRef
+  ) {
   }
 
   ngOnInit() {
@@ -54,6 +58,7 @@ export class LoginHistoryComponent implements OnInit{
           s.alert,
           s.browser,
         ]);
+        this.cdr.markForCheck();
       }
     )
   }

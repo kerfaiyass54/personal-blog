@@ -18,13 +18,13 @@
   flex-direction: column;
   border: none;
   border-radius: 12px;
-  background: #fff;
+
   box-shadow: 0 4px 12px rgba(0,0,0,0.06);
   overflow: hidden;
 }
 
 .card-header {
-  background: #fff;
+
   border-bottom: 1px solid #e9ecef;
   padding: 1.25rem 1.5rem;
 }
@@ -42,4 +42,35 @@
   flex: 1;
   padding: 1.5rem;
   overflow: auto;
+}
+
+/* Account workspace theme */
+:host {
+  display: block;
+  min-height: 100%;
+  color: #f7f7ff;
+}
+.container-fluid { padding: clamp(1rem, 3vw, 2.5rem); }
+.card {
+  max-width: 1180px;
+  margin: auto;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 1.4rem;
+  background: rgba(20,22,48,.74);
+  box-shadow: 0 1.5rem 4rem rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter: blur(18px);
+  animation: history-in .5s ease both;
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(139,119,255,.35);
+  box-shadow: 0 1.8rem 5rem rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.1);
+}
+.card-header, .card-body { background: transparent; border-color: rgba(255,255,255,.1); }
+.card-header h1 { color: #f7f7ff; font-size: clamp(1.2rem, 3vw, 1.75rem); letter-spacing: -.03em; }
+@keyframes history-in { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .card { animation: none; transition: none; }
+  .card:hover { transform: none; }
 }
