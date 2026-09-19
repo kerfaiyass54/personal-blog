@@ -6,8 +6,6 @@ export interface ArticleDisplayDTO {
   id: string;
   title: string;
   content: string;
-  dateInsert: Date;
-  dateUpdate: Date;
 }
 
 export interface SavedDTO {
@@ -55,7 +53,7 @@ export class ReaderService {
   ): Observable<SavedDTO> {
 
     return this.http.post<SavedDTO>(
-      `${this.savedUrl}?userEmail=${userEmail}&articleId=${articleId}`,
+      `${this.savedUrl}?userEmail=${encodeURIComponent(userEmail)}&articleId=${encodeURIComponent(articleId)}`,
       {}
     );
   }
@@ -65,7 +63,7 @@ export class ReaderService {
   ): Observable<SavedDTO[]> {
 
     return this.http.get<SavedDTO[]>(
-      `${this.savedUrl}/${userEmail}`
+      `${this.savedUrl}/${encodeURIComponent(userEmail)}`
     );
   }
 
@@ -75,7 +73,7 @@ export class ReaderService {
   ): Observable<void> {
 
     return this.http.delete<void>(
-      `${this.savedUrl}?userEmail=${userEmail}&articleId=${articleId}`
+      `${this.savedUrl}?userEmail=${encodeURIComponent(userEmail)}&articleId=${encodeURIComponent(articleId)}`
     );
   }
 }

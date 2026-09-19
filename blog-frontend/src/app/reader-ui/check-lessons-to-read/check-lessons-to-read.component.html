@@ -73,7 +73,7 @@
 
         @for (lesson of lessons; track lesson.id) {
 
-          <div class="lesson-card">
+          <div class="lesson-card" tabindex="0">
 
             <h3>{{ lesson.title }}</h3>
 
@@ -99,7 +99,7 @@
 
         @for (reading of readingLessons; track reading.id) {
 
-          <div class="lesson-card">
+          <div class="lesson-card" tabindex="0">
 
             <div class="progress">
               {{ reading.progress }}%
@@ -127,7 +127,7 @@
 
         @for (reading of completedLessons; track reading.id) {
 
-          <div class="lesson-card">
+          <div class="lesson-card" tabindex="0">
 
             <div class="completed">
               ✓

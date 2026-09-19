@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -29,7 +29,9 @@ export class CheckLessonsToReadComponent implements OnInit {
 
   completedLessons: LessonReadingResponse[] = [];
 
-  emailUser = 'reader@mail.com';
+  emailUser = sessionStorage.getItem('email') ?? '';
+
+  constructor(private readonly cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -39,25 +41,39 @@ export class CheckLessonsToReadComponent implements OnInit {
 
     this.lessonService
       .getAllLessons()
-      .subscribe(data => {
-        this.lessons = data;
+      .subscribe({
+        next: data => {
+          this.lessons = data;
+          this.cdr.markForCheck();
+        },
+        error: () => this.cdr.markForCheck()
       });
+
+    if (!this.emailUser) {
+      this.cdr.markForCheck();
+      return;
+    }
 
     this.readingService
       .getReadingsByUser(this.emailUser)
-      .subscribe(data => {
-
-        this.readingLessons =
-          data.filter(x =>
-            x.progress > 0 &&
-            x.progress < 100
+      .subscribe({
+        next: data => {
+          this.readingLessons = data.filter(x =>
+            x.progress > 0 && x.progress < 100
           );
+          this.cdr.markForCheck();
+        },
+        error: () => this.cdr.markForCheck()
       });
 
     this.readingService
       .getCompletedLessons(this.emailUser)
-      .subscribe(data => {
-        this.completedLessons = data;
+      .subscribe({
+        next: data => {
+          this.completedLessons = data;
+          this.cdr.markForCheck();
+        },
+        error: () => this.cdr.markForCheck()
       });
   }
 }

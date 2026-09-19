@@ -53,13 +53,13 @@ export class CheckSkillsReaderComponent implements OnInit {
       skill.field.toLowerCase().includes(value)
     );
 
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   clearSearch(): void {
     this.searchTerm = '';
     this.filteredSkills = [...this.skills];
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   loadData(): void {
@@ -75,18 +75,18 @@ export class CheckSkillsReaderComponent implements OnInit {
             next: favorites => {
               this.favorites = favorites;
               this.loading = false;
-              this.cdr.detectChanges();
+              this.cdr.markForCheck();
             },
             error: () => {
               this.loading = false;
-              this.cdr.detectChanges();
+              this.cdr.markForCheck();
             }
           });
       },
       error: () => {
         this.loading = false;
         this.toastr.error('Failed to load skills');
-        this.cdr.detectChanges();
+          this.cdr.markForCheck();
       }
     });
   }
@@ -98,6 +98,10 @@ export class CheckSkillsReaderComponent implements OnInit {
   }
 
   toggleFavorite(skill: Skill): void {
+    if (!this.email) {
+      this.toastr.error('Sign in to manage favorite skills');
+      return;
+    }
 
     if (this.isFavorite(skill.name)) {
 
@@ -115,7 +119,7 @@ export class CheckSkillsReaderComponent implements OnInit {
             `${skill.name} removed from favorites`
           );
 
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
         },
         error: () => {
           this.toastr.error(
@@ -142,7 +146,7 @@ export class CheckSkillsReaderComponent implements OnInit {
           `${skill.name} added to favorites`
         );
 
-        this.cdr.detectChanges();
+        this.cdr.markForCheck();
       },
       error: () => {
         this.toastr.error(

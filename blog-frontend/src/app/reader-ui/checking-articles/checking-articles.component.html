@@ -5,7 +5,9 @@
     <h1>Explore Articles</h1>
 
     <button
+      type="button"
       class="saved-btn"
+      aria-label="Open saved articles"
       data-bs-toggle="modal"
       data-bs-target="#savedModal"
       (click)="loadSavedArticles()">
@@ -15,51 +17,60 @@
 
   </div>
 
+  @if (loading()) {
+    <div class="articles-state" role="status">
+      <span class="loader" aria-hidden="true"></span>
+      <p>Loading articles...</p>
+    </div>
+  } @else if (errorMessage()) {
+    <div class="articles-state error-state" role="alert">
+      <p>{{ errorMessage() }}</p>
+      <button type="button" class="retry-btn" (click)="loadArticles()">Try again</button>
+    </div>
+  } @else {
   <div class="articles-container">
 
     @for(article of articles(); track article.id){
 
-      <div class="article-card">
+      <article class="article-card">
 
         <h2>
           {{ article.title }}
         </h2>
 
-        <div class="dates">
-
-          <span>
-            Created:
-            {{ article.dateInsert | date:'mediumDate' }}
-          </span>
-
-          <span>
-            Updated:
-            {{ article.dateUpdate | date:'mediumDate' }}
-          </span>
-
-        </div>
+        <p class="article-preview">{{ article.content }}</p>
 
         <div class="actions">
 
           <button
+            type="button"
             class="read-btn"
+            [attr.aria-label]="'Read ' + article.title"
             (click)="readArticle(article.id)">
             Read
           </button>
 
           <button
+            type="button"
             class="save-btn"
+            [attr.aria-label]="'Save ' + article.title"
             (click)="saveArticle(article.id)">
             Save
           </button>
 
         </div>
 
-      </div>
+      </article>
 
     }
 
+    @if (articles().length === 0) {
+      <div class="articles-state" role="status">
+        <p>No articles are available yet.</p>
+      </div>
+    }
   </div>
+  }
 
 </div>
 
@@ -84,7 +95,8 @@
 
         <button
           type="button"
-          class="btn-close"
+          class="modal-close"
+          aria-label="Close saved articles"
           data-bs-dismiss="modal">
         </button>
 
@@ -92,6 +104,12 @@
 
       <div class="modal-body">
 
+        @if (savedLoading()) {
+          <div class="saved-state" role="status">
+            <span class="loader" aria-hidden="true"></span>
+            <p>Loading saved articles...</p>
+          </div>
+        } @else {
         <div class="saved-container">
 
           @if(savedArticles().length === 0){
@@ -110,16 +128,18 @@
               </div>
 
               <button
-                class="btn btn-danger btn-sm"
+                type="button"
+                class="remove-btn"
+                [attr.aria-label]="'Remove saved article ' + saved.articleId"
                 (click)="removeSavedArticle(saved.articleId)">
                 Remove
               </button>
 
             </div>
-
           }
 
         </div>
+        }
 
       </div>
 
@@ -127,7 +147,7 @@
 
         <button
           type="button"
-          class="btn btn-secondary"
+          class="modal-action"
           data-bs-dismiss="modal">
           Close
         </button>

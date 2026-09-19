@@ -1,1 +1,66 @@
-<p>check-recommended works!</p>
+<section class="recommendations-page">
+  <header class="recommendations-header">
+    <div>
+      <span class="eyebrow">PERSONALIZED LEARNING</span>
+      <h1>Recommended skills</h1>
+      <p>Discover skills that complement your learning path.</p>
+    </div>
+    <div class="header-orbit" aria-hidden="true">
+      <i class="bi bi-stars"></i>
+    </div>
+  </header>
+
+  <div class="recommendations-panel">
+    <label for="recommendation-field">Choose a field</label>
+    <div class="recommendation-form">
+      <select
+        id="recommendation-field"
+        [(ngModel)]="selectedField"
+        (change)="errorMessage = ''; recommendations = []"
+      >
+        <option value="">Select a field</option>
+        @for (field of fields; track field) {
+          <option [value]="field">{{ field }}</option>
+        }
+      </select>
+      <button
+        type="button"
+        (click)="loadRecommendations()"
+        [disabled]="loading">
+        <i class="bi bi-stars"></i>
+        {{ loading ? 'Discovering...' : 'Discover' }}
+      </button>
+    </div>
+  </div>
+
+  @if (loading) {
+    <div class="recommendations-state" role="status">
+      <span class="loader"></span>
+      <p>Finding recommendations for {{ selectedField }}...</p>
+    </div>
+  } @else if (errorMessage) {
+    <div class="recommendations-state error-state" role="alert">
+      <i class="bi bi-info-circle"></i>
+      <p>{{ errorMessage }}</p>
+    </div>
+  } @else if (recommendations.length > 0) {
+    <div class="results-panel">
+      <div class="results-heading">
+        <div>
+          <span class="eyebrow">CURATED FOR YOU</span>
+          <h2>{{ selectedField }}</h2>
+        </div>
+        <span class="result-count">{{ recommendations.length }} skills</span>
+      </div>
+      <div class="recommendation-grid">
+        @for (recommendation of recommendations; track recommendation; let i = $index) {
+          <article class="recommendation-card" [style.--item-index]="i">
+            <span class="recommendation-number">{{ (i + 1).toString().padStart(2, '0') }}</span>
+            <span>{{ recommendation }}</span>
+            <i class="bi bi-arrow-up-right"></i>
+          </article>
+        }
+      </div>
+    </div>
+  }
+</section>
