@@ -3,6 +3,23 @@
   min-height: 60vh;
 }
 
+.glass-card, .results-card, .chip { will-change: transform; }
+.glass-card, .results-card {
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+.glass-card:hover, .results-card:hover { transform: translateY(-3px); }
+.form-section button:focus-visible,
+.search-box input:focus-visible,
+select:focus-visible,
+.chip:focus-visible {
+  outline: 3px solid rgba(139,92,246,.5);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .glass-card, .results-card, .chip, .keywords-section { animation: none; transition: none; }
+  .glass-card:hover, .results-card:hover, .chip:hover { transform: none; }
+}
+
 .page {
   min-height: 70vh;
 
@@ -478,5 +495,4 @@ option {
     fadeUp .7s ease,
     slideFadeIn .7s ease;
 }
-
 

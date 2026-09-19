@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import {Component, OnInit, inject} from '@angular/core';
 import {NavBarComponent} from "../components/nav-bar/nav-bar.component";
-import {SessionsManagementService} from "../shared/services/sessions-management.service";
+import {CreateSessionRequest, SessionsManagementService} from "../shared/services/sessions-management.service";
 import {RouterOutlet, Router, NavigationEnd} from "@angular/router";
 import {filter} from "rxjs/operators";
 import {LoaderComponent} from "../components/loader/loader.component";
@@ -33,8 +33,9 @@ export class ReaderUiComponent implements OnInit{
   }
 
   ngOnInit() {
+    this.currentUrl = this.router.url;
+    this.loadPage();
 
-    // URL change listener
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -43,12 +44,13 @@ export class ReaderUiComponent implements OnInit{
         this.cdr.markForCheck();
       });
 
-    if((sessionStorage.getItem("sessionId") == null) ){
-      this.keepSession(sessionStorage.getItem("email"));
+    const email = sessionStorage.getItem("email");
+    if (sessionStorage.getItem("sessionId") === null && email) {
+      this.keepSession(email);
     }
   }
 
-  keepSession(email:any){
+  keepSession(email: string): void {
     const ua = navigator.userAgent;
 
     let browser = 'Unknown';
@@ -65,7 +67,7 @@ export class ReaderUiComponent implements OnInit{
     else if (ua.includes('Linux')) os = 'Linux';
     else if (ua.includes('iPhone') || ua.includes('iPad')) os = 'iOS';
 
-    let session = {
+    const session: CreateSessionRequest = {
       email: email,
       os: os,
       time: new Date().toISOString(),
@@ -73,14 +75,18 @@ export class ReaderUiComponent implements OnInit{
       alert: 'NOTHING',
       me: true
     }
-    this.sessionService.addSession(session).subscribe(
-      (s)=>{
-        sessionStorage.setItem('sessionId', s.id);        sessionStorage.setItem('username', s.name);
-
-        this.sessionService.setAlert(s.email,s.time).subscribe(
-          ()=>{});
+    this.sessionService.addSession(session).subscribe({
+      next: (createdSession) => {
+        sessionStorage.setItem('sessionId', createdSession.id);
+        this.sessionService.setAlert(createdSession.email, createdSession.time).subscribe({
+          next: () => this.cdr.markForCheck(),
+          error: () => this.cdr.markForCheck()
+        });
+      },
+      error: () => {
+        this.cdr.markForCheck();
       }
-    );
+    });
   }
 
   lessons:any[] = [{id: 0, title: 'Check',link: '/reader/check-lessons'},
@@ -95,6 +101,6 @@ export class ReaderUiComponent implements OnInit{
     setTimeout(() => {
       this.loading = false;
       this.cdr.markForCheck();
-    }, 300);
+    }, 280);
   }
 }

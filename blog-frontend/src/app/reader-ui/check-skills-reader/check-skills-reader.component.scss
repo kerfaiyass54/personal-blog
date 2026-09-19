@@ -5,6 +5,18 @@
   color: white;
 }
 
+.page, .skill-card { will-change: transform; }
+.skill-card { transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
+.skill-card:hover { transform: translateY(-7px) scale(1.01); }
+.search-input:focus-visible, .clear-btn:focus-visible, .favorite-btn:focus-visible {
+  outline: 3px solid rgba(129,140,248,.5);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page, .skill-card, .favorite-btn.active, .loader { animation: none; transition: none; }
+  .skill-card:hover, .favorite-btn:hover { transform: none; }
+}
+
 .page {
   padding: 40px;
   max-width: 1400px;

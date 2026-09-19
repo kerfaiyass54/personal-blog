@@ -12,6 +12,25 @@ export interface SessionDetails {
   alert: string;
 }
 
+export interface CreateSessionRequest {
+  email: string;
+  time: string;
+  os: string;
+  browser: string;
+  me: boolean;
+  alert: string;
+}
+
+export interface CreatedSession {
+  id: string;
+  email: string;
+  time: string;
+  os: string;
+  browser: string;
+  me: boolean;
+  activityType: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,8 +41,8 @@ export class SessionsManagementService {
   constructor(private http: HttpClient) {}
 
   // POST /sessions/
-  addSession(session: any): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/`, session);
+  addSession(session: CreateSessionRequest): Observable<CreatedSession> {
+    return this.http.post<CreatedSession>(`${this.apiUrl}/`, session);
   }
 
   // GET /sessions/list/{email}

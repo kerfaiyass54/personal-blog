@@ -3,6 +3,24 @@
   padding: 2rem;
 }
 
+.saved-card, .article-card { will-change: transform; }
+.saved-card { transition: transform .3s ease, box-shadow .3s ease; }
+.saved-card:hover {
+  transform: translateX(5px);
+  box-shadow: 0 10px 24px rgba(15,23,42,.1);
+}
+.saved-btn:focus-visible, .read-btn:focus-visible, .remove-btn:focus-visible {
+  outline: 3px solid rgba(99,102,241,.45);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .saved-card, .article-card, .saved-btn, .read-btn, .remove-btn {
+    animation: none; transition: none;
+  }
+  .saved-card:hover, .article-card:hover, .saved-btn:hover,
+  .read-btn:hover, .remove-btn:hover { transform: none; }
+}
+
 .page {
   max-width: 1200px;
   margin: auto;

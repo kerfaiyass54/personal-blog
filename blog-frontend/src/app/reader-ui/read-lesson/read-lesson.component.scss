@@ -3,6 +3,18 @@
   width: 100%;
 }
 
+.article-container, .article-card { will-change: transform; }
+.article-card { transition: transform .35s ease, box-shadow .35s ease; }
+.article-card:hover { transform: translateY(-4px); }
+.back-btn:focus-visible {
+  outline: 3px solid rgba(99,102,241,.5);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .article-container, .article-card, .spinner { animation: none; transition: none; }
+  .article-card:hover, .back-btn:hover { transform: none; }
+}
+
 .reader-container {
 
   max-width: 1100px;

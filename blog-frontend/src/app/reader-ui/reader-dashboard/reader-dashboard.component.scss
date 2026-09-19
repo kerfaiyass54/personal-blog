@@ -4,6 +4,25 @@
   padding: 40px;
 }
 
+.reader-dashboard,
+.category-card,
+.lesson-card { will-change: transform; }
+
+.reader-dashboard { transition: transform .35s ease, box-shadow .35s ease; }
+.reader-dashboard:hover { transform: translateY(-3px); }
+.category-card:focus-visible,
+.lesson-card button:focus-visible {
+  outline: 3px solid rgba(127,57,251,.45);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reader-dashboard, .category-card, .lesson-card, .icon,
+  .progress, .category-card.active { animation: none; transition: none; }
+  .reader-dashboard:hover, .category-card:hover, .lesson-card:hover,
+  .category-card:hover .icon { transform: none; }
+}
+
 .dashboard-container {
   max-width: 1200px;
   margin: auto;
