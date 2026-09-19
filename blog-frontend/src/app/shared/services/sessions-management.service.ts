@@ -2,6 +2,16 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface SessionDetails {
+  id: string;
+  email: string;
+  time: string;
+  os: string;
+  browser: string;
+  me: boolean;
+  alert: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -32,8 +42,8 @@ export class SessionsManagementService {
   }
 
   // GET /sessions/{id}
-  getSession(id: string): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  getSession(id: string): Observable<SessionDetails> {
+    return this.http.get<SessionDetails>(`${this.apiUrl}/${id}`);
   }
 
   // GET /sessions/alerts/{email}

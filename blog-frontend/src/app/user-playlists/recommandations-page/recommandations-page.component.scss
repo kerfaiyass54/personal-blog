@@ -352,3 +352,60 @@ tbody td {
   }
 
 }
+
+.recommendations-container {
+  animation: recommendations-enter .6s cubic-bezier(.22,1,.36,1) both;
+}
+
+.recommendations-container .header,
+.recommendations-container .table-wrapper {
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+}
+
+.recommendations-container .table-wrapper:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 1.5rem 3rem rgba(0,0,0,.2);
+}
+
+.recommendation-table tbody tr {
+  transition: transform .25s ease, color .25s ease;
+}
+
+.recommendation-table tbody tr:hover {
+  transform: translateX(4px);
+}
+
+.refresh-btn,
+.open-btn {
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.refresh-btn:hover,
+.open-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 .7rem 1.4rem rgba(0,0,0,.18);
+}
+
+.refresh-btn:focus-visible,
+.open-btn:focus-visible {
+  outline: 3px solid rgba(139,124,255,.45);
+  outline-offset: 3px;
+}
+
+@keyframes recommendations-enter {
+  from { opacity: 0; transform: translateY(1rem); }
+  to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .recommendations-container,
+  .recommendations-container .header,
+  .recommendations-container .table-wrapper,
+  .recommendation-table tbody tr,
+  .refresh-btn,
+  .open-btn { animation: none; transition: none; }
+  .recommendations-container .table-wrapper:hover,
+  .recommendation-table tbody tr:hover,
+  .refresh-btn:hover,
+  .open-btn:hover { transform: none; }
+}

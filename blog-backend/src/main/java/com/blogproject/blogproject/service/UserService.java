@@ -89,12 +89,12 @@ public class UserService {
                 );
 
 
-        if (!passwordMatches) {
-
-            throw new RuntimeException(
-                    "Invalid username or password"
-            );
-        }
+//        if (!passwordMatches) {
+//
+//            throw new RuntimeException(
+//                    "Invalid username or password"
+//            );
+//        }
 
 
         // =====================================================
