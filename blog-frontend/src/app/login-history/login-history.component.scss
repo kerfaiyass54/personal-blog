@@ -43,3 +43,28 @@
   padding: 1.5rem;
   overflow: auto;
 }
+
+/* Account workspace theme */
+:host {
+  display: block;
+  min-height: 100%;
+  color: #f7f7ff;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(111,92,255,.18), transparent 28rem),
+    #0b0d20;
+}
+.container-fluid { padding: clamp(1rem, 3vw, 2.5rem); }
+.card {
+  max-width: 1180px;
+  margin: auto;
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 1.4rem;
+  background: rgba(20,22,48,.74);
+  box-shadow: 0 1.5rem 4rem rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter: blur(18px);
+  animation: history-in .5s ease both;
+}
+.card-header, .card-body { background: transparent; border-color: rgba(255,255,255,.1); }
+.card-header h1 { color: #f7f7ff; font-size: clamp(1.2rem, 3vw, 1.75rem); letter-spacing: -.03em; }
+@keyframes history-in { from { opacity: 0; transform: translateY(1rem); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .card { animation: none; } }

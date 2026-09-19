@@ -613,3 +613,23 @@ textarea.modern-input {
   border-radius: 12px;
 
 }
+
+/* Glass wizard finish */
+:host { display:block; color:#f7f7ff; }
+.add-wrapper { min-height:72vh; background:transparent; }
+.wizard-card {
+  position:relative; overflow:hidden; border:1px solid rgba(255,255,255,.13);
+  background:linear-gradient(145deg,rgba(30,34,78,.9),rgba(12,15,37,.94));
+  box-shadow:0 2rem 5rem rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.07);
+  backdrop-filter:blur(18px);
+}
+.wizard-card::before { content:''; position:absolute; width:20rem; height:20rem; top:-12rem; right:-6rem; border-radius:50%; background:radial-gradient(circle,rgba(139,124,255,.25),transparent 70%); animation:playlist-orb 8s ease-in-out infinite; pointer-events:none; }
+.title, .wizard-card h5 { position:relative; color:#f7f7ff; letter-spacing:-.03em; }
+.stepper, .step-content, .actions { position:relative; z-index:1; }
+.step { color:#8587a8; }.step.active { color:#d8d4ff; }.circle { color:#a7a8c5; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14); }.step.active .circle { box-shadow:0 0 0 5px rgba(139,124,255,.16),0 .6rem 1.5rem rgba(91,75,220,.3); }
+.line { background:rgba(255,255,255,.12); }
+.modern-input { color:#fff; border-color:rgba(255,255,255,.13); background:rgba(255,255,255,.06); }.modern-input::placeholder { color:#8587a8; }.modern-input:focus { color:#fff; background:rgba(139,124,255,.1); border-color:#8b7cff; box-shadow:0 0 0 4px rgba(139,124,255,.14); }
+.soundtrack-table, .review-box { color:#dcdcff; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09); }.soundtrack-table thead { background:rgba(139,124,255,.16); }.soundtrack-table td { border-color:rgba(255,255,255,.08); }.soundtrack-table tbody tr:hover:not(.selected-row) { background:rgba(255,255,255,.06); }
+.btn-light { color:#c5c6df; border:1px solid rgba(255,255,255,.12); background:rgba(255,255,255,.05); }.primary-btn { background:linear-gradient(135deg,#7666e5,#4dbece); box-shadow:0 .7rem 1.5rem rgba(83,214,232,.15); }
+@keyframes playlist-orb { 0%,100% { transform:translate(0); } 50% { transform:translate(-1rem,1rem); } }
+@media (prefers-reduced-motion:reduce) { .wizard-card, .animated-step, .playlist-orb { animation:none; } }

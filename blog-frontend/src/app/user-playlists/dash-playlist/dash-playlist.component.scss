@@ -289,3 +289,8 @@
   border-radius: 10px;
 
 }
+
+:host { display:block; color:#f7f7ff; }
+.playlist-dashboard { min-height:72vh; padding:clamp(1rem,4vw,3rem); background:transparent; }
+.playlist-container { width:min(100%,900px); padding:clamp(1.2rem,4vw,2.8rem); border:1px solid rgba(255,255,255,.12); background:linear-gradient(145deg,rgba(30,34,78,.82),rgba(12,15,37,.9)); box-shadow:0 2rem 5rem rgba(0,0,0,.28),inset 0 1px 0 rgba(255,255,255,.07); backdrop-filter:blur(18px); }
+.title { color:#f7f7ff; }.playlist-card { background:linear-gradient(135deg,rgba(118,102,229,.85),rgba(77,190,206,.72)); box-shadow:0 1rem 2rem rgba(0,0,0,.16); }.track-count { color:#e0e0f4; }.manage-btn { border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.12); }.add-btn { color:#fff; background:linear-gradient(135deg,#7666e5,#4dbece); }.table-wrapper { border-radius:1rem; }.tracks-table { color:#dcdcff; background:rgba(255,255,255,.04); }.tracks-table th { color:#fff; background:rgba(139,124,255,.16); }.tracks-table td { border-color:rgba(255,255,255,.08); }.tracks-table tbody tr:hover { color:#fff; background:rgba(255,255,255,.06); }.modal-content { color:#f7f7ff; border:1px solid rgba(255,255,255,.14); background:#171a38; }.modal-header,.modal-footer { border-color:rgba(255,255,255,.1); }.modal-body { background:#121531; }.btn-secondary { color:#dcdcff; border-color:rgba(255,255,255,.13); background:rgba(255,255,255,.06); }
