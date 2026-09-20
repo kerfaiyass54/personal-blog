@@ -20,6 +20,7 @@ public class PublicEndpoints {
             "/user/username",
             "/user/email",
             "/user/check-password",
+            "/user/**",
 
             // =====================================================
             // PUBLIC API
