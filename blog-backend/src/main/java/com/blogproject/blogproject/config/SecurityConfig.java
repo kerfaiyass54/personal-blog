@@ -21,15 +21,18 @@ public class SecurityConfig {
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
     private final PublicEndpoints publicEndpoints;
+    private final JwtFilter jwtFilter;
 
     public SecurityConfig(
             JwtUtil jwtUtil,
             UserRepository userRepository,
-            PublicEndpoints publicEndpoints
+            PublicEndpoints publicEndpoints,
+            JwtFilter jwtFilter
     ) {
         this.jwtUtil = jwtUtil;
         this.userRepository = userRepository;
         this.publicEndpoints = publicEndpoints;
+        this.jwtFilter = jwtFilter;
     }
 
 
@@ -93,7 +96,7 @@ public class SecurityConfig {
                 // -------------------------------------------------
 
                 .addFilterBefore(
-                        jwtFilter(),
+                        jwtFilter,
                         UsernamePasswordAuthenticationFilter.class
                 );
 
@@ -112,8 +115,8 @@ public class SecurityConfig {
         CorsConfiguration config =
                 new CorsConfiguration();
 
-        config.setAllowedOriginPatterns(
-                List.of("*")
+        config.setAllowedOrigins(
+                List.of("http://localhost:4200")
         );
 
         config.setAllowedMethods(
@@ -146,16 +149,4 @@ public class SecurityConfig {
     }
 
 
-    // =========================================================
-    // JWT FILTER
-    // =========================================================
-
-    @Bean
-    public JwtFilter jwtFilter() {
-        return new JwtFilter(
-                jwtUtil,
-                userRepository,
-                publicEndpoints
-        );
-    }
 }

@@ -79,4 +79,14 @@ public class JwtUtil {
                 .getSubject();
     }
 
+    public UserRole getRole(String token) {
+        String role = (String) Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role");
+        return UserRole.valueOf(role);
+    }
+
 }

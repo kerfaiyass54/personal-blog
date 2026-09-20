@@ -190,7 +190,7 @@ export class UserSocialMediaComponent implements OnInit {
     if (!updated.id) return;
 
     this.socialService
-      .updateSocialMediaById(updated.id, updated)
+      .updateSocialMediaById(updated.id, updated, this.userEmail)
       .subscribe(() => this.loadData());
 
   }
@@ -325,7 +325,8 @@ export class UserSocialMediaComponent implements OnInit {
     this.socialService
       .updateSocialMediaById(
         this.editBuffer.id,
-        this.editBuffer
+        this.editBuffer,
+        this.userEmail
       )
       .subscribe({
 
@@ -375,7 +376,7 @@ export class UserSocialMediaComponent implements OnInit {
     this.deleteSubmitting = true;
 
     this.socialService
-      .deleteSocialMediaById(this.selectedSocial.id)
+      .deleteSocialMediaById(this.selectedSocial.id, this.userEmail)
       .subscribe({
 
         next: () => {
