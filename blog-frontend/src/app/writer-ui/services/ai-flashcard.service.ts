@@ -16,7 +16,7 @@ export class AiFlashcardService {
   private readonly http = inject(HttpClient);
 
   private readonly apiUrl =
-    `${environment.aiApiUrl}/flashcards`;
+    `${environment.flashcardApiUrl}/flashcards`;
 
   generateFlashcards(
     lesson: Lesson

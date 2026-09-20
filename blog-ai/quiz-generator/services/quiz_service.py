@@ -7,8 +7,7 @@ class QuizService:
     def __init__(self):
 
         self.ai = AIAgent()
-
-        self.kafka = KafkaPublisher()
+        self.kafka = None
 
     def generate(
         self,
@@ -34,6 +33,9 @@ class QuizService:
 
             "questions": questions
         }
+
+        if self.kafka is None:
+            self.kafka = KafkaPublisher()
 
         self.kafka.publish(payload)
 
