@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/social-media")
+@RequestMapping("/api/socials")
 @RequiredArgsConstructor
 public class SocialMediaController {
 

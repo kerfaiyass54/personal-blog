@@ -73,7 +73,7 @@ export class SoundtrackServicesService {
       .set('size', size);
 
     return this.http.get<any>(
-      `${this.baseUrl}/${email}/soundtracks/filter`,
+      `${this.baseUrl}/${email}/soundtracks/type`,
       { params }
     );
   }

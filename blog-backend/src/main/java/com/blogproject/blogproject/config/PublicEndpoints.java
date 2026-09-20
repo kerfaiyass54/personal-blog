@@ -47,9 +47,10 @@ public class PublicEndpoints {
 
             "/api/lesson-readings/**",
 
-            "/socials",
-            "/socials/",
-            "/socials/**",
+            "/api/socials",
+            "/api/socials/",
+            "/api/socials/**",
+
 
             "/users/**",
 
