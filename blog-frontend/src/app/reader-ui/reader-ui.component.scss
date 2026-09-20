@@ -4,6 +4,8 @@
   width: 100%;
   max-width: 100%;
   overflow-x: clip;
+  position: relative;
+  z-index: 0;
 }
 
 /* Sidebar */
@@ -20,7 +22,41 @@
   width: calc(100% - 318px);
   margin: 28px 24px 0 318px;
   position: relative;
-  overflow-x: hidden;
+  overflow-x: visible;
+  min-width: 0;
+  transition: margin .3s ease, width .3s ease;
+}
+
+.content::before {
+  content: '';
+  position: absolute;
+  top: -28px;
+  left: 0;
+  right: 0;
+  height: 1px;
+  pointer-events: none;
+  opacity: .35;
+  box-shadow: 0 0 22px 2px rgba(139,124,255,.5);
+}
+
+app-loader {
+  display: block;
+  animation: loader-in .3s ease both;
+}
+
+@keyframes reader-shell-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes reader-content-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes loader-in {
+  from { opacity: 0; transform: scale(.98); }
+  to { opacity: 1; transform: none; }
 }
 
 @media (max-width: 900px) {
@@ -28,4 +64,10 @@
     width: 100%;
     margin: 72px 16px 0;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .container,
+  .content,
+  app-loader { animation: none; transition: none; }
 }

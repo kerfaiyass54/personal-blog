@@ -391,17 +391,7 @@ th.sort-desc .sort-arrows { opacity: 1; }
 }
 
 .st-modal {
-  border: none;
-  border-radius: 22px;
-  overflow: hidden;
   font-family: var(--font-body);
-  box-shadow: 0 32px 80px rgba(0,0,0,.22);
-  animation: modalIn .35s cubic-bezier(.22,.68,0,1.2) both;
-}
-
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(.94) translateY(16px); }
-  to   { opacity: 1; transform: none; }
 }
 
 .st-modal-header {

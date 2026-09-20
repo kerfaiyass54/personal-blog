@@ -258,16 +258,9 @@
 .modal-cancel:hover { background: rgba(255, 255, 255, .15); transform: translateY(-2px); }
 
 .plan-modal {
-  overflow: hidden;
-  border: 1px solid rgba(150, 130, 255, .3);
-  border-radius: 22px;
-  color: #fff;
-  background: linear-gradient(145deg, #171035, #0e0923);
-  box-shadow: 0 25px 70px rgba(0, 0, 0, .45);
+  font-family: inherit;
 }
 
-.plan-modal .modal-header,
-.plan-modal .modal-footer { border-color: rgba(255, 255, 255, .1); }
 .plan-modal .modal-header { align-items: center; gap: 12px; padding: 22px 24px 16px; }
 .plan-modal .modal-header h2 { margin: 0; font-size: 1.2rem; }
 .plan-modal .modal-body { color: rgba(231, 225, 255, .7); line-height: 1.6; }

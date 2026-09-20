@@ -55,7 +55,12 @@
 
         <div
           class="flashcard-preview"
-          (click)="openCard(card)">
+          (click)="openCard(card)"
+          (keydown.enter)="openCard(card)"
+          (keydown.space)="openCard(card); $event.preventDefault()"
+          tabindex="0"
+          role="button"
+          [attr.aria-label]="'Open flashcard: ' + card.term">
 
           <div class="flashcard-glow"></div>
 

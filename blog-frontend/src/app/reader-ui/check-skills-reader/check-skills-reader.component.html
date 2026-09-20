@@ -11,6 +11,7 @@
       <input
         type="text"
         class="search-input"
+        aria-label="Search skills"
         placeholder="Search skills..."
         [value]="searchTerm"
         (input)="onSearch($event)"
@@ -19,6 +20,8 @@
       @if(searchTerm){
         <button
           class="clear-btn"
+          type="button"
+          aria-label="Clear skill search"
           (click)="clearSearch()"
         >
           ✕
@@ -42,7 +45,11 @@
 
       @for (skill of filteredSkills; track skill.id) {
 
-        <div class="skill-card row-card">
+        <article
+          class="skill-card row-card"
+          tabindex="0"
+          [attr.aria-label]="skill.name + ' skill in ' + skill.field"
+        >
 
           <div class="skill-info">
 
@@ -56,14 +63,24 @@
 
           <button
             class="favorite-btn"
+            type="button"
+            [attr.aria-label]="isFavorite(skill.name) ? 'Remove ' + skill.name + ' from favorites' : 'Add ' + skill.name + ' to favorites'"
             [class.active]="isFavorite(skill.name)"
             (click)="toggleFavorite(skill)"
           >
             {{ isFavorite(skill.name) ? '★' : '☆' }}
           </button>
 
-        </div>
+        </article>
 
+      }
+
+      @if (filteredSkills.length === 0) {
+        <div class="empty-state" role="status">
+          <span class="empty-icon" aria-hidden="true">⌕</span>
+          <h2>No skills found</h2>
+          <p>Try another skill name or field.</p>
+        </div>
       }
 
     </div>

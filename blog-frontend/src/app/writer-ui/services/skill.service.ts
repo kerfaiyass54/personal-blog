@@ -29,7 +29,7 @@ export class SkillService {
 
   getSkillsByField(field: string): Observable<Skill[]> {
     return this.http.get<Skill[]>(
-      `${this.apiUrl}/field/${field}`
+      `${this.apiUrl}/field/${encodeURIComponent(field)}`
     );
   }
 

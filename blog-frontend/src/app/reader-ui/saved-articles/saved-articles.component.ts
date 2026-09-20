@@ -127,4 +127,8 @@ export class SavedArticlesComponent implements OnInit {
         }
       });
   }
+
+  goBack(): void {
+    this.router.navigate(['/reader/check-articles']);
+  }
 }

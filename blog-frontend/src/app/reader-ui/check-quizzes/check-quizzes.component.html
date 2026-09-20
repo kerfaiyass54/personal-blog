@@ -55,7 +55,12 @@
 
         <div
           class="quiz-card"
-          (click)="openResult(result)">
+          (click)="openResult(result)"
+          (keydown.enter)="openResult(result)"
+          (keydown.space)="openResult(result); $event.preventDefault()"
+          tabindex="0"
+          role="button"
+          [attr.aria-label]="'Open quiz result for lesson ' + result.lessonId">
 
           <div class="quiz-card-left">
 

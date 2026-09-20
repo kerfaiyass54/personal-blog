@@ -292,30 +292,6 @@
 .empty-state h2 { margin: 0 0 6px; color: #fff; font-size: 1.2rem; }
 .empty-state p { margin: 0 0 18px; font-size: .88rem; }
 
-.delete-backdrop {
-  position: fixed;
-  z-index: 1000;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 20px;
-  background: rgba(7, 2, 28, .72);
-  backdrop-filter: blur(8px);
-  animation: backdrop-enter .2s ease both;
-}
-
-.delete-dialog {
-  width: min(100%, 430px);
-  box-sizing: border-box;
-  padding: 28px;
-  border: 1px solid rgba(255, 137, 137, .25);
-  border-radius: 24px;
-  background: linear-gradient(145deg, rgba(39, 20, 58, .98), rgba(17, 10, 38, .98));
-  box-shadow: 0 28px 80px rgba(0, 0, 0, .5), inset 0 1px rgba(255, 255, 255, .1);
-  text-align: center;
-  animation: dialog-enter .3s cubic-bezier(.2, .8, .2, 1) both;
-}
-
 .delete-icon {
   display: grid;
   width: 54px;
@@ -446,6 +422,5 @@
 @keyframes line-in { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
 @keyframes sparkle { 0%, 100% { transform: scale(1) rotate(0); opacity: .75; } 50% { transform: scale(1.2) rotate(12deg); opacity: 1; } }
 @keyframes ambient-float { from { transform: translate3d(-16px, -10px, 0) scale(.9); } to { transform: translate3d(18px, 14px, 0) scale(1.1); } }
-@keyframes backdrop-enter { from { opacity: 0; } to { opacity: 1; } }
 @keyframes dialog-enter { from { opacity: 0; transform: translateY(12px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes spin { to { transform: rotate(360deg); } }

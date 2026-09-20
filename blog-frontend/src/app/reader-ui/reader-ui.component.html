@@ -3,15 +3,13 @@
     [lesson]="lessons"
     [skill]="skills"
     [articles]="articles"
-  [role]="'reader'">
+    [role]="'reader'">
   </app-nav-bar>
-@if(loading){
-<app-loader></app-loader>
-}
-  @else(){
+  @if (loading) {
+    <app-loader></app-loader>
+  } @else {
     <main class="content">
       <router-outlet></router-outlet>
     </main>
   }
-
 </div>

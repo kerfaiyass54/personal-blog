@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import {
   ReaderService,
-  ArticleDisplayDTO,
-  SavedDTO
+  ArticleDisplayDTO
 } from '../services/reader.service';
 
 @Component({
@@ -24,7 +23,8 @@ export class CheckingArticlesComponent implements OnInit {
   private readonly toastr = inject(ToastrService);
 
   articles = signal<ArticleDisplayDTO[]>([]);
-  savedArticles = signal<SavedDTO[]>([]);
+  loading = signal(true);
+  errorMessage = signal('');
 
   readonly email =
     sessionStorage.getItem('email') ?? '';
@@ -34,23 +34,23 @@ export class CheckingArticlesComponent implements OnInit {
   }
 
   loadArticles(): void {
-
+    this.loading.set(true);
+    this.errorMessage.set('');
     this.readerService.getAllArticles().subscribe({
       next: (articles) => {
         this.articles.set(articles);
+        this.loading.set(false);
+      },
+      error: () => {
+        this.loading.set(false);
+        this.errorMessage.set('Articles could not be loaded right now.');
+        this.toastr.error('Failed to load articles');
       }
     });
   }
 
-  loadSavedArticles(): void {
-
-    this.readerService
-      .getSavedArticles(this.email)
-      .subscribe({
-        next: (saved) => {
-          this.savedArticles.set(saved);
-        }
-      });
+  openSavedArticles(): void {
+    this.router.navigate(['/reader/saved-articles']);
   }
 
   readArticle(id: string): void {
@@ -62,7 +62,10 @@ export class CheckingArticlesComponent implements OnInit {
   }
 
   saveArticle(articleId: string): void {
-
+    if (!this.email) {
+      this.toastr.warning('Sign in to save articles');
+      return;
+    }
     this.readerService
       .saveArticle(
         this.email,
@@ -76,7 +79,6 @@ export class CheckingArticlesComponent implements OnInit {
             'Article saved successfully'
           );
 
-          this.loadSavedArticles();
         },
 
         error: () => {
@@ -88,25 +90,4 @@ export class CheckingArticlesComponent implements OnInit {
       });
   }
 
-  removeSavedArticle(
-    articleId: string
-  ): void {
-
-    this.readerService
-      .removeSavedArticle(
-        this.email,
-        articleId
-      )
-      .subscribe({
-
-        next: () => {
-
-          this.toastr.success(
-            'Removed from saved'
-          );
-
-          this.loadSavedArticles();
-        }
-      });
-  }
 }

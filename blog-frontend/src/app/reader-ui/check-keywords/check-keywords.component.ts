@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -42,6 +42,16 @@ export class CheckKeywordsComponent implements OnInit {
 
   keywordSearch = '';
 
+  constructor(private readonly cdr: ChangeDetectorRef) {}
+
+  get filteredGeneratedKeywords(): string[] {
+    const search = this.keywordSearch.trim().toLowerCase();
+    if (!search) return this.generatedKeywords;
+    return this.generatedKeywords.filter(keyword =>
+      keyword.toLowerCase().includes(search)
+    );
+  }
+
   ngOnInit(): void {
     this.loadSkills();
   }
@@ -53,6 +63,7 @@ export class CheckKeywordsComponent implements OnInit {
       .subscribe({
         next: skills => {
           this.skills = skills;
+          this.cdr.markForCheck();
         }
       });
   }
@@ -75,11 +86,13 @@ export class CheckKeywordsComponent implements OnInit {
 
           this.generatedKeywords =
             response.keywords ?? [];
+          this.cdr.markForCheck();
 
         },
         error: () => {
 
           this.generatedKeywords = [];
+          this.cdr.markForCheck();
 
         }
       });
@@ -96,24 +109,24 @@ export class CheckKeywordsComponent implements OnInit {
     this.keywordService
       .publishSkill(this.selectedSkill)
       .subscribe({
-        next: (response: any) => {
-
-          /*
-           Expected:
-           {
-             skill: "Python",
-             keywords: [...]
-           }
-          */
-          this.onSkillChange();
-
-          this.keywords =
-            response?.keywords ?? [];
-
-          this.loading = false;
+        next: () => {
+          this.keywordsService.getKeywordsBySkill(this.selectedSkill).subscribe({
+            next: response => {
+              const generatedKeywords = response.keywords ?? [];
+              this.generatedKeywords = generatedKeywords;
+              this.keywords = generatedKeywords;
+              this.loading = false;
+              this.cdr.markForCheck();
+            },
+            error: () => {
+              this.loading = false;
+              this.cdr.markForCheck();
+            }
+          });
         },
         error: () => {
           this.loading = false;
+          this.cdr.markForCheck();
         }
       });
   }

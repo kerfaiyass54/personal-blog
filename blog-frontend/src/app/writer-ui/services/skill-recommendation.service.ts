@@ -12,6 +12,8 @@ export class SkillRecommendationService {
   private readonly apiUrl = 'http://localhost:8083/api/skills-recommendations';
 
   getLatestRecommendationsByField(field: string): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/${field}`);
+    return this.http.get<string[]>(
+      `${this.apiUrl}/${encodeURIComponent(field)}`
+    );
   }
 }

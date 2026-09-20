@@ -152,12 +152,7 @@
   overflow: hidden;
   font-family: var(--font);
   box-shadow: 0 32px 80px rgba(0,0,0,.22);
-  animation: modalIn .35s cubic-bezier(.22,.68,0,1.2) both;
-}
-
-@keyframes modalIn {
-  from { opacity: 0; transform: scale(.94) translateY(16px); }
-  to   { opacity: 1; transform: none; }
+  font-family: inherit;
 }
 
 /* ── Modal Header ─────────────────────────────────────────── */
@@ -524,9 +519,6 @@
 }
 .usm-title { color:#f7f7ff; }
 .usm-subtitle { color:#a7a8c5; }
-.usm-modal { border:1px solid rgba(255,255,255,.14); background:#171a38; box-shadow:0 2rem 5rem rgba(0,0,0,.4); backdrop-filter:blur(18px); }
-.usm-modal-body { background:#121531; }
-.usm-modal-footer { border-color:var(--border); background:#171a38; }
 .usm-detail-row { border-color:var(--border); background:rgba(255,255,255,.045); }
 .usm-detail-value, .usm-detail-label, .usm-label { color:var(--text-primary); }
 .usm-input { color:#fff; border-color:var(--border); background:rgba(255,255,255,.06); }
@@ -534,4 +526,4 @@
 .usm-cancel { color:#c5c6df; border-color:var(--border); }
 .usm-loading { background:rgba(11,13,32,.72); backdrop-filter:blur(8px); }
 @keyframes social-in { from { opacity:0; transform:translateY(1rem); } to { opacity:1; transform:none; } }
-@media (prefers-reduced-motion: reduce) { .usm-page, .usm-modal, .usm-form-field { animation:none; } }
+@media (prefers-reduced-motion: reduce) { .usm-page, .usm-form-field { animation:none; } }

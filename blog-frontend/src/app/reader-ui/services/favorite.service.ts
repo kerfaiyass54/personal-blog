@@ -19,20 +19,20 @@ export class FavoriteService {
 
   getFavoriteSkills(email: string): Observable<FavoriteDTO[]> {
     return this.http.get<FavoriteDTO[]>(
-      `${this.apiUrl}/${email}`
+      `${this.apiUrl}/${encodeURIComponent(email)}`
     );
   }
 
   addFavoriteSkill(email: string, skillId: string): Observable<FavoriteDTO> {
     return this.http.post<FavoriteDTO>(
-      `${this.apiUrl}/${email}/${skillId}`,
+      `${this.apiUrl}/${encodeURIComponent(email)}/${encodeURIComponent(skillId)}`,
       {}
     );
   }
 
   removeFavoriteSkill(email: string, skillId: string): Observable<string> {
     return this.http.delete(
-      `${this.apiUrl}/${email}/${skillId}`,
+      `${this.apiUrl}/${encodeURIComponent(email)}/${encodeURIComponent(skillId)}`,
       { responseType: 'text' }
     );
   }

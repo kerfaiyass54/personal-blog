@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import {
   Component,
   OnInit,
@@ -10,7 +10,7 @@ import {
 } from '@angular/common';
 
 import { Flashcard } from '../../models/flashcard.model';
-import { FlashcardService } from '../services/flashcard.service';
+import { FlashcardService } from '../../writer-ui/services/flashcard.service';
 
 declare const bootstrap: any;
 
@@ -33,6 +33,8 @@ export class CheckFlashcardsComponent implements OnInit {
 
   loading = true;
 
+  constructor(private readonly cdr: ChangeDetectorRef) {}
+
   ngOnInit(): void {
 
     this.loadFlashcards();
@@ -51,6 +53,7 @@ export class CheckFlashcardsComponent implements OnInit {
           this.flashcards = cards;
 
           this.loading = false;
+          this.cdr.markForCheck();
         },
 
         error: err => {
@@ -61,6 +64,7 @@ export class CheckFlashcardsComponent implements OnInit {
           );
 
           this.loading = false;
+          this.cdr.markForCheck();
         }
       });
   }
@@ -72,13 +76,9 @@ export class CheckFlashcardsComponent implements OnInit {
     this.selectedFlashcard =
       flashcard;
 
-    const modal =
-      new bootstrap.Modal(
-        document.getElementById(
-          'flashcardModal'
-        )
-      );
+    const modalElement = document.getElementById('flashcardModal');
+    if (!modalElement) return;
 
-    modal.show();
+    new bootstrap.Modal(modalElement).show();
   }
 }

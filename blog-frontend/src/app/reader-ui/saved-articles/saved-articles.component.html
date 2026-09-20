@@ -1,6 +1,10 @@
 <div class="page">
 
   <div class="header">
+    <button type="button" class="back-btn" (click)="goBack()">
+      <span aria-hidden="true">←</span>
+      Back to articles
+    </button>
     <h1>Saved Articles</h1>
   </div>
 
@@ -37,20 +41,6 @@
               <h2>
                 {{ article.title }}
               </h2>
-
-            </div>
-
-            <div class="dates">
-
-              <span>
-                Created:
-                {{ article.dateInsert | date:'mediumDate' }}
-              </span>
-
-              <span>
-                Updated:
-                {{ article.dateUpdate | date:'mediumDate' }}
-              </span>
 
             </div>
 

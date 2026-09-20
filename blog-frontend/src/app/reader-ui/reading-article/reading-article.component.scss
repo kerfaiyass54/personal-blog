@@ -1,7 +1,31 @@
+@use '../reader-theme' as reader-theme;
+
+@include reader-theme.unified-reader-theme;
+
 :host {
   display: block;
   min-height: 100vh;
   padding: 3rem 1.5rem;
+}
+
+.reader-container, .lesson-card, .question-card { will-change: transform; }
+.lesson-card { transition: transform .35s ease, box-shadow .35s ease; }
+.lesson-card:hover { transform: translateY(-4px); }
+.progress-buttons button:focus-visible,
+.generate-quiz-btn:focus-visible,
+.submit-quiz-btn:focus-visible,
+.save-quiz-btn:focus-visible,
+.answer-option:focus-within {
+  outline: 3px solid rgba(127,57,251,.45);
+  outline-offset: 3px;
+}
+.question-card:nth-child(2) { animation-delay: .08s; }
+.question-card:nth-child(3) { animation-delay: .16s; }
+@media (prefers-reduced-motion: reduce) {
+  .reader-container, .lesson-card, .question-card, .result-circle, .loader {
+    animation: none; transition: none;
+  }
+  .lesson-card:hover, .generate-quiz-btn:hover { transform: none; }
 }
 
 .page {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import {
   Component,
   OnInit,
@@ -43,6 +43,8 @@ export class CheckQuizzesComponent
 
   email = '';
 
+  constructor(private readonly cdr: ChangeDetectorRef) {}
+
   ngOnInit(): void {
 
     this.email =
@@ -53,6 +55,7 @@ export class CheckQuizzesComponent
     if (!this.email) {
 
       this.loading = false;
+      this.cdr.markForCheck();
 
       return;
     }
@@ -66,6 +69,7 @@ export class CheckQuizzesComponent
           this.results = results;
 
           this.loading = false;
+          this.cdr.markForCheck();
         },
 
         error: error => {
@@ -73,6 +77,7 @@ export class CheckQuizzesComponent
           console.error(error);
 
           this.loading = false;
+          this.cdr.markForCheck();
         }
       });
   }
@@ -84,14 +89,10 @@ export class CheckQuizzesComponent
     this.selectedResult =
       result;
 
-    const modal =
-      new bootstrap.Modal(
-        document.getElementById(
-          'quizResultModal'
-        )
-      );
+    const modalElement = document.getElementById('quizResultModal');
+    if (!modalElement) return;
 
-    modal.show();
+    new bootstrap.Modal(modalElement).show();
   }
 
   getGrade(

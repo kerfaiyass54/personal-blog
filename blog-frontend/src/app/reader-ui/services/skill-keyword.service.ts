@@ -14,7 +14,7 @@ export class SkillKeywordService {
 
   publishSkill(skill: string): Observable<string> {
     return this.http.post(
-      `${this.apiUrl}/publish/${encodeURIComponent(skill)}`,
+      `${this.apiUrl}/${encodeURIComponent(skill)}`,
       {},
       {
         responseType: 'text'

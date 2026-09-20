@@ -294,29 +294,7 @@ textarea:focus {
   animation: spin .7s linear infinite;
 }
 
-.corrections-dialog {
-  overflow: hidden;
-  border: 1px solid rgba(150, 130, 255, .3);
-  border-radius: 22px;
-  color: #fff;
-  background: linear-gradient(145deg, #171035, #0e0923);
-  box-shadow: 0 25px 70px rgba(0, 0, 0, .45);
-}
-
-.modal.show .corrections-dialog {
-  animation: modal-enter .35s cubic-bezier(.2, .8, .2, 1) both;
-}
-
-.corrections-dialog .modal-header,
-.corrections-dialog .modal-footer {
-  border-color: rgba(255, 255, 255, .1);
-}
-
-.corrections-dialog .modal-header { padding: 22px 24px 16px; }
 .modal-title { margin: 5px 0 0; font-size: 1.35rem; font-weight: 800; }
-.modal-close { filter: invert(1); opacity: .75; }
-.corrections-dialog .modal-body { padding: 20px 24px; }
-.corrections-dialog .modal-footer { gap: 9px; padding: 14px 24px; }
 
 .mistake-card {
   margin-bottom: 13px;
@@ -375,8 +353,6 @@ textarea:focus {
   .editor-card { border-radius: 22px; }
   .actions { flex-direction: column; }
   .submit-btn, .review-btn { width: 100%; }
-  .corrections-dialog .modal-header,
-  .corrections-dialog .modal-body { padding-right: 17px; padding-left: 17px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -390,7 +366,6 @@ textarea:focus {
   .editor-header p,
   .back-btn,
   .button-loader,
-  .corrections-dialog,
   .mistake-card {
     animation: none;
     transition: none;
@@ -405,5 +380,4 @@ textarea:focus {
 @keyframes sparkle { 0%, 100% { transform: scale(1) rotate(0); opacity: .75; } 50% { transform: scale(1.2) rotate(12deg); opacity: 1; } }
 @keyframes ambient-float { from { transform: translate3d(-16px, -10px, 0) scale(.9); } to { transform: translate3d(18px, 14px, 0) scale(1.1); } }
 @keyframes spin { to { transform: rotate(360deg); } }
-@keyframes modal-enter { from { opacity: 0; transform: translateY(-18px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes mistake-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }

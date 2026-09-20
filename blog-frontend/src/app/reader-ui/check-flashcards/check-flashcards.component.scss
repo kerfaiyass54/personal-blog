@@ -1,8 +1,138 @@
+@use '../reader-theme' as reader-theme;
+
+@include reader-theme.unified-reader-theme;
+
 :host {
   display: block;
   width: 100%;
   min-height: 50vh;
 }
+
+.page, .flashcard-preview { will-change: transform; }
+.page { animation: flashcards-page-enter .6s cubic-bezier(.22,1,.36,1) both; }
+.header { animation: flashcards-header-enter .65s .08s cubic-bezier(.22,1,.36,1) both; }
+.flashcard-preview {
+  transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease;
+  animation: flashcard-card-enter .5s cubic-bezier(.22,1,.36,1) both;
+}
+.flashcard-preview:nth-child(2) { animation-delay: .08s; }
+.flashcard-preview:nth-child(3) { animation-delay: .16s; }
+.flashcard-preview:focus-visible, .btn-close:focus-visible {
+  outline: 3px solid rgba(140,82,255,.5);
+  outline-offset: 4px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .page, .flashcard-preview, .counter, .loader { animation: none; transition: none; }
+  .flashcard-preview:hover { transform: none; }
+}
+
+  .badge,
+  .counter,
+  .flashcard-preview,
+  .flashcard-type {
+    transform: translateZ(0);
+  }
+
+  .badge {
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+
+  .badge:hover {
+    transform: translateY(-3px) rotate(-1deg);
+    box-shadow: 0 0 2rem rgba(140,82,255,.65);
+  }
+
+  .counter {
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+
+  .counter:hover {
+    transform: scale(1.04);
+    box-shadow: 0 0 4rem rgba(140,82,255,.7);
+  }
+
+  .flashcard-preview:focus-visible {
+    outline: 3px solid rgba(210,185,255,.8);
+    outline-offset: 5px;
+  }
+
+  .flashcard-preview:hover .lesson-title {
+    letter-spacing: 1.6px;
+  }
+
+  .lesson-title,
+  .keyword,
+  .open-text {
+    transition: transform .3s ease, color .3s ease, letter-spacing .3s ease;
+  }
+
+  .flashcard-preview:hover .keyword {
+    transform: translateX(5px);
+  }
+
+  .flashcard-preview:hover .open-text {
+    color: rgba(255,255,255,.9);
+    transform: translateX(5px);
+  }
+
+  .flashcard-glow {
+    position: absolute;
+    inset: -40%;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle, rgba(210,185,255,.22), transparent 55%);
+    transform: scale(.7);
+    transition: opacity .45s ease, transform .55s ease;
+  }
+
+  .flashcard-preview:hover .flashcard-glow {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .flashcard-type {
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+
+  .flashcard-type:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 .6rem 1.4rem rgba(140,82,255,.3);
+  }
+
+  @keyframes flashcards-page-enter {
+    from { opacity: 0; transform: translateY(1rem); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes flashcards-header-enter {
+    from { opacity: 0; transform: translateY(-.7rem); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @keyframes flashcard-card-enter {
+    from { opacity: 0; transform: translateY(1rem) scale(.98); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 700px) {
+    .page { padding: 1rem; }
+    .header { align-items: flex-start; flex-direction: column; gap: 1.25rem; }
+    .header h1 { font-size: 2.5rem; }
+    .counter { width: 120px; height: 120px; font-size: 2.2rem; }
+    .flashcard-preview { min-height: 120px; padding: 1.5rem; }
+    .keyword { font-size: 1.5rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .page, .header, .flashcard-preview {
+      animation: none;
+      transition: none;
+    }
+    .badge:hover, .counter:hover, .flashcard-preview:hover,
+    .flashcard-preview:hover .keyword, .flashcard-preview:hover .open-text,
+    .flashcard-type:hover { transform: none; }
+    .flashcard-glow { display: none; }
+  }
 
 .page {
 
@@ -342,94 +472,6 @@
     spin .8s linear infinite;
 }
 
-.modern-modal {
-
-  background:
-    rgba(20,20,35,.9);
-
-  backdrop-filter:
-    blur(40px);
-
-  border:
-    1px solid rgba(255,255,255,.1);
-
-  border-radius: 35px;
-
-  overflow: hidden;
-
-  color: white;
-
-  box-shadow:
-    0 30px 80px rgba(0,0,0,.5);
-}
-
-.modal-header {
-
-  padding: 25px 30px;
-}
-
-.modal-header h4 {
-
-  font-size: 2rem;
-
-  font-weight: 800;
-
-  color: white;
-}
-
-.flashcard-full {
-
-  padding: 10px 30px 40px;
-}
-
-.flashcard-type {
-
-  display: inline-flex;
-
-  padding: 10px 20px;
-
-  border-radius: 999px;
-
-  color: white;
-
-  font-size: .8rem;
-
-  font-weight: 700;
-
-  background:
-    linear-gradient(
-        135deg,
-        #8c52ff,
-        #5e60ff
-    );
-
-  margin-bottom: 25px;
-}
-
-.flashcard-key {
-
-  color: white;
-
-  font-size: 3rem;
-
-  font-weight: 900;
-
-  margin-bottom: 25px;
-}
-
-.flashcard-value {
-
-  color: rgba(255,255,255,.8);
-
-  font-size: 1.25rem;
-
-  line-height: 2;
-}
-
-.btn-close {
-
-  filter: invert(1);
-}
 
 @keyframes spin {
 
@@ -473,3 +515,57 @@
       translateX(0);
   }
 }
+
+/* Keep the library readable on the shared light reader surface. */
+.page {
+  min-height: 0;
+  padding: clamp(1.25rem, 3vw, 2.5rem);
+  color: #202342;
+}
+
+.header h1 {
+  color: #202342;
+  letter-spacing: -.045em;
+  text-shadow: none;
+}
+
+.header p { color: #69708f; }
+.badge { box-shadow: 0 10px 24px rgba(92, 74, 214, .24); }
+
+.counter {
+  color: #25264b;
+  background: linear-gradient(145deg, rgba(255, 255, 255, .96), rgba(239, 235, 255, .94));
+  border-color: rgba(110, 91, 211, .18);
+  box-shadow: 0 18px 38px rgba(82, 71, 160, .16);
+}
+
+.counter span { color: #737895; }
+
+.cards-grid {
+  max-height: min(68vh, 720px);
+  padding: 4px 12px 10px 4px;
+  scrollbar-color: #7760df rgba(111, 94, 202, .1);
+}
+
+.cards-grid::-webkit-scrollbar-track { background: rgba(111, 94, 202, .08); }
+
+.flashcard-preview {
+  min-height: 148px;
+  padding: clamp(1.35rem, 3vw, 2rem);
+  border-color: rgba(107, 92, 198, .16);
+  background: rgba(255, 255, 255, .88);
+  box-shadow: 0 14px 30px rgba(63, 55, 130, .1);
+}
+
+.flashcard-preview:hover {
+  border-color: rgba(73, 105, 230, .34);
+  background: #fff;
+  box-shadow: 0 20px 42px rgba(66, 86, 188, .18), -8px 0 28px rgba(75, 116, 239, .1), 8px 0 28px rgba(224, 77, 132, .08);
+}
+
+.lesson-title { color: #6757b8; }
+.keyword { color: #222747; }
+.open-text { color: #747a98; }
+.flashcard-preview:hover .open-text { color: #4b57a4; }
+.loading-container { color: #4b5072; }
+.loader { border-color: rgba(95, 83, 182, .16); border-top-color: #6855d4; }
