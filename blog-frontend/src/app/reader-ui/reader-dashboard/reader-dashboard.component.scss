@@ -1,3 +1,5 @@
+@use '../reader-theme' as reader-theme;
+
 :host {
   display: block;
   min-height: 60vh;
@@ -222,3 +224,5 @@
 .stat-card .icon {
   filter: drop-shadow(0 0 .8rem rgba(196,181,253,.35));
 }
+
+@include reader-theme.unified-reader-theme;

@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import {
   ReaderService,
-  ArticleDisplayDTO,
-  SavedDTO
+  ArticleDisplayDTO
 } from '../services/reader.service';
 
 @Component({
@@ -24,9 +23,7 @@ export class CheckingArticlesComponent implements OnInit {
   private readonly toastr = inject(ToastrService);
 
   articles = signal<ArticleDisplayDTO[]>([]);
-  savedArticles = signal<SavedDTO[]>([]);
   loading = signal(true);
-  savedLoading = signal(false);
   errorMessage = signal('');
 
   readonly email =
@@ -52,25 +49,8 @@ export class CheckingArticlesComponent implements OnInit {
     });
   }
 
-  loadSavedArticles(): void {
-    if (!this.email) {
-      this.toastr.warning('Sign in to view saved articles');
-      return;
-    }
-
-    this.savedLoading.set(true);
-    this.readerService
-      .getSavedArticles(this.email)
-      .subscribe({
-        next: (saved) => {
-          this.savedArticles.set(saved);
-          this.savedLoading.set(false);
-        },
-        error: () => {
-          this.savedLoading.set(false);
-          this.toastr.error('Failed to load saved articles');
-        }
-      });
+  openSavedArticles(): void {
+    this.router.navigate(['/reader/saved-articles']);
   }
 
   readArticle(id: string): void {
@@ -99,7 +79,6 @@ export class CheckingArticlesComponent implements OnInit {
             'Article saved successfully'
           );
 
-          this.loadSavedArticles();
         },
 
         error: () => {
@@ -111,28 +90,4 @@ export class CheckingArticlesComponent implements OnInit {
       });
   }
 
-  removeSavedArticle(
-    articleId: string
-  ): void {
-    if (!this.email) {
-      this.toastr.warning('Sign in to manage saved articles');
-      return;
-    }
-    this.readerService
-      .removeSavedArticle(
-        this.email,
-        articleId
-      )
-      .subscribe({
-
-        next: () => {
-
-          this.toastr.success(
-            'Removed from saved'
-          );
-
-          this.loadSavedArticles();
-        }
-      });
-  }
 }

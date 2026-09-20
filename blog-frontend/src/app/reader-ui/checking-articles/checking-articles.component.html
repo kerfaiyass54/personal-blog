@@ -8,9 +8,7 @@
       type="button"
       class="saved-btn"
       aria-label="Open saved articles"
-      data-bs-toggle="modal"
-      data-bs-target="#savedModal"
-      (click)="loadSavedArticles()">
+      (click)="openSavedArticles()">
 
       Saved Articles
     </button>
@@ -32,32 +30,40 @@
 
     @for(article of articles(); track article.id){
 
-      <article class="article-card">
+      <article
+        class="article-card"
+        tabindex="0"
+        [attr.aria-label]="article.title"
+      >
 
-        <h2>
+        <h2 class="article-title">
           {{ article.title }}
         </h2>
 
-        <p class="article-preview">{{ article.content }}</p>
+        <div class="article-details">
+          <p class="article-preview">{{ article.content }}</p>
 
-        <div class="actions">
+          <div class="actions">
 
-          <button
-            type="button"
-            class="read-btn"
-            [attr.aria-label]="'Read ' + article.title"
-            (click)="readArticle(article.id)">
-            Read
-          </button>
+            <button
+              type="button"
+              class="read-btn"
+              [attr.aria-label]="'Read ' + article.title"
+              (click)="readArticle(article.id)"
+            >
+              Read article
+            </button>
 
-          <button
-            type="button"
-            class="save-btn"
-            [attr.aria-label]="'Save ' + article.title"
-            (click)="saveArticle(article.id)">
-            Save
-          </button>
+            <button
+              type="button"
+              class="save-btn"
+              [attr.aria-label]="'Save ' + article.title"
+              (click)="saveArticle(article.id)"
+            >
+              Save
+            </button>
 
+          </div>
         </div>
 
       </article>
@@ -71,91 +77,5 @@
     }
   </div>
   }
-
-</div>
-
-<!-- Modal -->
-
-<div
-  class="modal fade"
-  id="savedModal"
-  data-bs-backdrop="static"
-  data-bs-keyboard="false"
-  tabindex="-1">
-
-  <div class="modal-dialog modal-lg">
-
-    <div class="modal-content">
-
-      <div class="modal-header">
-
-        <h1 class="modal-title fs-5">
-          Saved Articles
-        </h1>
-
-        <button
-          type="button"
-          class="modal-close"
-          aria-label="Close saved articles"
-          data-bs-dismiss="modal">
-        </button>
-
-      </div>
-
-      <div class="modal-body">
-
-        @if (savedLoading()) {
-          <div class="saved-state" role="status">
-            <span class="loader" aria-hidden="true"></span>
-            <p>Loading saved articles...</p>
-          </div>
-        } @else {
-        <div class="saved-container">
-
-          @if(savedArticles().length === 0){
-
-            <p>No saved articles.</p>
-
-          }
-
-          @for(saved of savedArticles(); track saved.id){
-
-            <div class="saved-card">
-
-              <div>
-                Article ID:
-                {{ saved.articleId }}
-              </div>
-
-              <button
-                type="button"
-                class="remove-btn"
-                [attr.aria-label]="'Remove saved article ' + saved.articleId"
-                (click)="removeSavedArticle(saved.articleId)">
-                Remove
-              </button>
-
-            </div>
-          }
-
-        </div>
-        }
-
-      </div>
-
-      <div class="modal-footer">
-
-        <button
-          type="button"
-          class="modal-action"
-          data-bs-dismiss="modal">
-          Close
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
 
 </div>

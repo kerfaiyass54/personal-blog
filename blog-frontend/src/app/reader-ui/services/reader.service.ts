@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, of, throwError } from 'rxjs';
 
 export interface ArticleDisplayDTO {
   id: string;
@@ -64,6 +65,14 @@ export class ReaderService {
 
     return this.http.get<SavedDTO[]>(
       `${this.savedUrl}/${encodeURIComponent(userEmail)}`
+    ).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          return of([]);
+        }
+
+        return throwError(() => error);
+      })
     );
   }
 

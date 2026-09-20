@@ -1,3 +1,7 @@
+@use '../reader-theme' as reader-theme;
+
+@include reader-theme.unified-reader-theme;
+
 :host {
   display: block;
   min-height: 60vh;
@@ -292,6 +296,7 @@ option {
 
     font-weight: 700;
   }
+
 }
 
 .chip.existing {
