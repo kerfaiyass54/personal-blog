@@ -2,6 +2,7 @@ fastapi
 uvicorn
 openai
 kafka-python
+confluent-kafka
 pydantic
 python-dotenv
 google-genai

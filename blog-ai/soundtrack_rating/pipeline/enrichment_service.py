@@ -1,12 +1,24 @@
 import json
+import sys
+from pathlib import Path
+
+# Allow this file to be started directly from the pipeline directory.
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
+
 import joblib
 
 from kafka import KafkaConsumer, KafkaProducer
 from elasticsearch import Elasticsearch
 from datetime import datetime
 
-from config import *
-from utils import fetch_features, prepare_features
+try:
+    from .config import *
+    from .utils import fetch_features, prepare_features
+except ImportError:
+    from pipeline.config import *
+    from pipeline.utils import fetch_features, prepare_features
 
 # ===============================
 # LOAD MODEL
@@ -38,7 +50,7 @@ producer = KafkaProducer(
 # ===============================
 es = Elasticsearch(ELASTIC_URL)
 
-print("🚀 AI Service Running...")
+print("AI service running...")
 
 # ===============================
 # CONSUME LOOP
@@ -49,7 +61,7 @@ for msg in consumer:
 
         data = msg.value
 
-        print("\n📥 Received:", data)
+        print("\nReceived:", data)
 
         # ===============================
         # ENRICHMENT
@@ -61,7 +73,7 @@ for msg in consumer:
             **features
         }
 
-        print("🧠 Enriched:", enriched)
+        print("Enriched:", enriched)
 
         # ===============================
         # PREPARE FEATURES
@@ -89,7 +101,7 @@ for msg in consumer:
         # ===============================
         producer.send(TOPIC_RATED, result)
 
-        print("📤 Sent:", result)
+        print("Sent:", result)
 
         # ===============================
         # SAVE TO ELASTICSEARCH

@@ -1,7 +1,11 @@
+from pathlib import Path
+
+
 # ===============================
 # 📁 FILE PATHS
 # ===============================
-DATA_PATH = "data/Song.csv"
+BASE_DIR = Path(__file__).resolve().parents[1]
+DATA_PATH = BASE_DIR / "data" / "Song.csv"
 
 # ===============================
 # 🎯 TARGET
@@ -46,4 +50,4 @@ INDEX_NAME = "soundtracks"
 # ===============================
 # 🤖 MODEL
 # ===============================
-MODEL_PATH = "models/random_forest_model.pkl"
+MODEL_PATH = BASE_DIR / "models" / "random_forest_model.pkl"

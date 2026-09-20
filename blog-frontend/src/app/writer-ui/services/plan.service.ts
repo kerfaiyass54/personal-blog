@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environment';
 
 export interface OutlineSection {
   heading: string;
@@ -44,7 +45,7 @@ export class PlanService {
   private http = inject(HttpClient);
 
   private readonly AI_API =
-    'http://localhost:8000/api';
+    environment.aiPlannerApiUrl + '/api';
 
   private readonly SPRING_API =
     'http://localhost:8083/api/plans';

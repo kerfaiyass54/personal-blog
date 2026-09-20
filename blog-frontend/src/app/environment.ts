@@ -3,5 +3,8 @@ export const environment = {
 
   springApiUrl: 'http://localhost:8083/api',
 
-  aiApiUrl: 'http://localhost:8000'
+  aiPlannerApiUrl: 'http://localhost:8000',
+  articleCorrectorApiUrl: 'http://localhost:8001',
+  flashcardApiUrl: 'http://localhost:8002',
+  quizApiUrl: 'http://localhost:8003'
 };

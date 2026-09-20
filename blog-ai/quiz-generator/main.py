@@ -20,3 +20,8 @@ app.include_router(
     prefix="/quiz",
     tags=["Quiz"]
 )
+
+
+@app.get("/health")
+def health():
+    return {"status": "UP"}

@@ -35,6 +35,7 @@ import {
 import {
   UserQuizResult
 } from '../../models/user-quiz-result.model';
+import { environment } from '../../environment';
 
 @Injectable({
   providedIn: 'root'
@@ -54,7 +55,7 @@ export class QuizService {
    * Python AI Generator
    */
   private readonly PYTHON_API =
-    'http://localhost:8000';
+    environment.quizApiUrl;
 
   // ====================================================
   // PYTHON
