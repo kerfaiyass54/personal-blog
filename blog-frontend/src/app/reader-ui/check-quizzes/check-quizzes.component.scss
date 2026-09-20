@@ -23,8 +23,7 @@
 }
 
 .header-section,
-.stats-card,
-.modern-modal {
+.stats-card {
   transform: translateZ(0);
 }
 
@@ -62,10 +61,6 @@
 .quiz-card:focus-visible {
   outline: 3px solid rgba(95,108,255,.55);
   outline-offset: 5px;
-}
-
-.modern-modal {
-  animation: quiz-modal-enter .35s cubic-bezier(.22,1,.36,1) both;
 }
 
 .answer-card {
@@ -106,11 +101,6 @@
   to { opacity: 1; transform: none; }
 }
 
-@keyframes quiz-modal-enter {
-  from { opacity: 0; transform: translateY(.7rem) scale(.98); }
-  to { opacity: 1; transform: none; }
-}
-
 @keyframes answer-enter {
   from { opacity: 0; transform: translateY(.5rem); }
   to { opacity: 1; transform: none; }
@@ -125,7 +115,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .quiz-page, .quiz-card, .header-section, .modern-modal,
+  .quiz-page, .quiz-card, .header-section,
   .answer-card, .header-icon, .loader {
     animation: none;
     transition: none;
@@ -360,15 +350,6 @@
 
   transform:
     translateX(8px);
-}
-
-.modern-modal {
-
-  border: none;
-
-  border-radius: 30px;
-
-  overflow: hidden;
 }
 
 .result-header {

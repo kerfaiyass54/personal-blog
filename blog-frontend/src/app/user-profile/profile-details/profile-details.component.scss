@@ -557,15 +557,10 @@ th.over { border-bottom: 3px solid #4f46e5; }
 
 /* ── Edit Modal ───────────────────────────────────────── */
 .edit-modal {
-  border: none;
-  border-radius: 20px;
-  overflow: hidden;
   font-family: var(--font-body);
 }
 
 .edit-modal-header {
-  background: linear-gradient(135deg, var(--brand) 0%, #3730a3 100%);
-  border: none;
   padding: 20px 28px;
 }
 
@@ -578,7 +573,6 @@ th.over { border-bottom: 3px solid #4f46e5; }
 
 .edit-modal-body {
   padding: 28px;
-  background: var(--bg);
 }
 
 .section-label {
@@ -713,8 +707,6 @@ th.over { border-bottom: 3px solid #4f46e5; }
 }
 
 .edit-modal-footer {
-  background: var(--surface);
-  border-top: 1px solid var(--border);
   padding: 16px 28px;
   gap: 10px;
 }
@@ -772,8 +764,7 @@ th.over { border-bottom: 3px solid #4f46e5; }
 .interests-section { background:transparent; }
 .interest-chip { color:#dcdcff; border-color:rgba(139,124,255,.25); background:var(--brand-light); }
 .interest-chip:hover { background:rgba(139,124,255,.26); }
-.edit-modal { color:var(--text-primary); border:1px solid var(--border); background:#171a38; }
-.edit-modal-body, .edit-modal-footer { background:#171a38; }
+.edit-modal { color:var(--text-primary); }
 .edit-label, .section-label { color:var(--text-secondary); }
 .edit-input { color:var(--text-primary); border-color:var(--border); background:rgba(255,255,255,.06); }
 .edit-input:focus { color:var(--text-primary); border-color:var(--brand); background:rgba(255,255,255,.08); box-shadow:0 0 0 3px rgba(139,124,255,.16); }

@@ -112,15 +112,7 @@
 .empty-state h2 { margin: 12px 0 6px; color: #fff; font-size: 1.3rem; }
 .empty-state p { margin: 0 0 18px; font-size: .88rem; }
 .empty-action { color: #fff; background: linear-gradient(105deg, #326ce9, #7735e9); }
-.modern-modal { overflow: hidden; border: 1px solid rgba(150, 130, 255, .3); border-radius: 22px; color: #fff; background: linear-gradient(145deg, #171035, #0e0923); box-shadow: 0 25px 70px rgba(0, 0, 0, .45); }
-.modal.show .modern-modal { animation: modal-enter .35s cubic-bezier(.2, .8, .2, 1) both; }
-.modern-modal .modal-header,
-.modern-modal .modal-footer { border-color: rgba(255, 255, 255, .1); }
-.modern-modal .modal-header { padding: 22px 24px 16px; }
 .modal-title { margin: 5px 0 4px; font-size: 1.35rem; font-weight: 800; }
-.modern-modal small { color: #b8b3ff; font-weight: 700; }
-.modern-modal .modal-body { padding: 20px 24px; }
-.modern-modal .modal-footer { gap: 9px; padding: 14px 24px; }
 .modal-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
 .stat-box { padding: 14px; border: 1px solid rgba(255, 255, 255, .1); border-radius: 15px; background: rgba(255, 255, 255, .06); }
 .stat-box span { display: block; color: rgba(231, 225, 255, .56); font-size: .7rem; }
@@ -142,8 +134,6 @@
 @media (max-width: 480px) {
   .page { padding-top: 14px; }
   .plan-card { min-height: 205px; padding: 18px; }
-  .modern-modal .modal-header,
-  .modern-modal .modal-body { padding-right: 17px; padding-left: 17px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -156,10 +146,6 @@
   .title-line,
   .plan-card,
   .loader,
-  .modern-modal {
-    animation: none;
-    transition: none;
-  }
 }
 
 @keyframes hero-enter { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
@@ -167,7 +153,6 @@
 @keyframes title-shine { from { background-position: 0% center; } to { background-position: 220% center; } }
 @keyframes line-in { from { opacity: 0; transform: scaleX(0); } to { opacity: 1; transform: scaleX(1); } }
 @keyframes card-enter { from { opacity: 0; transform: translateY(20px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@keyframes modal-enter { from { opacity: 0; transform: translateY(-18px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
 @keyframes outline-enter { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes sparkle { 0%, 100% { transform: scale(1) rotate(0); opacity: .75; } 50% { transform: scale(1.2) rotate(12deg); opacity: 1; } }
 @keyframes ambient-float { from { transform: translate3d(-16px, -10px, 0) scale(.9); } to { transform: translate3d(18px, 14px, 0) scale(1.1); } }

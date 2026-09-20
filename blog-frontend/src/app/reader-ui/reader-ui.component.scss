@@ -4,7 +4,8 @@
   width: 100%;
   max-width: 100%;
   overflow-x: clip;
-  animation: reader-shell-in .55s cubic-bezier(.22,1,.36,1) both;
+  position: relative;
+  z-index: 0;
 }
 
 /* Sidebar */
@@ -21,9 +22,8 @@
   width: calc(100% - 318px);
   margin: 28px 24px 0 318px;
   position: relative;
-  overflow-x: hidden;
+  overflow-x: visible;
   min-width: 0;
-  animation: reader-content-in .65s .08s cubic-bezier(.22,1,.36,1) both;
   transition: margin .3s ease, width .3s ease;
 }
 

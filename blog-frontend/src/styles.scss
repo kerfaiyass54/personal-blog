@@ -52,6 +52,30 @@ html, body {
   overflow-x: hidden;
 }
 
+/* Keep native Bootstrap dialogs usable without locking the routed page. */
+body.modal-open {
+  overflow: auto !important;
+  padding-right: 0 !important;
+}
+
+.modal-backdrop {
+  display: none !important;
+}
+
+.modal {
+  pointer-events: none;
+}
+
+.modal-dialog,
+.modal-content,
+.modal button,
+.modal a,
+.modal input,
+.modal select,
+.modal textarea {
+  pointer-events: auto;
+}
+
 
 * {
   font-family: "Inter", sans-serif;
