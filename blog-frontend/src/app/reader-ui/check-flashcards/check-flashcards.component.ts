@@ -1,84 +1,79 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import {
+  ChangeDetectionStrategy,
   Component,
+  HostListener,
   OnInit,
   inject
 } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
-
 import { Flashcard } from '../../models/flashcard.model';
 import { FlashcardService } from '../../writer-ui/services/flashcard.service';
-
-declare const bootstrap: any;
 
 @Component({
   selector: 'app-check-flashcards',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './check-flashcards.component.html',
   styleUrl: './check-flashcards.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CheckFlashcardsComponent implements OnInit {
 
-  private readonly flashcardService =
-    inject(FlashcardService);
+  private readonly flashcardService = inject(FlashcardService);
 
   flashcards: Flashcard[] = [];
-
-  selectedFlashcard?: Flashcard;
+  selectedFlashcard: Flashcard | null = null;
 
   loading = true;
-
-  constructor(private readonly cdr: ChangeDetectorRef) {}
+  errorMessage = '';
 
   ngOnInit(): void {
-
     this.loadFlashcards();
   }
 
   loadFlashcards(): void {
-
     this.loading = true;
+    this.errorMessage = '';
 
-    this.flashcardService
-      .getAllFlashcards()
-      .subscribe({
+    this.flashcardService.getAllFlashcards().subscribe({
+      next: (flashcards) => {
+        this.flashcards = flashcards ?? [];
+        this.loading = false;
+      },
 
-        next: cards => {
+      error: (error) => {
+        console.error('Unable to load flashcards:', error);
 
-          this.flashcards = cards;
-
-          this.loading = false;
-          this.cdr.markForCheck();
-        },
-
-        error: err => {
-
-          console.error(
-            'Error loading flashcards',
-            err
-          );
-
-          this.loading = false;
-          this.cdr.markForCheck();
-        }
-      });
+        this.flashcards = [];
+        this.loading = false;
+        this.errorMessage = 'Unable to load flashcards. Please try again.';
+      }
+    });
   }
 
-  openCard(
+  openCard(flashcard: Flashcard): void {
+    this.selectedFlashcard = flashcard;
+
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeCard(): void {
+    this.selectedFlashcard = null;
+
+    document.body.style.overflow = '';
+  }
+
+  @HostListener('document:keydown.escape')
+  handleEscape(): void {
+    if (this.selectedFlashcard) {
+      this.closeCard();
+    }
+  }
+
+  trackByFlashcard(
+    index: number,
     flashcard: Flashcard
-  ): void {
-
-    this.selectedFlashcard =
-      flashcard;
-
-    const modalElement = document.getElementById('flashcardModal');
-    if (!modalElement) return;
-
-    new bootstrap.Modal(modalElement).show();
+  ): string | number {
+    return flashcard.id ?? index;
   }
 }
