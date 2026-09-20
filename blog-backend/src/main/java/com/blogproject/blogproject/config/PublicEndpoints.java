@@ -45,6 +45,8 @@ public class PublicEndpoints {
 
             "/api/quizzes/**",
             "/sessions/**",
+            "/api/saved/**",
+            "/api/saved",
 
             "/api/lesson-readings/**",
 
