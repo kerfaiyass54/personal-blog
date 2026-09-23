@@ -1,150 +1,174 @@
-<div class="reader-dashboard">
+<main class="page">
+  <section class="reading-center" aria-labelledby="reading-center-title">
 
-  <div class="dashboard-header">
+    <header class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow">
+          <span class="eyebrow-icon" aria-hidden="true">▤</span>
+          Reading space
+        </div>
 
-    <div>
-      <h1>📚 Reading Center</h1>
-      <p>Track your learning journey</p>
-    </div>
-
-  </div>
-
-  <div class="categories">
-
-    <button
-      class="category-card all-card"
-      [class.active]="selectedTab === 'all'"
-      (click)="selectedTab = 'all'">
-
-      <div class="icon">
-        📖
+        <h1 id="reading-center-title">Reading Center</h1>
+        <p>Track your learning journey through your lessons.</p>
       </div>
 
-      <div class="content">
-        <h2>All Articles</h2>
-        <span>{{ lessons.length }} available</span>
+      <div class="hero-decoration" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </header>
+
+    <!-- Status filters -->
+    <nav class="status-grid" aria-label="Lesson filters">
+
+      <button
+        type="button"
+        class="status-card all"
+        [class.active]="selectedTab === 'all'"
+        (click)="selectedTab = 'all'">
+
+        <span class="status-icon" aria-hidden="true">📚</span>
+
+        <span class="status-content">
+          <strong>All Lessons</strong>
+          <small>{{ lessons.length }} available</small>
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="status-card reading"
+        [class.active]="selectedTab === 'reading'"
+        (click)="selectedTab = 'reading'">
+
+        <span class="status-icon" aria-hidden="true">🔥</span>
+
+        <span class="status-content">
+          <strong>Reading Now</strong>
+          <small>{{ readingLessons.length }} in progress</small>
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="status-card completed"
+        [class.active]="selectedTab === 'completed'"
+        (click)="selectedTab = 'completed'">
+
+        <span class="status-icon" aria-hidden="true">✓</span>
+
+        <span class="status-content">
+          <strong>Completed</strong>
+          <small>{{ completedLessons.length }} finished</small>
+        </span>
+      </button>
+
+    </nav>
+
+    <!-- Lessons -->
+    <section class="lessons-section" aria-labelledby="lessons-title">
+
+      <div class="section-heading">
+        <div>
+          <span class="section-kicker">
+            {{ selectedTab === 'all' ? 'YOUR LESSONS' :
+            selectedTab === 'reading' ? 'IN PROGRESS' : 'FINISHED' }}
+          </span>
+
+          <h2 id="lessons-title">
+            @if (selectedTab === 'all') {
+              All Lessons
+            } @else if (selectedTab === 'reading') {
+              Reading Now
+            } @else {
+              Completed Lessons
+            }
+          </h2>
+        </div>
+
+        <span class="section-count">
+          {{ currentLessons.length }}
+        </span>
       </div>
 
-    </button>
+      @if (currentLessons.length > 0) {
 
-    <button
-      class="category-card reading-card"
-      [class.active]="selectedTab === 'reading'"
-      (click)="selectedTab = 'reading'">
+        <div class="lesson-grid">
+          @for (lesson of currentLessons; track getLessonId(lesson)) {
 
-      <div class="icon">
-        🔥
-      </div>
+            <article class="lesson-card">
 
-      <div class="content">
-        <h2>Reading Now</h2>
-        <span>{{ readingLessons.length }} in progress</span>
-      </div>
+              <div class="lesson-card-glow" aria-hidden="true"></div>
 
-    </button>
+              <div class="lesson-icon" aria-hidden="true">
+                📖
+              </div>
 
-    <button
-      class="category-card completed-card"
-      [class.active]="selectedTab === 'completed'"
-      (click)="selectedTab = 'completed'">
+              <div class="lesson-body">
+                <span class="lesson-type">LESSON</span>
 
-      <div class="icon">
-        ✅
-      </div>
+                <h3>
+                  {{ getLessonTitle(lesson) }}
+                </h3>
 
-      <div class="content">
-        <h2>Completed</h2>
-        <span>{{ completedLessons.length }} finished</span>
-      </div>
+                @if (selectedTab === 'reading') {
+                  <div class="progress-row">
+                    <span>Progress</span>
+                    <strong>{{ getProgress(lesson) }}%</strong>
+                  </div>
 
-    </button>
+                  <div class="progress-track">
+                    <span [style.width.%]="getProgress(lesson)"></span>
+                  </div>
+                }
 
-  </div>
+                @if (selectedTab === 'completed') {
+                  <span class="completed-label">
+                    ✓ Completed
+                  </span>
+                }
 
-  <div class="list-container">
+                <a
+                  class="open-button"
+                  [routerLink]="['/reader/read-lesson', getLessonId(lesson)]">
+                  Open
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
 
-    @if(selectedTab === 'all') {
+            </article>
+          }
+        </div>
 
-      <div class="section-header">
-        <h2>📖 All Articles</h2>
-      </div>
+      } @else {
 
-      <div class="horizontal-scroll">
+        <div class="empty-state">
+          <div class="empty-icon" aria-hidden="true">📖</div>
 
-        @for (lesson of lessons; track lesson.id) {
+          <h3>
+            @if (selectedTab === 'reading') {
+              No lessons in progress
+            } @else if (selectedTab === 'completed') {
+              No completed lessons yet
+            } @else {
+              No lessons available
+            }
+          </h3>
 
-          <div class="lesson-card" tabindex="0">
+          <p>
+            @if (selectedTab === 'reading') {
+              Start a lesson and your progress will appear here.
+            } @else if (selectedTab === 'completed') {
+              Completed lessons will appear here.
+            } @else {
+              Lessons will appear here when they are available.
+            }
+          </p>
+        </div>
+      }
 
-            <h3>{{ lesson.title }}</h3>
+    </section>
 
-            <button>
-              Open
-            </button>
-
-          </div>
-
-        }
-
-      </div>
-
-    }
-
-    @if(selectedTab === 'reading') {
-
-      <div class="section-header">
-        <h2>🔥 Reading Now</h2>
-      </div>
-
-      <div class="horizontal-scroll">
-
-        @for (reading of readingLessons; track reading.id) {
-
-          <div class="lesson-card" tabindex="0">
-
-            <div class="progress">
-              {{ reading.progress }}%
-            </div>
-
-            <h3>
-              Lesson {{ reading.lessonId }}
-            </h3>
-
-          </div>
-
-        }
-
-      </div>
-
-    }
-
-    @if(selectedTab === 'completed') {
-
-      <div class="section-header">
-        <h2>✅ Completed</h2>
-      </div>
-
-      <div class="horizontal-scroll">
-
-        @for (reading of completedLessons; track reading.id) {
-
-          <div class="lesson-card" tabindex="0">
-
-            <div class="completed">
-              ✓
-            </div>
-
-            <h3>
-              Lesson {{ reading.lessonId }}
-            </h3>
-
-          </div>
-
-        }
-
-      </div>
-
-    }
-
-  </div>
-
-</div>
+  </section>
+</main>
