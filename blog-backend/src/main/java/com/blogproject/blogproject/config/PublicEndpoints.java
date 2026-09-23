@@ -57,7 +57,13 @@ public class PublicEndpoints {
 
             "/users/**",
 
-            "/api/recommendations/**"
+            "/api/recommendations/**",
+            "/api/flashcards/**",
+            "/api/flashcards",
+            "/api/flashcards/",
+            "/api/lesson-readings",
+            "/api/lesson-readings/**"
+
     );
 
 }
