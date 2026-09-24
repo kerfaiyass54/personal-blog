@@ -7,17 +7,45 @@
   width: 100%;
 }
 
-.article-container, .article-card { will-change: transform; }
-.article-card { transition: transform .35s ease, box-shadow .35s ease; }
-.article-card:hover { transform: translateY(-4px); }
+.article-container,
+.article-card {
+  will-change: transform;
+}
+
+.article-card {
+  transition:
+    transform .35s ease,
+    box-shadow .35s ease;
+}
+
+.article-card:hover {
+  transform: translateY(-4px);
+}
+
 .back-btn:focus-visible {
-  outline: 3px solid rgba(99,102,241,.5);
+  outline: 3px solid rgba(99, 102, 241, .5);
   outline-offset: 3px;
 }
+
 @media (prefers-reduced-motion: reduce) {
-  .article-container, .article-card, .spinner { animation: none; transition: none; }
-  .article-card:hover, .back-btn:hover { transform: none; }
+
+  .article-container,
+  .article-card,
+  .spinner {
+    animation: none;
+    transition: none;
+  }
+
+  .article-card:hover,
+  .back-btn:hover {
+    transform: none;
+  }
 }
+
+
+/* ================================
+   CONTAINER
+================================ */
 
 .reader-container {
 
@@ -28,24 +56,94 @@
   padding: 30px;
 }
 
+
+/* ================================
+   NAVIGATION
+================================ */
+
+.navigation-section {
+  margin-bottom: 24px;
+}
+
+.back-btn {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  border: 1px solid #e2e8f0;
+
+  padding: 11px 18px;
+
+  border-radius: 12px;
+
+  background: white;
+
+  color: #374151;
+
+  font-size: .95rem;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, .06);
+
+  transition:
+    .3s ease;
+}
+
+.back-btn:hover {
+
+  transform:
+    translateX(-4px);
+
+  color: #7f39fb;
+
+  border-color: rgba(127, 57, 251, .3);
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, .1);
+}
+
+.back-icon {
+
+  font-size: 1.25rem;
+
+  line-height: 1;
+}
+
+
+/* ================================
+   LESSON CARD
+================================ */
+
 .lesson-card {
 
-  background: rgba(255,255,255,.96);
+  background:
+    rgba(255, 255, 255, .96);
 
   border-radius: 35px;
 
   padding: 40px;
 
   box-shadow:
-    0 30px 60px rgba(0,0,0,.12),
-    0 10px 25px rgba(0,0,0,.08);
+    0 30px 60px rgba(0, 0, 0, .12),
+    0 10px 25px rgba(0, 0, 0, .08);
 
   animation:
     fadeIn .7s ease;
 }
 
-.lesson-header {
 
+/* ================================
+   LESSON HEADER
+================================ */
+
+.lesson-header {
   margin-bottom: 35px;
 }
 
@@ -59,9 +157,9 @@
 
   background:
     linear-gradient(
-        135deg,
-        #7f39fb,
-        #5f6cff
+      135deg,
+      #7f39fb,
+      #5f6cff
     );
 
   color: white;
@@ -82,6 +180,11 @@
   color: #1f2937;
 }
 
+
+/* ================================
+   PROGRESS
+================================ */
+
 .progress-card {
 
   padding: 25px;
@@ -92,9 +195,9 @@
 
   background:
     linear-gradient(
-        135deg,
-        rgba(127,57,251,.08),
-        rgba(95,108,255,.08)
+      135deg,
+      rgba(127, 57, 251, .08),
+      rgba(95, 108, 255, .08)
     );
 }
 
@@ -112,7 +215,6 @@
 }
 
 .progress-top strong {
-
   font-size: 1.2rem;
 }
 
@@ -130,9 +232,9 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        90deg,
-        #7f39fb,
-        #5f6cff
+      90deg,
+      #7f39fb,
+      #5f6cff
     );
 }
 
@@ -172,9 +274,9 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        135deg,
-        #7f39fb,
-        #5f6cff
+      135deg,
+      #7f39fb,
+      #5f6cff
     );
 }
 
@@ -182,11 +284,16 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        135deg,
-        #22c55e,
-        #16a34a
+      135deg,
+      #22c55e,
+      #16a34a
     );
 }
+
+
+/* ================================
+   LESSON CONTENT
+================================ */
 
 .lesson-content {
 
@@ -203,8 +310,13 @@ input[type="range"] {
   border-radius: 24px;
 
   background:
-    rgba(248,250,252,.9);
+    rgba(248, 250, 252, .9);
 }
+
+
+/* ================================
+   LOADING
+================================ */
 
 .loading-card {
 
@@ -220,46 +332,28 @@ input[type="range"] {
 .loader {
 
   width: 55px;
+
   height: 55px;
 
-  margin: auto auto 20px;
+  margin:
+    auto auto 20px;
 
   border-radius: 50%;
 
-  border: 4px solid rgba(127,57,251,.15);
+  border:
+    4px solid rgba(127, 57, 251, .15);
 
-  border-top-color: #7f39fb;
+  border-top-color:
+    #7f39fb;
 
   animation:
     spin .8s linear infinite;
 }
 
-@keyframes spin {
 
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes fadeIn {
-
-  from {
-
-    opacity: 0;
-
-    transform:
-      translateY(20px);
-  }
-
-  to {
-
-    opacity: 1;
-
-    transform:
-      translateY(0);
-  }
-}
-
+/* ================================
+   QUIZ BUTTON
+================================ */
 
 .quiz-action-section {
 
@@ -288,13 +382,13 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        135deg,
-        #7f39fb,
-        #5f6cff
+      135deg,
+      #7f39fb,
+      #5f6cff
     );
 
   box-shadow:
-    0 15px 35px rgba(127,57,251,.35);
+    0 15px 35px rgba(127, 57, 251, .35);
 
   transition: .35s ease;
 }
@@ -306,6 +400,20 @@ input[type="range"] {
     scale(1.03);
 }
 
+.generate-quiz-btn:disabled {
+
+  opacity: .7;
+
+  cursor: not-allowed;
+
+  transform: none;
+}
+
+
+/* ================================
+   QUIZ
+================================ */
+
 .quiz-modal {
 
   border: none;
@@ -316,9 +424,9 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        135deg,
-        #ffffff,
-        #faf7ff
+      135deg,
+      #ffffff,
+      #faf7ff
     );
 }
 
@@ -340,9 +448,9 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        135deg,
-        #7f39fb,
-        #5f6cff
+      135deg,
+      #7f39fb,
+      #5f6cff
     );
 }
 
@@ -365,9 +473,9 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        135deg,
-        rgba(127,57,251,.06),
-        rgba(95,108,255,.06)
+      135deg,
+      rgba(127, 57, 251, .06),
+      rgba(95, 108, 255, .06)
     );
 
   animation:
@@ -392,9 +500,9 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        135deg,
-        #7f39fb,
-        #5f6cff
+      135deg,
+      #7f39fb,
+      #5f6cff
     );
 }
 
@@ -435,15 +543,17 @@ input[type="range"] {
 
 .answer-option:hover {
 
-  transform: translateX(6px);
+  transform:
+    translateX(6px);
 
   box-shadow:
-    0 10px 25px rgba(0,0,0,.08);
+    0 10px 25px rgba(0, 0, 0, .08);
 }
 
 .answer-option input {
 
-  transform: scale(1.2);
+  transform:
+    scale(1.2);
 }
 
 .hint-box {
@@ -457,7 +567,7 @@ input[type="range"] {
   color: #6b7280;
 
   background:
-    rgba(255,255,255,.8);
+    rgba(255, 255, 255, .8);
 }
 
 .submit-quiz-btn {
@@ -474,9 +584,9 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        135deg,
-        #7f39fb,
-        #5f6cff
+      135deg,
+      #7f39fb,
+      #5f6cff
     );
 
   transition: .3s ease;
@@ -487,6 +597,11 @@ input[type="range"] {
   transform:
     translateY(-2px);
 }
+
+
+/* ================================
+   RESULT
+================================ */
 
 .result-modal {
 
@@ -500,15 +615,16 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        135deg,
-        #ffffff,
-        #faf7ff
+      135deg,
+      #ffffff,
+      #faf7ff
     );
 }
 
 .result-circle {
 
   width: 160px;
+
   height: 160px;
 
   margin: auto;
@@ -529,13 +645,13 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        135deg,
-        #7f39fb,
-        #5f6cff
+      135deg,
+      #7f39fb,
+      #5f6cff
     );
 
   box-shadow:
-    0 20px 50px rgba(127,57,251,.4);
+    0 20px 50px rgba(127, 57, 251, .4);
 
   animation:
     pulseCircle 2s infinite;
@@ -582,9 +698,9 @@ input[type="range"] {
 
   background:
     linear-gradient(
-        135deg,
-        #22c55e,
-        #16a34a
+      135deg,
+      #22c55e,
+      #16a34a
     );
 
   transition: .3s ease;
@@ -596,21 +712,53 @@ input[type="range"] {
     translateY(-2px);
 }
 
+
+/* ================================
+   ANIMATIONS
+================================ */
+
+@keyframes spin {
+
+  to {
+    transform:
+      rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(20px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
 @keyframes pulseCircle {
 
   0% {
-
-    transform: scale(1);
+    transform:
+      scale(1);
   }
 
   50% {
-
-    transform: scale(1.05);
+    transform:
+      scale(1.05);
   }
 
   100% {
-
-    transform: scale(1);
+    transform:
+      scale(1);
   }
 }
 

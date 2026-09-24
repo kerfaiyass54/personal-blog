@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy } from '@angular/core';
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
   inject
@@ -10,7 +11,8 @@ import {
 } from '@angular/common';
 
 import {
-  ActivatedRoute
+  ActivatedRoute,
+  Router
 } from '@angular/router';
 
 import {
@@ -59,6 +61,9 @@ export class ReadLessonComponent implements OnInit {
   private readonly route =
     inject(ActivatedRoute);
 
+  private readonly router =
+    inject(Router);
+
   private readonly lessonService =
     inject(LessonService);
 
@@ -68,16 +73,15 @@ export class ReadLessonComponent implements OnInit {
   private readonly quizService =
     inject(QuizService);
 
+  private readonly cdr =
+    inject(ChangeDetectorRef);
+
   lesson?: LessonResponse;
 
   loading = true;
 
   progress = 0;
 
-  /**
-   * Keeps track of the highest progress
-   * reached during this lesson.
-   */
   maxProgress = 0;
 
   emailUser = '';
@@ -104,6 +108,8 @@ export class ReadLessonComponent implements OnInit {
 
       this.loading = false;
 
+      this.cdr.markForCheck();
+
       return;
     }
 
@@ -113,33 +119,46 @@ export class ReadLessonComponent implements OnInit {
 
         next: lesson => {
 
+          console.log(
+            'Lesson received:',
+            lesson
+          );
+
           this.lesson = lesson;
 
-          /*
-           * Check if the user already has
-           * a reading record for this lesson.
-           */
-          this.initializeReading();
-
           this.loading = false;
+
+          this.cdr.markForCheck();
+
+          this.initializeReading();
         },
 
-        error: () => {
+        error: err => {
+
+          console.error(
+            'Error loading lesson:',
+            err
+          );
 
           this.loading = false;
+
+          this.cdr.markForCheck();
         }
       });
   }
 
   /**
-   * Checks whether the user has already
-   * read this lesson.
-   *
-   * If yes:
-   *     -> don't create another reading.
-   *
-   * If no:
-   *     -> create a new reading.
+   * Navigate directly to the lessons page.
+   */
+  goToLessons(): void {
+
+    this.router.navigate([
+      '/reader/check-lessons'
+    ]);
+  }
+
+  /**
+   * Checks whether a reading record already exists.
    */
   initializeReading(): void {
 
@@ -157,40 +176,36 @@ export class ReadLessonComponent implements OnInit {
       )
       .subscribe({
 
-        next: hasRead => {
+        next: exists => {
 
-          if (hasRead) {
+          console.log(
+            'Reading exists:',
+            exists
+          );
 
-            /*
-             * The reading already exists.
-             *
-             * Do not create another one.
-             *
-             * Keep the current progress.
-             */
-            return;
+          if (!exists) {
+
+            this.createReading();
           }
 
-          /*
-           * No reading exists yet.
-           * Create the initial reading.
-           */
-          this.createReading();
+          this.cdr.markForCheck();
         },
 
         error: err => {
 
           console.error(
-            'Error checking lesson reading:',
+            'Error checking reading:',
             err
           );
+
+          this.cdr.markForCheck();
         }
       });
   }
 
   /**
-   * Creates the reading record for
-   * a user who has not started this lesson yet.
+   * Creates the reading record if it
+   * does not already exist.
    */
   createReading(): void {
 
@@ -220,22 +235,26 @@ export class ReadLessonComponent implements OnInit {
 
           this.maxProgress =
             this.progress;
+
+          this.cdr.markForCheck();
         },
 
         error: err => {
 
           console.error(
-            'Error creating lesson reading:',
+            'Error creating reading:',
             err
           );
+
+          this.cdr.markForCheck();
         }
       });
   }
 
   /**
-   * Updates the lesson progress.
+   * Updates progress.
    *
-   * Progress is never allowed to go backwards.
+   * Progress can only increase.
    */
   updateProgress(): void {
 
@@ -246,22 +265,15 @@ export class ReadLessonComponent implements OnInit {
       return;
     }
 
-    /*
-     * Make sure the progress is between
-     * 0 and 100.
-     */
     const currentProgress =
       Math.min(
         100,
         Math.max(
           0,
-          this.progress
+          Number(this.progress)
         )
       );
 
-    /*
-     * Keep the highest progress reached.
-     */
     this.maxProgress =
       Math.max(
         this.maxProgress,
@@ -288,10 +300,6 @@ export class ReadLessonComponent implements OnInit {
 
         next: response => {
 
-          /*
-           * Use the backend response as
-           * the final progress value.
-           */
           this.progress =
             Math.max(
               this.progress,
@@ -300,14 +308,18 @@ export class ReadLessonComponent implements OnInit {
 
           this.maxProgress =
             this.progress;
+
+          this.cdr.markForCheck();
         },
 
         error: err => {
 
           console.error(
-            'Error updating lesson progress:',
+            'Error updating progress:',
             err
           );
+
+          this.cdr.markForCheck();
         }
       });
   }
@@ -326,6 +338,8 @@ export class ReadLessonComponent implements OnInit {
     }
 
     this.generatingQuiz = true;
+
+    this.cdr.markForCheck();
 
     this.quizService
       .generateQuiz({
@@ -355,11 +369,20 @@ export class ReadLessonComponent implements OnInit {
           this.generatingQuiz =
             false;
 
+          this.cdr.markForCheck();
+
+          const modalElement =
+            document.getElementById(
+              'quizModal'
+            );
+
+          if (!modalElement) {
+            return;
+          }
+
           const modal =
             new bootstrap.Modal(
-              document.getElementById(
-                'quizModal'
-              )
+              modalElement
             );
 
           modal.show();
@@ -367,10 +390,15 @@ export class ReadLessonComponent implements OnInit {
 
         error: err => {
 
-          console.error(err);
+          console.error(
+            'Error generating quiz:',
+            err
+          );
 
           this.generatingQuiz =
             false;
+
+          this.cdr.markForCheck();
         }
       });
   }
