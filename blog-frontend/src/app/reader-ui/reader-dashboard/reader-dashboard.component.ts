@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ChangeDetectorRef } from '@angular/core';
 import {ReaderDashboardStatistics, ReaderStatisticsService} from "../services/reader-statistics.service";
 
 
@@ -15,13 +16,14 @@ import {ReaderDashboardStatistics, ReaderStatisticsService} from "../services/re
 export class ReaderDashboardComponent implements OnInit {
 
   private statisticsService = inject(ReaderStatisticsService);
+  private cdr = inject(ChangeDetectorRef);
 
   stats?: ReaderDashboardStatistics;
   loading = true;
 
   ngOnInit(): void {
 
-    const email = localStorage.getItem('email');
+    const email = sessionStorage.getItem('email');
 
     if (!email) {
       this.loading = false;
@@ -33,11 +35,13 @@ export class ReaderDashboardComponent implements OnInit {
       .subscribe({
         next: (data) => {
           this.stats = data;
+          this.cdr.markForCheck();
           this.loading = false;
         },
         error: (err) => {
           console.error(err);
           this.loading = false;
+          this.cdr.markForCheck();
         },
       });
   }
