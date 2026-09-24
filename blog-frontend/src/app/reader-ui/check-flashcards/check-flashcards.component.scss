@@ -1,7 +1,12 @@
 :host {
   display: block;
-  width: 100%;
   min-width: 0;
+  min-height: 0;
+}
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -10,576 +15,848 @@
    PAGE
    ========================================================= */
 
-.flashcards-page {
+.page {
   width: 100%;
-  min-height: 100%;
-  padding: clamp(12px, 2vw, 28px);
-  box-sizing: border-box;
-}
-
-
-.flashcards-shell {
-  width: 100%;
-  max-width: 1180px;
   min-width: 0;
-
-  margin: 0 auto;
-  padding: clamp(22px, 4vw, 42px);
-
-  box-sizing: border-box;
-
-  border-radius: clamp(20px, 2vw, 30px);
-
-  background:
-    radial-gradient(
-      circle at 88% 8%,
-      rgba(170, 113, 255, 0.32),
-      transparent 28%
-    ),
-    radial-gradient(
-      circle at 5% 90%,
-      rgba(91, 35, 180, 0.30),
-      transparent 32%
-    ),
-    linear-gradient(
-      145deg,
-      #30106d 0%,
-      #4b1391 46%,
-      #26084f 100%
-    );
-
-  box-shadow:
-    0 25px 70px rgba(25, 4, 55, 0.35);
-
-  color: #ffffff;
+  height: 100%;
+  min-height: 0;
+  padding: clamp(.75rem, 1.5vw, 1.25rem);
 }
 
 
 /* =========================================================
-   HEADER
+   MAIN CONTAINER
    ========================================================= */
 
-.page-header {
+.flashcards-center {
+  width: min(100%, 1080px);
+  height: 100%;
+  min-height: 0;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: clamp(1.1rem, 2.5vw, 1.8rem);
+
+  overflow: hidden;
+
+  border-radius: 1.6rem;
+
+  background:
+    radial-gradient(
+      circle at 90% 4%,
+      rgba(150, 103, 255, .2),
+      transparent 25%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, .98),
+      rgba(246, 242, 255, .94)
+    );
+
+  box-shadow:
+    0 1.2rem 3rem rgba(43, 23, 96, .12);
+}
+
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.hero {
+  flex: 0 0 auto;
+
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
 
-  gap: 30px;
+  gap: 1rem;
 
-  margin-bottom: 38px;
+  margin-bottom: 1.2rem;
+
+  animation: hero-enter .55s ease both;
 }
 
-
-.header-content {
+.hero-copy {
   min-width: 0;
-  flex: 1;
 }
-
 
 .eyebrow {
-  display: flex;
-  align-items: center;
-
-  gap: 9px;
-
-  margin-bottom: 12px;
-
-  color: #c9b1ff;
-
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 1.7px;
-}
-
-
-.eyebrow-icon {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: .45rem;
 
-  width: 24px;
-  height: 24px;
+  margin-bottom: .45rem;
 
-  flex: 0 0 24px;
+  color: #7048d9;
 
-  border-radius: 8px;
+  font-size: .68rem;
+  font-weight: 850;
 
-  background: rgba(255, 255, 255, 0.13);
-
-  color: #e3c8ff;
+  letter-spacing: .12em;
+  text-transform: uppercase;
 }
 
-
-.page-header h1 {
-  margin: 0;
-
-  font-size: clamp(38px, 5vw, 66px);
-  line-height: 1.03;
-
-  letter-spacing: -2.8px;
-
-  font-weight: 800;
-
-  overflow-wrap: anywhere;
-}
-
-
-.page-header h1 span {
-  background: linear-gradient(
-    90deg,
-    #ffffff,
-    #e0b7ff
-  );
-
-  -webkit-background-clip: text;
-  background-clip: text;
-
-  color: transparent;
-}
-
-
-.page-header p {
-  max-width: 620px;
-
-  margin: 14px 0 0;
-
-  color: rgba(255, 255, 255, 0.68);
-
-  font-size: 17px;
-  line-height: 1.6;
-}
-
-
-/* =========================================================
-   COUNTER
-   ========================================================= */
-
-.card-counter {
-  flex: 0 0 auto;
-
-  min-width: 110px;
-
-  padding: 18px 22px;
-
-  box-sizing: border-box;
-
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 20px;
-
-  background: rgba(255, 255, 255, 0.08);
-
-  text-align: center;
-
-  backdrop-filter: blur(12px);
-}
-
-
-.card-counter strong {
-  display: block;
-
-  color: #ffffff;
-
-  font-size: 36px;
-  line-height: 1;
-}
-
-
-.card-counter span {
-  display: block;
-
-  margin-top: 7px;
-
-  color: #d8c4ff;
-
-  font-size: 13px;
-  font-weight: 700;
-}
-
-
-/* =========================================================
-   GRID
-   ========================================================= */
-
-.flashcards-grid {
+.eyebrow-icon {
   display: grid;
 
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 1.5rem;
+  height: 1.5rem;
 
-  gap: 20px;
+  place-items: center;
 
-  width: 100%;
-}
-
-
-/* =========================================================
-   FLASHCARD
-   ========================================================= */
-
-.flashcard {
-  position: relative;
-  isolation: isolate;
-
-  min-width: 0;
-  min-height: 245px;
-
-  padding: 25px;
-
-  box-sizing: border-box;
-
-  overflow: hidden;
-
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 22px;
+  border-radius: .45rem;
 
   background:
     linear-gradient(
-      145deg,
-      rgba(133, 55, 218, 0.82),
-      rgba(84, 27, 151, 0.9)
+      135deg,
+      #7048d9,
+      #5368e8
     );
 
-  box-shadow:
-    0 15px 35px rgba(19, 2, 50, 0.24);
+  color: #fff;
 
-  cursor: pointer;
-
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
-}
-
-
-.flashcard:hover {
-  transform: translateY(-5px);
-
-  border-color: rgba(255, 255, 255, 0.35);
+  font-size: .8rem;
 
   box-shadow:
-    0 22px 45px rgba(15, 1, 40, 0.36);
+    0 .35rem .7rem rgba(112, 72, 217, .2);
 }
 
-
-.flashcard:active {
-  transform: translateY(-2px);
-}
-
-
-.flashcard:focus-visible {
-  outline: 3px solid #ffffff;
-  outline-offset: 3px;
-}
-
-
-.card-glow {
-  position: absolute;
-
-  z-index: -1;
-
-  width: 190px;
-  height: 190px;
-
-  top: -95px;
-  right: -65px;
-
-  border-radius: 50%;
-
-  background: rgba(214, 168, 255, 0.22);
-
-  filter: blur(2px);
-
-  pointer-events: none;
-}
-
-
-/* =========================================================
-   CARD TOP
-   ========================================================= */
-
-.card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  gap: 15px;
-}
-
-
-.lesson-label {
-  display: flex;
-  align-items: flex-start;
-
-  gap: 9px;
-
-  min-width: 0;
-  max-width: calc(100% - 48px);
-
-  color: #d9c6ff;
-
-  font-size: 12px;
-  font-weight: 800;
-
-  letter-spacing: 1px;
-  line-height: 1.45;
-
-  text-transform: uppercase;
-}
-
-
-.lesson-label span:last-child {
-  min-width: 0;
-
-  overflow: hidden;
-
-  display: -webkit-box;
-
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
-
-
-.lesson-icon {
-  flex: 0 0 auto;
-
-  margin-top: 2px;
-
-  color: #ffffff;
-}
-
-
-.card-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  flex: 0 0 34px;
-
-  width: 34px;
-  height: 34px;
-
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 50%;
-
-  background: rgba(255, 255, 255, 0.08);
-
-  color: #ffffff;
-
-  font-size: 18px;
-}
-
-
-/* =========================================================
-   CARD CONTENT
-   ========================================================= */
-
-.card-content {
-  min-width: 0;
-
-  margin-top: 38px;
-}
-
-
-.type-label {
-  display: inline-block;
-
-  max-width: 100%;
-
-  margin-bottom: 11px;
-
-  color: rgba(255, 255, 255, 0.58);
-
-  font-size: 11px;
-  font-weight: 800;
-
-  letter-spacing: 1.2px;
-
-  text-transform: uppercase;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-
-.card-content h2 {
+.hero h1 {
   margin: 0;
 
-  color: #ffffff;
+  color: #242941;
 
-  font-size: clamp(27px, 3vw, 38px);
-  line-height: 1.08;
+  font-size: clamp(2.1rem, 5vw, 3.3rem);
 
-  letter-spacing: -1px;
+  line-height: .98;
 
-  font-weight: 800;
+  letter-spacing: -.045em;
+}
 
-  overflow-wrap: anywhere;
-  word-break: break-word;
+.hero h1 span {
+  color: #7048d9;
+}
+
+.hero p {
+  margin: .45rem 0 0;
+
+  color: #68718a;
+
+  font-size: clamp(.82rem, 1.6vw, .95rem);
 }
 
 
 /* =========================================================
-   CARD FOOTER
+   HERO DECORATION
    ========================================================= */
 
-.card-footer {
-  position: absolute;
-
-  left: 25px;
-  right: 25px;
-  bottom: 22px;
-
+.hero-decoration {
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
-  gap: 10px;
+  gap: .8rem;
 
-  color: rgba(255, 255, 255, 0.55);
-
-  font-size: 13px;
-  font-weight: 600;
+  padding: .4rem;
 }
 
-
-.card-footer span:first-child {
-  min-width: 0;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-
-.card-footer span:last-child {
-  flex: 0 0 auto;
-
-  color: #ffffff;
-
-  font-size: 18px;
-}
-
-
-/* =========================================================
-   STATES
-   ========================================================= */
-
-.state-container {
-  min-height: 300px;
-
+.card-counter {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  padding: 40px;
+  min-width: 4.8rem;
+  min-height: 4.8rem;
 
-  box-sizing: border-box;
+  padding: .65rem;
 
-  border: 1px solid rgba(255, 255, 255, 0.13);
-  border-radius: 22px;
+  border-radius: 1rem;
 
-  background: rgba(255, 255, 255, 0.06);
+  background:
+    linear-gradient(
+      135deg,
+      #7048d9,
+      #5368e8
+    );
 
-  text-align: center;
+  color: #fff;
+
+  box-shadow:
+    0 .7rem 1.4rem rgba(82, 73, 180, .18);
+
+  animation: counter-float 3s ease-in-out infinite;
+}
+
+.card-counter strong {
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.card-counter span {
+  margin-top: .25rem;
+
+  font-size: .55rem;
+  font-weight: 850;
+
+  letter-spacing: .1em;
+  opacity: .85;
+}
+
+.decoration-bars {
+  display: flex;
+  align-items: flex-end;
+
+  gap: .25rem;
+
+  padding: .4rem;
+}
+
+.decoration-bars span {
+  display: block;
+
+  width: 1.2rem;
+
+  border-radius: .2rem;
+
+  transform: rotate(7deg);
+
+  animation: bar-bounce 2.5s ease-in-out infinite;
+}
+
+.decoration-bars span:nth-child(1) {
+  height: 1.7rem;
+  background: #71d54b;
+  animation-delay: 0s;
+}
+
+.decoration-bars span:nth-child(2) {
+  height: 2.1rem;
+  background: #ff4d9a;
+  animation-delay: .15s;
+}
+
+.decoration-bars span:nth-child(3) {
+  height: 1.5rem;
+  background: #4bc7e8;
+  animation-delay: .3s;
 }
 
 
-.state-container h2 {
-  margin: 18px 0 5px;
+/* =========================================================
+   FLASHCARDS SECTION
+   ========================================================= */
 
-  font-size: 24px;
+.flashcards-section {
+  min-width: 0;
+  min-height: 0;
+
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: clamp(1rem, 2vw, 1.25rem);
+
+  overflow: hidden;
+
+  border-radius: 1.2rem;
+
+  background:
+    radial-gradient(
+      circle at 95% 0%,
+      rgba(112, 72, 217, .11),
+      transparent 28%
+    ),
+    rgba(246, 242, 255, .75);
+
+  animation: section-enter .5s ease .12s both;
 }
 
 
-.state-container p {
-  max-width: 500px;
+/* =========================================================
+   SECTION HEADING
+   ========================================================= */
 
-  margin: 0;
+.section-heading {
+  flex: 0 0 auto;
 
-  color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  line-height: 1.6;
+  gap: .75rem;
+
+  margin-bottom: .85rem;
+}
+
+.section-kicker {
+  color: #7048d9;
+
+  font-size: .64rem;
+  font-weight: 850;
+
+  letter-spacing: .12em;
+}
+
+.section-heading h2 {
+  margin: .15rem 0 0;
+
+  color: #2a3044;
+
+  font-size: clamp(1.25rem, 2.5vw, 1.7rem);
+
+  line-height: 1.1;
+}
+
+.section-count {
+  display: grid;
+
+  min-width: 2rem;
+  height: 2rem;
+
+  padding: 0 .55rem;
+
+  place-items: center;
+
+  border-radius: 999px;
+
+  background: rgba(112, 72, 217, .1);
+
+  color: #7048d9;
+
+  font-size: .75rem;
+  font-weight: 850;
 }
 
 
-.state-icon {
-  width: 58px;
-  height: 58px;
+/* =========================================================
+   SCROLLABLE FLASHCARD LIST
+   ========================================================= */
+
+.flashcards-list {
+  flex: 1 1 auto;
+
+  min-width: 0;
+  min-height: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  max-height: 500px;
+  overflow: auto;
+
+  gap: .65rem;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: .15rem .35rem .5rem .05rem;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(112, 72, 217, .35) transparent;
+}
+
+
+/* Chrome / Edge / Safari */
+
+.flashcards-list::-webkit-scrollbar {
+  width: .42rem;
+}
+
+.flashcards-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.flashcards-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background:
+    rgba(112, 72, 217, .3);
+}
+
+.flashcards-list::-webkit-scrollbar-thumb:hover {
+  background:
+    rgba(112, 72, 217, .55);
+}
+
+
+/* =========================================================
+   HORIZONTAL FLASHCARD
+   ========================================================= */
+
+.flashcard {
+  --card-index: 0;
+
+  position: relative;
+
+  flex: 0 0 auto;
+
+  min-width: 0;
+  min-height: 7.2rem;
+
+  display: flex;
+  align-items: stretch;
+
+  overflow: hidden;
+
+  border: 1px solid rgba(112, 72, 217, .11);
+
+  border-radius: 1rem;
+
+  background:
+    rgba(255, 255, 255, .92);
+
+  box-shadow:
+    0 .45rem 1rem rgba(57, 40, 120, .055);
+
+  cursor: pointer;
+
+  outline: none;
+
+  opacity: 0;
+
+  animation:
+    card-enter .5s cubic-bezier(.22, 1, .36, 1)
+    calc(var(--card-index) * 70ms) forwards;
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    border-color .22s ease;
+}
+
+.flashcard:hover {
+  transform: translateY(-3px) translateX(2px);
+
+  border-color:
+    rgba(112, 72, 217, .22);
+
+  box-shadow:
+    0 .8rem 1.5rem rgba(57, 40, 120, .11);
+}
+
+.flashcard:focus-visible {
+  border-color: #7048d9;
+
+  box-shadow:
+    0 0 0 3px rgba(112, 72, 217, .14),
+    0 .8rem 1.5rem rgba(57, 40, 120, .1);
+}
+
+
+/* =========================================================
+   CARD GLOW
+   ========================================================= */
+
+.card-glow {
+  position: absolute;
+
+  width: 8rem;
+  height: 8rem;
+
+  right: -3rem;
+  top: -4rem;
+
+  border-radius: 50%;
+
+  background:
+    rgba(112, 72, 217, .08);
+
+  pointer-events: none;
+
+  transition:
+    transform .35s ease,
+    background .35s ease;
+}
+
+.flashcard:hover .card-glow {
+  transform: scale(1.35);
+
+  background:
+    rgba(112, 72, 217, .12);
+}
+
+
+/* =========================================================
+   CARD NUMBER
+   ========================================================= */
+
+.card-number {
+  position: relative;
+  z-index: 1;
+
+  flex: 0 0 4rem;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 18px;
+  color: rgba(112, 72, 217, .28);
 
-  background: rgba(255, 255, 255, 0.1);
+  font-size: .72rem;
+  font-weight: 900;
 
-  color: #ffffff;
-
-  font-size: 28px;
-  font-weight: 800;
+  letter-spacing: .08em;
 }
 
+
+/* =========================================================
+   CARD MAIN
+   ========================================================= */
+
+.card-main {
+  position: relative;
+  z-index: 1;
+
+  min-width: 0;
+
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: .9rem .75rem;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+
+  gap: .55rem;
+
+  min-width: 0;
+
+  margin-bottom: .35rem;
+}
+
+.lesson-label {
+  min-width: 0;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: .35rem;
+
+  color: #7d8498;
+
+  font-size: .62rem;
+  font-weight: 750;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lesson-icon {
+  display: grid;
+
+  width: 1.25rem;
+  height: 1.25rem;
+
+  flex: 0 0 1.25rem;
+
+  place-items: center;
+
+  border-radius: .35rem;
+
+  background:
+    #ede6ff;
+
+  color: #7048d9;
+
+  font-size: .65rem;
+}
+
+.type-label {
+  flex: 0 0 auto;
+
+  padding: .22rem .45rem;
+
+  border-radius: 999px;
+
+  background:
+    rgba(112, 72, 217, .08);
+
+  color: #7048d9;
+
+  font-size: .52rem;
+  font-weight: 850;
+
+  letter-spacing: .08em;
+}
+
+.card-main h3 {
+  margin: 0;
+
+  color: #293047;
+
+  font-size: clamp(.95rem, 1.8vw, 1.15rem);
+
+  line-height: 1.2;
+
+  letter-spacing: -.015em;
+}
+
+.card-main p {
+  display: -webkit-box;
+
+  margin: .3rem 0 0;
+
+  overflow: hidden;
+
+  color: #858ca0;
+
+  font-size: .7rem;
+
+  line-height: 1.45;
+
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+
+/* =========================================================
+   CARD ACTION
+   ========================================================= */
+
+.card-action {
+  position: relative;
+  z-index: 1;
+
+  flex: 0 0 6.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: .35rem;
+
+  margin: .65rem;
+
+  border-radius: .75rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7048d9,
+      #5c63eb
+    );
+
+  color: #fff;
+
+  font-size: .68rem;
+  font-weight: 800;
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
+}
+
+.flashcard:hover .card-action {
+  transform: translateX(-2px);
+
+  box-shadow:
+    0 .5rem 1rem rgba(92, 99, 235, .2);
+}
+
+.card-arrow {
+  font-size: 1rem;
+
+  transition:
+    transform .22s ease;
+}
+
+.flashcard:hover .card-arrow {
+  transform:
+    translate(2px, -2px);
+}
+
+
+/* =========================================================
+   DEFER PLACEHOLDER
+   ========================================================= */
+
+.defer-placeholder {
+  flex: 1 1 auto;
+
+  min-height: 12rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: .65rem;
+
+  color: #858ca0;
+
+  font-size: .75rem;
+}
+
+.placeholder-spinner {
+  width: 1.2rem;
+  height: 1.2rem;
+
+  border: 2px solid rgba(112, 72, 217, .15);
+  border-top-color: #7048d9;
+
+  border-radius: 50%;
+
+  animation:
+    spin .8s linear infinite;
+}
+
+.error-placeholder {
+  color: #b33b58;
+}
+
+.placeholder-error-icon {
+  display: grid;
+
+  width: 1.8rem;
+  height: 1.8rem;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: rgba(179, 59, 88, .1);
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   LOADING / ERROR / EMPTY STATES
+   ========================================================= */
+
+.state-container {
+  flex: 1 1 auto;
+
+  min-height: 15rem;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 2rem;
+
+  text-align: center;
+
+  animation:
+    state-enter .45s ease both;
+}
+
+.state-container h2 {
+  margin: .8rem 0 0;
+
+  color: #343a4e;
+
+  font-size: 1rem;
+}
+
+.state-container p {
+  max-width: 360px;
+
+  margin: .35rem 0 0;
+
+  color: #858ca0;
+
+  font-size: .76rem;
+
+  line-height: 1.5;
+}
+
+.loader {
+  width: 2.8rem;
+  height: 2.8rem;
+
+  border: 3px solid rgba(112, 72, 217, .12);
+
+  border-top-color: #7048d9;
+
+  border-right-color: #5368e8;
+
+  border-radius: 50%;
+
+  animation:
+    spin .85s linear infinite;
+}
+
+.state-icon {
+  display: grid;
+
+  width: 3.3rem;
+  height: 3.3rem;
+
+  place-items: center;
+
+  border-radius: 1rem;
+
+  background:
+    rgba(112, 72, 217, .1);
+
+  color: #7048d9;
+
+  font-size: 1.45rem;
+
+  animation:
+    icon-float 2.5s ease-in-out infinite;
+}
 
 .error-state .state-icon {
-  background: rgba(255, 90, 90, 0.16);
+  background: rgba(179, 59, 88, .1);
+
+  color: #b33b58;
 }
 
-
 .retry-button {
-  margin-top: 20px;
+  margin-top: 1rem;
 
-  padding: 11px 22px;
+  min-height: 2.35rem;
+
+  padding: .55rem 1rem;
 
   border: 0;
-  border-radius: 12px;
 
-  background: #ffffff;
+  border-radius: .7rem;
 
-  color: #491292;
+  background:
+    linear-gradient(
+      110deg,
+      #7048d9,
+      #5c63eb
+    );
 
-  font-size: 14px;
+  color: #fff;
+
+  font-size: .76rem;
   font-weight: 800;
 
   cursor: pointer;
 
-  transition:
-    transform 150ms ease,
-    box-shadow 150ms ease;
-}
+  box-shadow:
+    0 .45rem .8rem rgba(92, 99, 235, .15);
 
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
 
 .retry-button:hover {
   transform: translateY(-2px);
 
   box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.18);
-}
-
-
-.loader {
-  width: 42px;
-  height: 42px;
-
-  border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top-color: #ffffff;
-
-  border-radius: 50%;
-
-  animation: spin 800ms linear infinite;
-}
-
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+    0 .65rem 1rem rgba(92, 99, 235, .22);
 }
 
 
 /* =========================================================
-   MODAL
+   MODAL BACKDROP
    ========================================================= */
 
 .modal-backdrop {
@@ -587,63 +864,61 @@
 
   inset: 0;
 
-  z-index: 9999;
+  z-index: 1000;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  padding: 20px;
+  padding: 1rem;
 
-  box-sizing: border-box;
+  background:
+    rgba(30, 23, 58, .48);
 
-  background: rgba(10, 2, 24, 0.76);
+  backdrop-filter:
+    blur(8px);
 
-  backdrop-filter: blur(10px);
-
-  animation: fadeIn 150ms ease;
+  animation:
+    backdrop-enter .22s ease both;
 }
 
+
+/* =========================================================
+   MODAL
+   ========================================================= */
 
 .flashcard-modal {
   position: relative;
 
-  width: min(650px, 100%);
+  width: min(100%, 600px);
 
-  max-height: calc(100vh - 40px);
+  max-height: min(90vh, 680px);
 
   overflow-y: auto;
-  overflow-x: hidden;
 
-  padding: 42px;
+  padding: clamp(1.4rem, 4vw, 2rem);
 
-  box-sizing: border-box;
+  border: 1px solid rgba(112, 72, 217, .12);
 
-  border: 1px solid #ece7f8;
-  border-radius: 28px;
+  border-radius: 1.5rem;
 
-  background: #ffffff;
-
-  color: #25233b;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(112, 72, 217, .13),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #fff,
+      #f7f4ff
+    );
 
   box-shadow:
-    0 35px 90px rgba(0, 0, 0, 0.35);
+    0 2rem 5rem rgba(30, 20, 70, .25);
 
-  animation: modalIn 180ms ease;
-
-  scrollbar-width: thin;
-}
-
-
-.flashcard-modal::-webkit-scrollbar {
-  width: 7px;
-}
-
-
-.flashcard-modal::-webkit-scrollbar-thumb {
-  border-radius: 10px;
-
-  background: #c9b7ee;
+  animation:
+    modal-enter .35s cubic-bezier(.22, 1, .36, 1) both;
 }
 
 
@@ -654,46 +929,104 @@
 .close-button {
   position: absolute;
 
-  top: 18px;
-  right: 18px;
+  top: .8rem;
+  right: .8rem;
 
-  width: 42px;
-  height: 42px;
+  display: grid;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
 
-  padding: 0;
+  place-items: center;
 
   border: 0;
-  border-radius: 50%;
 
-  background: #f3effb;
+  border-radius: .7rem;
 
-  color: #38334b;
+  background:
+    rgba(112, 72, 217, .08);
 
-  font-size: 28px;
+  color: #7048d9;
+
+  font-size: 1.35rem;
+
   line-height: 1;
 
   cursor: pointer;
 
   transition:
-    background 150ms ease,
-    transform 150ms ease;
+    transform .2s ease,
+    background .2s ease;
 }
-
 
 .close-button:hover {
-  background: #e9e1fa;
+  transform: rotate(90deg);
 
-  transform: rotate(5deg);
+  background:
+    rgba(112, 72, 217, .15);
 }
 
 
-.close-button:focus-visible {
-  outline: 3px solid #7045ed;
-  outline-offset: 3px;
+/* =========================================================
+   MODAL HEADER
+   ========================================================= */
+
+.modal-header {
+  display: flex;
+  align-items: center;
+
+  gap: .7rem;
+
+  margin-bottom: 1rem;
+}
+
+.modal-icon {
+  display: grid;
+
+  width: 3rem;
+  height: 3rem;
+
+  flex: 0 0 3rem;
+
+  place-items: center;
+
+  border-radius: .9rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ede6ff,
+      #f7f4ff
+    );
+
+  color: #7048d9;
+
+  font-size: 1.25rem;
+}
+
+.modal-header > div:last-child {
+  display: flex;
+  flex-direction: column;
+
+  gap: .15rem;
+}
+
+.modal-label {
+  color: #7048d9;
+
+  font-size: .62rem;
+  font-weight: 850;
+
+  letter-spacing: .12em;
+}
+
+.modal-type {
+  color: #8b91a4;
+
+  font-size: .6rem;
+  font-weight: 750;
+
+  letter-spacing: .08em;
 }
 
 
@@ -701,159 +1034,125 @@
    MODAL CONTENT
    ========================================================= */
 
-.modal-icon {
-  width: 54px;
-  height: 54px;
+.flashcard-modal h2 {
+  margin: 0;
+
+  padding-right: 2rem;
+
+  color: #252b40;
+
+  font-size: clamp(1.7rem, 4vw, 2.35rem);
+
+  line-height: 1.08;
+
+  letter-spacing: -.035em;
+}
+
+.answer-section {
+  position: relative;
+
+  margin-top: 1.4rem;
+
+  padding: 1rem 1.1rem;
+
+  border-radius: 1rem;
+
+  background:
+    rgba(112, 72, 217, .06);
+}
+
+.answer-label {
+  color: #7048d9;
+
+  font-size: .6rem;
+  font-weight: 850;
+
+  letter-spacing: .12em;
+}
+
+.answer-section p {
+  margin: .4rem 0 0;
+
+  color: #525a70;
+
+  font-size: .9rem;
+
+  line-height: 1.6;
+}
+
+.modal-lesson {
+  display: flex;
+  flex-direction: column;
+
+  gap: .25rem;
+
+  margin-top: 1rem;
+
+  padding-top: 1rem;
+
+  border-top: 1px solid rgba(112, 72, 217, .1);
+}
+
+.modal-lesson span {
+  color: #8b91a4;
+
+  font-size: .62rem;
+  font-weight: 750;
+
+  text-transform: uppercase;
+
+  letter-spacing: .08em;
+}
+
+.modal-lesson strong {
+  color: #343a4e;
+
+  font-size: .78rem;
+
+  line-height: 1.4;
+}
+
+.modal-close-action {
+  width: 100%;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  margin-bottom: 18px;
+  gap: .45rem;
 
-  border-radius: 16px;
+  min-height: 2.7rem;
+
+  margin-top: 1.2rem;
+
+  border: 0;
+
+  border-radius: .8rem;
 
   background:
     linear-gradient(
-      135deg,
-      #7045ed,
-      #8b4fe8
+      110deg,
+      #7048d9,
+      #5c63eb
     );
 
-  color: #ffffff;
+  color: #fff;
 
-  font-size: 24px;
-}
-
-
-.modal-label {
-  display: block;
-
-  margin-bottom: 8px;
-
-  color: #7750dc;
-
-  font-size: 12px;
-  font-weight: 900;
-
-  letter-spacing: 1.4px;
-}
-
-
-.modal-type {
-  display: inline-block;
-
-  max-width: 100%;
-
-  margin-bottom: 14px;
-
-  padding: 7px 11px;
-
-  border-radius: 9px;
-
-  background: #f2edff;
-
-  color: #7450d7;
-
-  font-size: 11px;
+  font-size: .76rem;
   font-weight: 800;
 
-  text-transform: uppercase;
+  cursor: pointer;
 
-  overflow-wrap: anywhere;
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
 }
 
+.modal-close-action:hover {
+  transform: translateY(-2px);
 
-.flashcard-modal h2 {
-  margin: 0 0 32px;
-
-  color: #29263d;
-
-  font-size: clamp(32px, 5vw, 52px);
-  line-height: 1.08;
-
-  letter-spacing: -1.8px;
-
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-
-/* =========================================================
-   ANSWER
-   ========================================================= */
-
-.answer-section {
-  padding: 22px;
-
-  border: 1px solid #eee9f7;
-  border-radius: 18px;
-
-  background: #f7f4fc;
-}
-
-
-.answer-label {
-  display: block;
-
-  margin-bottom: 9px;
-
-  color: #7c68a5;
-
-  font-size: 11px;
-  font-weight: 900;
-
-  letter-spacing: 1.3px;
-}
-
-
-.answer-section p {
-  margin: 0;
-
-  color: #39354d;
-
-  font-size: 18px;
-  line-height: 1.6;
-
-  overflow-wrap: anywhere;
-}
-
-
-/* =========================================================
-   MODAL LESSON
-   ========================================================= */
-
-.modal-lesson {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 15px;
-
-  margin-top: 22px;
-  padding-top: 20px;
-
-  border-top: 1px solid #ece8f5;
-}
-
-
-.modal-lesson span {
-  color: #918aa6;
-
-  font-size: 13px;
-}
-
-
-.modal-lesson strong {
-  max-width: 70%;
-
-  color: #49425d;
-
-  font-size: 14px;
-
-  text-align: right;
-
-  overflow-wrap: anywhere;
+  box-shadow:
+    0 .6rem 1.1rem rgba(92, 99, 235, .2);
 }
 
 
@@ -861,407 +1160,270 @@
    ANIMATIONS
    ========================================================= */
 
-@keyframes fadeIn {
+@keyframes hero-enter {
   from {
     opacity: 0;
+    transform: translateY(-12px);
   }
 
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-
-@keyframes modalIn {
+@keyframes section-enter {
   from {
     opacity: 0;
-
-    transform:
-      translateY(15px)
-      scale(0.98);
+    transform: translateY(10px);
   }
 
   to {
     opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+@keyframes card-enter {
+  from {
+    opacity: 0;
+    transform:
+      translateY(15px)
+      translateX(-8px)
+      scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translateY(0)
+      translateX(0)
+      scale(1);
+  }
+}
+
+@keyframes state-enter {
+  from {
+    opacity: 0;
+    transform: scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modal-enter {
+  from {
+    opacity: 0;
+    transform:
+      translateY(25px)
+      scale(.94);
+  }
+
+  to {
+    opacity: 1;
     transform:
       translateY(0)
       scale(1);
   }
 }
 
+@keyframes backdrop-enter {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes counter-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes bar-bounce {
+  0%,
+  100% {
+    transform: rotate(7deg) scaleY(1);
+  }
+
+  50% {
+    transform: rotate(7deg) scaleY(1.08);
+  }
+}
+
+@keyframes icon-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
 
 /* =========================================================
-   TABLET
+   RESPONSIVE
    ========================================================= */
 
 @media (max-width: 900px) {
 
-  .flashcards-page {
-    padding: 16px;
+  .card-action {
+    flex-basis: 5.5rem;
   }
 
-
-  .flashcards-shell {
-    padding: 30px;
+  .card-number {
+    flex-basis: 3.3rem;
   }
-
-
-  .flashcards-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-
-    gap: 16px;
-  }
-
-
-  .flashcard {
-    min-height: 230px;
-
-    padding: 22px;
-  }
-
-
-  .card-footer {
-    left: 22px;
-    right: 22px;
-  }
-
-
-  .card-content {
-    margin-top: 30px;
-  }
-
-
-  .card-content h2 {
-    font-size: 30px;
-  }
-
 }
 
 
-/* =========================================================
-   SMALL TABLET / LARGE MOBILE
-   ========================================================= */
+@media (max-width: 720px) {
 
-@media (max-width: 700px) {
-
-  .flashcards-page {
-    padding: 10px;
+  .page {
+    height: 100%;
+    padding: .6rem;
   }
 
+  .flashcards-center {
+    padding: 1rem;
 
-  .flashcards-shell {
-    padding: 24px 18px;
-
-    border-radius: 22px;
+    border-radius: 1.15rem;
   }
 
-
-  .page-header {
-    flex-direction: column;
-
-    gap: 20px;
-
-    margin-bottom: 28px;
+  .hero {
+    margin-bottom: .9rem;
   }
 
-
-  .page-header h1 {
-    font-size: clamp(38px, 10vw, 52px);
-
-    letter-spacing: -2px;
+  .hero-decoration {
+    gap: .4rem;
   }
 
-
-  .page-header p {
-    font-size: 15px;
+  .decoration-bars {
+    display: none;
   }
-
 
   .card-counter {
-    min-width: 90px;
-
-    padding: 13px 18px;
+    min-width: 4.2rem;
+    min-height: 4.2rem;
   }
 
+  .flashcards-section {
+    padding: .85rem;
 
-  .card-counter strong {
-    font-size: 28px;
+    border-radius: 1rem;
   }
-
-
-  .flashcards-grid {
-    grid-template-columns: 1fr;
-
-    gap: 16px;
-  }
-
 
   .flashcard {
-    min-height: 220px;
-
-    border-radius: 20px;
+    min-height: 6.8rem;
   }
 
-
-  .card-content h2 {
-    font-size: 32px;
+  .card-number {
+    flex-basis: 2.8rem;
   }
 
+  .card-action {
+    flex-basis: 5rem;
 
-  .flashcard-modal {
-    width: 100%;
+    margin: .5rem;
+  }
+}
 
-    max-height: calc(100vh - 24px);
 
-    padding: 32px 22px;
+@media (max-width: 520px) {
 
-    border-radius: 22px;
+  .hero-decoration {
+    display: none;
   }
 
+  .hero h1 {
+    font-size: 2.15rem;
+  }
 
-  .modal-lesson {
+  .hero p {
+    max-width: 300px;
+  }
+
+  .section-heading h2 {
+    font-size: 1.25rem;
+  }
+
+  .flashcard {
+    min-height: 8rem;
+
+    align-items: stretch;
+  }
+
+  .card-number {
+    flex-basis: 2.2rem;
+
+    font-size: .62rem;
+  }
+
+  .card-main {
+    padding: .75rem .4rem;
+  }
+
+  .card-meta {
     align-items: flex-start;
-
     flex-direction: column;
+
+    gap: .25rem;
+
+    margin-bottom: .25rem;
   }
-
-
-  .modal-lesson strong {
-    max-width: 100%;
-
-    text-align: left;
-  }
-
-}
-
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 480px) {
-
-  .flashcards-page {
-    padding: 6px;
-  }
-
-
-  .flashcards-shell {
-    padding: 22px 14px;
-
-    border-radius: 18px;
-  }
-
-
-  .eyebrow {
-    font-size: 11px;
-
-    letter-spacing: 1.3px;
-  }
-
-
-  .eyebrow-icon {
-    width: 22px;
-    height: 22px;
-
-    flex-basis: 22px;
-  }
-
-
-  .page-header h1 {
-    font-size: 36px;
-
-    letter-spacing: -1.7px;
-  }
-
-
-  .page-header p {
-    font-size: 14px;
-  }
-
-
-  .card-counter {
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 8px;
-
-    padding: 12px 16px;
-  }
-
-
-  .card-counter strong {
-    font-size: 25px;
-  }
-
-
-  .card-counter span {
-    margin-top: 0;
-  }
-
-
-  .flashcard {
-    min-height: 205px;
-
-    padding: 19px;
-
-    border-radius: 18px;
-  }
-
 
   .lesson-label {
-    max-width: calc(100% - 42px);
-
-    font-size: 10px;
-
-    letter-spacing: 0.8px;
+    max-width: 100%;
   }
 
-
-  .card-arrow {
-    flex-basis: 30px;
-
-    width: 30px;
-    height: 30px;
-
-    font-size: 16px;
+  .card-main h3 {
+    font-size: .95rem;
   }
 
-
-  .card-content {
-    margin-top: 27px;
+  .card-main p {
+    font-size: .67rem;
   }
 
+  .card-action {
+    flex: 0 0 4.1rem;
 
-  .type-label {
-    margin-bottom: 8px;
+    margin: .45rem;
 
-    font-size: 10px;
+    writing-mode: vertical-rl;
+
+    gap: .2rem;
   }
 
-
-  .card-content h2 {
-    font-size: 27px;
+  .card-action .card-arrow {
+    font-size: .85rem;
   }
-
-
-  .card-footer {
-    left: 19px;
-    right: 19px;
-    bottom: 17px;
-
-    font-size: 12px;
-  }
-
-
-  .state-container {
-    min-height: 250px;
-
-    padding: 28px 18px;
-  }
-
-
-  .state-container h2 {
-    font-size: 21px;
-  }
-
-
-  .modal-backdrop {
-    padding: 10px;
-  }
-
 
   .flashcard-modal {
-    max-height: calc(100vh - 20px);
+    max-height: 88vh;
 
-    padding: 28px 18px;
+    padding: 1.25rem;
 
-    border-radius: 20px;
+    border-radius: 1.2rem;
   }
-
-
-  .close-button {
-    top: 12px;
-    right: 12px;
-
-    width: 38px;
-    height: 38px;
-
-    font-size: 25px;
-  }
-
-
-  .modal-icon {
-    width: 48px;
-    height: 48px;
-
-    margin-bottom: 15px;
-  }
-
-
-  .flashcard-modal h2 {
-    margin-bottom: 24px;
-
-    font-size: 32px;
-
-    letter-spacing: -1px;
-  }
-
-
-  .answer-section {
-    padding: 18px;
-  }
-
-
-  .answer-section p {
-    font-size: 16px;
-  }
-
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 360px) {
-
-  .flashcards-shell {
-    padding: 18px 12px;
-  }
-
-
-  .page-header h1 {
-    font-size: 32px;
-  }
-
-
-  .flashcard {
-    min-height: 195px;
-
-    padding: 17px;
-  }
-
-
-  .card-content h2 {
-    font-size: 25px;
-  }
-
-
-  .card-footer {
-    left: 17px;
-    right: 17px;
-  }
-
-
-  .flashcard-modal {
-    padding: 25px 15px;
-  }
-
 }
 
 
@@ -1270,13 +1432,18 @@
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .flashcard,
-  .retry-button,
-  .close-button,
-  .modal-backdrop,
-  .flashcard-modal {
-    animation: none;
-    transition: none;
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
   }
 
+  .flashcard:hover,
+  .retry-button:hover,
+  .modal-close-action:hover,
+  .flashcard:hover .card-action {
+    transform: none;
+  }
 }

@@ -1,5 +1,6 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   HostListener,
   OnInit,
@@ -20,6 +21,7 @@ import { FlashcardService } from '../../writer-ui/services/flashcard.service';
 export class CheckFlashcardsComponent implements OnInit {
 
   private readonly flashcardService = inject(FlashcardService);
+  private readonly changeDetectorRef = inject(ChangeDetectorRef);
 
   flashcards: Flashcard[] = [];
   selectedFlashcard: Flashcard | null = null;
@@ -35,10 +37,16 @@ export class CheckFlashcardsComponent implements OnInit {
     this.loading = true;
     this.errorMessage = '';
 
+    this.changeDetectorRef.markForCheck();
+
     this.flashcardService.getAllFlashcards().subscribe({
       next: (flashcards) => {
+        console.log('Flashcards received:', flashcards);
+
         this.flashcards = flashcards ?? [];
         this.loading = false;
+
+        this.changeDetectorRef.markForCheck();
       },
 
       error: (error) => {
@@ -46,7 +54,10 @@ export class CheckFlashcardsComponent implements OnInit {
 
         this.flashcards = [];
         this.loading = false;
-        this.errorMessage = 'Unable to load flashcards. Please try again.';
+        this.errorMessage =
+          'Unable to load flashcards. Please try again.';
+
+        this.changeDetectorRef.markForCheck();
       }
     });
   }
@@ -55,12 +66,16 @@ export class CheckFlashcardsComponent implements OnInit {
     this.selectedFlashcard = flashcard;
 
     document.body.style.overflow = 'hidden';
+
+    this.changeDetectorRef.markForCheck();
   }
 
   closeCard(): void {
     this.selectedFlashcard = null;
 
     document.body.style.overflow = '';
+
+    this.changeDetectorRef.markForCheck();
   }
 
   @HostListener('document:keydown.escape')
