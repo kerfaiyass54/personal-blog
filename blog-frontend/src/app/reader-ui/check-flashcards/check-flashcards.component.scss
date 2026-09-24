@@ -1,15 +1,5 @@
-@use '../reader-theme' as reader-theme;
-
-@include reader-theme.unified-reader-theme;
-
-
-/* =========================================================
-   BASE
-   ========================================================= */
-
 :host {
   display: block;
-  width: 100%;
   min-width: 0;
   min-height: 0;
 }
@@ -28,14 +18,25 @@
 .page {
   width: 100%;
   min-width: 0;
+  height: 100%;
+  min-height: 0;
   padding: clamp(.75rem, 1.5vw, 1.25rem);
 }
 
+
+/* =========================================================
+   MAIN CONTAINER
+   ========================================================= */
+
 .flashcards-center {
   width: min(100%, 1080px);
-  min-width: 0;
-
+  height: 100%;
+  min-height: 0;
   margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+
   padding: clamp(1.1rem, 2.5vw, 1.8rem);
 
   overflow: hidden;
@@ -45,12 +46,7 @@
   background:
     radial-gradient(
       circle at 90% 4%,
-      rgba(150, 103, 255, .18),
-      transparent 25%
-    ),
-    radial-gradient(
-      circle at 5% 95%,
-      rgba(83, 104, 232, .08),
+      rgba(150, 103, 255, .2),
       transparent 25%
     ),
     linear-gradient(
@@ -69,7 +65,7 @@
    ========================================================= */
 
 .hero {
-  position: relative;
+  flex: 0 0 auto;
 
   display: flex;
   align-items: flex-start;
@@ -78,6 +74,8 @@
   gap: 1rem;
 
   margin-bottom: 1.2rem;
+
+  animation: hero-enter .55s ease both;
 }
 
 .hero-copy {
@@ -87,7 +85,6 @@
 .eyebrow {
   display: inline-flex;
   align-items: center;
-
   gap: .45rem;
 
   margin-bottom: .45rem;
@@ -98,7 +95,6 @@
   font-weight: 850;
 
   letter-spacing: .12em;
-
   text-transform: uppercase;
 }
 
@@ -122,6 +118,9 @@
   color: #fff;
 
   font-size: .8rem;
+
+  box-shadow:
+    0 .35rem .7rem rgba(112, 72, 217, .2);
 }
 
 .hero h1 {
@@ -137,29 +136,15 @@
 }
 
 .hero h1 span {
-  background:
-    linear-gradient(
-      90deg,
-      #7048d9,
-      #5368e8
-    );
-
-  -webkit-background-clip: text;
-  background-clip: text;
-
-  color: transparent;
+  color: #7048d9;
 }
 
 .hero p {
-  max-width: 620px;
-
   margin: .45rem 0 0;
 
   color: #68718a;
 
   font-size: clamp(.82rem, 1.6vw, .95rem);
-
-  line-height: 1.5;
 }
 
 
@@ -169,6 +154,58 @@
 
 .hero-decoration {
   display: flex;
+  align-items: center;
+
+  gap: .8rem;
+
+  padding: .4rem;
+}
+
+.card-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 4.8rem;
+  min-height: 4.8rem;
+
+  padding: .65rem;
+
+  border-radius: 1rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7048d9,
+      #5368e8
+    );
+
+  color: #fff;
+
+  box-shadow:
+    0 .7rem 1.4rem rgba(82, 73, 180, .18);
+
+  animation: counter-float 3s ease-in-out infinite;
+}
+
+.card-counter strong {
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.card-counter span {
+  margin-top: .25rem;
+
+  font-size: .55rem;
+  font-weight: 850;
+
+  letter-spacing: .1em;
+  opacity: .85;
+}
+
+.decoration-bars {
+  display: flex;
   align-items: flex-end;
 
   gap: .25rem;
@@ -176,7 +213,7 @@
   padding: .4rem;
 }
 
-.hero-decoration span {
+.decoration-bars span {
   display: block;
 
   width: 1.2rem;
@@ -184,126 +221,26 @@
   border-radius: .2rem;
 
   transform: rotate(7deg);
+
+  animation: bar-bounce 2.5s ease-in-out infinite;
 }
 
-.hero-decoration span:nth-child(1) {
+.decoration-bars span:nth-child(1) {
   height: 1.7rem;
   background: #71d54b;
+  animation-delay: 0s;
 }
 
-.hero-decoration span:nth-child(2) {
+.decoration-bars span:nth-child(2) {
   height: 2.1rem;
   background: #ff4d9a;
+  animation-delay: .15s;
 }
 
-.hero-decoration span:nth-child(3) {
+.decoration-bars span:nth-child(3) {
   height: 1.5rem;
   background: #4bc7e8;
-}
-
-
-/* =========================================================
-   SUMMARY
-   ========================================================= */
-
-.summary-card {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-
-  gap: .85rem;
-
-  min-width: 0;
-
-  margin-bottom: 1.15rem;
-
-  padding: 1rem;
-
-  overflow: hidden;
-
-  border-radius: 1.1rem;
-
-  background:
-    linear-gradient(
-      135deg,
-      #7048d9,
-      #5c63eb
-    );
-
-  color: #fff;
-
-  box-shadow:
-    0 .8rem 1.4rem rgba(57, 40, 120, .12);
-}
-
-.summary-card::after {
-  content: '';
-
-  position: absolute;
-
-  width: 8rem;
-  height: 8rem;
-
-  right: -2.5rem;
-  top: -3.5rem;
-
-  border-radius: 50%;
-
-  background: rgba(255, 255, 255, .12);
-}
-
-.summary-icon {
-  position: relative;
-  z-index: 1;
-
-  display: grid;
-
-  width: 3rem;
-  height: 3rem;
-
-  flex: 0 0 3rem;
-
-  place-items: center;
-
-  border-radius: .9rem;
-
-  background: rgba(255, 255, 255, .15);
-
-  font-size: 1.35rem;
-}
-
-.summary-content {
-  position: relative;
-  z-index: 1;
-
-  min-width: 0;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: .15rem;
-}
-
-.summary-label {
-  color: rgba(255, 255, 255, .72);
-
-  font-size: .6rem;
-  font-weight: 850;
-
-  letter-spacing: .11em;
-}
-
-.summary-content strong {
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
-
-  line-height: 1.05;
-}
-
-.summary-content small {
-  color: rgba(255, 255, 255, .78);
-
-  font-size: .7rem;
+  animation-delay: .3s;
 }
 
 
@@ -313,8 +250,16 @@
 
 .flashcards-section {
   min-width: 0;
+  min-height: 0;
+
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-direction: column;
 
   padding: clamp(1rem, 2vw, 1.25rem);
+
+  overflow: hidden;
 
   border-radius: 1.2rem;
 
@@ -325,9 +270,18 @@
       transparent 28%
     ),
     rgba(246, 242, 255, .75);
+
+  animation: section-enter .5s ease .12s both;
 }
 
+
+/* =========================================================
+   SECTION HEADING
+   ========================================================= */
+
 .section-heading {
+  flex: 0 0 auto;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -378,33 +332,72 @@
 
 
 /* =========================================================
-   FLASHCARD GRID
+   SCROLLABLE FLASHCARD LIST
    ========================================================= */
 
-.flashcards-grid {
-  display: grid;
+.flashcards-list {
+  flex: 1 1 auto;
 
-  grid-template-columns:
-    repeat(3, minmax(0, 1fr));
+  min-width: 0;
+  min-height: 0;
 
-  gap: .75rem;
+  display: flex;
+  flex-direction: column;
 
-  width: 100%;
+  max-height: 500px;
+  overflow: auto;
+
+  gap: .65rem;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  padding: .15rem .35rem .5rem .05rem;
+
+  scrollbar-width: thin;
+  scrollbar-color: rgba(112, 72, 217, .35) transparent;
+}
+
+
+/* Chrome / Edge / Safari */
+
+.flashcards-list::-webkit-scrollbar {
+  width: .42rem;
+}
+
+.flashcards-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.flashcards-list::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+
+  background:
+    rgba(112, 72, 217, .3);
+}
+
+.flashcards-list::-webkit-scrollbar-thumb:hover {
+  background:
+    rgba(112, 72, 217, .55);
 }
 
 
 /* =========================================================
-   FLASHCARD
+   HORIZONTAL FLASHCARD
    ========================================================= */
 
 .flashcard {
+  --card-index: 0;
+
   position: relative;
 
+  flex: 0 0 auto;
+
   min-width: 0;
-  min-height: 15rem;
+  min-height: 7.2rem;
 
   display: flex;
-  flex-direction: column;
+  align-items: stretch;
 
   overflow: hidden;
 
@@ -416,18 +409,26 @@
     rgba(255, 255, 255, .92);
 
   box-shadow:
-    0 .5rem 1.2rem rgba(57, 40, 120, .06);
+    0 .45rem 1rem rgba(57, 40, 120, .055);
 
   cursor: pointer;
 
+  outline: none;
+
+  opacity: 0;
+
+  animation:
+    card-enter .5s cubic-bezier(.22, 1, .36, 1)
+    calc(var(--card-index) * 70ms) forwards;
+
   transition:
-    transform .2s ease,
-    box-shadow .2s ease,
-    border-color .2s ease;
+    transform .22s ease,
+    box-shadow .22s ease,
+    border-color .22s ease;
 }
 
 .flashcard:hover {
-  transform: translateY(-3px);
+  transform: translateY(-3px) translateX(2px);
 
   border-color:
     rgba(112, 72, 217, .22);
@@ -437,258 +438,304 @@
 }
 
 .flashcard:focus-visible {
-  outline: 3px solid #7048d9;
+  border-color: #7048d9;
 
-  outline-offset: 3px;
-}
-
-.flashcard:active {
-  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 3px rgba(112, 72, 217, .14),
+    0 .8rem 1.5rem rgba(57, 40, 120, .1);
 }
 
 
 /* =========================================================
-   FLASHCARD GLOW
+   CARD GLOW
    ========================================================= */
 
-.flashcard-glow {
+.card-glow {
   position: absolute;
 
   width: 8rem;
   height: 8rem;
 
   right: -3rem;
-  top: -3rem;
-
-  border-radius: 50%;
-
-  background:
-    rgba(112, 72, 217, .1);
-
-  pointer-events: none;
-}
-
-
-/* =========================================================
-   FLASHCARD ICON
-   ========================================================= */
-
-.flashcard-icon {
-  position: relative;
-  z-index: 1;
-
-  display: grid;
-
-  width: 2.7rem;
-  height: 2.7rem;
-
-  margin: .9rem .9rem 0;
-
-  place-items: center;
-
-  border-radius: .8rem;
-
-  background:
-    linear-gradient(
-      135deg,
-      #ede6ff,
-      #f7f4ff
-    );
-
-  color: #7048d9;
-
-  font-size: 1.25rem;
-}
-
-
-/* =========================================================
-   FLASHCARD BODY
-   ========================================================= */
-
-.flashcard-body {
-  position: relative;
-  z-index: 1;
-
-  min-width: 0;
-
-  flex: 1;
-
-  display: flex;
-  flex-direction: column;
-
-  padding: .65rem .9rem .9rem;
-}
-
-
-/* =========================================================
-   CARD TOP
-   ========================================================= */
-
-.card-top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  gap: .6rem;
-
-  min-width: 0;
-}
-
-.lesson-label {
-  min-width: 0;
-
-  display: flex;
-  align-items: flex-start;
-
-  gap: .4rem;
-
-  color: #858ca0;
-
-  font-size: .58rem;
-  font-weight: 850;
-
-  letter-spacing: .09em;
-
-  line-height: 1.4;
-
-  text-transform: uppercase;
-}
-
-.lesson-label > span:last-child {
-  min-width: 0;
-
-  display: -webkit-box;
-
-  overflow: hidden;
-
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.lesson-dot {
-  flex: 0 0 auto;
-
-  color: #7048d9;
-}
-
-.card-arrow {
-  display: grid;
-
-  width: 2rem;
-  height: 2rem;
-
-  flex: 0 0 2rem;
-
-  place-items: center;
+  top: -4rem;
 
   border-radius: 50%;
 
   background:
     rgba(112, 72, 217, .08);
 
-  color: #7048d9;
+  pointer-events: none;
 
-  font-size: 1rem;
+  transition:
+    transform .35s ease,
+    background .35s ease;
+}
+
+.flashcard:hover .card-glow {
+  transform: scale(1.35);
+
+  background:
+    rgba(112, 72, 217, .12);
 }
 
 
 /* =========================================================
-   CARD CONTENT
+   CARD NUMBER
    ========================================================= */
 
-.type-label {
-  display: inline-block;
+.card-number {
+  position: relative;
+  z-index: 1;
 
-  width: fit-content;
+  flex: 0 0 4rem;
 
-  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  margin-top: 1.25rem;
-  margin-bottom: .3rem;
+  color: rgba(112, 72, 217, .28);
 
-  color: #a0a5b5;
+  font-size: .72rem;
+  font-weight: 900;
 
-  font-size: .57rem;
-  font-weight: 850;
-
-  letter-spacing: .1em;
-
-  text-transform: uppercase;
-
-  overflow: hidden;
-
-  text-overflow: ellipsis;
-
-  white-space: nowrap;
+  letter-spacing: .08em;
 }
 
-.flashcard-body h3 {
-  display: -webkit-box;
 
-  margin: 0;
+/* =========================================================
+   CARD MAIN
+   ========================================================= */
 
+.card-main {
+  position: relative;
+  z-index: 1;
+
+  min-width: 0;
+
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  padding: .9rem .75rem;
+}
+
+.card-meta {
+  display: flex;
+  align-items: center;
+
+  gap: .55rem;
+
+  min-width: 0;
+
+  margin-bottom: .35rem;
+}
+
+.lesson-label {
+  min-width: 0;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: .35rem;
+
+  color: #7d8498;
+
+  font-size: .62rem;
+  font-weight: 750;
+
+  white-space: nowrap;
   overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lesson-icon {
+  display: grid;
+
+  width: 1.25rem;
+  height: 1.25rem;
+
+  flex: 0 0 1.25rem;
+
+  place-items: center;
+
+  border-radius: .35rem;
+
+  background:
+    #ede6ff;
+
+  color: #7048d9;
+
+  font-size: .65rem;
+}
+
+.type-label {
+  flex: 0 0 auto;
+
+  padding: .22rem .45rem;
+
+  border-radius: 999px;
+
+  background:
+    rgba(112, 72, 217, .08);
+
+  color: #7048d9;
+
+  font-size: .52rem;
+  font-weight: 850;
+
+  letter-spacing: .08em;
+}
+
+.card-main h3 {
+  margin: 0;
 
   color: #293047;
 
-  font-size: clamp(1rem, 2vw, 1.25rem);
+  font-size: clamp(.95rem, 1.8vw, 1.15rem);
 
-  line-height: 1.3;
+  line-height: 1.2;
 
-  letter-spacing: -.02em;
-
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4;
-
-  overflow-wrap: anywhere;
+  letter-spacing: -.015em;
 }
 
+.card-main p {
+  display: -webkit-box;
 
-/* =========================================================
-   CARD FOOTER
-   ========================================================= */
-
-.card-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: .5rem;
-
-  margin-top: auto;
-  padding-top: .8rem;
-
-  color: #9096a8;
-
-  font-size: .65rem;
-  font-weight: 700;
-}
-
-.card-footer span:first-child {
-  min-width: 0;
+  margin: .3rem 0 0;
 
   overflow: hidden;
 
-  text-overflow: ellipsis;
+  color: #858ca0;
 
-  white-space: nowrap;
-}
+  font-size: .7rem;
 
-.card-footer span:last-child {
-  flex: 0 0 auto;
+  line-height: 1.45;
 
-  color: #7048d9;
-
-  font-size: 1rem;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 
 /* =========================================================
-   STATES
+   CARD ACTION
+   ========================================================= */
+
+.card-action {
+  position: relative;
+  z-index: 1;
+
+  flex: 0 0 6.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: .35rem;
+
+  margin: .65rem;
+
+  border-radius: .75rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7048d9,
+      #5c63eb
+    );
+
+  color: #fff;
+
+  font-size: .68rem;
+  font-weight: 800;
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease;
+}
+
+.flashcard:hover .card-action {
+  transform: translateX(-2px);
+
+  box-shadow:
+    0 .5rem 1rem rgba(92, 99, 235, .2);
+}
+
+.card-arrow {
+  font-size: 1rem;
+
+  transition:
+    transform .22s ease;
+}
+
+.flashcard:hover .card-arrow {
+  transform:
+    translate(2px, -2px);
+}
+
+
+/* =========================================================
+   DEFER PLACEHOLDER
+   ========================================================= */
+
+.defer-placeholder {
+  flex: 1 1 auto;
+
+  min-height: 12rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: .65rem;
+
+  color: #858ca0;
+
+  font-size: .75rem;
+}
+
+.placeholder-spinner {
+  width: 1.2rem;
+  height: 1.2rem;
+
+  border: 2px solid rgba(112, 72, 217, .15);
+  border-top-color: #7048d9;
+
+  border-radius: 50%;
+
+  animation:
+    spin .8s linear infinite;
+}
+
+.error-placeholder {
+  color: #b33b58;
+}
+
+.placeholder-error-icon {
+  display: grid;
+
+  width: 1.8rem;
+  height: 1.8rem;
+
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: rgba(179, 59, 88, .1);
+
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   LOADING / ERROR / EMPTY STATES
    ========================================================= */
 
 .state-container {
-  min-height: 12rem;
+  flex: 1 1 auto;
+
+  min-height: 15rem;
 
   display: flex;
   flex-direction: column;
@@ -696,18 +743,16 @@
   align-items: center;
   justify-content: center;
 
-  padding: 1.5rem;
-
-  border-radius: 1.2rem;
-
-  background:
-    rgba(246, 242, 255, .75);
+  padding: 2rem;
 
   text-align: center;
+
+  animation:
+    state-enter .45s ease both;
 }
 
 .state-container h2 {
-  margin: 1rem 0 .35rem;
+  margin: .8rem 0 0;
 
   color: #343a4e;
 
@@ -717,13 +762,29 @@
 .state-container p {
   max-width: 360px;
 
-  margin: 0;
+  margin: .35rem 0 0;
 
   color: #858ca0;
 
   font-size: .76rem;
 
   line-height: 1.5;
+}
+
+.loader {
+  width: 2.8rem;
+  height: 2.8rem;
+
+  border: 3px solid rgba(112, 72, 217, .12);
+
+  border-top-color: #7048d9;
+
+  border-right-color: #5368e8;
+
+  border-radius: 50%;
+
+  animation:
+    spin .85s linear infinite;
 }
 
 .state-icon {
@@ -742,113 +803,331 @@
   color: #7048d9;
 
   font-size: 1.45rem;
-  font-weight: 850;
+
+  animation:
+    icon-float 2.5s ease-in-out infinite;
 }
 
 .error-state .state-icon {
-  background: rgba(239, 68, 68, .1);
+  background: rgba(179, 59, 88, .1);
 
-  color: #dc3d4b;
+  color: #b33b58;
 }
-
-
-/* =========================================================
-   LOADER
-   ========================================================= */
-
-.loader {
-  width: 2.5rem;
-  height: 2.5rem;
-
-  border: .25rem solid rgba(112, 72, 217, .15);
-
-  border-top-color: #7048d9;
-
-  border-radius: 50%;
-
-  animation:
-    spin .8s linear infinite;
-}
-
-
-/* =========================================================
-   EMPTY STATE
-   ========================================================= */
-
-.empty-state {
-  min-height: 12rem;
-
-  display: flex;
-  flex-direction: column;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: 1.5rem;
-
-  text-align: center;
-
-  border-radius: 1.2rem;
-
-  background:
-    rgba(246, 242, 255, .75);
-}
-
-.empty-icon {
-  display: grid;
-
-  width: 3.3rem;
-  height: 3.3rem;
-
-  margin-bottom: .7rem;
-
-  place-items: center;
-
-  border-radius: 1rem;
-
-  background:
-    rgba(112, 72, 217, .1);
-
-  color: #7048d9;
-
-  font-size: 1.45rem;
-}
-
-.empty-state h3 {
-  margin: 0;
-
-  color: #343a4e;
-
-  font-size: 1rem;
-}
-
-.empty-state p {
-  max-width: 360px;
-
-  margin: .35rem 0 0;
-
-  color: #858ca0;
-
-  font-size: .76rem;
-
-  line-height: 1.5;
-}
-
-
-/* =========================================================
-   RETRY BUTTON
-   ========================================================= */
 
 .retry-button {
-  min-height: 2.35rem;
-
   margin-top: 1rem;
 
-  padding: .5rem .9rem;
+  min-height: 2.35rem;
+
+  padding: .55rem 1rem;
 
   border: 0;
 
   border-radius: .7rem;
+
+  background:
+    linear-gradient(
+      110deg,
+      #7048d9,
+      #5c63eb
+    );
+
+  color: #fff;
+
+  font-size: .76rem;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 .45rem .8rem rgba(92, 99, 235, .15);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.retry-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 .65rem 1rem rgba(92, 99, 235, .22);
+}
+
+
+/* =========================================================
+   MODAL BACKDROP
+   ========================================================= */
+
+.modal-backdrop {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 1rem;
+
+  background:
+    rgba(30, 23, 58, .48);
+
+  backdrop-filter:
+    blur(8px);
+
+  animation:
+    backdrop-enter .22s ease both;
+}
+
+
+/* =========================================================
+   MODAL
+   ========================================================= */
+
+.flashcard-modal {
+  position: relative;
+
+  width: min(100%, 600px);
+
+  max-height: min(90vh, 680px);
+
+  overflow-y: auto;
+
+  padding: clamp(1.4rem, 4vw, 2rem);
+
+  border: 1px solid rgba(112, 72, 217, .12);
+
+  border-radius: 1.5rem;
+
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(112, 72, 217, .13),
+      transparent 35%
+    ),
+    linear-gradient(
+      145deg,
+      #fff,
+      #f7f4ff
+    );
+
+  box-shadow:
+    0 2rem 5rem rgba(30, 20, 70, .25);
+
+  animation:
+    modal-enter .35s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+
+/* =========================================================
+   CLOSE BUTTON
+   ========================================================= */
+
+.close-button {
+  position: absolute;
+
+  top: .8rem;
+  right: .8rem;
+
+  display: grid;
+
+  width: 2.2rem;
+  height: 2.2rem;
+
+  place-items: center;
+
+  border: 0;
+
+  border-radius: .7rem;
+
+  background:
+    rgba(112, 72, 217, .08);
+
+  color: #7048d9;
+
+  font-size: 1.35rem;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    transform .2s ease,
+    background .2s ease;
+}
+
+.close-button:hover {
+  transform: rotate(90deg);
+
+  background:
+    rgba(112, 72, 217, .15);
+}
+
+
+/* =========================================================
+   MODAL HEADER
+   ========================================================= */
+
+.modal-header {
+  display: flex;
+  align-items: center;
+
+  gap: .7rem;
+
+  margin-bottom: 1rem;
+}
+
+.modal-icon {
+  display: grid;
+
+  width: 3rem;
+  height: 3rem;
+
+  flex: 0 0 3rem;
+
+  place-items: center;
+
+  border-radius: .9rem;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ede6ff,
+      #f7f4ff
+    );
+
+  color: #7048d9;
+
+  font-size: 1.25rem;
+}
+
+.modal-header > div:last-child {
+  display: flex;
+  flex-direction: column;
+
+  gap: .15rem;
+}
+
+.modal-label {
+  color: #7048d9;
+
+  font-size: .62rem;
+  font-weight: 850;
+
+  letter-spacing: .12em;
+}
+
+.modal-type {
+  color: #8b91a4;
+
+  font-size: .6rem;
+  font-weight: 750;
+
+  letter-spacing: .08em;
+}
+
+
+/* =========================================================
+   MODAL CONTENT
+   ========================================================= */
+
+.flashcard-modal h2 {
+  margin: 0;
+
+  padding-right: 2rem;
+
+  color: #252b40;
+
+  font-size: clamp(1.7rem, 4vw, 2.35rem);
+
+  line-height: 1.08;
+
+  letter-spacing: -.035em;
+}
+
+.answer-section {
+  position: relative;
+
+  margin-top: 1.4rem;
+
+  padding: 1rem 1.1rem;
+
+  border-radius: 1rem;
+
+  background:
+    rgba(112, 72, 217, .06);
+}
+
+.answer-label {
+  color: #7048d9;
+
+  font-size: .6rem;
+  font-weight: 850;
+
+  letter-spacing: .12em;
+}
+
+.answer-section p {
+  margin: .4rem 0 0;
+
+  color: #525a70;
+
+  font-size: .9rem;
+
+  line-height: 1.6;
+}
+
+.modal-lesson {
+  display: flex;
+  flex-direction: column;
+
+  gap: .25rem;
+
+  margin-top: 1rem;
+
+  padding-top: 1rem;
+
+  border-top: 1px solid rgba(112, 72, 217, .1);
+}
+
+.modal-lesson span {
+  color: #8b91a4;
+
+  font-size: .62rem;
+  font-weight: 750;
+
+  text-transform: uppercase;
+
+  letter-spacing: .08em;
+}
+
+.modal-lesson strong {
+  color: #343a4e;
+
+  font-size: .78rem;
+
+  line-height: 1.4;
+}
+
+.modal-close-action {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: .45rem;
+
+  min-height: 2.7rem;
+
+  margin-top: 1.2rem;
+
+  border: 0;
+
+  border-radius: .8rem;
 
   background:
     linear-gradient(
@@ -869,325 +1148,11 @@
     box-shadow .2s ease;
 }
 
-.retry-button:hover {
-  transform: translateY(-1px);
+.modal-close-action:hover {
+  transform: translateY(-2px);
 
   box-shadow:
-    0 .45rem .8rem rgba(92, 99, 235, .2);
-}
-
-
-/* =========================================================
-   MODAL
-   ========================================================= */
-
-.modal-backdrop {
-  position: fixed;
-
-  inset: 0;
-
-  z-index: 9999;
-
-  display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  padding: 1rem;
-
-  background:
-    rgba(31, 20, 55, .55);
-
-  backdrop-filter: blur(8px);
-
-  animation:
-    fadeIn .18s ease;
-}
-
-.flashcard-modal {
-  position: relative;
-
-  width: min(620px, 100%);
-
-  max-height: calc(100vh - 2rem);
-
-  overflow-y: auto;
-
-  padding: clamp(1.3rem, 4vw, 2rem);
-
-  border:
-    1px solid rgba(112, 72, 217, .12);
-
-  border-radius: 1.5rem;
-
-  background:
-    linear-gradient(
-      145deg,
-      #ffffff,
-      #faf8ff
-    );
-
-  color: #293047;
-
-  box-shadow:
-    0 2rem 5rem rgba(30, 17, 65, .28);
-
-  animation:
-    modalIn .2s ease;
-}
-
-
-/* =========================================================
-   CLOSE
-   ========================================================= */
-
-.close-button {
-  position: absolute;
-
-  top: 1rem;
-  right: 1rem;
-
-  display: grid;
-
-  width: 2.25rem;
-  height: 2.25rem;
-
-  place-items: center;
-
-  padding: 0;
-
-  border: 0;
-
-  border-radius: 50%;
-
-  background:
-    #f1edfa;
-
-  color: #4b4560;
-
-  font-size: 1.5rem;
-
-  line-height: 1;
-
-  cursor: pointer;
-
-  transition:
-    background .15s ease,
-    transform .15s ease;
-}
-
-.close-button:hover {
-  background: #e7e0f7;
-
-  transform: rotate(5deg);
-}
-
-.close-button:focus-visible {
-  outline: 3px solid #7048d9;
-
-  outline-offset: 2px;
-}
-
-
-/* =========================================================
-   MODAL HEADER
-   ========================================================= */
-
-.modal-header {
-  display: flex;
-  align-items: center;
-
-  gap: .75rem;
-
-  margin-bottom: 1.25rem;
-
-  padding-right: 3rem;
-}
-
-.modal-icon {
-  display: grid;
-
-  width: 3rem;
-  height: 3rem;
-
-  flex: 0 0 3rem;
-
-  place-items: center;
-
-  border-radius: .9rem;
-
-  background:
-    linear-gradient(
-      135deg,
-      #7048d9,
-      #5368e8
-    );
-
-  color: #fff;
-
-  font-size: 1.25rem;
-}
-
-.modal-label {
-  display: block;
-
-  margin-bottom: .3rem;
-
-  color: #7048d9;
-
-  font-size: .63rem;
-  font-weight: 900;
-
-  letter-spacing: .12em;
-}
-
-.modal-type {
-  display: inline-flex;
-
-  max-width: 100%;
-
-  padding: .25rem .5rem;
-
-  border-radius: .5rem;
-
-  background:
-    rgba(112, 72, 217, .09);
-
-  color: #7048d9;
-
-  font-size: .58rem;
-  font-weight: 850;
-
-  letter-spacing: .04em;
-
-  text-transform: uppercase;
-
-  overflow-wrap: anywhere;
-}
-
-
-/* =========================================================
-   MODAL TERM
-   ========================================================= */
-
-.flashcard-modal h2 {
-  margin: 0 0 1.3rem;
-
-  color: #293047;
-
-  font-size: clamp(1.8rem, 5vw, 2.8rem);
-
-  line-height: 1.08;
-
-  letter-spacing: -.045em;
-
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-
-/* =========================================================
-   ANSWER
-   ========================================================= */
-
-.answer-section {
-  padding: 1rem;
-
-  border:
-    1px solid rgba(112, 72, 217, .1);
-
-  border-radius: 1rem;
-
-  background:
-    #f7f4fc;
-}
-
-.answer-label {
-  display: block;
-
-  margin-bottom: .45rem;
-
-  color: #7c68a5;
-
-  font-size: .62rem;
-  font-weight: 900;
-
-  letter-spacing: .12em;
-}
-
-.answer-section p {
-  margin: 0;
-
-  color: #39354d;
-
-  font-size: .95rem;
-
-  line-height: 1.65;
-
-  overflow-wrap: anywhere;
-}
-
-
-/* =========================================================
-   MODAL LESSON
-   ========================================================= */
-
-.modal-lesson {
-  display: flex;
-  align-items: center;
-
-  gap: .75rem;
-
-  margin-top: 1rem;
-
-  padding-top: 1rem;
-
-  border-top:
-    1px solid #ece8f5;
-}
-
-.modal-lesson-icon {
-  display: grid;
-
-  width: 2.4rem;
-  height: 2.4rem;
-
-  flex: 0 0 2.4rem;
-
-  place-items: center;
-
-  border-radius: .7rem;
-
-  background:
-    rgba(112, 72, 217, .09);
-
-  color: #7048d9;
-
-  font-size: 1rem;
-}
-
-.modal-lesson-content {
-  min-width: 0;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: .15rem;
-}
-
-.modal-lesson-content span {
-  color: #9197a8;
-
-  font-size: .62rem;
-  font-weight: 700;
-}
-
-.modal-lesson-content strong {
-  color: #49425d;
-
-  font-size: .78rem;
-
-  overflow-wrap: anywhere;
+    0 .6rem 1.1rem rgba(92, 99, 235, .2);
 }
 
 
@@ -1195,62 +1160,146 @@
    ANIMATIONS
    ========================================================= */
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes fadeIn {
+@keyframes hero-enter {
   from {
     opacity: 0;
+    transform: translateY(-12px);
   }
 
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@keyframes modalIn {
+@keyframes section-enter {
   from {
     opacity: 0;
+    transform: translateY(10px);
+  }
 
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes card-enter {
+  from {
+    opacity: 0;
     transform:
-      translateY(12px)
+      translateY(15px)
+      translateX(-8px)
       scale(.98);
   }
 
   to {
     opacity: 1;
+    transform:
+      translateY(0)
+      translateX(0)
+      scale(1);
+  }
+}
 
+@keyframes state-enter {
+  from {
+    opacity: 0;
+    transform: scale(.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes modal-enter {
+  from {
+    opacity: 0;
+    transform:
+      translateY(25px)
+      scale(.94);
+  }
+
+  to {
+    opacity: 1;
     transform:
       translateY(0)
       scale(1);
   }
 }
 
-
-/* =========================================================
-   TABLET
-   ========================================================= */
-
-@media (max-width: 900px) {
-
-  .flashcards-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+@keyframes backdrop-enter {
+  from {
+    opacity: 0;
   }
 
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes counter-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes bar-bounce {
+  0%,
+  100% {
+    transform: rotate(7deg) scaleY(1);
+  }
+
+  50% {
+    transform: rotate(7deg) scaleY(1.08);
+  }
+}
+
+@keyframes icon-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-4px);
+  }
 }
 
 
 /* =========================================================
-   SMALL TABLET
+   RESPONSIVE
    ========================================================= */
+
+@media (max-width: 900px) {
+
+  .card-action {
+    flex-basis: 5.5rem;
+  }
+
+  .card-number {
+    flex-basis: 3.3rem;
+  }
+}
+
 
 @media (max-width: 720px) {
 
   .page {
+    height: 100%;
     padding: .6rem;
   }
 
@@ -1260,17 +1309,44 @@
     border-radius: 1.15rem;
   }
 
-  .flashcards-grid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
+  .hero {
+    margin-bottom: .9rem;
   }
 
+  .hero-decoration {
+    gap: .4rem;
+  }
+
+  .decoration-bars {
+    display: none;
+  }
+
+  .card-counter {
+    min-width: 4.2rem;
+    min-height: 4.2rem;
+  }
+
+  .flashcards-section {
+    padding: .85rem;
+
+    border-radius: 1rem;
+  }
+
+  .flashcard {
+    min-height: 6.8rem;
+  }
+
+  .card-number {
+    flex-basis: 2.8rem;
+  }
+
+  .card-action {
+    flex-basis: 5rem;
+
+    margin: .5rem;
+  }
 }
 
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
 
 @media (max-width: 520px) {
 
@@ -1282,64 +1358,72 @@
     font-size: 2.15rem;
   }
 
-  .summary-card {
-    padding: .8rem;
+  .hero p {
+    max-width: 300px;
   }
 
-  .summary-icon {
-    width: 2.6rem;
-    height: 2.6rem;
-
-    flex-basis: 2.6rem;
-  }
-
-  .flashcards-grid {
-    grid-template-columns: 1fr;
+  .section-heading h2 {
+    font-size: 1.25rem;
   }
 
   .flashcard {
-    min-height: 13rem;
+    min-height: 8rem;
+
+    align-items: stretch;
   }
 
-  .flashcard-body h3 {
-    font-size: 1.05rem;
+  .card-number {
+    flex-basis: 2.2rem;
+
+    font-size: .62rem;
   }
 
-  .modal-backdrop {
-    padding: .6rem;
+  .card-main {
+    padding: .75rem .4rem;
+  }
+
+  .card-meta {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: .25rem;
+
+    margin-bottom: .25rem;
+  }
+
+  .lesson-label {
+    max-width: 100%;
+  }
+
+  .card-main h3 {
+    font-size: .95rem;
+  }
+
+  .card-main p {
+    font-size: .67rem;
+  }
+
+  .card-action {
+    flex: 0 0 4.1rem;
+
+    margin: .45rem;
+
+    writing-mode: vertical-rl;
+
+    gap: .2rem;
+  }
+
+  .card-action .card-arrow {
+    font-size: .85rem;
   }
 
   .flashcard-modal {
-    max-height: calc(100vh - 1.2rem);
+    max-height: 88vh;
+
+    padding: 1.25rem;
 
     border-radius: 1.2rem;
   }
-
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES
-   ========================================================= */
-
-@media (max-width: 360px) {
-
-  .flashcards-center {
-    padding: .8rem;
-  }
-
-  .hero h1 {
-    font-size: 1.9rem;
-  }
-
-  .flashcards-section {
-    padding: .8rem;
-  }
-
-  .flashcard {
-    min-height: 12rem;
-  }
-
 }
 
 
@@ -1358,8 +1442,8 @@
 
   .flashcard:hover,
   .retry-button:hover,
-  .close-button:hover {
+  .modal-close-action:hover,
+  .flashcard:hover .card-action {
     transform: none;
   }
-
 }
