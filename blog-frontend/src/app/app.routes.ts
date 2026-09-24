@@ -44,6 +44,7 @@ import {CheckFlashcardsComponent} from "./writer-ui/check-flashcards/check-flash
 import {CheckQuizzesComponent} from "./reader-ui/check-quizzes/check-quizzes.component";
 import {WriterDashboardComponent} from "./writer-ui/writer-dashboard/writer-dashboard.component";
 import {ReaderDashboardComponent} from "./reader-ui/reader-dashboard/reader-dashboard.component";
+import {CheckSummariesComponent} from "./reader-ui/check-summaries/check-summaries.component";
 
 
 
@@ -222,6 +223,12 @@ export const routes: Routes = [
         path: 'user-history',
         canActivate: [AuthGuard],
         component: LoginHistoryComponent
+      },
+      {
+        path: 'check-summaries',
+        canActivate: [AuthGuard],
+        data: { roles: ['READER']},
+        component: CheckSummariesComponent
       },
       {
         path: 'session-details/:id',
