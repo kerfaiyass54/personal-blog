@@ -3,12 +3,13 @@ package com.blogproject.blogproject.service;
 import com.blogproject.blogproject.dtos.CreateLessonReadingRequest;
 import com.blogproject.blogproject.dtos.LessonReadingResponse;
 import com.blogproject.blogproject.dtos.UpdateProgressRequest;
+import com.blogproject.blogproject.entities.Lesson;
 import com.blogproject.blogproject.entities.LessonReading;
 import com.blogproject.blogproject.repository.LessonReadingRepository;
+import com.blogproject.blogproject.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -16,6 +17,7 @@ import java.util.List;
 public class LessonReadingService {
 
     private final LessonReadingRepository lessonReadingRepository;
+    private final LessonRepository lessonRepository;
 
     public LessonReadingResponse createReading(
             CreateLessonReadingRequest request) {
@@ -82,9 +84,16 @@ public class LessonReadingService {
     private LessonReadingResponse mapToResponse(
             LessonReading reading) {
 
+        Lesson lesson = lessonRepository
+                .findById(reading.getLessonId())
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Lesson not found: " + reading.getLessonId()
+                        ));
+
         return new LessonReadingResponse(
                 reading.getId(),
-                reading.getLessonId(),
+                lesson.getTitle(),
                 reading.getEmailUser(),
                 reading.getProgress(),
                 reading.getRead()
