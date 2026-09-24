@@ -94,7 +94,7 @@ export class ReaderUiComponent implements OnInit{
   skills:any[] = [{id: 0, title: 'Check',link: 'check-skills'},
     {id: 1, title: 'Keywords',link: 'check-keywords'}];
   articles:any[] = [{id: 0, title: 'Check',link: 'check-articles'},
-    {id: 1, title: 'Summaries',link: ''}];
+    {id: 1, title: 'Summaries',link: '/reader/check-summaries'}];
 
   loadPage(){
     this.loading = true;
