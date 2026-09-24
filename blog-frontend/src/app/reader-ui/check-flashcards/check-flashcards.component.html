@@ -1,14 +1,14 @@
-<main class="flashcards-page">
+<main class="page">
 
-  <section class="flashcards-shell">
+  <section class="flashcards-center">
 
     <!-- =========================
-         HEADER
+         HERO
     ========================== -->
 
-    <header class="page-header">
+    <header class="hero">
 
-      <div class="header-content">
+      <div class="hero-copy">
 
         <div class="eyebrow">
           <span class="eyebrow-icon">✦</span>
@@ -26,15 +26,43 @@
 
       </div>
 
-      <div class="card-counter">
-        <strong>{{ flashcards.length }}</strong>
-
-        <span>
-          {{ flashcards.length === 1 ? 'Card' : 'Cards' }}
-        </span>
+      <div class="hero-decoration" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
 
     </header>
+
+
+    <!-- =========================
+         SUMMARY
+    ========================== -->
+
+    <section class="summary-card">
+
+      <div class="summary-icon">
+        ✦
+      </div>
+
+      <div class="summary-content">
+
+        <span class="summary-label">
+          YOUR FLASHCARDS
+        </span>
+
+        <strong>
+          {{ flashcards.length }}
+          {{ flashcards.length === 1 ? 'Card' : 'Cards' }}
+        </strong>
+
+        <small>
+          Generated learning material available for review
+        </small>
+
+      </div>
+
+    </section>
 
 
     <!-- =========================
@@ -47,7 +75,9 @@
 
         <div class="loader"></div>
 
-        <h2>Loading flashcards...</h2>
+        <h2>
+          Loading flashcards...
+        </h2>
 
         <p>
           Preparing your learning cards.
@@ -70,7 +100,9 @@
           !
         </div>
 
-        <h2>Something went wrong</h2>
+        <h2>
+          Something went wrong
+        </h2>
 
         <p>
           {{ errorMessage }}
@@ -95,16 +127,19 @@
 
     @if (!loading && !errorMessage && flashcards.length === 0) {
 
-      <section class="state-container">
+      <section class="empty-state">
 
-        <div class="state-icon">
+        <div class="empty-icon">
           ♧
         </div>
 
-        <h2>No flashcards yet</h2>
+        <h3>
+          No flashcards yet
+        </h3>
 
         <p>
-          Generated flashcards will appear here.
+          Generated flashcards will appear here once you create
+          learning material from your lessons.
         </p>
 
       </section>
@@ -118,80 +153,110 @@
 
     @if (!loading && !errorMessage && flashcards.length > 0) {
 
-      <section class="flashcards-grid">
+      <section class="flashcards-section">
 
-        @for (
-          flashcard of flashcards;
-          track trackByFlashcard($index, flashcard)
-          ) {
+        <div class="section-heading">
 
-          <article
-            class="flashcard"
-            tabindex="0"
-            role="button"
-            [attr.aria-label]="'Open flashcard: ' + flashcard.term"
-            (click)="openCard(flashcard)"
-            (keydown.enter)="openCard(flashcard)"
-            (keydown.space)="openCard(flashcard)"
-          >
+          <div>
 
-            <div class="card-glow"></div>
+            <span class="section-kicker">
+              REVIEW MATERIAL
+            </span>
 
-            <!-- Card header -->
+            <h2>
+              Your Flashcards
+            </h2>
 
-            <div class="card-top">
+          </div>
 
-              <div class="lesson-label">
+          <span class="section-count">
+            {{ flashcards.length }}
+          </span>
 
-                <span class="lesson-icon">
-                  ▪
+        </div>
+
+
+        <div class="flashcards-grid">
+
+          @for (
+            flashcard of flashcards;
+            track trackByFlashcard($index, flashcard)
+            ) {
+
+            <article
+              class="flashcard"
+              tabindex="0"
+              role="button"
+              [attr.aria-label]="'Open flashcard: ' + flashcard.term"
+              (click)="openCard(flashcard)"
+              (keydown.enter)="openCard(flashcard)"
+              (keydown.space)="openCard(flashcard)"
+            >
+
+              <div class="flashcard-glow"></div>
+
+
+              <!-- Card icon -->
+
+              <div class="flashcard-icon">
+                ✦
+              </div>
+
+
+              <!-- Card content -->
+
+              <div class="flashcard-body">
+
+                <div class="card-top">
+
+                  <span class="lesson-label">
+
+                    <span class="lesson-dot">
+                      ▪
+                    </span>
+
+                    <span>
+                      {{ flashcard.lessonTitle }}
+                    </span>
+
+                  </span>
+
+                  <span class="card-arrow">
+                    ↗
+                  </span>
+
+                </div>
+
+
+                <span class="type-label">
+                  {{ flashcard.type }}
                 </span>
 
-                <span>
-                  {{ flashcard.lessonTitle }}
-                </span>
+
+                <h3>
+                  {{ flashcard.term }}
+                </h3>
+
+
+                <div class="card-footer">
+
+                  <span>
+                    Click to reveal
+                  </span>
+
+                  <span>
+                    →
+                  </span>
+
+                </div>
 
               </div>
 
-              <span class="card-arrow">
-                ↗
-              </span>
+            </article>
 
-            </div>
+          }
 
-
-            <!-- Card content -->
-
-            <div class="card-content">
-
-              <span class="type-label">
-                {{ flashcard.type }}
-              </span>
-
-              <h2>
-                {{ flashcard.term }}
-              </h2>
-
-            </div>
-
-
-            <!-- Card footer -->
-
-            <div class="card-footer">
-
-              <span>
-                Click to reveal
-              </span>
-
-              <span>
-                →
-              </span>
-
-            </div>
-
-          </article>
-
-        }
+        </div>
 
       </section>
 
@@ -232,25 +297,27 @@
         </button>
 
 
-        <!-- Modal icon -->
+        <!-- Modal header -->
 
-        <div class="modal-icon">
-          ✦
+        <div class="modal-header">
+
+          <div class="modal-icon">
+            ✦
+          </div>
+
+          <div>
+
+            <span class="modal-label">
+              FLASHCARD
+            </span>
+
+            <span class="modal-type">
+              {{ selectedFlashcard.type }}
+            </span>
+
+          </div>
+
         </div>
-
-
-        <!-- Label -->
-
-        <span class="modal-label">
-          FLASHCARD
-        </span>
-
-
-        <!-- Type -->
-
-        <span class="modal-type">
-          {{ selectedFlashcard.type }}
-        </span>
 
 
         <!-- Term -->
@@ -262,7 +329,7 @@
 
         <!-- Answer -->
 
-        <div class="answer-section">
+        <section class="answer-section">
 
           <span class="answer-label">
             CONCEPT
@@ -272,20 +339,28 @@
             {{ selectedFlashcard.value }}
           </p>
 
-        </div>
+        </section>
 
 
         <!-- Lesson -->
 
         <div class="modal-lesson">
 
-          <span>
-            Lesson
-          </span>
+          <div class="modal-lesson-icon">
+            ▪
+          </div>
 
-          <strong>
-            {{ selectedFlashcard.lessonTitle }}
-          </strong>
+          <div class="modal-lesson-content">
+
+            <span>
+              Lesson
+            </span>
+
+            <strong>
+              {{ selectedFlashcard.lessonTitle }}
+            </strong>
+
+          </div>
 
         </div>
 
