@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy } from '@angular/core';
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   OnInit,
   inject
@@ -10,7 +11,8 @@ import {
 } from '@angular/common';
 
 import {
-  ActivatedRoute
+  ActivatedRoute,
+  Router
 } from '@angular/router';
 
 import {
@@ -59,6 +61,9 @@ export class ReadLessonComponent implements OnInit {
   private readonly route =
     inject(ActivatedRoute);
 
+  private readonly router =
+    inject(Router);
+
   private readonly lessonService =
     inject(LessonService);
 
@@ -68,11 +73,16 @@ export class ReadLessonComponent implements OnInit {
   private readonly quizService =
     inject(QuizService);
 
+  private readonly cdr =
+    inject(ChangeDetectorRef);
+
   lesson?: LessonResponse;
 
   loading = true;
 
   progress = 0;
+
+  maxProgress = 0;
 
   emailUser = '';
 
@@ -98,6 +108,8 @@ export class ReadLessonComponent implements OnInit {
 
       this.loading = false;
 
+      this.cdr.markForCheck();
+
       return;
     }
 
@@ -107,20 +119,94 @@ export class ReadLessonComponent implements OnInit {
 
         next: lesson => {
 
+          console.log(
+            'Lesson received:',
+            lesson
+          );
+
           this.lesson = lesson;
 
-          this.createReading();
-
           this.loading = false;
+
+          this.cdr.markForCheck();
+
+          this.initializeReading();
         },
 
-        error: () => {
+        error: err => {
+
+          console.error(
+            'Error loading lesson:',
+            err
+          );
 
           this.loading = false;
+
+          this.cdr.markForCheck();
         }
       });
   }
 
+  /**
+   * Navigate directly to the lessons page.
+   */
+  goToLessons(): void {
+
+    this.router.navigate([
+      '/reader/check-lessons'
+    ]);
+  }
+
+  /**
+   * Checks whether a reading record already exists.
+   */
+  initializeReading(): void {
+
+    if (
+      !this.lesson ||
+      !this.emailUser
+    ) {
+      return;
+    }
+
+    this.lessonReadingService
+      .hasUserReadLesson(
+        this.lesson.id,
+        this.emailUser
+      )
+      .subscribe({
+
+        next: exists => {
+
+          console.log(
+            'Reading exists:',
+            exists
+          );
+
+          if (!exists) {
+
+            this.createReading();
+          }
+
+          this.cdr.markForCheck();
+        },
+
+        error: err => {
+
+          console.error(
+            'Error checking reading:',
+            err
+          );
+
+          this.cdr.markForCheck();
+        }
+      });
+  }
+
+  /**
+   * Creates the reading record if it
+   * does not already exist.
+   */
   createReading(): void {
 
     if (
@@ -138,17 +224,38 @@ export class ReadLessonComponent implements OnInit {
 
         emailUser:
         this.emailUser
+
       })
       .subscribe({
 
         next: response => {
 
           this.progress =
-            response.progress;
+            response.progress ?? 0;
+
+          this.maxProgress =
+            this.progress;
+
+          this.cdr.markForCheck();
+        },
+
+        error: err => {
+
+          console.error(
+            'Error creating reading:',
+            err
+          );
+
+          this.cdr.markForCheck();
         }
       });
   }
 
+  /**
+   * Updates progress.
+   *
+   * Progress can only increase.
+   */
   updateProgress(): void {
 
     if (
@@ -157,6 +264,24 @@ export class ReadLessonComponent implements OnInit {
     ) {
       return;
     }
+
+    const currentProgress =
+      Math.min(
+        100,
+        Math.max(
+          0,
+          Number(this.progress)
+        )
+      );
+
+    this.maxProgress =
+      Math.max(
+        this.maxProgress,
+        currentProgress
+      );
+
+    this.progress =
+      this.maxProgress;
 
     this.lessonReadingService
       .updateProgress(
@@ -169,8 +294,34 @@ export class ReadLessonComponent implements OnInit {
           progress:
           this.progress
         }
+
       )
-      .subscribe();
+      .subscribe({
+
+        next: response => {
+
+          this.progress =
+            Math.max(
+              this.progress,
+              response.progress ?? 0
+            );
+
+          this.maxProgress =
+            this.progress;
+
+          this.cdr.markForCheck();
+        },
+
+        error: err => {
+
+          console.error(
+            'Error updating progress:',
+            err
+          );
+
+          this.cdr.markForCheck();
+        }
+      });
   }
 
   markCompleted(): void {
@@ -187,6 +338,8 @@ export class ReadLessonComponent implements OnInit {
     }
 
     this.generatingQuiz = true;
+
+    this.cdr.markForCheck();
 
     this.quizService
       .generateQuiz({
@@ -216,11 +369,20 @@ export class ReadLessonComponent implements OnInit {
           this.generatingQuiz =
             false;
 
+          this.cdr.markForCheck();
+
+          const modalElement =
+            document.getElementById(
+              'quizModal'
+            );
+
+          if (!modalElement) {
+            return;
+          }
+
           const modal =
             new bootstrap.Modal(
-              document.getElementById(
-                'quizModal'
-              )
+              modalElement
             );
 
           modal.show();
@@ -228,81 +390,23 @@ export class ReadLessonComponent implements OnInit {
 
         error: err => {
 
-          console.error(err);
+          console.error(
+            'Error generating quiz:',
+            err
+          );
 
           this.generatingQuiz =
             false;
+
+          this.cdr.markForCheck();
         }
       });
   }
 
   submitQuiz(): void {
-
-    // if (!this.quizGenerated) {
-    //   return;
-    // }
-    //
-    // this.submittingQuiz = true;
-    //
-    // this.quizService
-    //   .submitQuiz({
-    //
-    //     quizId:
-    //     this.quizGenerated.quizId,
-    //
-    //     userId:
-    //     this.emailUser,
-    //
-    //     answers:
-    //       this.quizGenerated.questions.map(
-    //         (question, index) => ({
-    //
-    //           questionId:
-    //           question.id,
-    //
-    //           selectedAnswer:
-    //             this.answers[index] ?? ''
-    //
-    //         })
-    //       )
-    //   })
-    //   .subscribe({
-    //
-    //     next: result => {
-    //
-    //       this.quizResult =
-    //         result;
-    //
-    //       this.submittingQuiz =
-    //         false;
-    //
-    //       bootstrap
-    //         .Modal
-    //         .getInstance(
-    //           document.getElementById(
-    //             'quizModal'
-    //           )
-    //         )
-    //         ?.hide();
-    //
-    //       const resultModal =
-    //         new bootstrap.Modal(
-    //           document.getElementById(
-    //             'resultModal'
-    //           )
-    //         );
-    //
-    //       resultModal.show();
-    //     },
-    //
-    //     error: err => {
-    //
-    //       console.error(err);
-    //
-    //       this.submittingQuiz =
-    //         false;
-    //     }
-    //   });
+    /*
+     * Quiz submission can be implemented here.
+     */
   }
 
   formatDate(
