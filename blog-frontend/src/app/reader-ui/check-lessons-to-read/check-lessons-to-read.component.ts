@@ -1,5 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { Component, OnInit, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -34,7 +39,9 @@ export class CheckLessonsToReadComponent implements OnInit {
 
   emailUser = sessionStorage.getItem('email') ?? '';
 
-  constructor(private readonly cdr: ChangeDetectorRef) {}
+  constructor(
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -53,37 +60,68 @@ export class CheckLessonsToReadComponent implements OnInit {
     }
   }
 
-  getLessonId(lesson: LessonItem): string | number {
-    const item = lesson as unknown as Record<string, unknown>;
+  /**
+   * Returns the lesson ID used for:
+   * - @for tracking
+   * - router navigation
+   *
+   * For normal lessons, the ID comes directly from the lesson.
+   * For reading/completed lessons, the ID is resolved
+   * using the lesson name returned by the backend.
+   */
+  getLessonId(lesson: LessonItem): string {
+    if (this.isReadingLesson(lesson)) {
+      const matchingLesson = this.lessons.find(
+        item => item.title === lesson.lessonName
+      );
 
-    return (
-      item['lessonId'] ??
-      item['id'] ??
-      (item['lesson'] as Record<string, unknown> | undefined)?.['id'] ??
-      ''
-    ) as string | number;
+      return matchingLesson?.id ?? '';
+    }
+
+    return lesson.id;
   }
 
+  /**
+   * Returns the title displayed on the lesson card.
+   */
   getLessonTitle(lesson: LessonItem): string {
-    const item = lesson as unknown as Record<string, unknown>;
-    const nestedLesson = item['lesson'] as Record<string, unknown> | undefined;
+    if (this.isReadingLesson(lesson)) {
+      return lesson.lessonName;
+    }
 
-    return String(
-      item['title'] ??
-      item['lessonTitle'] ??
-      nestedLesson?.['title'] ??
-      'Untitled lesson'
+    return lesson.title;
+  }
+
+  /**
+   * Returns the reading progress.
+   */
+  getProgress(lesson: LessonItem): number {
+    if (!this.isReadingLesson(lesson)) {
+      return 0;
+    }
+
+    const progress = Number(lesson.progress ?? 0);
+
+    return Math.min(
+      100,
+      Math.max(0, progress)
     );
   }
 
-  getProgress(lesson: LessonItem): number {
-    const item = lesson as unknown as Record<string, unknown>;
-    const progress = Number(item['progress'] ?? 0);
-
-    return Math.min(100, Math.max(0, progress));
+  /**
+   * Checks whether an item is a LessonReadingResponse.
+   */
+  private isReadingLesson(
+    lesson: LessonItem
+  ): lesson is LessonReadingResponse {
+    return 'lessonName' in lesson;
   }
 
   loadData(): void {
+
+    /*
+     * Load all lessons.
+     */
     this.lessonService
       .getAllLessons()
       .subscribe({
@@ -91,34 +129,54 @@ export class CheckLessonsToReadComponent implements OnInit {
           this.lessons = data;
           this.cdr.markForCheck();
         },
-        error: () => this.cdr.markForCheck()
+        error: () => {
+          this.cdr.markForCheck();
+        }
       });
 
+    /*
+     * There is no user-specific reading data
+     * if the email is not available.
+     */
     if (!this.emailUser) {
       this.cdr.markForCheck();
       return;
     }
 
+    /*
+     * Load lessons currently being read.
+     */
     this.readingService
       .getReadingsByUser(this.emailUser)
       .subscribe({
         next: data => {
           this.readingLessons = data.filter(
-            x => x.progress > 0 && x.progress < 100
+            reading =>
+              reading.progress > 0 &&
+              reading.progress < 100
           );
+
           this.cdr.markForCheck();
         },
-        error: () => this.cdr.markForCheck()
+        error: () => {
+          this.cdr.markForCheck();
+        }
       });
 
+    /*
+     * Load completed lessons.
+     */
     this.readingService
       .getCompletedLessons(this.emailUser)
       .subscribe({
         next: data => {
           this.completedLessons = data;
+
           this.cdr.markForCheck();
         },
-        error: () => this.cdr.markForCheck()
+        error: () => {
+          this.cdr.markForCheck();
+        }
       });
   }
 }

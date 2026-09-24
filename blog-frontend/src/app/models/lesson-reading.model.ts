@@ -9,7 +9,7 @@ export interface UpdateProgressRequest {
 
 export interface LessonReadingResponse {
   id: string;
-  lessonId: string;
+  lessonName: string;
   emailUser: string;
   dateLastRead: string;
   progress: number;
