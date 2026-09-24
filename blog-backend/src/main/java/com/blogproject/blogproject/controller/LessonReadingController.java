@@ -18,6 +18,21 @@ public class LessonReadingController {
 
     private final LessonReadingService lessonReadingService;
 
+    @GetMapping("/{lessonId}/read")
+    public ResponseEntity<Boolean> hasUserReadLesson(
+            @PathVariable String lessonId,
+            @RequestParam String emailUser) {
+
+        return ResponseEntity.ok(
+                lessonReadingService.hasUserReadLesson(
+                        lessonId,
+                        emailUser
+                )
+        );
+    }
+
+
+
     @PostMapping
     public ResponseEntity<LessonReadingResponse> createReading(
             @RequestBody CreateLessonReadingRequest request) {
@@ -66,4 +81,6 @@ public class LessonReadingController {
                         .getCompletedLessons(emailUser)
         );
     }
+
+
 }

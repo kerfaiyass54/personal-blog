@@ -17,6 +17,12 @@ public class LessonReadingService {
 
     private final LessonReadingRepository lessonReadingRepository;
 
+    public boolean hasUserReadLesson(String lessonId, String emailUser) {
+        return lessonReadingRepository
+                .findByLessonIdAndEmailUser(lessonId, emailUser)
+                .isPresent();
+    }
+
     public LessonReadingResponse createReading(
             CreateLessonReadingRequest request) {
 

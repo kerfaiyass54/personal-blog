@@ -19,6 +19,20 @@ export class LessonReadingService {
   private readonly apiUrl =
     'http://localhost:8083/api/lesson-readings';
 
+  hasUserReadLesson(
+    lessonId: string,
+    emailUser: string
+  ): Observable<boolean> {
+
+    const params = new HttpParams()
+      .set('emailUser', emailUser);
+
+    return this.http.get<boolean>(
+      `${this.apiUrl}/${lessonId}/read`,
+      { params }
+    );
+  }
+
   createReading(
     request: CreateLessonReadingRequest
   ): Observable<LessonReadingResponse> {
