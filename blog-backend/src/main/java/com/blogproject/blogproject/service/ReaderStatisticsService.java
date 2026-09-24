@@ -20,34 +20,34 @@ public class ReaderStatisticsService {
     /**
      * PB-104
      */
-    public long getFavoriteSkillsCount(String id) {
-        return favoriteRepository.countFavoritesByUserEmail(id);
+    public long getFavoriteSkillsCount(String email) {
+        return favoriteRepository.countFavoritesByUserEmail(email);
     }
 
     /**
      * PB-106
      */
-    public long getReadLessonsCount(String id) {
-        return lessonReadingRepository.countByEmailUserAndReadTrue(id);
+    public long getReadLessonsCount(String email) {
+        return lessonReadingRepository.countByEmailUserAndReadTrue(email);
     }
 
     /**
      * PB-103
      */
-    public long getSubmittedQuizzesCount(String id) {
-        return userQuizResultRepository.countByUserId(id);
+    public long getSubmittedQuizzesCount(String email) {
+        return userQuizResultRepository.countByUserId(email);
     }
 
     /**
      * Dashboard statistics
      */
-    public Map<String, Long> getAllStatistics(String id) {
+    public Map<String, Long> getAllStatistics(String    email) {
 
         Map<String, Long> stats = new HashMap<>();
 
-        stats.put("favoriteSkills", getFavoriteSkillsCount(id));
-        stats.put("readLessons", getReadLessonsCount(id));
-        stats.put("submittedQuizzes", getSubmittedQuizzesCount(id));
+        stats.put("favoriteSkills", getFavoriteSkillsCount(email));
+        stats.put("readLessons", getReadLessonsCount(email));
+        stats.put("submittedQuizzes", getSubmittedQuizzesCount(email));
 
         return stats;
     }
