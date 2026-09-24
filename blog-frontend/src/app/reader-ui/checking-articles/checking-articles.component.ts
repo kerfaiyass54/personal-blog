@@ -7,6 +7,8 @@ import {
   ReaderService,
   ArticleDisplayDTO
 } from '../services/reader.service';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-checking-articles',
@@ -21,6 +23,7 @@ export class CheckingArticlesComponent implements OnInit {
   private readonly readerService = inject(ReaderService);
   private readonly router = inject(Router);
   private readonly toastr = inject(ToastrService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   articles = signal<ArticleDisplayDTO[]>([]);
   loading = signal(true);
@@ -88,6 +91,25 @@ export class CheckingArticlesComponent implements OnInit {
           );
         }
       });
+  }
+
+  isArticleSaved(articleId: string): boolean {
+    if (!this.email) {
+      return false;
+    }
+    let isSaved = false;
+    this.readerService
+      .isArticleSaved(
+        this.email,
+        articleId
+      )
+      .subscribe({
+        next: (saved) => {
+          isSaved = saved;
+
+        }
+      });
+    return isSaved;
   }
 
 }

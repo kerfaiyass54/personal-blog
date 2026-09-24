@@ -66,4 +66,8 @@ public class SavedService {
                 saved.getArticleId()
         );
     }
+
+    public boolean isArticleSaved(String userEmail, String articleId) {
+        return savedRepository.findByUserEmailAndArticleId(userEmail, articleId).isPresent();
+    }
 }

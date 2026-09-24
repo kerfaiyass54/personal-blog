@@ -58,4 +58,17 @@ public class SavedController {
 
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * Check if an article is saved
+     */
+    @GetMapping("/is-saved")
+    public ResponseEntity<Boolean> isArticleSaved(
+            @RequestParam String userEmail,
+            @RequestParam String articleId) {
+
+        return ResponseEntity.ok(
+                savedService.isArticleSaved(userEmail, articleId)
+        );
+    }
 }

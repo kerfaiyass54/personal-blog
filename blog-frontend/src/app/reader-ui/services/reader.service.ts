@@ -85,4 +85,14 @@ export class ReaderService {
       `${this.savedUrl}?userEmail=${encodeURIComponent(userEmail)}&articleId=${encodeURIComponent(articleId)}`
     );
   }
+
+  isArticleSaved(
+    userEmail: string,
+    articleId: string
+  ): Observable<boolean> {
+
+    return this.http.get<boolean>(
+      `${this.savedUrl}/is-saved?userEmail=${encodeURIComponent(userEmail)}&articleId=${encodeURIComponent(articleId)}`
+    );
+  }
 }
