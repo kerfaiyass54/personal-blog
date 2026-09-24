@@ -54,14 +54,18 @@
               Read article
             </button>
 
-            <button
-              type="button"
-              class="save-btn"
-              [attr.aria-label]="'Save ' + article.title"
-              (click)="saveArticle(article.id)"
-            >
-              Save
-            </button>
+            @if (!isArticleSaved(article.id)) {
+              <button
+                type="button"
+                class="save-btn"
+                [attr.aria-label]="'Save ' + article.title"
+                (click)="saveArticle(article.id)"
+              >
+                Save
+              </button>
+            }
+
+
 
           </div>
         </div>
